@@ -8,9 +8,9 @@
       <d-breadcrumb-item>{{ 'list.breadcrumb.basicList' | translate }}</d-breadcrumb-item>
     </d-breadcrumb>
     <div class="da-content-banner-title">
-      {{ 'list.basicList.title' | translate }}
+      Quản lý khu vực
     </div>
-    <div>{{ 'list.basicList.description' | translate }}</div>
+    <div>Danh sách khu vực</div>
   </div>
   <div class="da-content-wrapper">
     <da-layout-row [daGutter]="[24, 24]">
@@ -18,7 +18,7 @@
         <div class="da-list-container">
           <div class="da-list-header">
             <div class="da-header-left">
-              <div class="da-header-item">
+              <!-- <div class="da-header-item">
                 <div class="da-header-item-label">Border Type：</div>
                 <d-select [placeholder]="'change table style'" [options]="options" [(ngModel)]="searchForm.borderType"></d-select>
               </div>
@@ -29,7 +29,7 @@
               <div class="da-header-item">
                 <div class="da-header-item-label">Layout：</div>
                 <d-select [placeholder]="'change table layout'" [options]="layoutOptions" [(ngModel)]="searchForm.layout"></d-select>
-              </div>
+              </div> -->
             </div>
             <div class="header-right">
               <d-button (click)="reset()">Reset</d-button>
@@ -44,38 +44,38 @@
               [tableLayout]="searchForm.layout"
               [scrollable]="true"
             >
-              <d-column field="id" header="Id" [width]="'100px'">
+              <d-column field="area_rcd" header="Mã khu vực" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="title" header="Title" [width]="'300px'">
+              <d-column field="area_name" header="Tên khu vực" [width]="'300px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     <span [title]="cellItem" class="over-flow-ellipsis" [style.width]="'300px'">
-                      <d-tag [tag]="'Epic'" [labelStyle]="'epic'"></d-tag>
+                      <!-- <d-tag [tag]="'Epic'" [labelStyle]="'epic'"></d-tag> -->
                       {{ cellItem }}
                     </span>
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="priority" header="Priority" [width]="'100px'">
+              <d-column field="country_name" header="Tên đất nước" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="iteration" header="Iteration" [width]="'100px'">
+              <d-column field="area_note" header="Ghi chú" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="assignee" header="Assignee" [width]="'100px'">
+              <!-- <d-column field="assignee" header="Assignee" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     <div class="over-flow-ellipsis">
@@ -84,14 +84,23 @@
                     </div>
                   </ng-template>
                 </d-cell>
-              </d-column>
-              <d-column field="status" header="Status" [width]="'100px'">
+              </d-column> -->
+              <d-column field="active_flag" header="Status" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
-                    <span [ngClass]="cellItem.split(' ')[0]">{{ cellItem || '--' }}</span>
+                    <span [ngModel]="cellItem.toString().split('')[0]">{{ cellItem }}</span>
                   </ng-template>
                 </d-cell>
               </d-column>
+              <!-- <d-column field="active_flag" header="Status" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    <div class="over-flow-ellipsis">
+                      {{ cellItem }}
+                    </div>
+                  </ng-template>
+                </d-cell>
+              </d-column> -->
               <d-column field="timeline" header="Timeline" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">

@@ -16,6 +16,14 @@ export interface Item {
   $isChildTableOpen?: boolean;
 }
 
+export interface Area {
+  area_rcd?: number;
+  area_name?: string;
+  country_name?: string;
+  area_note?: string;
+  active_flag?: number;
+}
+
 
 export interface ListPager {
   pageSize?: number;
