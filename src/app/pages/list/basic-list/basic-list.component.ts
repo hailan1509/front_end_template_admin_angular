@@ -107,7 +107,7 @@ export class BasicListComponent implements OnInit {
         label: 'Trạng thái',
         prop: 'active_flag',
         type: 'select-haidv',
-        options: ['Hoạt động', 'Không hoạt động'],
+        options: ['Không hoạt động','Hoạt động'],
         required: true,
         rule: {
           validators: [{ required: true }],
@@ -242,6 +242,7 @@ export class BasicListComponent implements OnInit {
   }
 
   onSubmitted(e: any) {
+    console.log(e);
     this.editForm!.modalInstance.hide();
     this.basicDataSource.splice(this.editRowIndex, 1, e);
   }
