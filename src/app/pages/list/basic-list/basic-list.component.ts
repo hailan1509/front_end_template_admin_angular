@@ -20,10 +20,12 @@ export class BasicListComponent implements OnInit {
 
   layoutOptions = ['auto', 'fixed'];
 
-  status = {
-    '1' : "Hoạt động",
-    '0' : "Không hoạt động"
-  };
+  // status = {
+  //   1 : "Hoạt động",
+  //   0 : "Không hoạt động"
+  // };
+
+  status = ["Không hoạt động","Hoạt động"];
 
   searchForm: {
     borderType: '' | 'borderless' | 'bordered';
@@ -54,10 +56,6 @@ export class BasicListComponent implements OnInit {
     },
     {
       field: 'active_flag',
-      width: '100px',
-    },
-    {
-      field: 'timeline',
       width: '100px',
     },
     {
@@ -106,9 +104,9 @@ export class BasicListComponent implements OnInit {
         type: 'input',
       },
       {
-        label: 'Status',
+        label: 'Trạng thái',
         prop: 'active_flag',
-        type: 'select',
+        type: 'select-haidv',
         options: ['Hoạt động', 'Không hoạt động'],
         required: true,
         rule: {
@@ -120,11 +118,11 @@ export class BasicListComponent implements OnInit {
       //   prop: 'active_flag',
       //   type: 'input',
       // },
-      {
-        label: 'Timeline',
-        prop: 'timeline',
-        type: 'datePicker',
-      },
+      // {
+      //   label: 'Timeline',
+      //   prop: 'timeline',
+      //   type: 'datePicker',
+      // },
     ],
     labelSize: '',
   };
@@ -134,6 +132,10 @@ export class BasicListComponent implements OnInit {
   editForm: any = null;
 
   editRowIndex = -1;
+
+  _search = {
+    keyword: ''
+  };
 
   pager = {
     total: 0,
@@ -157,7 +159,7 @@ export class BasicListComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("http://localhost:61029/api/manager/AreaRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize}).subscribe((res:any) => {
+    this.api.post("http://localhost:61029/api/manager/AreaRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , area_name : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
