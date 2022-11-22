@@ -6,7 +6,7 @@
         dTextInput
         [name]="item.prop"
         [(ngModel)]="_formData[item.prop]"
-        *ngIf="item.type === 'input'"
+        *ngIf="item.type === 'input'" [disabled]="item.primary && !insert"
         [dValidateRules]="item.rule"
         [dValidateRules]="item.required ? item.rule : {}"
       />
@@ -19,10 +19,10 @@
         [dValidateRules]="item.required ? item.rule : []"
       ></d-select>
       <d-select
-        *ngIf="item.type === 'select-haidv'"
+        *ngIf="item.type === 'select-object'"
         [appendToBody]="true"
         [options]="item.options"
-        [name]="item.prop" [filterKey]="'name'" (ngModelChange)="modelChange($event)"
+        [name]="item.prop" [filterKey]="'name'" (ngModelChange)="modelChange($event,item.prop)"
         [ngModel]="_formData[item.prop] | parseFrom: 'id': item.options"
         [dValidateRules]="item.required ? item.rule : []"
       ></d-select>

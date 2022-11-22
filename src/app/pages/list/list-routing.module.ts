@@ -12,7 +12,7 @@ const routes: Routes = [
     path: '',
     component: ListComponent,
     children: [
-      { path: 'basic', component: BasicListComponent },
+      { path: 'area', component: BasicListComponent },
       { path: 'card', component: CardListComponent },
       { path: 'editable', component: EditableListComponent },
       { path: 'advance', component: AdvanceListComponent },

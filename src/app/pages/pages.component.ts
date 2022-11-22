@@ -72,6 +72,7 @@ export class PagesComponent implements OnInit {
       .get('page')
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
+        console.log(res);
         this.updateMenu(res);
       });
 
@@ -92,7 +93,47 @@ export class PagesComponent implements OnInit {
   }
 
   updateMenu(values: any) {
-    this.menu = getMenu(values);
+    let menu_object = {
+      dashboard : {
+        title: "Dashboard"
+      },
+      PH1 : {
+        title: "Quản lý hồ sơ",
+        qlhsccl : "Quản lý hồ sơ chờ chỉnh lý",
+        bshs : "Bổ sung hồ sơ",
+        qlhsdcl : "Quản lý hồ sơ đã chỉnh lý",
+        tchs : "Tra cứu hồ sơ",
+        tctl : "Tra cứu  tài liệu",
+        ihstf : "Import hồ sơ từ file",
+        itltf : "Import tài liệu từ file",
+      },
+      PH2 : {
+        title : "Quản lý bàn giao hồ sơ",
+        lbbbg : "Lập biên bản bàn giao",
+        qlbbbg : "Quản lý biên bản bàn giao",
+        qlhsdbg : "Quản lý hồ sơ đã bàn giao"
+      },
+      PH3 : {
+        title : "Quản lý hủy hồ sơ",
+        qlhsch : "Quản lý hồ sơ chờ hủy",
+        lbbbghtl : "Lập biên bản bàn giao hủy tài liệu",
+        qlbbbghtl : "Quản lý biên bản bàn giao hủy tài liệu",
+        lbbthtl : "Lập biên bản tiêu hủy tài liệu",
+        qlbbthhtl : "Quản lý biên bản tiêu hủy tài liệu"
+      },
+      PH4 : {
+        title : "Quản lý khai thác hồ sơ",
+        lpkths : "Lập phiếu khai thác hồ sơ",
+        qlpkths : "Quản lý phiếu khai thác hồ sơ",
+        dpkths : "Duyệt phiếu khai thác hồ sơ",
+        qlsmhs : "Quản lý sổ mượn hồ sơ",
+        qltlmqh : "Quản lý tài liệu mượn quá hạn",
+        tkslnkttl : "Thống kê số lượng người khai thác tài liệu",
+        tkslnkths : "Thống kê số lượng người khai thác hồ sơ",
+        bctklspd : "Báo cáo thông kê"
+      }
+    };
+    this.menu = getMenu(menu_object);
   }
 
   openSideMenuDrawer() {

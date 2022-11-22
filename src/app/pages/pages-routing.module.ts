@@ -15,12 +15,7 @@ const routes: Routes = [
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
-        path: 'form',
-        loadChildren: () =>
-          import('./form/form.module').then((m) => m.FormModule),
-      },
-      {
-        path: 'list',
+        path: 'quan-ly',
         loadChildren: () =>
           import('./list/list.module').then((m) => m.ListModule),
       },
@@ -28,11 +23,6 @@ const routes: Routes = [
         path: 'abnormal',
         loadChildren: () =>
           import('./abnormal/abnormal.module').then((m) => m.AbnormalModule),
-      },
-      {
-        path: 'user',
-        loadChildren: () =>
-          import('./user/user.module').then((m) => m.UserModule),
       },
       {
         path: '',

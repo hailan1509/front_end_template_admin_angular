@@ -16,15 +16,13 @@ export class AdminFormComponent implements OnInit {
   };
 
   _formData: any = {};
-  currentOption:any = null;
+  currentOption:any = {};
+
+  @Input() insert : boolean = true;
 
   @Input() set formData(val: any) {
     this._formData = JSON.parse(JSON.stringify(val));
-    this.formConfig.items.map((item:any) => {
-      if(item.type == "select-haidv") {
-        this.currentOption = this._formData[item.prop];
-      }
-    })
+    
   }
 
   @Output() submitted = new EventEmitter();
@@ -33,21 +31,27 @@ export class AdminFormComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.formConfig.items.map((item:any) => {
+      if(item.type == "select-object") {
+        this.currentOption[item.prop] = this._formData[item.prop];
+      }
+    })
+  }
 
   submitPlanForm({ valid }: { valid: boolean }) {
     if (valid) {
-      this.submitted.emit(this._formData);
-      console.log(this._formData,this.currentOption)
       this.formConfig.items.map((item:any) => {
-        if(item.type == "select-haidv") {
-          this._formData[item.prop] = this.currentOption;
+        if(item.type == "select-object") {
+          this._formData[item.prop] = this.currentOption[item.prop];
         }
       })
+      this.submitted.emit(this._formData);
     }
   }
-  modelChange(value:any) {
-    this.currentOption = new MapToPipe().transform(value, 'id');
+  modelChange(value:any,prop:any) {
+    this.currentOption[prop] = new MapToPipe().transform(value, 'id');
+    console.log(prop,this.currentOption);
   }
 
   cancel() {

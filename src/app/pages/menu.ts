@@ -2,79 +2,127 @@ export default function (values: any) {
   return [
     {
       title: values['dashboard']['title'],
-      children: [
-        {
-          title: values['dashboard']['analysis'],
-          link: '/pages/dashboard/analysis',
-        },
-        {
-          title: values['dashboard']['monitor'],
-          link: '/pages/dashboard/monitor',
-        },
-        {
-          title: values['dashboard']['workspace'],
-          link: '/pages/dashboard/workspace',
-        },
-      ],
-      link: '/pages/dashboard',
+      link: '/pages/dashboard/analysis',
       menuIcon: 'icon icon-console',
     },
     {
-      title: values['form']['title'],
+      title: "Quản lý khu vực",
+      link: '/pages/quan-ly/area',
+      menuIcon: 'icon icon-console',
+    },
+    {
+      title: values['PH1']['title'],
       children: [
         {
-          title: values['form']['basicForm'],
-          link: '/pages/form/basic-form',
+          title: values['PH1']['qlhsccl'],
+          link: '/pages/PH1/qlhsccl',
         },
         {
-          title: values['form']['formLayout'],
-          link: '/pages/form/form-layout',
+          title: values['PH1']['bshs'],
+          link: '/pages/PH1/bshs',
         },
         {
-          title: values['form']['advancedForm'],
-          link: '/pages/form/advanced-form',
+          title: values['PH1']['qlhsdcl'],
+          link: '/pages/PH1/qlhsdcl',
         },
         {
-          title: values['form']['dynamicForm'],
-          link: '/pages/form/dynamic-form',
+          title: values['PH1']['tchs'],
+          link: '/pages/PH1/tchs',
+        },
+        {
+          title: values['PH1']['tctl'],
+          link: '/pages/PH1/tctl',
+        },
+        {
+          title: values['PH1']['ihstf'],
+          link: '/pages/PH1/ihstf',
+        },
+        {
+          title: values['PH1']['itltf'],
+          link: '/pages/PH1/itltf',
         },
       ],
-      link: '/pages/form',
+      link: '/pages/PH1',
       menuIcon: 'icon icon-modify',
     },
     {
-      title: values['list']['title'],
+      title: values['PH2']['title'],
       children: [
-        { title: values['list']['basicList'], link: '/pages/list/basic' },
-        { title: values['list']['cardList'], link: '/pages/list/card' },
+        { title: values['PH2']['lbbbg'], link: '/pages/PH2/lbbbg' },
+        { title: values['PH2']['qlbbbg'], link: '/pages/PH2/qlbbbg' },
         {
-          title: values['list']['editableList'],
-          link: '/pages/list/editable',
+          title: values['PH2']['qlhsdbg'],
+          link: '/pages/PH2/qlhsdbg',
         },
-        { title: values['list']['advanceList'], link: '/pages/list/advance' },
-        { title: values['list']['treeList'], link: '/pages/list/tree' },
       ],
-      link: '/pages/list',
+      link: '/pages/PH2',
       menuIcon: 'icon icon-table',
     },
     {
-      title: values['abnormal']['title'],
+      title: values['PH3']['title'],
       children: [
-        { title: '403', link: '/pages/abnormal/abnormal403' },
-        { title: '404', link: '/pages/abnormal/abnormal404' },
-        { title: '500', link: '/pages/abnormal/abnormal500' },
+        {
+          title: values['PH3']['qlhsch'],
+          link: '/pages/PH3/qlhsch',
+        },
+        {
+          title: values['PH3']['lbbbghtl'],
+          link: '/pages/PH3/lbbbghtl',
+        },
+        {
+          title: values['PH3']['qlbbbghtl'],
+          link: '/pages/PH3/qlbbbghtl',
+        },
+        {
+          title: values['PH3']['lbbthtl'],
+          link: '/pages/PH3/lbbthtl',
+        },
+        {
+          title: values['PH3']['qlbbthhtl'],
+          link: '/pages/PH3/qlbbthhtl',
+        },
       ],
-      link: '/pages/abnormal',
-      menuIcon: 'icon icon-unload',
+      link: '/pages/PH3',
+      menuIcon: 'icon icon-modify',
     },
     {
-      title: values['user']['title'],
+      title: values['PH4']['title'],
       children: [
-        { title: values['user']['center'], link: '/pages/user/center' },
-        { title: values['user']['settings'], link: '/pages/user/settings' },
+        {
+          title: values['PH4']['lpkths'],
+          link: '/pages/PH4/lpkths',
+        },
+        {
+          title: values['PH4']['qlpkths'],
+          link: '/pages/PH4/qlpkths',
+        },
+        {
+          title: values['PH4']['dpkths'],
+          link: '/pages/PH4/dpkths',
+        },
+        {
+          title: values['PH4']['qlsmhs'],
+          link: '/pages/PH4/qlsmhs',
+        },
+        {
+          title: values['PH4']['qltlmqh'],
+          link: '/pages/PH4/qltlmqh',
+        },
+        {
+          title: values['PH4']['tkslnkttl'],
+          link: '/pages/PH4/tkslnkttl',
+        },
+        {
+          title: values['PH4']['tkslnkths'],
+          link: '/pages/PH4/tkslnkths',
+        },
+        {
+          title: values['PH4']['bctklspd'],
+          link: '/pages/PH4/bctklspd',
+        },
       ],
-      link: '/pages/user',
-      menuIcon: 'icon icon-mine',
+      link: '/pages/PH4',
+      menuIcon: 'icon icon-modify',
     },
   ];
 }

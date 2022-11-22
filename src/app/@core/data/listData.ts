@@ -19,7 +19,8 @@ export interface Item {
 export interface Area {
   area_rcd?: number;
   area_name?: string;
-  country_name?: string;
+  country_rcd?: number;
+  area_group?: number;
   area_note?: string;
   active_flag?: number;
 }
