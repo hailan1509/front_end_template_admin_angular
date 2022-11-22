@@ -22,8 +22,8 @@
         *ngIf="item.type === 'select-haidv'"
         [appendToBody]="true"
         [options]="item.options"
-        [name]="item.prop"
-        [(ngModel)]="item.options[_formData[item.prop]]"
+        [name]="item.prop" [filterKey]="'name'" (ngModelChange)="modelChange($event)"
+        [ngModel]="_formData[item.prop] | parseFrom: 'id': item.options"
         [dValidateRules]="item.required ? item.rule : []"
       ></d-select>
       <!-- <d-select-haidv

@@ -26,6 +26,17 @@ export class BasicListComponent implements OnInit {
   // };
 
   status = ["Không hoạt động","Hoạt động"];
+  status_1 = [
+    {
+      name : 'Không hoạt động',
+      id : 0
+    },
+    {
+      name : 'Hoạt động',
+      id : 1
+    }
+  ];
+  numberValue = 0;
 
   searchForm: {
     borderType: '' | 'borderless' | 'bordered';
@@ -107,7 +118,7 @@ export class BasicListComponent implements OnInit {
         label: 'Trạng thái',
         prop: 'active_flag',
         type: 'select-haidv',
-        options: ['Không hoạt động','Hoạt động'],
+        options: this.status_1,
         required: true,
         rule: {
           validators: [{ required: true }],

@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { AdminFormComponent } from './admin-form.component';
 import { ButtonModule, DatepickerModule, FormModule, SelectModule } from 'ng-devui';
 import { FormsModule } from '@angular/forms';
+import {ParseFromPipe} from './parseFromPipe.pipe';
+import { MapToPipe } from './mapToPipe.pipe';
 
 @NgModule({
   imports: [CommonModule, FormModule, DatepickerModule, FormsModule, SelectModule, ButtonModule],
-  declarations: [AdminFormComponent],
+  declarations: [AdminFormComponent,ParseFromPipe],
   exports: [AdminFormComponent],
 })
 export class AdminFormModule {}
