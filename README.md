@@ -14,3 +14,5 @@ Get-ExecutionPolicy
 Get-ExecutionPolicy -list
 
 ng serve --o
+# Khi code tạo các component trong folder src/app/pages/list
+code mẫu : Quản lý khu vực
