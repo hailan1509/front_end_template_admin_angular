@@ -3,16 +3,16 @@ Các bước cài đặt
 1. Lấy code về
 2. Chạy lần  lượt các command sau : 
 
-npm i
+  npm i
 
-npm install -g @angular/cli
+  npm install -g @angular/cli
 
-set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+  set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-Get-ExecutionPolicy
+  Get-ExecutionPolicy
 
-Get-ExecutionPolicy -list
+  Get-ExecutionPolicy -list
 
-ng serve --o
+  ng serve --o
 # Khi code tạo các component trong folder src/app/pages/list
 code mẫu : Quản lý khu vực
