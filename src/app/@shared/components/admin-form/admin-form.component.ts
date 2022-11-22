@@ -20,6 +20,11 @@ export class AdminFormComponent implements OnInit {
 
   @Input() set formData(val: any) {
     this._formData = JSON.parse(JSON.stringify(val));
+    this.formConfig.items.map((item:any) => {
+      if(item.type == "select-haidv") {
+        this.currentOption = this._formData[item.prop];
+      }
+    })
   }
 
   @Output() submitted = new EventEmitter();
