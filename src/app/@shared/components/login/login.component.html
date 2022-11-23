@@ -9,12 +9,12 @@
         <span class="da-logo-devui">
           <img src="assets/devui-logo.svg" alt="DevUI-Logo" />
         </span>
-        <span class="da-text">DevUI</span>
+        <span class="da-text">Project 5</span>
       </div>
-      <span class="da-coperation">{{ 'loginPage.coperation' | translate }}</span>
+      <!-- <span class="da-coperation">{{ 'loginPage.coperation' | translate }}</span> -->
     </div>
     <div class="da-login-ways">
-      <d-tabs [(activeTab)]="tabActiveId" type="pills">
+      <!-- <d-tabs [(activeTab)]="tabActiveId" type="pills">
         <d-tab *ngFor="let item of tabItems" [id]="item.id">
           <ng-template dTabTitle>
             <span class="da-tabs-title">
@@ -22,12 +22,12 @@
             </span>
           </ng-template>
         </d-tab>
-      </d-tabs>
+      </d-tabs> -->
       <ng-container *ngIf="tabActiveId === 'tab1'; else loginWithEmail">
         <ng-template [ngTemplateOutlet]="loginWithPassword"></ng-template>
       </ng-container>
     </div>
-    <div class="da-other">
+    <!-- <div class="da-other">
       <span class="devui-form-span">{{ 'loginPage.other' | translate }}:</span>
       <i (click)="handleAuth('github')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20px" height="20px">
@@ -37,7 +37,7 @@
         </svg>
       </i>
       <a routerLink="/register">{{ 'loginPage.register' | translate }}</a>
-    </div>
+    </div> -->
   </div>
 
   <div class="da-language-wrapper" dDropDown [trigger]="'hover'" dDropDownToggle appendToBody>
@@ -103,9 +103,9 @@
         <d-toggle [checked]="true"></d-toggle>
         <span class="da-auto-login-text" style="margin-left: 8px">{{ 'loginPage.autoLogin' | translate }}</span>
       </div>
-      <span
+      <!-- <span
         ><a href="#">{{ 'loginPage.forgetPassword' | translate }}</a></span
-      >
+      > -->
     </div>
     <button class="da-submit-button" dFormSubmit>
       {{ 'loginPage.submit' | translate }}
@@ -148,9 +148,9 @@
         <d-toggle [checked]="true"></d-toggle>
         <span class="da-auto-login-text" style="margin-left: 8px">{{ 'loginPage.autoLogin' | translate }}</span>
       </div>
-      <span
+      <!-- <span
         ><a href="#">{{ 'loginPage.forgetPassword' | translate }}</a></span
-      >
+      > -->
     </div>
     <button class="da-submit-button" dFormSubmit>
       {{ 'loginPage.submit' | translate }}
