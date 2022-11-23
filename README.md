@@ -15,4 +15,4 @@ Các bước cài đặt
 
   ng serve --o
 # Khi code tạo các component trong folder: src/app/pages
-code mẫu : Quản lý khu vực
+code mẫu : Quản lý khu vực (src/app/pages/list/basic-list)
