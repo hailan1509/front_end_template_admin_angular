@@ -15,7 +15,7 @@ Các bước cài đặt
 
   ng serve --o
 # Code 
-khi code các folder đã tạo sẵn cho mỗi phân hệ. các bạn sẽ code tại tên folder phân hệ của mình, không code sang folder khác. (pages/[tên phân hệ]) 
-code mẫu : Quản lý khu vực (src/app/pages/list/basic-list)
+- khi code các folder đã tạo sẵn cho mỗi phân hệ. các bạn sẽ code tại tên folder phân hệ của mình, không code sang folder khác. (pages/[tên phân hệ])
+- code mẫu : Quản lý khu vực (src/app/pages/list/basic-list)
 # Commit code
 không commit các file có đuôi .json
