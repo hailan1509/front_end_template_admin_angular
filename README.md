@@ -1,5 +1,4 @@
-# front_end_template_admin_angular
-Các bước cài đặt
+# Các bước cài đặt
 1. Lấy code về
 2. Chạy lần  lượt các command sau : 
 
