@@ -124,5 +124,44 @@ export default function (values: any) {
       link: '/pages/PH4',
       menuIcon: 'icon icon-modify',
     },
+    {
+      title: values['PH5']['title'],
+      children: [
+        {
+          title: values['PH5']['bchslt'],
+          link: '/pages/PH5/bchslt',
+        },
+        {
+          title: values['PH5']['bchsh'],
+          link: '/pages/PH5/bchsh',
+        },
+        {
+          title: values['PH5']['bcpkt'],
+          link: '/pages/PH5/bcpkt',
+        },
+        {
+          title: values['PH5']['bchstlm'],
+          link: '/pages/PH5/bchstlm',
+        },
+        {
+          title: values['PH5']['tkhsdvlt'],
+          link: '/pages/PH5/tkhsdvlt',
+        },
+        {
+          title: values['PH5']['tkslhstn'],
+          link: '/pages/PH5/tkslhstn',
+        },
+        {
+          title: values['PH5']['tksltltn'],
+          link: '/pages/PH5/tksltltn',
+        },
+        {
+          title: values['PH5']['bcdmvbctlhs'],
+          link: '/pages/PH5/bcdmvbctlhs',
+        },
+      ],
+      link: '/pages/PH5',
+      menuIcon: 'icon icon-modify',
+    },
   ];
 }
