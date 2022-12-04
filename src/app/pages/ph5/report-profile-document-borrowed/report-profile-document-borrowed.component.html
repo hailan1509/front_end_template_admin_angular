@@ -5,10 +5,10 @@
         ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
       >
       <d-breadcrumb-item>Báo cáo thống kê</d-breadcrumb-item>
-      <d-breadcrumb-item>Báo cáo phiếu khai thác</d-breadcrumb-item>
+      <d-breadcrumb-item>Báo cáo hồ sơ, tài liệu đang mượn</d-breadcrumb-item>
     </d-breadcrumb>
     <div class="da-content-banner-title">Báo cáo thống kê</div>
-    <div>Báo cáo phiếu khai thác</div>
+    <div>Báo cáo hồ sơ, tài liệu đang mượn</div>
   </div>
   <div class="da-content-wrapper">
     <da-layout-row [daGutter]="[24, 24]">
@@ -17,10 +17,20 @@
           <div class="da-list-header">
             <div class="da-header-left">
               <div class="da-header-item">
+                <div class="da-header-item-label">Loại báo cáo:</div>
+                <d-select
+                  [options]="typeOfReportOptions"
+                  [(ngModel)]="typeOfReport"
+                  (valueChange)="search()"
+                  [placeholder]="'Trạng thái'"
+                  >
+                </d-select>
+              </div>
+              <div class="da-header-item">
                 <div class="da-header-item-label">Tên người khai thác:</div>
                 <d-search
                   [size]="'sm'"
-                  (searchFn)="getList()"
+                  (searchFn)="search()"
                   [(ngModel)]="_search.staff_name"
                   class="da-inline"
                   [placeholder]="'Tên người khai thác'"
@@ -30,7 +40,7 @@
                 <div class="da-header-item-label">Mục đích khai thác:</div>
                 <d-search
                   [size]="'sm'"
-                  (searchFn)="getList()"
+                  (searchFn)="search()"
                   [(ngModel)]="_search.mining_purpose"
                   class="da-inline"
                   [placeholder]="'Mục đích khai thác'"
@@ -41,13 +51,13 @@
                 <d-select
                   [options]="miningFileStatusOptions"
                   [(ngModel)]="miningFileStatus"
-                  (valueChange)="getList()"
+                  (valueChange)="search()"
                   [placeholder]="'Trạng thái'"
                   >
                 </d-select>
               </div>
               <div class="da-header-item">
-                <div class="da-header-item-label">Ngày khai thác:</div>
+                <div class="da-header-item-label">Ngày mượn:</div>
                 <section style="display: flex;">
                   <div class="col-md-6" style="margin-right: 10px">
                     <div class="row">
@@ -63,7 +73,7 @@
                             dDatepicker
                             appendToBody
                             #datePicker1="datepicker"
-                            (selectedDateChange)="getList()"
+                            (selectedDateChange)="search()"
                           />
                           <div *ngIf="_search.borrowed_date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker1.clearAll()">
                             <i class="icon icon-close"></i>
@@ -90,7 +100,7 @@
                             dDatepicker
                             appendToBody
                             #datePicker2="datepicker"
-                            (selectedDateChange)="getList()"
+                            (selectedDateChange)="search()"
                           />
                           <div *ngIf="_search.return_date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
                             <i class="icon icon-close"></i>
@@ -110,7 +120,7 @@
             </div>
           </div>
           <br />
-          <div class="list-content" dLoading [loading]="busy">
+          <div class="list-content" dLoading [loading]="busy" *ngIf="typeOfReport ==='Báo cáo hồ sơ đang mượn'">
             <d-data-table
               #datatable
               [dataSource]="basicDataSource"
@@ -126,21 +136,21 @@
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="mining_file_code" header="Mã phiếu khai thác" [width]="'100px'">
+              <d-column field="profile_code" header="Mã hồ sơ" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="staff_created_name" header="Tên người lập khai thác" [width]="'150px'">
+              <d-column field="profile_name" header="Tên hồ sơ" [width]="'300px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="borrowed_date" header="Ngày khai thác" [width]="'100px'">
+              <d-column field="borrowed_date" header="Ngày mượn" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem | date : 'MM/dd/yyyy' }}
@@ -154,38 +164,126 @@
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="mining_purpose" header="Mục đích khai thác" [width]="'300px'">
+              <d-column field="full_name" header="Người mượn" [width]="'150px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="mining_note" header="Ghi chú" [width]="'200px'">
+              <d-column field="price" header="Phí mượn" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem ? cellItem : 'Miễn phí' }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="mining_purpose_name" header="Mục đích khai thác" [width]="'150px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="number_of_profile" header="Số hồ sơ" [width]="'100px'">
+              <d-column field="status" header="Trạng thái" [width]="'120px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="number_of_document" header="Số văn bản" [width]="'100px'">
+            </d-data-table>
+          </div>
+          <div class="list-content" dLoading [loading]="busy" *ngIf="typeOfReport !=='Báo cáo hồ sơ đang mượn'">
+            <d-data-table
+              #datatable2
+              [dataSource]="basicDataSource2"
+              [borderType]="searchForm.borderType"
+              [size]="searchForm.size"
+              [tableLayout]="searchForm.layout"
+              [scrollable]="true"
+            >
+              <d-column header="STT" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-rowIndex="rowIndex">
+                    {{ rowIndex + 1 }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="document_number" header="Mã văn bản" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="status" header="Trạng thái" [width]="'150px'">
+              <d-column field="document_name" header="Tên văn bản" [width]="'300px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
-                    {{ cellItem | miningFileStatus }}
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="date" header="Ngày VB ban hành" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem | date : 'MM/dd/yyyy' }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="excerpt" header="Trích yếu văn bản" [width]="'200px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="author" header="Tác giả" [width]="'150px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="borrowed_date" header="Ngày mượn" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem | date : 'MM/dd/yyyy' }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="return_date" header="Ngày trả" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem | date : 'MM/dd/yyy' }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="full_name" header="Người mượn" [width]="'150px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="price" header="Phí mượn" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem ? cellItem : 'Miễn phí' }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="mining_purpose_name" header="Mục đích khai thác" [width]="'150px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="status" header="Trạng thái" [width]="'120px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>

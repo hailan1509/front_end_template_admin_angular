@@ -5,13 +5,14 @@ import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 
 @Component({
-  selector: 'app-report-mining-file',
-  templateUrl: './report-mining-file.component.html',
-  styleUrls: ['./report-mining-file.component.scss']
+  selector: 'app-report-profile-document-borrowed',
+  templateUrl: './report-profile-document-borrowed.component.html',
+  styleUrls: ['./report-profile-document-borrowed.component.scss']
 })
-export class ReportMiningFileComponent implements OnInit {
+export class ReportProfileDocumentBorrowedComponent implements OnInit {
 
-  basicDataSource: any[] = [];
+  basicDataSource = [];
+  basicDataSource2 = [];
   datepicker1: any;
 
   _search = {
@@ -32,17 +33,18 @@ export class ReportMiningFileComponent implements OnInit {
 
   miningFileStatusOptions = [
     '--Tất cả---',
-    'Chờ xét duyệt',
-    'Đã duyệt',
-    'Từ chối'
+    'Đang mượn',
+    'Mượn quá hạn',
   ];
 
   miningFileStatusValue: { [key: string]: any } = {
     '--Tất cả--': null,
-    'Chờ xét duyệt': 0,
-    'Đã duyệt': 1,
-    'Từ chối': 2
+    'Đang mượn': 'Đang mượn',
+    'Mượn quá hạn': 'Mượn quá hạn',
   };
+
+  typeOfReportOptions = ['Báo cáo hồ sơ đang mượn', 'Báo cáo văn bản đang mượn'];
+  typeOfReport = 'Báo cáo hồ sơ đang mượn';
 
   searchForm: {
     borderType: '' | 'borderless' | 'bordered';
@@ -119,14 +121,19 @@ export class ReportMiningFileComponent implements OnInit {
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
-    this.getList()
+    this.search()
   }
 
   search() {
-    this.getList();
+    console.log(this.typeOfReport);
+    if (this.typeOfReport === 'Báo cáo hồ sơ đang mượn') {
+      this.getListProfileBorrowed();
+    } else {
+      this.getListDocumentBorrowed();
+    }
   }
 
-  getList() {
+  getListProfileBorrowed() {
     const data = {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
@@ -134,9 +141,23 @@ export class ReportMiningFileComponent implements OnInit {
       status: this.miningFileStatusValue[this.miningFileStatus]
     }
 
-    this.busy = this.api.post("api/Statistic/ReportMiningFileSearch", data).subscribe((res:any) => {
+    this.busy = this.api.post("api/Statistic/ReportProfileBorrowedSearch", data).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
+      this.pager.total = a.totalItems;
+    });
+  }
+
+  getListDocumentBorrowed() {
+    const data = {
+      page: this.pager.pageIndex,
+      pageSize: this.pager.pageSize,
+      ...this._search,
+      status: this.miningFileStatusValue[this.miningFileStatus]
+    }
+    this.busy = this.api.post("api/Statistic/ReportDocumentBorrowedSearch", data).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      this.basicDataSource2 = a.data;
       this.pager.total = a.totalItems;
     });
   }
@@ -148,16 +169,17 @@ export class ReportMiningFileComponent implements OnInit {
       layout: 'auto',
     };
     this.pager.pageIndex = 1;
-    this.getList();
+    this.search();
   }
 
   onPageChange(e: number) {
     this.pager.pageIndex = e;
-    this.getList();
+    this.search();
   }
 
   onSizeChange(e: number) {
     this.pager.pageSize = e;
-    this.getList();
+    this.search();
   }
+
 }

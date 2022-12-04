@@ -144,8 +144,8 @@ export default function (values: any) {
           link: '/pages/PH5/bcpkt',
         },
         {
-          title: values['PH5']['bchstlm'],
-          link: '/pages/PH5/bchstlm',
+          title: values['PH5']['bchstldm'],
+          link: '/pages/PH5/bchstldm',
         },
         {
           title: values['PH5']['tkhsdvlt'],
@@ -160,9 +160,13 @@ export default function (values: any) {
           link: '/pages/PH5/tksltltn',
         },
         {
+          title: values['PH5']['tkbctvsh'],
+          link: '/pages/PH5/tkbctvsh',
+        },
+        {
           title: values['PH5']['bcdmvbctlhs'],
           link: '/pages/PH5/bcdmvbctlhs',
-        },
+        }
       ],
       link: '/pages/PH5',
       menuIcon: 'icon icon-table',

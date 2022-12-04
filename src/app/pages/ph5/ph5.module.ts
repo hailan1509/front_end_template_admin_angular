@@ -13,6 +13,8 @@ import { SharedModule } from 'src/app/@shared/shared.module';
 import { ReportCancellationProfileComponent } from './report-cancellation-profile/report-cancellation-profile.component';
 import { ReportArchivalProfileComponent } from './report-archival-profile/report-archival-profile.component';
 import { ReportMiningFileComponent } from './report-mining-file/report-mining-file.component';
+import { ReportProfileDocumentBorrowedComponent } from './report-profile-document-borrowed/report-profile-document-borrowed.component';
+import { StatisticDocumentComponent } from './statistic-document/statistic-document.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { ReportMiningFileComponent } from './report-mining-file/report-mining-fi
     PH5Component,
     ReportArchivalProfileComponent,
     ReportCancellationProfileComponent,
-    ReportMiningFileComponent
+    ReportMiningFileComponent,
+    ReportProfileDocumentBorrowedComponent,
+    StatisticDocumentComponent,
   ],
   imports: [
     PaginationModule,
