@@ -128,6 +128,10 @@ export default function (values: any) {
       title: values['PH5']['title'],
       children: [
         {
+          title: values['PH5']['bcdlskdn'],
+          link: '/pages/PH5/bcdlskdn',
+        },
+        {
           title: values['PH5']['bchslt'],
           link: '/pages/PH5/bchslt',
         },
@@ -161,7 +165,7 @@ export default function (values: any) {
         },
       ],
       link: '/pages/PH5',
-      menuIcon: 'icon icon-modify',
+      menuIcon: 'icon icon-table',
     },
   ];
 }

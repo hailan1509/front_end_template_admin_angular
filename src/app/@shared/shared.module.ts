@@ -45,6 +45,8 @@ import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HeaderNoticeComponent } from './components/header/header-operation/header-notice/header-notice.component';
 
+import { MiningFileStatusPipe } from './pipe/mining-file-status.pipe';
+
 const DEVUI_MODULES = [
   LayoutModule,
   AccordionModule,
@@ -69,6 +71,7 @@ const DEVUI_MODULES = [
   ModalModule,
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
+const PIPES = [MiningFileStatusPipe]
 @NgModule({
   declarations: [
     LoginComponent,
@@ -79,6 +82,7 @@ const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, Personali
     HeaderNoticeComponent,
     RegisterComponent,
     ...COMPONENTS,
+    ...PIPES
   ],
   imports: [
     CommonModule,
@@ -106,6 +110,7 @@ const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, Personali
     SideMenuComponent,
     ...DEVUI_MODULES,
     ...COMPONENTS,
+    ...PIPES
   ],
 })
 export class SharedModule {

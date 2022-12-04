@@ -250,7 +250,7 @@ export class BasicListComponent implements OnInit {
             this.api.post("api/manager/AreaRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
-              
+
             });
             results.modalInstance.hide();
           },

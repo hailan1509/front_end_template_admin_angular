@@ -133,7 +133,8 @@ export class PagesComponent implements OnInit {
         bctklspd : "Báo cáo thông kê"
       },
       PH5 : {
-        title : "Báo cáo thống kê",
+        title: "Báo cáo thống kê",
+        bcdlskdn: "Cảnh báo dữ liệu sau khi đăng nhập",
         bchslt : "Báo cáo hồ sơ lưu trữ",
         bchsh : "Báo cáo hồ sơ hủy",
         bcpkt : "Báo cáo phiếu khai thác",
