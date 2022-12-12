@@ -131,6 +131,21 @@ export class PagesComponent implements OnInit {
         tkslnkttl : "Thống kê số lượng người khai thác tài liệu",
         tkslnkths : "Thống kê số lượng người khai thác hồ sơ",
         bctklspd : "Báo cáo thông kê"
+      },
+      PH7 : {
+        title : "Quản lý danh mục",
+        qllv : "Quản lý lĩnh vực",
+        qlhsvb : "Quản lý hồ sơ, văn bản",
+        qllhsvb : "Quản lý loại hồ sơ, văn bản",
+        qlcqbh : "Quản lý cơ quan ban hành",
+        ql : "Quản lý độ mật",
+        thvcdc : "Tích hợp với CSDL dùng chung",
+        qlplt : "Quản lý Phông lưu trữ",
+        qlklt : "Quản lý kho lưu trữ",
+        qlthlt : "Quản lý thời hạn lưu trữ",
+        qlttvl : "Quản lý tình trạng vật lý",
+        qlmdkt : "Quản lý Mục đích khai thác",
+        qlskt : "Quản lý sổ khai thác",       
       }
     };
     this.menu = getMenu(menu_object);

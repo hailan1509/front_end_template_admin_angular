@@ -25,6 +25,13 @@ export interface Area {
   active_flag?: number;
 }
 
+export interface Fields {
+  fields_rcd?: number;
+  fields_name_l?: string;
+  fields_note_l?: string;
+  active_flag?: number;
+}
+
 
 export interface ListPager {
   pageSize?: number;
