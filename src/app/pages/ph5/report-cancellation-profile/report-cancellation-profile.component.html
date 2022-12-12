@@ -1,1 +1,142 @@
-<p>report-cancellation-profile works!</p>
+<div class="da-list-wrap">
+  <div class="da-content-banner">
+    <d-breadcrumb>
+      <d-breadcrumb-item
+        ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+      >
+      <d-breadcrumb-item>Báo cáo thống kê</d-breadcrumb-item>
+      <d-breadcrumb-item>Báo cáo hồ sơ hủy</d-breadcrumb-item>
+    </d-breadcrumb>
+    <div class="da-content-banner-title">Báo cáo thống kê</div>
+    <div>Báo cáo hồ sơ hủy</div>
+  </div>
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="da-header-left">
+              <div class="da-header-item">
+                <div class="da-header-item-label">Tên người duyệt:</div>
+                <d-search
+                  [size]="'sm'"
+                  (searchFn)="getList()"
+                  [(ngModel)]="_search.staff_name"
+                  class="da-inline"
+                  [placeholder]="'Tên người duyệt'"
+                ></d-search>
+              </div>
+              <div class="da-header-item">
+                <div class="da-header-item-label">Phương pháp hủy:</div>
+                <d-search
+                  [size]="'sm'"
+                  (searchFn)="getList()"
+                  [(ngModel)]="_search.mining_purpose"
+                  class="da-inline"
+                  [placeholder]="'Phương pháp hủy'"
+                ></d-search>
+              </div>
+              <div class="da-header-item">
+                <div class="da-header-item-label">Trạng thái:</div>
+                <d-select
+                  [options]="miningFileStatusOptions"
+                  [(ngModel)]="miningFileStatus"
+                  (valueChange)="getList()"
+                  [placeholder]="'Trạng thái'"
+                  >
+                </d-select>
+              </div>
+            </div>
+            <div class="header-right">
+              <d-button (click)="reset()">Reset</d-button>
+            </div>
+          </div>
+          <br />
+          <div class="list-content" dLoading [loading]="busy">
+            <d-data-table
+              #datatable
+              [dataSource]="basicDataSource"
+              [borderType]="searchForm.borderType"
+              [size]="searchForm.size"
+              [tableLayout]="searchForm.layout"
+              [scrollable]="true"
+            >
+              <d-column header="STT" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-rowIndex="rowIndex">
+                    {{ rowIndex + 1 }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="cancellation_minutes_number" header="Số kí hiệu văn bản" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="number_of_cancellations" header="Số lượng hủy" [width]="'150px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="place" header="Địa điểm hủy" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="cancellation_method" header="Phương pháp hủy" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="time_destroy" header="Thời gian hủy" [width]="'300px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem| date : 'MM/dd/yyy' }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="staff_name" header="Người duyệt" [width]="'200px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="status" header="Trạng thái" [width]="'150px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem | miningFileStatus }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+            </d-data-table>
+          </div>
+          <div class="da-list-footer">
+            <d-pagination
+              [size]="'sm'"
+              [total]="pager.total"
+              [(pageSize)]="pager.pageSize"
+              [(pageIndex)]="pager.pageIndex"
+              [canViewTotal]="true"
+              [canChangePageSize]="true"
+              [canJumpPage]="true"
+              [maxItems]="5"
+              (pageIndexChange)="onPageChange($event)"
+              (pageSizeChange)="onSizeChange($event)"
+            >
+            </d-pagination>
+          </div>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+  </div>
+</div>
+

@@ -18,7 +18,7 @@ export class ReportProfileDocumentBorrowedComponent implements OnInit {
   _search = {
     borrowed_date: null,
     return_date: null,
-    staff_name: null,
+    staff_name: '',
     mining_purpose: null,
     status: null
   };
