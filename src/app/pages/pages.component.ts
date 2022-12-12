@@ -131,6 +131,14 @@ export class PagesComponent implements OnInit {
         tkslnkttl : "Thống kê số lượng người khai thác tài liệu",
         tkslnkths : "Thống kê số lượng người khai thác hồ sơ",
         bctklspd : "Báo cáo thông kê"
+      },
+      PH6 : {
+        title : "Quản trị hệ thống",
+        qlndnb : "Quản lý người dùng nội bộ",
+        qlnnd : "Quản lý nhóm người dùng",
+        qlvt : "Quản lý vai trò",
+        qlpb : "Quản lý phòng ban",
+        qlnk : "Quản lý nhật ký, ghi log hệ thống",     
       }
     };
     this.menu = getMenu(menu_object);
