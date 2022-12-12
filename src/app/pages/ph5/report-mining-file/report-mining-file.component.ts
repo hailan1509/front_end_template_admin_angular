@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TableWidthConfig } from 'ng-devui/data-table';
 import { Subscription } from 'rxjs';
 
 import { ApiService } from 'src/app/api.service';
@@ -17,7 +16,7 @@ export class ReportMiningFileComponent implements OnInit {
   _search = {
     borrowed_date: null,
     return_date: null,
-    staff_name: null,
+    staff_name: '',
     mining_purpose: null,
     status: null
   };
@@ -28,10 +27,10 @@ export class ReportMiningFileComponent implements OnInit {
     pageSize: 10,
   };
 
-  miningFileStatus = '--Tất cả---';
+  miningFileStatus = '--Tất cả--';
 
   miningFileStatusOptions = [
-    '--Tất cả---',
+    '--Tất cả--',
     'Chờ xét duyệt',
     'Đã duyệt',
     'Từ chối'
@@ -53,67 +52,6 @@ export class ReportMiningFileComponent implements OnInit {
       size: 'md',
       layout: 'auto',
     };
-
-  dataTableOptions = {
-    columns: [
-      {
-        field: 'area_rcd',
-        header: 'Mã khu vực',
-        fieldType: 'text'
-      },
-      {
-        field: 'area_name',
-        header: 'Tên khu vực',
-        fieldType: 'text'
-      },
-      {
-        field: 'country_name',
-        header: 'Tên đất nước',
-        fieldType: 'text'
-      },
-      {
-        field: 'area_note',
-        header: 'Ghi chú',
-        fieldType: 'date'
-      },
-      {
-        field: 'active_flag',
-        header: 'Trạng thái',
-        fieldType: 'int'
-      }
-    ]
-  };
-
-  tableWidthConfig: TableWidthConfig[] = [
-    {
-      field: '#',
-      width: '50px'
-    },
-    {
-      field: 'area_rcd',
-      width: '100px'
-    },
-    {
-      field: 'area_name',
-      width: '300px'
-    },
-    {
-      field: 'country_name',
-      width: '100px'
-    },
-    {
-      field: 'area_note',
-      width: '100px'
-    },
-    {
-      field: 'active_flag',
-      width: '100px'
-    },
-    {
-      field: 'Actions',
-      width: '100px'
-    },
-  ];
 
   busy: Subscription;
   constructor(private api: ApiService) { }
