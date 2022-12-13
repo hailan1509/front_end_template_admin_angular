@@ -14,10 +14,10 @@ export class ReportCancellationProfileComponent implements OnInit {
   datepicker1: any;
 
   _search = {
-    borrowed_date: null,
-    return_date: null,
+    cancellation_method: null,
+    // return_date: null,
     staff_name: '',
-    mining_purpose: null,
+    cancellation_minutes_number: null,
     status: -1
   };
   pager = {

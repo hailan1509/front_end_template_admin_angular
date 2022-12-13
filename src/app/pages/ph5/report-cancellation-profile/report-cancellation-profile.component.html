@@ -31,11 +31,23 @@
                 <d-search
                   [size]="'sm'"
                   (searchFn)="getList()"
-                  [(ngModel)]="_search.mining_purpose"
+                  [(ngModel)]="_search.cancellation_method"
                   class="da-inline"
                   [placeholder]="'Phương pháp hủy'"
                 ></d-search>
               </div>
+
+              <div class="da-header-item">
+                <div class="da-header-item-label">Số kí hiệu văn bản:</div>
+                <d-search
+                  [size]="'sm'"
+                  (searchFn)="getList()"
+                  [(ngModel)]="_search.cancellation_minutes_number"
+                  class="da-inline"
+                  [placeholder]="'Số kí hiệu văn bản'"
+                ></d-search>
+              </div>
+
               <div class="da-header-item">
                 <div class="da-header-item-label">Trạng thái:</div>
                 <d-select
@@ -68,14 +80,21 @@
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="cancellation_minutes_number" header="Số kí hiệu văn bản" [width]="'100px'">
+              <d-column field="cancellation_minutes_number" header="Số kí hiệu văn bản" [width]="'50px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="number_of_cancellations" header="Số lượng hủy" [width]="'150px'">
+              <d-column field="number_of_cancellations" header="Số lượng hủy" [width]="'50px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="profile_name" header="Tài liệu hủy" [width]="'550px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
@@ -96,14 +115,14 @@
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="time_destroy" header="Thời gian hủy" [width]="'300px'">
+              <d-column field="time_destroy" header="Thời gian hủy" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem| date : 'MM/dd/yyy' }}
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="staff_name" header="Người duyệt" [width]="'200px'">
+              <d-column field="staff_name" header="Người duyệt" [width]="'150px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
