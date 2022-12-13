@@ -24,10 +24,10 @@ var ReportCancellationProfileComponent = /** @class */ (function () {
         this.api = api;
         this.basicDataSource = [];
         this._search = {
-            borrowed_date: null,
-            return_date: null,
+            cancellation_method: null,
+            // return_date: null,
             staff_name: '',
-            mining_purpose: null,
+            cancellation_minutes_number: null,
             status: -1
         };
         this.pager = {
