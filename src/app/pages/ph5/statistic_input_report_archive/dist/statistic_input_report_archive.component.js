@@ -17,58 +17,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.ReportArchivalProfileComponent = void 0;
+exports.StatisticInputReportArchiveComponent = void 0;
 var core_1 = require("@angular/core");
-var ReportArchivalProfileComponent = /** @class */ (function () {
-    function ReportArchivalProfileComponent(api) {
+var StatisticInputReportArchiveComponent = /** @class */ (function () {
+    function StatisticInputReportArchiveComponent(api) {
         this.api = api;
         this.basicDataSource = [];
-        this.serviceData = {
-            tooltip: {
-                trigger: 'axis',
-                confine: true
-            },
-            legend: {
-                type: 'scroll',
-                show: false,
-                orient: 'horizontal',
-                top: '6%',
-                right: '6%',
-                icon: 'circle',
-                itemWidth: 13,
-                itemHeight: 6,
-                itemGap: 13,
-                textStyle: {
-                    fontSize: 14,
-                    color: '#E5E5E5'
-                }
-            },
-            xAxis: {
-                type: "category",
-                data: [2019, 2020, 2021, 2022, 2032, 2123, 1234]
-            },
-            yAxis: {
-                type: "value"
-            },
-            series: [
-                {
-                    type: 'bar',
-                    data: [178, 123, 234, 831]
-                },
-                {
-                    type: 'bar',
-                    data: [211, 656, 234, 785]
-                },
-                {
-                    type: 'bar',
-                    data: [2, 1, 0, 1]
-                },
-                {
-                    type: 'bar',
-                    data: [0, 1, 2, 1]
-                }
-            ]
-        };
         this._search = {
             // borrowed_date: null,
             profile_number: null,
@@ -77,7 +31,7 @@ var ReportArchivalProfileComponent = /** @class */ (function () {
             to_date: null,
             // mining_purpose: null,
             profile_rcd: "",
-            status: 1
+            status: 0
         };
         this.pager = {
             total: 0,
@@ -103,13 +57,13 @@ var ReportArchivalProfileComponent = /** @class */ (function () {
             layout: 'auto'
         };
     }
-    ReportArchivalProfileComponent.prototype.ngOnInit = function () {
+    StatisticInputReportArchiveComponent.prototype.ngOnInit = function () {
         this.getList();
     };
-    ReportArchivalProfileComponent.prototype.search = function () {
+    StatisticInputReportArchiveComponent.prototype.search = function () {
         this.getList();
     };
-    ReportArchivalProfileComponent.prototype.getList = function () {
+    StatisticInputReportArchiveComponent.prototype.getList = function () {
         var _this = this;
         var data = __assign({ page: this.pager.pageIndex, pageSize: this.pager.pageSize }, this._search
         //status: this.miningFileStatusValue[this.miningFileStatus]
@@ -121,7 +75,7 @@ var ReportArchivalProfileComponent = /** @class */ (function () {
             _this.pager.total = a.totalItems;
         });
     };
-    ReportArchivalProfileComponent.prototype.reset = function () {
+    StatisticInputReportArchiveComponent.prototype.reset = function () {
         this.searchForm = {
             borderType: '',
             size: 'md',
@@ -130,21 +84,21 @@ var ReportArchivalProfileComponent = /** @class */ (function () {
         this.pager.pageIndex = 1;
         this.getList();
     };
-    ReportArchivalProfileComponent.prototype.onPageChange = function (e) {
+    StatisticInputReportArchiveComponent.prototype.onPageChange = function (e) {
         this.pager.pageIndex = e;
         this.getList();
     };
-    ReportArchivalProfileComponent.prototype.onSizeChange = function (e) {
+    StatisticInputReportArchiveComponent.prototype.onSizeChange = function (e) {
         this.pager.pageSize = e;
         this.getList();
     };
-    ReportArchivalProfileComponent = __decorate([
+    StatisticInputReportArchiveComponent = __decorate([
         core_1.Component({
-            selector: 'app-report-archival-profile',
-            templateUrl: './report-archival-profile.component.html',
-            styleUrls: ['./report-archival-profile.component.scss']
+            selector: 'app-statistic_input_report_archive',
+            templateUrl: './statistic_input_report_archive.component.html',
+            styleUrls: ['./statistic_input_report_archive.component.scss']
         })
-    ], ReportArchivalProfileComponent);
-    return ReportArchivalProfileComponent;
+    ], StatisticInputReportArchiveComponent);
+    return StatisticInputReportArchiveComponent;
 }());
-exports.ReportArchivalProfileComponent = ReportArchivalProfileComponent;
+exports.StatisticInputReportArchiveComponent = StatisticInputReportArchiveComponent;

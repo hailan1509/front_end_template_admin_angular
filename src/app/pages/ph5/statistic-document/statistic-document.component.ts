@@ -10,6 +10,7 @@ export class StatisticDocumentComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

@@ -5,7 +5,7 @@ import {
   PaginationModule,
   TooltipModule,
 } from 'ng-devui';
-
+import { EchartsModule } from 'src/app/@shared/components/echarts/echarts.module';
 
 import { PH5RoutingModule } from './ph5-routing.module';
 import { PH5Component } from './ph5-component';
@@ -15,7 +15,7 @@ import { ReportArchivalProfileComponent } from './report-archival-profile/report
 import { ReportMiningFileComponent } from './report-mining-file/report-mining-file.component';
 import { ReportProfileDocumentBorrowedComponent } from './report-profile-document-borrowed/report-profile-document-borrowed.component';
 import { StatisticDocumentComponent } from './statistic-document/statistic-document.component';
-
+import { StatisticInputReportArchiveComponent } from './statistic_input_report_archive/statistic_input_report_archive.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +25,7 @@ import { StatisticDocumentComponent } from './statistic-document/statistic-docum
     ReportMiningFileComponent,
     ReportProfileDocumentBorrowedComponent,
     StatisticDocumentComponent,
+    StatisticInputReportArchiveComponent
   ],
   imports: [
     PaginationModule,
@@ -32,6 +33,7 @@ import { StatisticDocumentComponent } from './statistic-document/statistic-docum
     SharedModule,
     DatepickerModule,
     InputNumberModule,
+    EchartsModule,
     PH5RoutingModule
   ]
 })

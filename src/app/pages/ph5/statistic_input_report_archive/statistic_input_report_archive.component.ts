@@ -5,63 +5,13 @@ import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 
 @Component({
-  selector: 'app-report-archival-profile',
-  templateUrl: './report-archival-profile.component.html',
-  styleUrls: ['./report-archival-profile.component.scss']
+  selector: 'app-statistic_input_report_archive',
+  templateUrl: './statistic_input_report_archive.component.html',
+  styleUrls: ['./statistic_input_report_archive.component.scss']
 })
-export class ReportArchivalProfileComponent implements OnInit {
+export class StatisticInputReportArchiveComponent implements OnInit {
   basicDataSource: any[] = [];
   datepicker1: any;
-
-
-  serviceData: any = {
-    tooltip: {
-      trigger: 'axis',
-      confine: true,
-    },
-    legend: {
-      type: 'scroll',
-      show: false,
-      orient: 'horizontal',
-      top: '6%',
-      right: '6%',
-      icon: 'circle',
-      itemWidth: 13,
-      itemHeight: 6,
-      itemGap: 13,
-      textStyle: {
-        fontSize: 14,
-        color: '#E5E5E5',
-      },
-    },
-    xAxis: {
-      type: "category",
-      data: [2019,2020,2021,2022,2032,2123,1234]
-    },
-    yAxis: {
-      type: "value"
-    },
-    series: [
-      {
-        type: 'bar',
-        data: [178,123,234,831]
-      },
-      {
-        type: 'bar',
-        data: [211,656,234,785]
-      },
-      {
-        type: 'bar',
-        data: [2,1,0,1]
-      },
-      {
-        type: 'bar',
-        data: [0,1,2,1]
-      }
-    ]
-  };
-
-
 
 
 
@@ -77,7 +27,7 @@ export class ReportArchivalProfileComponent implements OnInit {
     to_date: null,
     // mining_purpose: null,
     profile_rcd: "",
-    status: 1
+    status: 0
   };
   pager = {
     total: 0,
