@@ -25,6 +25,20 @@ export interface Area {
   active_flag?: number;
 }
 
+export interface Profile {
+
+  profile_code?: number;
+  profile_name_l?: string;
+  profile_type_rcd?: number;
+  profile_number?: number;
+  from_date?:Date;
+  to_date?:Date;
+  year?:number;
+  number_of_paper?: number;
+  active_flag?: number;
+
+}
+
 
 export interface ListPager {
   pageSize?: number;
