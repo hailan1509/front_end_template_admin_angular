@@ -130,7 +130,7 @@ export class ReportArchivalProfileComponent implements OnInit {
       ...this._search
       //status: this.miningFileStatusValue[this.miningFileStatus]
     }
-
+ 
     this.busy = this.api.post("api/Statistic/StatisticProfileSearch", data).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;

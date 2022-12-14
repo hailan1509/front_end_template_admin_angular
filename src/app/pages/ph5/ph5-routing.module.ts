@@ -9,6 +9,8 @@ import { ReportArchivalProfileComponent } from './report-archival-profile/report
 import { StatisticDocumentComponent } from './statistic-document/statistic-document.component';
 import { ReportProfileDocumentBorrowedComponent } from './report-profile-document-borrowed/report-profile-document-borrowed.component';
 import { StatisticInputReportArchiveComponent } from './statistic_input_report_archive/statistic_input_report_archive.component';
+import { StatisticQuantityProfileForYearComponent } from './statistic-quantity-profile-for-year/statistic-quantity-profile-for-year.component';
+
 
 
 const routes: Routes = [
@@ -22,6 +24,7 @@ const routes: Routes = [
       { path: 'bchstldm', component: ReportProfileDocumentBorrowedComponent },
       { path: 'tksltltn', component: StatisticDocumentComponent },
       { path: 'tkhsdvlt', component: StatisticInputReportArchiveComponent },
+      { path: 'tkslhstn', component: StatisticQuantityProfileForYearComponent },
     ]
   }
 ];

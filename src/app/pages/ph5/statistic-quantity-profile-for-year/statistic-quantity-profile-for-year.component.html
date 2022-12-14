@@ -1,0 +1,134 @@
+<div class="da-list-wrap">
+  <div class="da-content-banner">
+    <d-breadcrumb>
+      <d-breadcrumb-item
+        ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+      >
+      <d-breadcrumb-item>Báo cáo thống kê</d-breadcrumb-item>
+      <d-breadcrumb-item>Báo cáo số lượng hồ sơ lưu trữ theo năm</d-breadcrumb-item>
+    </d-breadcrumb>
+    <div class="da-content-banner-title">Báo cáo thống kê</div>
+    <div>Báo cáo số lượng hồ sơ lưu trữ theo năm</div>
+  </div>
+  
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24" style="text-align: center;">
+
+  
+        <div class="da-list-container">
+          <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="80%"></d-echarts>
+        </div>
+        <div class="da-content-card">
+          <div class="da-content-title">
+            Biểu đồ báo cáo số lượng hồ sơ lưu trữ theo năm
+          </div>
+          </div>
+
+      </da-col-item>
+    </da-layout-row>
+  </div>
+
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="da-header-left">
+              
+              <div class="da-header-item">
+                <div class="da-header-item-label">Năm:</div>
+                <d-select
+                  [options]="miningFileStatusOptions"
+                  [(ngModel)]="miningFileStatus"
+                  (valueChange)="getData()"
+                  [placeholder]="'Trạng thái'"
+                  >
+                </d-select>
+              </div>
+
+              <div class="da-header-item">
+                <div class="da-header-item-label">Trạng thái:</div>
+                <d-select
+                  [options]="quantityProfileStatusOptions"
+                  [(ngModel)]="miningFileStatus1"
+                  (valueChange)="getData()"
+                  [placeholder]="'Trạng thái'"
+                  >
+                </d-select>
+              </div>
+
+            </div>
+            <div class="header-right">
+              <!-- <d-button (click)="reset()">Reset</d-button> -->
+            </div>
+          </div>
+
+          <div class="list-content" dLoading [loading]="busy">
+            <d-data-table
+              #datatable
+              [dataSource]="basicDataSource1"
+              [borderType]="searchForm.borderType"
+              [size]="searchForm.size"
+              [tableLayout]="searchForm.layout"
+              [scrollable]="true"
+            >
+              <d-column header="STT" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-rowIndex="rowIndex">
+                    {{ (pager.pageIndex -1) * pager.pageSize +  rowIndex + 1 }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="profile_number" header="Số hồ sơ" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="profile_name" header="Tên hồ sơ">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="from_date" header="Ngày lập hồ sơ" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem | date : 'MM/dd/yyyy' }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+              <d-column field="to_date" header="Ngày kết thúc hồ sơ" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-cellItem="cellItem">
+                    {{ cellItem | date : 'MM/dd/yyy' }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+            </d-data-table>
+          </div>
+
+          <div class="da-list-footer">
+            <d-pagination
+              [size]="'sm'"
+              [total]="pager.total"
+              [(pageSize)]="pager.pageSize"
+              [(pageIndex)]="pager.pageIndex"
+              [canViewTotal]="true"
+              [canChangePageSize]="true"
+              [canJumpPage]="true"
+              [maxItems]="5"
+              (pageIndexChange)="onPageChange($event)"
+              (pageSizeChange)="onSizeChange($event)"
+            >
+            </d-pagination>
+          </div>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+  </div>
+
+</div>

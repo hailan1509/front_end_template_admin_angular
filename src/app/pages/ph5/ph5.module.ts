@@ -16,6 +16,7 @@ import { ReportMiningFileComponent } from './report-mining-file/report-mining-fi
 import { ReportProfileDocumentBorrowedComponent } from './report-profile-document-borrowed/report-profile-document-borrowed.component';
 import { StatisticDocumentComponent } from './statistic-document/statistic-document.component';
 import { StatisticInputReportArchiveComponent } from './statistic_input_report_archive/statistic_input_report_archive.component';
+import { StatisticQuantityProfileForYearComponent } from './statistic-quantity-profile-for-year/statistic-quantity-profile-for-year.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { StatisticInputReportArchiveComponent } from './statistic_input_report_a
     ReportMiningFileComponent,
     ReportProfileDocumentBorrowedComponent,
     StatisticDocumentComponent,
-    StatisticInputReportArchiveComponent
+    StatisticInputReportArchiveComponent,
+    StatisticQuantityProfileForYearComponent
   ],
   imports: [
     PaginationModule,
