@@ -56,7 +56,6 @@ export interface CancellationMinutesRef {
   place?: string;
   cancellation_method?: string;
   time_destroy?: Date;
-  //areacancellation_minutes_note_e_note?: string;
   cancellation_minutes_note?: string;
   attached_file?: string;
   status?: number;
@@ -69,6 +68,13 @@ export interface CancellationMinutesRef {
   // lu_user_id?: string;
 }
 
+export interface MiningBookRef {
+  mining_book_rcd?: number;
+  mining_name?: string;
+  mining_note?: string;
+  sort_order?: number;
+  active_flag?: number;
+}
 
 export interface ListPager {
   pageSize?: number;

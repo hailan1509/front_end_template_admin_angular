@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit,TemplateRef, ViewChild } from '@an
 import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
-import { Item, CancellationMinutesRef } from 'src/app/@core/data/listData';
+import { Item, MiningBookRef } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
@@ -13,7 +13,7 @@ import { FormConfig } from 'src/app/@shared/components/admin-form';
 })
 export class MiningBookComponent implements OnInit {
 
-  filterCancellationMinutesRefShow = false;
+  filterMiningBookRefShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -38,31 +38,21 @@ export class MiningBookComponent implements OnInit {
   ];
   numberValue = 0;
 
-  newCancellationMinutesRef  = {
-    cancellation_minutes_rcd: "",
-    staff_rcd: "",
-    staff_name_l: "",
-    staff_name: "",
-    staff_name_e: "",
-    cancellation_minutes_number: "",
-    decision_number: "",
-    content: "",
-    place: "",
-    cancellation_method: "",
-    time_destroy: "",
-    cancellation_minutes_note_l: "",
-    cancellation_minutes_note: "",
-    cancellation_minutes_note_e: "",
-    attached_file: "",
-    status: "",
-    comment: "",
+  newMiningBookRef  = {
+    mining_book_rcd: "",
+    mining_name_l: "",
+    mining_name: "",
+    mining_name_e: "",
+    mining_book_note_l: "",
+    mining_book_note: "",
+    mining_book_note_e: "",
     sort_order: 1,
     active_flag: 0,
     created_by_user_id: "",
     created_date_time: "",
     lu_updated: "",
     lu_user_id: "",
-    // cancellation_minutes_group: 1,
+    // mining_book_group: 1,
   };
 
   searchForm: {
@@ -77,35 +67,15 @@ export class MiningBookComponent implements OnInit {
 
   tableWidthConfig: TableWidthConfig[] = [
     {
-      field: 'cancellation_minutes_rcd',
+      field: 'mining_book_rcd',
       width: '150px',
     },  
     {
-      field: 'staff_name',
+      field: 'mining_name',
       width: '100px',
     },
     {
-      field: 'number of cancellations',
-      width: '150px',
-    },
-    // {
-    //   field: 'cancellation_minutes_number',
-    //   width: '150px',
-    // },
-    // {
-    //   field: 'content',
-    //   width: '100px',
-    // },
-    // {
-    //   field: 'place',
-    //   width: '100px',
-    // },
-    {
-      field: 'attached_file',
-      width: '150px',
-    },
-    {
-      field: 'cancellation_minutes_note',
+      field: 'mining_note',
       width: '100px',
     },
     {
@@ -118,14 +88,14 @@ export class MiningBookComponent implements OnInit {
     },
   ];
 
-  basicDataSource: CancellationMinutesRef[] = [];
+  basicDataSource: MiningBookRef[] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
       {
-        label: 'Mã biên bản hủy',
-        prop: 'cancellation_minutes_rcd',
+        label: 'Mã sổ mượn hồ sơ',
+        prop: 'mining_book_rcd',
         type: 'input',
         primary: true,
         required: true,
@@ -134,64 +104,14 @@ export class MiningBookComponent implements OnInit {
         },
       },    
       {
-        label: 'Tên nhân viên',
-        prop: 'staff_name',
+        label: 'Tên sổ mượn hồ sơ',
+        prop: 'mining_name',
         primary: false,
         type: 'input',
-      },
-      {
-        label: 'Số lượng hủy',
-        prop: 'number_of_cancellations',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      // {
-      //   label: 'Số kí hiệu biên bản',
-      //   prop: 'cancellation_minutes_number',
-      //   type: 'input',
-      //   primary: false,
-      //   required: true,
-      //   rule: {
-      //     validators: [{ required: true }],
-      //   },
-      // },
-      // {
-      //   label: 'Nội dung',
-      //   prop: 'content',
-      //   type: 'input',
-      //   primary: true,
-      //   required: true,
-      //   rule: {
-      //     validators: [{ required: true }],
-      //   },
-      // },
-      // {
-      //   label: 'Địa điểm',
-      //   prop: 'place',
-      //   type: 'input',
-      //   primary: true,
-      //   required: true,
-      //   rule: {
-      //     validators: [{ required: true }],
-      //   },
-      // },
-      {
-        label: 'Tệp đính kèm',
-        prop: 'attached_file',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
       },
       {
         label: 'Ghi chú',
-        prop: 'cancellation_minutes_note',
+        prop: 'mining_note',
         type: 'input',
       },
       {
@@ -217,7 +137,6 @@ export class MiningBookComponent implements OnInit {
 
   editRowIndex = -1;
 
-  lstStaffRef : any;
 
   _search = {
     keyword: ''
@@ -240,7 +159,7 @@ export class MiningBookComponent implements OnInit {
 
   ngOnInit() {
     this.getList();
-    // this.getcancellation_minutes();
+    // this.getmining_book();
   }
 
   search() {
@@ -248,20 +167,13 @@ export class MiningBookComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/CancellationMinutesRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , cancellation_minutes_rcd : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/MiningBookRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , mining_book_rcd : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
     });
   }
 
-  getStaffRef() {
-    this.api.post("api/manager/StaffRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.lstStaffRef = a.data;
-      console.log(this.lstStaffRef);
-    });
-  }
 
   editRow(row: any, index: number) {
     this.insert = false;
@@ -282,7 +194,7 @@ export class MiningBookComponent implements OnInit {
 
   addRow() {
     this.insert = true;
-    this.formData = this.newCancellationMinutesRef;
+    this.formData = this.newMiningBookRef;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
@@ -312,7 +224,7 @@ export class MiningBookComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/CancellationMinutesRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/MiningBookRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
               
@@ -355,22 +267,22 @@ export class MiningBookComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      // e.cancellation_minutes_group = 1;
-      // e.cancellation_minutes_name_l = e.cancellation_minutes_name;
-      // e.cancellation_minutes_name_e = e.cancellation_minutes_name;
-      // e.cancellation_minutes_note_l = e.cancellation_minutes_note;
-      // e.cancellation_minutes_note_e = e.cancellation_minutes_note;
-      // this.api.post("api/manager/CancellationMinutesRef/Create",{...e}).subscribe((res:any) => {
+      // e.mining_book_group = 1;
+      // e.mining_book_name_l = e.mining_book_name;
+      // e.mining_book_name_e = e.mining_book_name;
+      // e.mining_book_note_l = e.mining_book_note;
+      // e.mining_book_note_e = e.mining_book_note;
+      // this.api.post("api/manager/MiningBookRef/Create",{...e}).subscribe((res:any) => {
       //   let a = JSON.parse(JSON.stringify(res));
       //   this.getList();
       // });
     }
     else {
-      // e.cancellation_minutes_name_l = e.cancellation_minutes_name;
-      // e.cancellation_minutes_name_e = e.cancellation_minutes_name;
-      e.cancellation_minutes_note_l = e.cancellation_minutes_note;
-      e.cancellation_minutes_note_e = e.cancellation_minutes_note;
-      this.api.post("api/manager/CancellationMinutesRef/Update",{...e}).subscribe((res:any) => {
+      // e.mining_book_name_l = e.mining_book_name;
+      // e.mining_book_name_e = e.mining_book_name;
+      e.mining_book_note_l = e.mining_book_note;
+      e.mining_book_note_e = e.mining_book_note;
+      this.api.post("api/manager/MiningBookRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.getList();
       });
