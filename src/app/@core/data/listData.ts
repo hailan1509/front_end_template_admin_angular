@@ -26,15 +26,30 @@ export interface Area {
 }
 
 export interface Profile {
-
+  profile_rcd?:number;
   profile_code?: number;
+  profile_name_e?:number;
   profile_name_l?: string;
-  profile_type_rcd?: number;
-  profile_number?: number;
   from_date?:Date;
   to_date?:Date;
   year?:number;
   number_of_paper?: number;
+  profile_type_rcd?: number;
+  profile_number?: number;
+  cancellation_reason?:string;
+  is_digital_profile?:string;
+  status?:string;
+  sort_order?:number;
+  date_pending?:Date;
+  date_edited?:Date;
+  date_pending_cancellation?:Date;
+  date_cancellation?:Date;
+  agency_issued_rcd?:string;
+  phong_rcd?:string;
+  duration_storage_rcd?:string;
+  archives_rcd?:string;
+  profile_box_rcd?:string;
+  profile_tyle_rcd?:string;
   active_flag?: number;
 
 }
