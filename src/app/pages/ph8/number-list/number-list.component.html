@@ -1,0 +1,41 @@
+<div class="da-list-wrap">
+  <div class="da-content-banner">
+    <d-breadcrumb>
+      <d-breadcrumb-item
+        ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+      >
+      <d-breadcrumb-item>Quản lý</d-breadcrumb-item>
+      <d-breadcrumb-item>Quản lý số hoá</d-breadcrumb-item>
+    </d-breadcrumb>
+    <div class="da-content-banner-title">
+      Thiết lập trường dữ liệu
+    </div>
+    
+  </div>
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="da-common-search">
+              <div class="da-left">
+                  <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm trường dữ liệu</d-button>
+                  <d-button (click)="reset()" style="margin-left: 12px">Xoá</d-button>
+              </div>
+              <div class="da-right">
+                
+              </div>
+            </div>
+          </div>
+          <br>
+          <div style="width: 100%; height: 50%;" id="pdf" >
+            <input (change)="upload($event)"  type="file" />
+            <pdf-viewer *ngIf="pdfSrc" [src]="pdfSrc" [render-text]="true" [original-size]="true" style="display: block; width: 50%; height: 100%;"></pdf-viewer>
+          </div>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+  </div>
+</div>
+
+

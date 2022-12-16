@@ -144,8 +144,13 @@ export class PagesComponent implements OnInit {
         tksltltn : "Thống kê số lượng tài liệu theo năm",
         tkbctvsh : "Thống kê, báo cáo tác vụ số hóa",
         bcdmvbctlhs : "Báo cáo danh mục văn bản có trong loại hồ sơ"
+      },
+      PH8 : {
+        title: "Quản lý số hoá",
+        tltdl: "Thiết lập trường dữ liệu",
+        bmdv : "Biểu mẫu đầu vào"
       }
-    };
+  };
     this.menu = getMenu(menu_object);
   }
 

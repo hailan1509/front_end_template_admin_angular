@@ -171,5 +171,25 @@ export default function (values: any) {
       link: '/pages/PH5',
       menuIcon: 'icon icon-table',
     },
+    {
+      title: values['PH8']['title'],
+      children: [
+        {
+          title: values['PH8']['tltdl'],
+          link: '/pages/PH8/tltdl',
+        },
+        {
+          title: values['PH8']['bmdv'],
+          link: '/pages/PH8/bmdv',
+        },
+        {
+          title: values['PH8']['qlhsdcl'],
+          link: '/pages/PH8/qlhsdcl',
+        },
+        
+      ],
+      link: '/pages/PH8',
+      menuIcon: 'icon icon-modify',
+    },
   ];
 }
