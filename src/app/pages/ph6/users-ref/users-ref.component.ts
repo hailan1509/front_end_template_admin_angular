@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Item, Users } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
-
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-users-ref',
@@ -36,28 +36,39 @@ export class UsersRefComponent implements OnInit {
       id : 1
     }
   ];
+  value = [
+    {
+      name : 'Nam',
+      id : 0
+    },
+    {
+      name : 'Nữ',
+      id : 1
+    }
+  ];
+
   numberValue = 0;
 
-  newUsers  = {
+  newUser  = {
     user_rcd: "",
-    user_code:"",
+    user_code: "",
     full_name: "",
-    gender: "",
-    date_of_birth: "",
-    email: "",
-    phone_number: "",
-    address: "",
-    user_name: "",
-    pass_word: "",
+     gender:"",
+     date_of_birth:"",
+     email:"",
+     phone_number:"",
+     address:"",
+     user_name:"",
+     pass_word:"",   
     user_note_e: "",
-    user_note_l:"",
-    sort_order: 1,
+    user_note_l: "",
+    sort_order:1,
     active_flag: 0,
     created_by_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     created_date_time: "2022-12-07T03:08:56.885Z",
-    lu_user_id: "00000000-0000-0000-0000-000000000000",
+    lu_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     lu_updated: "2022-12-07T10:09:11.1174229+07:00"
-   
+    
   };
 
   searchForm: {
@@ -85,11 +96,15 @@ export class UsersRefComponent implements OnInit {
     },
     {
       field: 'gender',
+      width: '50px',
+    },
+    {
+      field: 'date_of_birth',
       width: '100px',
     },
-     {
-      field: 'date_of_birth',
-      width: '200px',
+    {
+      field: 'email',
+      width: '100px',
     },
     {
       field: 'phone_number',
@@ -97,7 +112,7 @@ export class UsersRefComponent implements OnInit {
     },
     {
       field: 'address',
-      width: '200px',
+      width: '100px',
     },
     {
       field: 'user_name',
@@ -105,6 +120,10 @@ export class UsersRefComponent implements OnInit {
     },
     {
       field: 'pass_word',
+      width: '100px',
+    },
+    {
+      field: 'user_note_e',
       width: '100px',
     },
     {
@@ -126,77 +145,74 @@ export class UsersRefComponent implements OnInit {
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
-      {
-        label: 'Mã người dùng',
-        prop: 'user_rcd',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },  
-      {
-        label: 'Mã người dùng',
-        prop: 'user_code',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-        
-      },     
+      // {
+      //   label: 'Mã người dùng',
+      //   prop: 'user_rcd',
+      //   type: 'input',
+      //   primary: true,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
+      // {
+      //   label: 'Mã người dùng',
+      //   prop: 'user_code',
+      //   type: 'input',
+      //   primary: false,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
       {
         label: 'Tên người dùng',
         prop: 'full_name',
         type: 'input',
         primary: false,
-        required: true,     
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
       },
       {
         label: 'Giới tính',
         prop: 'gender',
-        primary: false,
-        type: 'input',
+        type: 'select-object',
+        options: this.value,
       },
+     
       {
         label: 'Ngày sinh',
         prop: 'date_of_birth',
-        primary: false,
-        type: 'input',
+        type: 'datePicker',
       },
       {
         label: 'Email',
         prop: 'email',
-        primary: false,
-        type: 'input',
-      },
-      {
-        label: 'Số điện thoại',
-        prop: 'phone_number',
-        primary: false,
         type: 'input',
       },
       {
         label: 'Địa chỉ',
         prop: 'address',
-        primary: false,
         type: 'input',
       },
       {
-        label: 'Tên đăng nhập',
+        label: 'Username',
         prop: 'user_name',
-        primary: false,
         type: 'input',
+        primary: false,
+        required: true,
         rule: {
           validators: [{ required: true }],
         },
-      },{
-        label: 'Mật khẩu',
+      },
+      {
+        label: 'Password',
         prop: 'pass_word',
-        primary: false,
         type: 'input',
+        primary: false,
+        required: true,
         rule: {
           validators: [{ required: true }],
         },
@@ -229,10 +245,23 @@ export class UsersRefComponent implements OnInit {
 
   editRowIndex = -1;
 
-  lstCountry : any;
+
 
   _search = {
-    keyword: ''
+    lang: 'l',
+     user_rcd: "",
+    user_code: "",
+    full_name: "",
+     gender:"",
+     date_of_birth:"",
+     email:"",
+     phone_number:"",
+     address:"",
+     user_name:"",
+     pass_word:"",   
+    user_note_e: "",
+    user_note_l: "",
+
   };
 
   pager = {
@@ -253,20 +282,28 @@ export class UsersRefComponent implements OnInit {
     
   }
 
+  
+
+
   search() {
     this.getList();
-   
   }
 
   getList() {
-    this.api.post("api/manager/UserRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , full_name : this._search.keyword}).subscribe((res:any) => {
+    const searchBody = {
+      page: this.pager.pageIndex,
+      pageSize: this.pager.pageSize,
+      ...this._search
+    }
+
+    this.api.post("api/manager/UserRef/Search", searchBody).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
     });
-    
   }
 
+  
 
   editRow(row: any, index: number) {
     this.insert = false;
@@ -287,7 +324,7 @@ export class UsersRefComponent implements OnInit {
 
   addRow() {
     this.insert = true;
-    this.formData = this.newUsers;
+    this.formData = this.newUser;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
@@ -358,11 +395,14 @@ export class UsersRefComponent implements OnInit {
   }
 
   onSubmitted(e: any) {
+    console.log(this.insert);
+    console.log(1);
+    
     this.editForm!.modalInstance.hide();
     if (this.insert) {
       e.user_rcd=e.user_rcd;
       e.user_code=e.user_code;
-      e.full_name= e.full_name;
+      e.full_name = e.full_name;   
       e.gender=e.gender;
       e.date_of_birth=e.date_of_birth;
       e.email=e.email;
@@ -371,16 +411,19 @@ export class UsersRefComponent implements OnInit {
       e.user_name=e.user_name;
       e.pass_word=e.pass_word;
       e.user_note_l = e.user_note_l;
-      e.user_note_e = e.user_note_e;
+       
+      console.log({...e})
+
       this.api.post("api/manager/UserRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
+        console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
       console.log(e);
     }
     else {
-      e.full_name= e.full_name;
+      e.full_name = e.full_name;   
       e.gender=e.gender;
       e.date_of_birth=e.date_of_birth;
       e.email=e.email;
@@ -389,9 +432,11 @@ export class UsersRefComponent implements OnInit {
       e.user_name=e.user_name;
       e.pass_word=e.pass_word;
       e.user_note_l = e.user_note_l;
-      e.user_note_e = e.user_note_e;
+     
+      console.log(e);
       this.api.post("api/manager/UserRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
+        
         this.getList();
         alert("Sửa thành công!");
       });
@@ -404,5 +449,4 @@ export class UsersRefComponent implements OnInit {
     this.editForm!.modalInstance.hide();
     this.editRowIndex = -1;
   }
-
 }

@@ -317,7 +317,7 @@ export class DepartmentRefComponent implements OnInit {
       console.log(e);
       this.api.post("api/manager/DepartmentRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        
+        console.log(a);
         this.getList();
         alert("Sửa thành công!");
       });

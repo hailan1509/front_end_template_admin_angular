@@ -8,6 +8,8 @@
         <div class="da-content-banner-title">Quản lý người dùng</div>
         <div>Danh sách người dùng</div>
     </div>
+    <button (click)="addRow()">Tao test</button>
+
     <div class="da-content-wrapper">
         <da-layout-row [daGutter]="[24, 24]">
             <da-col-item [daSpan]="24" [daXs]="24">
@@ -15,7 +17,7 @@
                     <div class="da-list-header">
                         <div class="da-common-search">
                             <div class="da-left">
-                                <d-search [size]="'sm'" (searchFn)="getList()" [(ngModel)]="_search.keyword" class="da-inline" [placeholder]="'Tìm tên người dùng'"></d-search>
+                                <d-search [size]="'sm'" (searchFn)="getList()" [(ngModel)]="_search.full_name" class="da-inline" [placeholder]="'Tìm tên người dùng'"></d-search>
                                 <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
                                 <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
                             </div>
@@ -32,18 +34,18 @@
                                     </ng-template>
                                 </d-cell>
                             </d-column>
-                            <d-column field="user_rcd" header="Mã người dùng" [width]="'100px'">
+                            <!-- <d-column field="user_rcd" header="Mã người dùng" [width]="'100px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
                                         {{ cellItem }}
                                     </ng-template>
                                 </d-cell>
-                            </d-column>
+                            </d-column> -->
 
-                            <d-column field="full_name" header="Tên người dùng" [width]="'300px'">
+                            <d-column field="full_name" header="Tên người dùng" [width]="'100px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
-                                        <span [title]="cellItem" class="over-flow-ellipsis" [style.width]="'300px'">
+                                        <span [title]="cellItem" class="over-flow-ellipsis" [style.width]="'100px'">
                       <!-- <d-tag [tag]="'Epic'" [labelStyle]="'epic'"></d-tag> -->
                       {{ cellItem }}
                     </span>
@@ -54,42 +56,48 @@
                             <d-column field="gender" header="Giới tính" [width]="'100px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
-                                        <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                                        {{ cellItem }}
+                                        <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
                                     </ng-template>
                                 </d-cell>
                             </d-column>
                             <d-column field="date_of_birth" header="Ngày sinh" [width]="'100px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
-                                        <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                                        {{ cellItem }}
+                                        <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
                                     </ng-template>
                                 </d-cell>
                             </d-column>
                             <d-column field="email" header="Email" [width]="'100px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
-                                        <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                                        {{ cellItem }}
+                                        <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
                                     </ng-template>
                                 </d-cell>
                             </d-column>
                             <d-column field="phone_number" header="Số điện thoại" [width]="'100px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
-                                        <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                                        {{ cellItem }}
+                                        <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
                                     </ng-template>
                                 </d-cell>
                             </d-column>
-                            <d-column field="address" header="Địa chỉ " [width]="'100px'">
+                            <d-column field="address" header="Địa chỉ " [width]="'200px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
-                                        <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                                        {{ cellItem }}
+                                        <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
                                     </ng-template>
                                 </d-cell>
                             </d-column>
                             <d-column field="user_name" header="Tên đăng nhập" [width]="'100px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
-                                        <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                                        {{ cellItem }}
+                                        <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
                                     </ng-template>
                                 </d-cell>
                             </d-column>

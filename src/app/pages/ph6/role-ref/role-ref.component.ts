@@ -104,26 +104,26 @@ export class RoleRefComponent implements OnInit {
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
-      {
-        label: 'Mã vai trò',
-        prop: 'role_rcd',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Mã vai trò',
-        prop: 'role_code',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
+      // {
+      //   label: 'Mã vai trò',
+      //   prop: 'role_rcd',
+      //   type: 'input',
+      //   primary: true,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
+      // {
+      //   label: 'Mã vai trò',
+      //   prop: 'role_code',
+      //   type: 'input',
+      //   primary: false,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
       {
         label: 'Tên vai trò',
         prop: 'role_name_l',
