@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PH1RoutingModule } from './ph1-routing.module';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileRefComponent } from './profile-ref/profile-ref.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/@shared/shared.module';
+
 import {
   DatepickerModule,
   InputNumberModule,
@@ -17,19 +18,19 @@ import { ph1Component } from './ph1.component';
 
 @NgModule({
   declarations: [
-    ProfileComponent,
+    ProfileRefComponent,
     ph1Component,
-    
+
+
   ],
   imports: [
-    SharedModule,
+     SharedModule,
     FormsModule,
     PaginationModule,
     AdminFormModule,
     InputNumberModule,
     DatepickerModule,
     TooltipModule,
-    CommonModule,
     PH1RoutingModule
   ]
 })

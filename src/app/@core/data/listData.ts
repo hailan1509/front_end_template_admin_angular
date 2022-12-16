@@ -60,7 +60,35 @@ export interface CancellationMinutesRef {
   attached_file?: string;
   status?: number;
   comment?: string;
- // sort_order?: number;
+  active_flag?: number;
+}
+export interface Profile {
+
+  profile_code?: number;
+  profile_name_l?: string;
+  profile_type_rcd?: number;
+  profile_number?: number;
+  from_date?:Date;
+  to_date?:Date;
+  year?:number;
+  number_of_paper?: number;
+  active_flag?: number;
+
+}
+export interface HandoverMinutesRef {
+  handover_minutes_rcd?: number;
+  staff_rcd?: string;
+  profile_rcd?: string;
+  handover_minutes_name?: number;
+  // handover_minutes_name_e?: number;
+  place?: string;
+  reason?: string;
+  time_destroy?: Date;
+  cancellation_minutes_note?: string;
+  attached_file?: string;
+  // status?: number;
+  // comment?: string;
+ sort_order?: number;
   active_flag?: number;
   // created_by_user_id?: string;
   // created_date_time?: Date;

@@ -9,18 +9,15 @@ import {
   TooltipModule,
 } from 'ng-devui';
 import { AdminFormModule } from 'src/app/@shared/components/admin-form/admin-form.module';
-// import { CancellationMinutesRefComponent } from './cancellation-minutes-ref/cancellation-minutes-ref.component';
-// import { CancellationProfileListComponent } from './cancellation-profile-list/cancellation-profile-list.component';
 import { ph2Component } from './ph2.component';
-// import { CancellationMinutesComponent } from './cancellation-minutes/cancellation-minutes.component';
+import { HandoverMinutesComponent } from './handover-minutes/handover-minutes.component';
 
 
 @NgModule({
   declarations: [
     ph2Component,
-    // CancellationMinutesComponent,
-    // CancellationProfileListComponent,
-    // CancellationMinutesComponent
+    HandoverMinutesComponent,
+    
   ],
   imports: [
     SharedModule,

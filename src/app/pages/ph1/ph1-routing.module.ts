@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ProfileRefComponent } from './profile-ref/profile-ref.component';
 import { ph1Component } from './ph1.component';
-import { ProfileComponent } from './profile/profile.component';
 const routes: Routes = [
   {
     path:'',
     component: ph1Component,
     children:[
-      {path:'qlhsdcl', component: ProfileComponent},
+       {path:'', component: ProfileRefComponent},
     ],
     
   },

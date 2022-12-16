@@ -1,19 +1,19 @@
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
-import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
-import { Item, ProfileRef } from 'src/app/@core/data/listData';
+import { Subscription } from 'rxjs';
+// import { Item, Users } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-@Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
-})
-export class ProfileComponent implements OnInit {
-
-  filterProfileRefShow = false;
+// @Component({
+//   selector: 'app-users-ref',
+//   templateUrl: './users-ref.component.html',
+//   styleUrls: ['./users-ref.component.scss']
+// })
+export class UsersRefComponent implements OnInit {
+  filterUserShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -36,30 +36,39 @@ export class ProfileComponent implements OnInit {
       id : 1
     }
   ];
+  value = [
+    {
+      name : 'Nam',
+      id : 0
+    },
+    {
+      name : 'Nữ',
+      id : 1
+    }
+  ];
+
   numberValue = 0;
 
-  newProfileRef  = {
-    // profile_rcd: "",
-    // staff_rcd: "",
-    profile_rcd: "",
-    profile_code: "",
-    profile_number: "",
-    profile_type_rcd: "",
-    profile_box_rcd: "",
-    phong_rcd: "",
-    archives_rcd: "",
-    duration_storage_rcd: "",
-    agency_issued_ref: "",
-    profile_name: "",
-    from_date: "",
-    to_date: "",
-    number_of_pager: "",
-    profile_note: "",
-    cancellation_reason: "",
-    is_digital_profile: "",
-    status: "",
-    sort_order: "",
-    active_flag: "",
+  newUser  = {
+    user_rcd: "",
+    user_code: "",
+    full_name: "",
+     gender:"",
+     date_of_birth:"",
+     email:"",
+     phone_number:"",
+     address:"",
+     user_name:"",
+     pass_word:"",   
+    user_note_e: "",
+    user_note_l: "",
+    sort_order:1,
+    active_flag: 0,
+    created_by_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    created_date_time: "2022-12-07T03:08:56.885Z",
+    lu_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    lu_updated: "2022-12-07T10:09:11.1174229+07:00"
+    
   };
 
   searchForm: {
@@ -74,27 +83,51 @@ export class ProfileComponent implements OnInit {
 
   tableWidthConfig: TableWidthConfig[] = [
     {
-      field: 'profile_rcd',
-      width: '150px',
-    },  
-    {
-      field: 'profile_type_name',
-      width: '100px',
-    },
-    {
-      field: 'profile_box_name',
+      field: 'user_rcd',
       width: '150px',
     },
     {
-      field: 'phong_name',
+      field: 'user_code',
+      width: '150px',
+    },
+    {
+      field: 'full_name',
+      width: '150px',
+    },
+    {
+      field: 'gender',
+      width: '50px',
+    },
+    {
+      field: 'date_of_birth',
       width: '100px',
     },
     {
-      field: 'from_date',
+      field: 'email',
       width: '100px',
     },
     {
-      field: 'to_date',
+      field: 'phone_number',
+      width: '100px',
+    },
+    {
+      field: 'address',
+      width: '100px',
+    },
+    {
+      field: 'user_name',
+      width: '100px',
+    },
+    {
+      field: 'pass_word',
+      width: '100px',
+    },
+    {
+      field: 'user_note_e',
+      width: '100px',
+    },
+    {
+      field: 'user_note_l',
       width: '100px',
     },
     {
@@ -107,30 +140,66 @@ export class ProfileComponent implements OnInit {
     },
   ];
 
-  basicDataSource: ProfileRef[] = [];
+//   basicDataSource: Users[] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
+      // {
+      //   label: 'Mã người dùng',
+      //   prop: 'user_rcd',
+      //   type: 'input',
+      //   primary: true,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
+      // {
+      //   label: 'Mã người dùng',
+      //   prop: 'user_code',
+      //   type: 'input',
+      //   primary: false,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
       {
-        label: 'Mã hồ sơ',
-        prop: 'profile_rcd',
+        label: 'Tên người dùng',
+        prop: 'full_name',
         type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },    
-      {
-        label: 'Tên loại hồ sơ',
-        prop: 'profile_type_name',
         primary: false,
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
+      },
+      {
+        label: 'Giới tính',
+        prop: 'gender',
+        type: 'select-object',
+        options: this.value,
+      },
+     
+      {
+        label: 'Ngày sinh',
+        prop: 'date_of_birth',
+        type: 'datePicker',
+      },
+      {
+        label: 'Email',
+        prop: 'email',
         type: 'input',
       },
       {
-        label: 'Tên hộp',
-        prop: 'profile_box_name',
+        label: 'Địa chỉ',
+        prop: 'address',
+        type: 'input',
+      },
+      {
+        label: 'Username',
+        prop: 'user_name',
         type: 'input',
         primary: false,
         required: true,
@@ -139,28 +208,18 @@ export class ProfileComponent implements OnInit {
         },
       },
       {
-        label: 'Tên phòng',
-        prop: 'phong_name',
+        label: 'Password',
+        prop: 'pass_word',
         type: 'input',
-        primary: true,
+        primary: false,
         required: true,
         rule: {
           validators: [{ required: true }],
         },
       },
       {
-        label:'Ngày đến',
-        prop: 'from_date',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Ngày đi',
-        prop: 'to_date',
+        label: 'Ghi chú',
+        prop: 'user_note_l',
         type: 'input',
       },
       {
@@ -186,10 +245,23 @@ export class ProfileComponent implements OnInit {
 
   editRowIndex = -1;
 
-  lstProfileTypeRef : any;
+
 
   _search = {
-    keyword: ''
+    lang: 'l',
+     user_rcd: "",
+    user_code: "",
+    full_name: "",
+     gender:"",
+     date_of_birth:"",
+     email:"",
+     phone_number:"",
+     address:"",
+     user_name:"",
+     pass_word:"",   
+    user_note_e: "",
+    user_note_l: "",
+
   };
 
   pager = {
@@ -198,40 +270,36 @@ export class ProfileComponent implements OnInit {
     pageSize: 10,
   };
 
-  // busy: any;
   busy: Subscription;
 
   @ViewChild('EditorTemplate', { static: true })
-  // EditorTemplate: any;
   EditorTemplate: TemplateRef<any>;
 
-  constructor(private listDataService: ListDataService, private dialogService: DialogService,
-     private cdr: ChangeDetectorRef,private api: ApiService ) {}
+  constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService ) {}
 
   ngOnInit() {
     this.getList();
-    // this.getcancellation_minutes();
+    
   }
-
   search() {
     this.getList();
   }
 
   getList() {
-    this.api.post("api/manager/ProfileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_rcd : this._search.keyword}).subscribe((res:any) => {
+    const searchBody = {
+      page: this.pager.pageIndex,
+      pageSize: this.pager.pageSize,
+      ...this._search
+    }
+
+    this.api.post("api/manager/UserRef/Search", searchBody).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
-      this.basicDataSource = a.data;
+    //   this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
     });
   }
 
-  getProfileTypeRef() {
-    this.api.post("api/manager/ProfileTypeRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.lstProfileTypeRef = a.data;
-      console.log(this.lstProfileTypeRef);
-    });
-  }
+  
 
   editRow(row: any, index: number) {
     this.insert = false;
@@ -252,7 +320,7 @@ export class ProfileComponent implements OnInit {
 
   addRow() {
     this.insert = true;
-    this.formData = this.newProfileRef;
+    this.formData = this.newUser;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
@@ -271,7 +339,7 @@ export class ProfileComponent implements OnInit {
       id: 'delete-dialog',
       width: '346px',
       maxHeight: '600px',
-      title: 'Xóa biên bản hủy',
+      title: 'Xóa người dùng',
       showAnimate: false,
       content: 'Bạn có chắc chắn muốn xóa?',
       backdropCloseable: true,
@@ -282,7 +350,7 @@ export class ProfileComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/ProfileRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/UserRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
               
@@ -323,26 +391,50 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmitted(e: any) {
+    console.log(this.insert);
+    console.log(1);
+    
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      // e.cancellation_minutes_group = 1;
-      // e.cancellation_minutes_name_l = e.cancellation_minutes_name;
-      // e.cancellation_minutes_name_e = e.cancellation_minutes_name;
-      // e.cancellation_minutes_note_l = e.cancellation_minutes_note;
-      // e.cancellation_minutes_note_e = e.cancellation_minutes_note;
-      // this.api.post("api/manager/ProfileRef/Create",{...e}).subscribe((res:any) => {
-      //   let a = JSON.parse(JSON.stringify(res));
-      //   this.getList();
-      // });
+      e.user_rcd=e.user_rcd;
+      e.user_code=e.user_code;
+      e.full_name = e.full_name;   
+      e.gender=e.gender;
+      e.date_of_birth=e.date_of_birth;
+      e.email=e.email;
+      e.phone_number=e.phone_number;
+      e.address=e.address;
+      e.user_name=e.user_name;
+      e.pass_word=e.pass_word;
+      e.user_note_l = e.user_note_l;
+       
+      console.log({...e})
+
+      this.api.post("api/manager/UserRef/Create",{...e}).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        console.log(a);
+        this.getList();
+        alert("Thêm thành công!");
+      });
+      console.log(e);
     }
     else {
-      // e.cancellation_minutes_name_l = e.cancellation_minutes_name;
-      // e.cancellation_minutes_name_e = e.cancellation_minutes_name;
-      e.profile_note_l = e.profile_note_l;
-      e.profile_note_e = e.profile_note_e;
-      this.api.post("api/manager/ProfileRef/Update",{...e}).subscribe((res:any) => {
+      e.full_name = e.full_name;   
+      e.gender=e.gender;
+      e.date_of_birth=e.date_of_birth;
+      e.email=e.email;
+      e.phone_number=e.phone_number;
+      e.address=e.address;
+      e.user_name=e.user_name;
+      e.pass_word=e.pass_word;
+      e.user_note_l = e.user_note_l;
+     
+      console.log(e);
+      this.api.post("api/manager/UserRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
+        
         this.getList();
+        alert("Sửa thành công!");
       });
       console.log(e);
 
@@ -353,5 +445,4 @@ export class ProfileComponent implements OnInit {
     this.editForm!.modalInstance.hide();
     this.editRowIndex = -1;
   }
-
 }

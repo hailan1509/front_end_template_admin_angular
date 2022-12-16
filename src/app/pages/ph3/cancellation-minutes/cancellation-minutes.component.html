@@ -19,13 +19,18 @@
           <div class="da-list-header">
             <div class="da-common-search">
               <div class="da-left">
-                <d-search
+                <!-- <d-search
                     [size]="'sm'"
                     (searchFn)="getList()"
                     [(ngModel)]="_search.keyword"
                     class="da-inline"
                     [placeholder]="'Tìm tên biên bản hủy'"
-                  ></d-search>
+                  ></d-search> -->
+                  <d-search [size]="'sm'" (searchFn)="getList()" 
+                  [(ngModel)]="_search.cancellation_minutes_name" 
+                  class="da-inline" 
+                  [placeholder]="'Tìm tên người dùng'">
+                </d-search>
                   <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
                   <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
               </div>

@@ -2,19 +2,19 @@ import { ChangeDetectorRef, Component, OnInit,TemplateRef, ViewChild } from '@an
 import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
-import { Item, CancellationMinutesRef } from 'src/app/@core/data/listData';
+import { Item, HandoverMinutesRef } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
-  selector: 'app-cancellation-minutes',
-  templateUrl: './cancellation-minutes.component.html',
-  styleUrls: ['./cancellation-minutes.component.scss']
+  selector: 'app-handover-minutes',
+  templateUrl: './handover-minutes.component.html',
+  styleUrls: ['./handover-minutes.component.scss']
 })
-export class CancellationMinutesComponent implements OnInit {
+export class HandoverMinutesComponent implements OnInit {
 
 
-  filterCancellationMinutesRefShow = false;
+  filterhandoverMinutesRefShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -39,32 +39,31 @@ export class CancellationMinutesComponent implements OnInit {
   ];
   numberValue = 0;
 
-  newCancellationMinutesRef  = {
-    cancellation_minutes_rcd: "",
+  newHandoverMinutesRef  = {
+    handover_minutes_rcd: "",
     staff_rcd: "",
+    profile_rcd: "",
+    handover_minutes_name_l: "",
+    handover_minutes_name: "",
+    handover_minutes_name_e: "",
     staff_name_l: "",
     staff_name: "",
+    profile_name_e: "",
+    profile_name_l: "",
+    profile_name: "",
     staff_name_e: "",
-    cancellation_minutes_number: "",
-    decision_number: "",
-    content: "",
     place: "",
-    cancellation_method: "",
-    time_destroy: "",
-    cancellation_minutes_note_l: "",
-    cancellation_minutes_note: "",
-    cancellation_minutes_note_e: "",
-    attached_file: "",
-    status: "",
-    comment: "",
+    reason: "",
     sort_order: 1,
+    handover_minutes_note_l: "",
+    handover_minutes_note: "",
+    handover_minutes_note_e: "",
     active_flag: 0,
     created_by_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    // created_by_user_id: "",
     created_date_time: "",
     lu_updated: "",
     lu_user_id: "",
-    // cancellation_minutes_group: 1,
+    // handover_minutes_group: 1,
   };
 
   searchForm: {
@@ -78,32 +77,29 @@ export class CancellationMinutesComponent implements OnInit {
   };
 
   tableWidthConfig: TableWidthConfig[] = [
-    {
-      field: 'cancellation_minutes_rcd',
-      width: '150px',
-    },  
+    // {
+    //   field: 'handover_minutes_rcd',
+    //   width: '150px',
+    // },  
     {
       field: 'staff_name',
       width: '100px',
     },
     {
-      field: 'user_name',
-      width: '100px',
-    },
-    {
-      field: 'number_of_cancellations',
+      field: 'profile_name',
       width: '150px',
     },
+    // {
+    //   field: 'profile_name',
+    //   width: '150px',
+    // },
+
+    // {
+    //   field: 'handover_minutes_note',
+    //   width: '150px',
+    // },
     {
-      field: 'cancellation_minutes_number',
-      width: '150px',
-    },
-    {
-      field: 'decision_number',
-      width: '100px',
-    },
-    {
-      field: 'content',
+      field: 'reason',
       width: '100px',
     },
     {
@@ -111,31 +107,11 @@ export class CancellationMinutesComponent implements OnInit {
       width: '100px',
     },
     {
-      field: 'cancellation_method',
-      width: '100px',
-    },
-    {
-      field: 'time_destroy',
-      width: '100px',
-    },
-    {
       field: 'attached_file',
       width: '150px',
     },
     {
-      field: 'cancellation_minutes_note_e',
-      width: '100px',
-    },
-    {
-      field: 'cancellation_minutes_note_l',
-      width: '100px',
-    },
-    {
-      field: 'status',
-      width: '100px',
-    },
-    {
-      field: 'comment',
+      field: 'handover_minutes_note',
       width: '100px',
     },
     {
@@ -148,36 +124,36 @@ export class CancellationMinutesComponent implements OnInit {
     },
   ];
 
-  basicDataSource: CancellationMinutesRef[] = [];
+  basicDataSource: HandoverMinutesRef[] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
+      // {
+      //   label: 'Mã biên bản bàn giao',
+      //   prop: 'handover_minutes_rcd',
+      //   type: 'input',
+      //   primary: true,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },    
       {
-        label: 'Mã biên bản hủy',
-        prop: 'cancellation_minutes_rcd',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },    
-      {
-        label: 'Tên nhân viên',
+        label: 'Tên nhân viên bàn giao',
         prop: 'staff_name',
         primary: false,
         type: 'input',
       },
       {
-        label: 'Tên người dùng',
-        prop: 'staff_name',
+        label: 'Tên hồ sơ bàn giao',
+        prop: 'profile_name',
         primary: false,
         type: 'input',
       },
       {
-        label: 'Số lượng hủy',
-        prop: 'number_of_cancellations',
+        label: 'Địa điểm',
+        prop: 'place',
         type: 'input',
         primary: false,
         required: true,
@@ -186,8 +162,8 @@ export class CancellationMinutesComponent implements OnInit {
         },
       },
       {
-        label: 'Số kí hiệu biên bản',
-        prop: 'cancellation_minutes_number',
+        label: 'Địa điểm',
+        prop: 'place',
         type: 'input',
         primary: false,
         required: true,
@@ -195,16 +171,16 @@ export class CancellationMinutesComponent implements OnInit {
           validators: [{ required: true }],
         },
       },
-      {
-        label: 'Số quyết định hủy',
-        prop: 'decision_number',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
+      // {
+      //   label: 'Số kí hiệu biên bản',
+      //   prop: 'handover_minutes_number',
+      //   type: 'input',
+      //   primary: false,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
       {
         label: 'Nội dung',
         prop: 'content',
@@ -215,26 +191,16 @@ export class CancellationMinutesComponent implements OnInit {
           validators: [{ required: true }],
         },
       },
-      {
-        label: 'Địa điểm',
-        prop: 'place',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Phương pháp hủy',
-        prop: 'cancellation_method',
-        type: 'input',
-      },
-      {
-        label: 'Thời gian hủy',
-        prop: 'time_destroy',
-        type: 'input',
-      },
+      // {
+      //   label: 'Địa điểm',
+      //   prop: 'place',
+      //   type: 'input',
+      //   primary: true,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
       {
         label: 'Tệp đính kèm',
         prop: 'attached_file',
@@ -247,25 +213,9 @@ export class CancellationMinutesComponent implements OnInit {
       },
       {
         label: 'Ghi chú',
-        prop: 'cancellation_minutes_note_e',
+        prop: 'handover_minutes_note',
         type: 'input',
       },
-      {
-        label: 'Ghi chú',
-        prop: 'cancellation_minutes_note_l',
-        type: 'input',
-      },
-      {
-        label: 'Trạng thái',
-        prop: 'status',
-        type: 'input',
-      },
-      {
-        label: 'Ý kiến phê duyệt hoặc từ chối',
-        prop: 'comment',
-        type: 'input',
-      },
-      
       {
         label: 'Trạng thái',
         prop: 'active_flag',
@@ -290,26 +240,15 @@ export class CancellationMinutesComponent implements OnInit {
   editRowIndex = -1;
 
   lstStaffRef : any;
-  lstUsersfRef : any;
 
   _search = {
     lang: 'l',
-    cancellation_minutes_rcd: "",
+    handover_minutes_rcd: "",
     staff_rcd: "",
-    user_rcd: "",
-    cancellation_minutes_number:"",
-    decision_number:"",
-    number_of_cancellations:"",
-    content:"",
-    place:"",
-    cancellation_method:"",
-    time_destroy:"",
-    attached_file:"",
-    status:"",
-    comment:"",
-    cancellation_minutes_name:"",
-    cancellation_minutes_note_e:"",
-    cancellation_minutes_note_l:"",
+    profile_rcd:"",
+    handover_minutes_name:"",
+    handover_minutes_note:"",
+    keyword:""
   };
 
   pager = {
@@ -329,21 +268,21 @@ export class CancellationMinutesComponent implements OnInit {
 
   ngOnInit() {
     this.getList();
-    // this.getcancellation_minutes();
+    // this.gethandover_minutes();
   }
 
   search() {
     this.getList();
   }
 
+
   getList() {
-    
     const searchBody = {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
       ...this._search
     }
-      this.api.post("api/manager/CancellationMinutesRef/Search",searchBody).subscribe((res:any) => {
+    this.api.post("api/manager/HandoverMinutesRef/Search",searchBody).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -351,13 +290,6 @@ export class CancellationMinutesComponent implements OnInit {
   }
 
   getStaffRef() {
-    this.api.post("api/manager/UsersRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.lstUsersfRef = a.data;
-      console.log(this.lstUsersfRef);
-    });
-  }
-  getUsersfRef() {
     this.api.post("api/manager/StaffRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.lstStaffRef = a.data;
@@ -384,7 +316,7 @@ export class CancellationMinutesComponent implements OnInit {
 
   addRow() {
     this.insert = true;
-    this.formData = this.newCancellationMinutesRef;
+    this.formData = this.newHandoverMinutesRef;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
@@ -414,7 +346,7 @@ export class CancellationMinutesComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/CancellationMinutesRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/HandoverMinutesRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
               
@@ -455,16 +387,14 @@ export class CancellationMinutesComponent implements OnInit {
   }
 
   onSubmitted(e: any) {
-    console.log(this.insert);
-    console.log(1);
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      // e.cancellation_minutes_group = 1;
-      e.cancellation_minutes_name_l = e.cancellation_minutes_name;
-      // e.cancellation_minutes_name_e = e.cancellation_minutes_name;
-      e.cancellation_minutes_note_l = e.cancellation_minutes_note;
-      // e.cancellation_minutes_note_e = e.cancellation_minutes_note;
-      // this.api.post("api/manager/CancellationMinutesRef/Create",{...e}).subscribe((res:any) => {
+      // e.handover_minutes_group = 1;
+       e.handover_minutes_name_l = e.handover_minutes_name;
+      // e.handover_minutes_name_e = e.handover_minutes_name;
+       e.handover_minutes_note_l = e.handover_minutes_note;
+      // e.handover_minutes_note_e = e.handover_minutes_note;
+      // this.api.post("api/manager/handoverMinutesRef/Create",{...e}).subscribe((res:any) => {
       //   let a = JSON.parse(JSON.stringify(res));
       //   this.getList();
       // });
@@ -479,13 +409,11 @@ export class CancellationMinutesComponent implements OnInit {
       console.log(e);
     }
     else {
-      // e.cancellation_minutes_name_l = e.cancellation_minutes_name;
-      // e.cancellation_minutes_name_e = e.cancellation_minutes_name;
-      e.cancellation_minutes_note_l = e.cancellation_minutes_note;
-      e.cancellation_minutes_note_e = e.cancellation_minutes_note;
-
-      console.log(e);
-      this.api.post("api/manager/CancellationMinutesRef/Update",{...e}).subscribe((res:any) => {
+      // e.handover_minutes_name_l = e.handover_minutes_name;
+      // e.handover_minutes_name_e = e.handover_minutes_name;
+      e.handover_minutes_note_l = e.handover_minutes_note;
+      e.handover_minutes_note_e = e.handover_minutes_note;
+      this.api.post("api/manager/HandoverMinutesRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.getList();
         alert("Sửa thành công!");
