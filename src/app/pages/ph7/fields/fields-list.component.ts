@@ -7,12 +7,12 @@ import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
-  selector: 'da-fields-list',
+  selector: 'app-fields-list',
   templateUrl: './fields-list.component.html',
   styleUrls: ['./fields-list.component.scss'],
 })
 export class FieldsListComponent implements OnInit {
-  filterFieldsShow = true;
+  filterFieldsShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -48,10 +48,10 @@ export class FieldsListComponent implements OnInit {
     fields_note_e: "",
     sort_order: 1,
     active_flag: 0,
-    created_by_user_id: "",
-    created_date_time: "",
-    lu_updated: "",
-    lu_user_id: "",
+    created_by_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    created_date_time: "2022-12-07T03:08:56.885Z",
+    lu_updated: "00000000-0000-0000-0000-000000000000",
+    lu_user_id: "2022-12-07T10:09:11.1174229+07:00",
   };
 
   searchForm: {
@@ -70,11 +70,19 @@ export class FieldsListComponent implements OnInit {
       width: '150px',
     },
     {
-      field: 'fields_name',
+      field: 'fields_name_e',
       width: '150px',
     },
     {
-      field: 'fields_note',
+      field: 'fields_name_l',
+      width: '150px',
+    },
+    {
+      field: 'fields_note_e',
+      width: '100px',
+    },
+    {
+      field: 'fields_note_l',
       width: '100px',
     },
     {
@@ -87,7 +95,7 @@ export class FieldsListComponent implements OnInit {
     },
   ];
 
-  fieldsDataSource: Fields[] = [];
+  basicDataSource: Fields[] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
@@ -104,7 +112,7 @@ export class FieldsListComponent implements OnInit {
       },
       {
         label: 'Tên lĩnh vực',
-        prop: 'fields_name',
+        prop: 'fields_name_l',
         type: 'input',
         primary: false,
         required: true,
@@ -114,7 +122,7 @@ export class FieldsListComponent implements OnInit {
       },
       {
         label: 'Ghi chú',
-        prop: 'fields_note',
+        prop: 'fields_note_l',
         type: 'input',
       },
       {
@@ -155,7 +163,6 @@ export class FieldsListComponent implements OnInit {
   busy: Subscription;
 
   @ViewChild('EditorTemplate', { static: true })
-basicDataSource: any[];
   EditorTemplate: TemplateRef<any>;
 
   constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService ) {}
@@ -172,7 +179,7 @@ basicDataSource: any[];
   getList() {
     this.api.post("api/manager/FieldsRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , fields_name : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
-      this.fieldsDataSource = a.data;
+      this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
     });
   }

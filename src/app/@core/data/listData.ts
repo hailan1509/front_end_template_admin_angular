@@ -27,8 +27,11 @@ export interface Area {
 
 export interface Fields {
   fields_rcd?: number;
-  fields_name?: string;
-  fields_note?: string;
+  fields_name_e?: string; 
+  fields_name_l?: string;
+  sort_order?:number;
+  fields_note_e?: string; 
+  fields_note_l?: string;
   active_flag?: number;
 }
 

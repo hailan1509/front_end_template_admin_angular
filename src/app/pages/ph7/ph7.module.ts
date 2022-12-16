@@ -22,6 +22,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     PH7RoutingModule,
+
+    
     SharedModule,
     FormsModule,
     PaginationModule,
