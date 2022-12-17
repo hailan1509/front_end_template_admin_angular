@@ -1,29 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/@shared/shared.module';
 
 import { PH7RoutingModule } from './ph7-routing.module';
-import { PH7Component } from './ph7.component';
-import { FieldsListComponent } from './fields/fields-list.component';
-import { SharedModule } from 'src/app/@shared/shared.module';
+import { FieldsRefComponent } from './fields-ref/fields-ref.component';
 import {
   DatepickerModule,
   InputNumberModule,
   PaginationModule,
   TooltipModule,
 } from 'ng-devui';
-import { AdminFormModule } from 'src/app/@shared/components/admin-form/admin-form.module';
 import { FormsModule } from '@angular/forms';
+import { AdminFormModule } from 'src/app/@shared/components/admin-form';
+import { ph7Component } from './ph7.component';
+
 
 @NgModule({
   declarations: [
-    PH7Component,
-    FieldsListComponent,
+    FieldsRefComponent,
+    ph7Component,
+
   ],
   imports: [
     CommonModule,
     PH7RoutingModule,
 
-    
     SharedModule,
     FormsModule,
     PaginationModule,
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
     InputNumberModule,
     DatepickerModule,
     TooltipModule,
+
   ]
 })
 export class PH7Module { }

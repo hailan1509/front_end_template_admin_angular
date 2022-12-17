@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FieldsRefComponent } from './fields-ref/fields-ref.component';
+import { ph7Component } from './ph7.component';
 
-
-import { FieldsListComponent } from './fields/fields-list.component';
-import { PH7Component } from './ph7.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: PH7Component,
+    component: ph7Component,
     children: [
-      { path: 'qllv', component: FieldsListComponent },
-
+      { path: 'qllv', component: FieldsRefComponent },
 
     ],
-  }
+  },
 ];
 
 @NgModule({

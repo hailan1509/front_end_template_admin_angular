@@ -7,11 +7,11 @@ import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
-  selector: 'da-linhvuc',
-  templateUrl: './linhvuc.component.html',
-  styleUrls: ['./linhvuc.component.scss']
+  selector: 'app-fields-ref',
+  templateUrl: './fields-ref.component.html',
+  styleUrls: ['./fields-ref.component.scss']
 })
-export class LinhvucComponent implements OnInit {
+export class FieldsRefComponent implements OnInit {
 
   filterFieldsShow = false;
 
@@ -38,20 +38,20 @@ export class LinhvucComponent implements OnInit {
   ];
   numberValue = 0;
 
-  newFields = {
+  newFields  = {
     fields_rcd: "",
-    fields_name_l: "",
-    fields_name: "",
+    
     fields_name_e: "",
-    fields_note_l: "",
-    fields_note: "",
-    fields_note_e: "",
+    fields_name_l: "", 
     sort_order: 1,
+    fields_note_e: "",
+    fields_note_l: "",
     active_flag: 0,
     created_by_user_id: "",
     created_date_time: "",
-    lu_updated: "",
     lu_user_id: "",
+    lu_updated: ""
+    
   };
 
   searchForm: {
@@ -69,12 +69,21 @@ export class LinhvucComponent implements OnInit {
       field: 'fields_rcd',
       width: '150px',
     },
+    
     {
-      field: 'fields_name',
+      field: 'fields_name_e',
       width: '150px',
     },
     {
-      field: 'fields_note',
+      field: 'fields_name_l',
+      width: '150px',
+    },
+    {
+      field: 'fields_note_e',
+      width: '100px',
+    },
+    {
+      field: 'fields_note_l',
       width: '100px',
     },
     {
@@ -94,7 +103,7 @@ export class LinhvucComponent implements OnInit {
     items: [
       {
         label: 'Mã lĩnh vực',
-        prop: 'fields_rcd',
+        prop: 'fileds_rcd',
         type: 'input',
         primary: true,
         required: true,
@@ -102,9 +111,10 @@ export class LinhvucComponent implements OnInit {
           validators: [{ required: true }],
         },
       },
+      
       {
         label: 'Tên lĩnh vực',
-        prop: 'fields_name',
+        prop: 'fields_name_l',
         type: 'input',
         primary: false,
         required: true,
@@ -112,9 +122,10 @@ export class LinhvucComponent implements OnInit {
           validators: [{ required: true }],
         },
       },
+      
       {
         label: 'Ghi chú',
-        prop: 'fields_note',
+        prop: 'fields_note_l',
         type: 'input',
       },
       {
@@ -140,7 +151,7 @@ export class LinhvucComponent implements OnInit {
 
   editRowIndex = -1;
 
-  lstFields : any;
+
 
   _search = {
     keyword: ''
@@ -161,7 +172,7 @@ export class LinhvucComponent implements OnInit {
 
   ngOnInit() {
     this.getList();
-    // this.getFields();
+    
   }
 
   search() {
@@ -176,13 +187,7 @@ export class LinhvucComponent implements OnInit {
     });
   }
 
-  getFields() {
-    this.api.post("api/manager/FieldsRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.lstFields = a.data;
-      console.log(this.lstFields);
-    });
-  }
+  
 
   editRow(row: any, index: number) {
     this.insert = false;
@@ -276,24 +281,33 @@ export class LinhvucComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      // e.fields_group = 1;
-      // e.fields_name_l = e.fields_name;
-      // e.fields_name_e = e.fields_name;
-      // e.fields_note_l = e.fields_note;
-      // e.fields_note_e = e.fields_note;
-      // this.api.post("api/manager/fieldsRef/Create",{...e}).subscribe((res:any) => {
-      //   let a = JSON.parse(JSON.stringify(res));
-      //   this.getList();
-      // });
+      e.fields_rcd=e.fields_rcd;
+      
+      e.fields_name_e = e.fields_name_e;
+      e.fields_name_l = e.fields_name_l;
+      e.fields_note_e = e.fields_note_e;
+      e.fields_note_l = e.fields_note_l;
+
+      this.api.post("api/manager/FieldsRef/Create",{...e}).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        console.log(a);
+        this.getList();
+        alert("Thêm thành công!");
+      });
+      console.log(e);
     }
     else {
-      e.fields_name_l = e.fields_name;
-      e.fields_name_e = e.fields_name;
-      e.fields_note_l = e.fields_note;
-      e.fields_note_e = e.fields_note;
+      e.fields_name_e = e.fields_name_e;
+      e.fields_name_l = e.fields_name_l;
+      e.fields_note_e = e.fields_note_e;
+      e.fields_note_l = e.fields_note_l;
+     
+      console.log(e);
       this.api.post("api/manager/FieldsRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
+        console.log(a);
         this.getList();
+        alert("Sửa thành công!");
       });
       console.log(e);
 

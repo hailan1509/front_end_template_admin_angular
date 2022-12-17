@@ -50,7 +50,7 @@ const routes: Routes = [
           import('./ph6/ph6.module').then((m) => m.PH6Module),
       },
       {
-        path: 'ph7',
+        path: 'PH7',
         loadChildren: () =>
           import('./ph7/ph7.module').then((m) => m.PH7Module),
       },
