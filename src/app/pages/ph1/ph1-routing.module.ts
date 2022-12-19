@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HscclComponent } from './hsccl/hsccl.component';
 import { ph1Component } from './ph1.component';
 import { ProfileRefComponent } from './profile-ref/profile-ref.component';
 
@@ -9,6 +10,7 @@ const routes: Routes = [
     component: ph1Component,
     children: [
       { path: 'qlhsdcl', component: ProfileRefComponent },
+      { path: 'qlhsccl', component: HscclComponent },
     ],
   },
 ];
