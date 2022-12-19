@@ -2,18 +2,18 @@ import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@a
 import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
 import { ApiService } from 'src/app/api.service';
 import { Subscription } from 'rxjs';
-import { Item, Fields } from 'src/app/@core/data/listData';
+import { Item, MiningBook } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
-  selector: 'app-fields-ref',
-  templateUrl: './fields-ref.component.html',
-  styleUrls: ['./fields-ref.component.scss']
+  selector: 'app-mining-book-ref',
+  templateUrl: './mining-book-ref.component.html',
+  styleUrls: ['./mining-book-ref.component.scss']
 })
-export class FieldsRefComponent implements OnInit {
+export class MiningBookRefComponent implements OnInit {
 
-  filterFieldsShow = false;
+  filterMiningBookShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -38,14 +38,14 @@ export class FieldsRefComponent implements OnInit {
   ];
   numberValue = 0;
 
-  newFields  = {
-    fields_rcd: "",
+  newMiningBook  = {
+    mining_book_rcd: "",
     
-    fields_name_e: "",
-    fields_name_l: "", 
+    mining_book_name_e: "",
+    mining_book_name_l: "", 
     sort_order: 1,
-    fields_note_e: "",
-    fields_note_l: "",
+    mining_book_note_e: "",
+    mining_book_note_l: "",
     active_flag: 0,
     created_by_user_id: "",
     created_date_time: "",
@@ -66,24 +66,24 @@ export class FieldsRefComponent implements OnInit {
 
   tableWidthConfig: TableWidthConfig[] = [
     {
-      field: 'fields_rcd',
+      field: 'mining_book_rcd',
       width: '150px',
     },
     
     {
-      field: 'fields_name_e',
+      field: 'mining_book_name_e',
       width: '150px',
     },
     {
-      field: 'fields_name_l',
+      field: 'mining_book_name_l',
       width: '150px',
     },
     {
-      field: 'fields_note_e',
+      field: 'mining_book_note_e',
       width: '100px',
     },
     {
-      field: 'fields_note_l',
+      field: 'mining_book_note_l',
       width: '100px',
     },
     {
@@ -96,14 +96,14 @@ export class FieldsRefComponent implements OnInit {
     },
   ];
 
-  basicDataSource: Fields[] = [];
+  basicDataSource: MiningBook[] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
       {
-        label: 'Mã lĩnh vực',
-        prop: 'fields_rcd',
+        label: 'Mã sổ khai thác',
+        prop: 'mining_book_rcd',
         type: 'input',
         primary: true,
         required: true,
@@ -113,8 +113,8 @@ export class FieldsRefComponent implements OnInit {
       },
       
       {
-        label: 'Tên lĩnh vực',
-        prop: 'fields_name_l',
+        label: 'Tên sổ khai thác',
+        prop: 'mining_book_name_l',
         type: 'input',
         primary: false,
         required: true,
@@ -125,7 +125,7 @@ export class FieldsRefComponent implements OnInit {
       
       {
         label: 'Ghi chú',
-        prop: 'fields_note_l',
+        prop: 'mining_book_note_l',
         type: 'input',
       },
       {
@@ -180,7 +180,7 @@ export class FieldsRefComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/FieldsRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , fields_name_l : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/MiningBookRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , mining_book_name_l : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -208,12 +208,12 @@ export class FieldsRefComponent implements OnInit {
 
   addRow() {
     this.insert = true;
-    this.formData = this.newFields;
+    this.formData = this.newMiningBook;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
       maxHeight: '600px',
-      title: 'Thêm lĩnh vực',
+      title: 'Thêm sổ khai thác',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
       backdropCloseable: true,
@@ -227,7 +227,7 @@ export class FieldsRefComponent implements OnInit {
       id: 'delete-dialog',
       width: '346px',
       maxHeight: '600px',
-      title: 'Xóa lĩnh vực',
+      title: 'Xóa sổ khai thác',
       showAnimate: false,
       content: 'Bạn có chắc chắn muốn xóa?',
       backdropCloseable: true,
@@ -238,7 +238,7 @@ export class FieldsRefComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/FieldsRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/MiningBookRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
               
@@ -281,14 +281,14 @@ export class FieldsRefComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.fields_rcd=e.fields_rcd;
+      e.mining_book_rcd=e.mining_book_rcd;
       
-      e.fields_name_e = e.fields_name_e;
-      e.fields_name_l = e.fields_name_l;
-      e.fields_note_e = e.fields_note_e;
-      e.fields_note_l = e.fields_note_l;
+      e.mining_book_name_e = e.mining_book_name_e;
+      e.mining_book_name_l = e.mining_book_name_l;
+      e.mining_book_note_e = e.mining_book_note_e;
+      e.mining_book_note_l = e.mining_book_note_l;
 
-      this.api.post("api/manager/FieldsRef/Create",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/MiningBookRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         console.log(a);
         this.getList();
@@ -298,13 +298,13 @@ export class FieldsRefComponent implements OnInit {
     }
     else {
       
-      e.fields_name_e = e.fields_name_e;
-      e.fields_name_l = e.fields_name_l;
-      e.fields_note_e = e.fields_note_e;
-      e.fields_note_l = e.fields_note_l;
+      e.mining_book_name_e = e.mining_book_name_e;
+      e.mining_book_name_l = e.mining_book_name_l;
+      e.mining_book_note_e = e.mining_book_note_e;
+      e.mining_book_note_l = e.mining_book_note_l;
      
       console.log(e);
-      this.api.post("api/manager/FieldsRef/Update",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/MiningBookRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         console.log(a);
         this.getList();

@@ -2,18 +2,18 @@ import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@a
 import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
 import { ApiService } from 'src/app/api.service';
 import { Subscription } from 'rxjs';
-import { Item, Fields } from 'src/app/@core/data/listData';
+import { Item, Confidentiality } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
-  selector: 'app-fields-ref',
-  templateUrl: './fields-ref.component.html',
-  styleUrls: ['./fields-ref.component.scss']
+  selector: 'app-confidentiality-ref',
+  templateUrl: './confidentiality-ref.component.html',
+  styleUrls: ['./confidentiality-ref.component.scss']
 })
-export class FieldsRefComponent implements OnInit {
+export class ConfidentialityRefComponent implements OnInit {
 
-  filterFieldsShow = false;
+  filterConfidentialityShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -38,14 +38,14 @@ export class FieldsRefComponent implements OnInit {
   ];
   numberValue = 0;
 
-  newFields  = {
-    fields_rcd: "",
+  newConfidentiality  = {
+    confidentiality_rcd: "",
     
-    fields_name_e: "",
-    fields_name_l: "", 
+    confidentiality_name_e: "",
+    confidentiality_name_l: "", 
     sort_order: 1,
-    fields_note_e: "",
-    fields_note_l: "",
+    confidentiality_note_e: "",
+    confidentiality_note_l: "",
     active_flag: 0,
     created_by_user_id: "",
     created_date_time: "",
@@ -66,24 +66,24 @@ export class FieldsRefComponent implements OnInit {
 
   tableWidthConfig: TableWidthConfig[] = [
     {
-      field: 'fields_rcd',
+      field: 'confidentiality_rcd',
       width: '150px',
     },
     
     {
-      field: 'fields_name_e',
+      field: 'confidentiality_name_e',
       width: '150px',
     },
     {
-      field: 'fields_name_l',
+      field: 'confidentiality_name_l',
       width: '150px',
     },
     {
-      field: 'fields_note_e',
+      field: 'confidentiality_note_e',
       width: '100px',
     },
     {
-      field: 'fields_note_l',
+      field: 'confidentiality_note_l',
       width: '100px',
     },
     {
@@ -96,14 +96,14 @@ export class FieldsRefComponent implements OnInit {
     },
   ];
 
-  basicDataSource: Fields[] = [];
+  basicDataSource: Confidentiality[] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
       {
-        label: 'Mã lĩnh vực',
-        prop: 'fields_rcd',
+        label: 'Mã độ mật',
+        prop: 'confidentiality_rcd',
         type: 'input',
         primary: true,
         required: true,
@@ -113,8 +113,8 @@ export class FieldsRefComponent implements OnInit {
       },
       
       {
-        label: 'Tên lĩnh vực',
-        prop: 'fields_name_l',
+        label: 'Tên độ mật',
+        prop: 'confidentiality_name_l',
         type: 'input',
         primary: false,
         required: true,
@@ -125,7 +125,7 @@ export class FieldsRefComponent implements OnInit {
       
       {
         label: 'Ghi chú',
-        prop: 'fields_note_l',
+        prop: 'confidentiality_note_l',
         type: 'input',
       },
       {
@@ -180,7 +180,7 @@ export class FieldsRefComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/FieldsRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , fields_name_l : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/ConfidentialityRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , confidentiality_name_l : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -208,12 +208,12 @@ export class FieldsRefComponent implements OnInit {
 
   addRow() {
     this.insert = true;
-    this.formData = this.newFields;
+    this.formData = this.newConfidentiality;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
       maxHeight: '600px',
-      title: 'Thêm lĩnh vực',
+      title: 'Thêm độ mật',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
       backdropCloseable: true,
@@ -227,7 +227,7 @@ export class FieldsRefComponent implements OnInit {
       id: 'delete-dialog',
       width: '346px',
       maxHeight: '600px',
-      title: 'Xóa lĩnh vực',
+      title: 'Xóa độ mật',
       showAnimate: false,
       content: 'Bạn có chắc chắn muốn xóa?',
       backdropCloseable: true,
@@ -238,7 +238,7 @@ export class FieldsRefComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/FieldsRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/ConfidentialityRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
               
@@ -281,14 +281,14 @@ export class FieldsRefComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.fields_rcd=e.fields_rcd;
+      e.confidentiality_rcd=e.confidentiality_rcd;
       
-      e.fields_name_e = e.fields_name_e;
-      e.fields_name_l = e.fields_name_l;
-      e.fields_note_e = e.fields_note_e;
-      e.fields_note_l = e.fields_note_l;
+      e.confidentiality_name_e = e.confidentiality_name_e;
+      e.confidentiality_name_l = e.confidentiality_name_l;
+      e.confidentiality_note_e = e.confidentiality_note_e;
+      e.confidentiality_note_l = e.confidentiality_note_l;
 
-      this.api.post("api/manager/FieldsRef/Create",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/ConfidentialityRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         console.log(a);
         this.getList();
@@ -298,13 +298,13 @@ export class FieldsRefComponent implements OnInit {
     }
     else {
       
-      e.fields_name_e = e.fields_name_e;
-      e.fields_name_l = e.fields_name_l;
-      e.fields_note_e = e.fields_note_e;
-      e.fields_note_l = e.fields_note_l;
+      e.confidentiality_name_e = e.confidentiality_name_e;
+      e.confidentiality_name_l = e.confidentiality_name_l;
+      e.confidentiality_note_e = e.confidentiality_note_e;
+      e.confidentiality_note_l = e.confidentiality_note_l;
      
       console.log(e);
-      this.api.post("api/manager/FieldsRef/Update",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/ConfidentialityRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         console.log(a);
         this.getList();

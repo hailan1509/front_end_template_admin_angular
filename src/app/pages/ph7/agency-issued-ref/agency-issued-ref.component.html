@@ -3,10 +3,10 @@
       <d-breadcrumb>
           <d-breadcrumb-item><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item>
           <d-breadcrumb-item>Quản lý</d-breadcrumb-item>
-          <d-breadcrumb-item>Quản lý lĩnh vực</d-breadcrumb-item>
+          <d-breadcrumb-item>Quản lý cơ quan ban hành</d-breadcrumb-item>
       </d-breadcrumb>
-      <div class="da-content-banner-title">Quản lý lĩnh vực</div>
-      <div>Danh sách lĩnh vực</div>
+      <div class="da-content-banner-title">Quản lý cơ quan ban hành</div>
+      <div>Danh sách cơ quan ban hành</div>
   </div>
   <div class="da-content-wrapper">
       <da-layout-row [daGutter]="[24, 24]">
@@ -15,7 +15,7 @@
                   <div class="da-list-header">
                       <div class="da-common-search">
                           <div class="da-left">
-                              <d-search [size]="'sm'" (searchFn)="getList()" [(ngModel)]="_search.keyword" class="da-inline" [placeholder]="'Tìm tên lĩnh vực'"></d-search>
+                              <d-search [size]="'sm'" (searchFn)="getList()" [(ngModel)]="_search.keyword" class="da-inline" [placeholder]="'Tìm tên cơ quan ban hành'"></d-search>
                               <d-button (click)="reset()" style="margin-left: 12px">Làm mới</d-button>
                               <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
                           </div>
@@ -33,14 +33,14 @@
                               </d-cell>
                           </d-column>
                           
-                          <d-column field="fields_rcd" header="Mã lĩnh vực" [width]="'100px'">
+                          <d-column field="fields_rcd" header="Mã cơ quan ban hành" [width]="'100px'">
                             <d-cell>
                               <ng-template let-cellItem="cellItem">
                                 {{ cellItem }}
                               </ng-template>
                             </d-cell>
                           </d-column>
-                          <d-column field="fields_name_l" header="Tên lĩnh vực" [width]="'300px'">
+                          <d-column field="fields_name_l" header="Tên cơ quan ban hành" [width]="'300px'">
                               <d-cell>
                                   <ng-template let-cellItem="cellItem">
                                       <span [title]="cellItem" class="over-flow-ellipsis" [style.width]="'300px'">
