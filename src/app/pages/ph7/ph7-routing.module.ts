@@ -10,6 +10,7 @@ import { DurationStorageRefComponent } from './duration-storage-ref/duration-sto
 import { PhysicalConditionRefComponent } from './physical-condition-ref/physical-condition-ref.component';
 import {MiningPurposeRefComponent } from './mining-purpose-ref/mining-purpose-ref.component';
 import {MiningBookRefComponent } from './mining-book-ref/mining-book-ref.component';
+import {DocumentTypeRefComponent } from './document-type-ref/document-type-ref.component';
 
 import { ph7Component } from './ph7.component';
 
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'qlttvl', component: PhysicalConditionRefComponent },
       { path: 'qlmdkt', component: MiningPurposeRefComponent },
       { path: 'qlskt', component: MiningBookRefComponent },
+      { path: 'qllhsvb', component: DocumentTypeRefComponent },
   
       
     ],

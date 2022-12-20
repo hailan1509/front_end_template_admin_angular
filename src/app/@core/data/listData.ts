@@ -105,6 +105,16 @@ export interface MiningBook {
   active_flag?: number;
 }
 
+export interface DocumentType {
+  document_type_rcd?: number;
+  document_type_name_e?: string; 
+  document_type_name_l?: string;     
+  sort_order?:number;
+  document_type_note_e?: string; 
+  document_type_note_l?: string;
+  active_flag?: number;
+}
+
 export interface ListPager {
   pageSize?: number;
   pageIndex?: number
