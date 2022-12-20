@@ -11,6 +11,8 @@ import { PersonalizeService } from 'src/app/@core/services/personalize.service';
 import { LANGUAGES } from 'src/config/language-config';
 import { environment } from 'src/environments/environment';
 import { ThemeType } from '../../models/theme';
+import { ApiService } from 'src/app/api.service';
+import { User } from 'src/app/@shared/models/user';
 
 @Component({
   selector: 'da-login',
@@ -70,7 +72,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private translate: TranslateService,
     private i18n: I18nService,
-    private personalizeService: PersonalizeService
+    private personalizeService: PersonalizeService,
+    private api: ApiService
   ) {
     this.language = this.translate.currentLang;
   }
@@ -108,21 +111,41 @@ export class LoginComponent implements OnInit {
   onClick(tabId: string | number) {
     switch (tabId) {
       case 'tab1':
-        this.authService.login(this.formData.userAccount, this.formData.userAccountPassword).subscribe(
-          (res) => {
-            this.authService.setSession(res);
+        // this.authService.login(this.formData.userAccount, this.formData.userAccountPassword).subscribe(
+        //   (res) => {
+        //     console.log(res);
+        //     this.authService.setSession(res);
+        //     this.router.navigate(['/']);
+        //   },
+        //   (error) => {
+        //     this.toastMessage = [
+        //       {
+        //         severity: 'error',
+        //         summary: this.i18nValues['noticeMessage']['summary'],
+        //         content: "Tài khoản hoặc mật khẩu không chính xác!",
+        //       },
+        //     ];
+        //   }
+        // );
+        this.api.post("api/user/login",{user_name : this.formData.userAccount , pass_word : this.formData.userAccountPassword}).subscribe((res:any) => {
+          let rs = JSON.parse(JSON.stringify(res));
+          if (rs.data) {
+    
+            let { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender} = rs.data;
+            let userInfo: User = { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender };
+            this.authService.setSession(userInfo);
             this.router.navigate(['/']);
-          },
-          (error) => {
+          }
+          else {
             this.toastMessage = [
               {
                 severity: 'error',
                 summary: this.i18nValues['noticeMessage']['summary'],
-                content: this.i18nValues['noticeMessage']['accountContent'],
+                content: "Tài khoản hoặc mật khẩu không chính xác!",
               },
             ];
           }
-        );
+        });
         break;
       case 'tab2':
         this.authService.login(this.formData.userEmail, this.formData.userEmailPassword).subscribe(
