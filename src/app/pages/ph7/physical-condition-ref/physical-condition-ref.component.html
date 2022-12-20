@@ -33,14 +33,14 @@
                               </d-cell>
                           </d-column>
                           
-                          <d-column field="fields_rcd" header="Mã tình trạng vật lý" [width]="'100px'">
+                          <d-column field="physical_condition_rcd" header="Mã tình trạng vật lý" [width]="'100px'">
                             <d-cell>
                               <ng-template let-cellItem="cellItem">
                                 {{ cellItem }}
                               </ng-template>
                             </d-cell>
                           </d-column>
-                          <d-column field="fields_name_l" header="Tên tình trạng vật lý" [width]="'300px'">
+                          <d-column field="physical_condition_name_l" header="Tên tình trạng vật lý" [width]="'300px'">
                               <d-cell>
                                   <ng-template let-cellItem="cellItem">
                                       <span [title]="cellItem" class="over-flow-ellipsis" [style.width]="'300px'">
@@ -51,7 +51,7 @@
                               </d-cell>
                           </d-column>
 
-                          <d-column field="fields_note_l" header="Ghi chú" [width]="'100px'">
+                          <d-column field="physical_condition_note_l" header="Ghi chú" [width]="'100px'">
                               <d-cell>
                                   <ng-template let-cellItem="cellItem">
                                       {{ cellItem }}
@@ -70,7 +70,7 @@
                                   <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                                       <div class="btn-group over-flow-ellipsis">
                                           <d-button icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
-                                          <d-button icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.fields_rcd)"></d-button>
+                                          <d-button icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.physical_condition_rcd)"></d-button>
                                       </div>
                                   </ng-template>
                               </d-cell>

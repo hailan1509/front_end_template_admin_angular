@@ -7,7 +7,7 @@ import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
-  selector: 'app-archives-ref',
+  selector: 'app-archives',
   templateUrl: './archives-ref.component.html',
   styleUrls: ['./archives-ref.component.scss']
 })

@@ -103,7 +103,7 @@ export class DurationStorageRefComponent implements OnInit {
     items: [
       {
         label: 'Mã thời hạn lưu trữ',
-        prop: 'durationstorage_rcd',
+        prop: 'duration_storage_rcd',
         type: 'input',
         primary: true,
         required: true,
@@ -283,10 +283,10 @@ export class DurationStorageRefComponent implements OnInit {
     if (this.insert) {
       e.durationstorage_rcd=e.durationstorage_rcd;
       
-      e.durationstorage_name_e = e.durationstorage_name_e;
-      e.durationstorage_name_l = e.durationstorage_name_l;
-      e.durationstorage_note_e = e.durationstorage_note_e;
-      e.durationstorage_note_l = e.durationstorage_note_l;
+      e.duration_storage_name_e = e.duration_storage_name_e;
+      e.duration_storage_name_l = e.duration_storage_name_l;
+      e.duration_storage_note_e = e.duration_storage_note_e;
+      e.duration_storage_note_l = e.duration_storage_note_l;
 
       this.api.post("api/manager/DurationStorageRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));

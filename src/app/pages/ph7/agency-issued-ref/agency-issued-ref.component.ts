@@ -66,24 +66,24 @@ export class AgencyIssuedRefComponent implements OnInit {
 
   tableWidthConfig: TableWidthConfig[] = [
     {
-      field: 'agencyissued_rcd',
+      field: 'agency_issued_rcd',
       width: '150px',
     },
     
     {
-      field: 'agencyissued_name_e',
+      field: 'agency_issued_name_e',
       width: '150px',
     },
     {
-      field: 'agencyissued_name_l',
+      field: 'agency_issued_name_l',
       width: '150px',
     },
     {
-      field: 'agencyissued_note_e',
+      field: 'agency_issued_note_e',
       width: '100px',
     },
     {
-      field: 'agencyissued_note_l',
+      field: 'agency_issued_note_l',
       width: '100px',
     },
     {
@@ -103,7 +103,7 @@ export class AgencyIssuedRefComponent implements OnInit {
     items: [
       {
         label: 'Mã cơ quan ban hành',
-        prop: 'agencyissued_rcd',
+        prop: 'agency_issued_rcd',
         type: 'input',
         primary: true,
         required: true,
@@ -114,7 +114,7 @@ export class AgencyIssuedRefComponent implements OnInit {
       
       {
         label: 'Tên cơ quan ban hành',
-        prop: 'agencyissued_name_l',
+        prop: 'agency_issued_name_l',
         type: 'input',
         primary: false,
         required: true,
@@ -125,7 +125,7 @@ export class AgencyIssuedRefComponent implements OnInit {
       
       {
         label: 'Ghi chú',
-        prop: 'agencyissued_note_l',
+        prop: 'agency_issued_note_l',
         type: 'input',
       },
       {
@@ -180,7 +180,7 @@ export class AgencyIssuedRefComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/AgencyIssuedRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , agencyissued_name_l : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/AgencyIssuedRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , agency_issued_name_l : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -281,7 +281,7 @@ export class AgencyIssuedRefComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.agencyissued_rcd=e.agencyissued_rcd;
+      e.agency_issued_rcd=e.agency_issued_rcd;
       
       e.agency_issued_name_e = e.agency_issued_name_e;
       e.agency_issued_name_l = e.agency_issued_name_l;
