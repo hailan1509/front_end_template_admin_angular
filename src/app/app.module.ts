@@ -9,6 +9,7 @@ import { CoreModule } from './@core/core.module';
 import { SharedModule } from './@shared/shared.module';
 import { Observable, of } from 'rxjs';
 import { I18N } from '../config/language-config';
+//import { AddValueComponent } from './number-list/add-value/add-value.component';
 
 class I18NLoader implements TranslateLoader {
   getTranslation(lang: 'en-us'): Observable<Object> {
