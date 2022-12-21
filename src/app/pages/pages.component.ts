@@ -131,6 +131,19 @@ export class PagesComponent implements OnInit {
         tkslnkttl : "Thống kê số lượng người khai thác tài liệu",
         tkslnkths : "Thống kê số lượng người khai thác hồ sơ",
         bctklspd : "Báo cáo thông kê"
+      },
+      PH5 : {
+        title: "Báo cáo thống kê",
+        bcdlskdn: "Cảnh báo dữ liệu sau khi đăng nhập",
+        bchslt : "Báo cáo hồ sơ lưu trữ",
+        bchsh : "Báo cáo hồ sơ hủy",
+        bcpkt : "Báo cáo phiếu khai thác",
+        bchstldm : "Báo cáo hồ sơ, tài liệu đang mượn",
+        tkhsdvlt : "Thống kê hồ sơ đưa vào lưu trữ",
+        tkslhstn : "Thống kê số lượng hồ sơ theo năm",
+        tksltltn : "Thống kê số lượng tài liệu theo năm",
+        tkbctvsh : "Thống kê, báo cáo tác vụ số hóa",
+        bcdmvbctlhs : "Báo cáo danh mục văn bản có trong loại hồ sơ"
       }
     };
     this.menu = getMenu(menu_object);

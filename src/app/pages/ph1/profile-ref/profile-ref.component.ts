@@ -38,17 +38,37 @@ export class ProfileRefComponent implements OnInit {
   numberValue = 0;
 
   newprofile  = {
+    profile_rcd:"",
     profile_code: "",
     profile_number:"",
+    profile_name_e:"",
     profile_name_l: "",
+    from_date:"",
+    to_date:"",
+    year:"",
+    number_of_paper:"",
+    profile_note_e:"",
     profile_note_l: "",
+    cancellation_reason:"",
+    is_digital_profile:"",
+    status:1,
     sort_order: 1,
+    date_pending:"",
+    date_edited:"",
+    date_pending_cancellation:"",
+    date_cancellation:"",
+    agency_issued_rcd:"",
+    phong_rcd:"",
+    duration_storage_rcd:"",
+    archives_rcd:"",
+    profile_type_rcd:"",
+    profile_box_rcd:"",
     active_flag: 0,
     created_by_user_id: "",
     created_date_time: "",
     lu_updated: "",
     lu_user_id: "",
-    profile_: 1,
+
   };
 
   searchForm: {
@@ -97,7 +117,7 @@ export class ProfileRefComponent implements OnInit {
         label: 'Mã hồ sơ',
         prop: 'profile_code',
         type: 'input',
-        primary: true,
+        primary: false,
         required: true,
         rule: {
           validators: [{ required: true }],
@@ -239,7 +259,7 @@ export class ProfileRefComponent implements OnInit {
       id: 'delete-dialog',
       width: '346px',
       maxHeight: '600px',
-      title: 'Xóa khu vực',
+      title: 'Xóa hồ sơ',
       showAnimate: false,
       content: 'Bạn có chắc chắn muốn xóa?',
       backdropCloseable: true,
@@ -293,11 +313,31 @@ export class ProfileRefComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.profile_group = 1;
+      e.profile_rcd = e.profile_rcd;
+      e.profile_code=e.profile_code;
       e.profile_name_l = e.profile_name;
       e.profile_name_e = e.profile_name;
+      e.from_date=e.from_date;
+      e.to_date=e.to_date;
+      e.year=e.year;
+      e.number_of_paper=e.number_of_paper;
       e.profile_note_l = e.profile_note;
       e.profile_note_e = e.profile_note;
+      e.cancellation_reason=e.cancellation_reason;
+      e.is_digital_profile=e.is_digital_profile;
+      e.status=e.status;
+      e.sort_order=e.sort_order;
+      e.date_pending=e.date_pending;
+      e.date_edited=e.date_edited;
+      e.date_pending_cancellation=e.date_pending_cancellation;
+      e.date_cancellation=e.date_cancellation;
+      e.agency_issued_rcd=e.agency_issued_rcd;
+      e.phong_rcd=e.phong_rcd;
+      e.duration_storage_rcd=e.duration_storage_rcd;
+      e.archives_rcd=e.archives_rcd;
+      e.profile_box_rcd=e.profile_box_rcd;
+      e.profile_tyle_rcd=e.profile_tyle_rcd;
+      e.active_flag=e.active_flag;
       this.api.post("api/manager/profileRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.getList();
