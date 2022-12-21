@@ -1,0 +1,157 @@
+<div class="da-list-wrap">
+  <div class="da-content-banner">
+    <d-breadcrumb>
+      <d-breadcrumb-item
+        ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+      >
+      <d-breadcrumb-item>Báo cáo thống kê</d-breadcrumb-item>
+      <d-breadcrumb-item>Cảnh cáo dữ liệu sau khi đăng nhập</d-breadcrumb-item>
+    </d-breadcrumb>
+    <div class="da-content-banner-title">Báo cáo thống kê</div>
+    <div>Cảnh cáo dữ liệu sau khi đăng nhập</div>
+  </div>
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+       <section>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="devui-input-group devui-dropdown-origin-wrapper devui-dropdown-origin">
+              <input
+                [mode]="'year'"
+                [dateFormat]="'y'"
+                class="devui-input devui-form-control"
+                placeholder="year"
+                (click)="datePicker1.toggle()"
+                name="dp"
+                [(ngModel)]="selectedDate1"
+                autocomplete="off"
+                dDatepicker
+                #datePicker1="datepicker"
+                (selectedDateChange)="getValue($event)"
+              />
+              <div *ngIf="selectedDate1" class="devui-input-group-addon icon-close-wrapper" (click)="datePicker1.clearAll()">
+                <i class="icon icon-close"></i>
+              </div>
+              <div class="devui-input-group-addon" (click)="datePicker1.toggle()">
+                <i class="icon icon-calendar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+       </section>
+      </da-col-item>
+    </da-layout-row>
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container" style="display: flex; justify-content: space-around">
+          <d-card class="card-container" style="background: linear-gradient(45deg, #f4466f, #4b5ff3); color: #fff; margin: 0px 8px">
+            <d-card-header>
+              <d-card-title style="color: #fff">Hồ sơ lưu trữ</d-card-title>
+            </d-card-header>
+            <d-card-content style="color: #fff; display: flex; justify-content: space-between">
+              <div>Tổng</div>
+              <div>{{generality?.P[0]?.sum}}</div>
+            </d-card-content>
+            <br />
+            <!-- <d-card-content style="color: #fff; display: flex; justify-content: space-between">
+              <div>Trong ngày</div>
+              <div>3</div>
+            </d-card-content> -->
+          </d-card>
+          <d-card class="card-container" style="background: linear-gradient(45deg, #36ea7d, #149c8e); color: #fff; margin: 0px 8px">
+            <d-card-header>
+              <d-card-title style="color: #fff">Hồ sơ hủy</d-card-title>
+            </d-card-header>
+            <d-card-content style="color: #fff; display: flex; justify-content: space-between">
+              <div>Tổng</div>
+              <div>{{generality?.PDB[0]?.sum}}</div>
+            </d-card-content>
+            <br />
+            <!-- <d-card-content style="color: #fff; display: flex; justify-content: space-between">
+              <div>Trong ngày</div>
+              <div>3</div>
+            </d-card-content> -->
+          </d-card>
+          <d-card class="card-container" style="background: linear-gradient(45deg, #fd6206, #ee0d72); color: #fff; margin: 0px 8px">
+            <d-card-header>
+              <d-card-title style="color: #fff">Phiếu khai thác</d-card-title>
+            </d-card-header>
+            <d-card-content style="color: #fff; display: flex; justify-content: space-between">
+              <div>Tổng</div>
+              <div>{{generality?.MF[0]?.sum}}</div>
+            </d-card-content>
+            <br />
+            <!-- <d-card-content style="color: #fff; display: flex; justify-content: space-between">
+              <div>Trong ngày</div>
+              <div>3</div>
+            </d-card-content> -->
+          </d-card>
+          <d-card class="card-container" style="background: linear-gradient(45deg, #d4e058, #4bb748); color: #fff; margin: 0px 8px">
+            <d-card-header>
+              <d-card-title style="color: #fff">Hồ sơ cho mượn</d-card-title>
+            </d-card-header>
+            <d-card-content style="color: #fff; display: flex; justify-content: space-between">
+              <div>Tổng</div>
+              <div>{{generality?.CP[0]?.sum}}</div>
+            </d-card-content>
+            <br />
+            <!-- <d-card-content style="color: #fff; display: flex; justify-content: space-between">
+              <div>Trong ngày</div>
+              <div>3</div>
+            </d-card-content> -->
+          </d-card>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+    <!-- <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <d-echarts [options]="option" height="20rem" width="100%"></d-echarts>
+        </div>
+      </da-col-item>
+    </da-layout-row> -->
+
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="100%"></d-echarts>
+          <!-- <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="50%"></d-echarts> -->
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <d-echarts (chartReady)="getPieChart1($event)" [options]="serviceData1" height="20rem" width="100%"></d-echarts>
+          <!-- <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="50%"></d-echarts> -->
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <d-echarts (chartReady)="getPieChart2($event)" [options]="serviceData2" height="20rem" width="100%"></d-echarts>
+          <!-- <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="50%"></d-echarts> -->
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <d-echarts (chartReady)="getPieChart3($event)" [options]="serviceData3" height="20rem" width="100%"></d-echarts>
+          <!-- <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="50%"></d-echarts> -->
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+  </div>
+</div>

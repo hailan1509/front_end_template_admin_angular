@@ -15,55 +15,92 @@ export class ReportArchivalProfileComponent implements OnInit {
 
 
   serviceData: any = {
-    tooltip: {
-      trigger: 'axis',
-      confine: true,
-    },
-    legend: {
-      type: 'scroll',
-      show: false,
-      orient: 'horizontal',
-      top: '6%',
-      right: '6%',
-      icon: 'circle',
-      itemWidth: 13,
-      itemHeight: 6,
-      itemGap: 13,
-      textStyle: {
-        fontSize: 14,
-        color: '#E5E5E5',
-      },
-    },
     xAxis: {
       type: "category",
-      data: [2019,2020,2021,2022,2032,2123,1234]
+      data: []
     },
-    yAxis: {
-      type: "value"
-    },
-    series: [
-      {
-        type: 'bar',
-        data: [178,123,234,831]
-      },
-      {
-        type: 'bar',
-        data: [211,656,234,785]
-      },
-      {
-        type: 'bar',
-        data: [2,1,0,1]
-      },
-      {
-        type: 'bar',
-        data: [0,1,2,1]
-      }
-    ]
+    yAxis: {},
+    series: [{
+      data: [],
+      type: "line"
+    }]
   };
+  pieChart: any;
+  getPieChart(e: any) {
+    this.pieChart = e;
+    console.log(e)
+  }
 
+  
+  getList() {
+    const data = {
+      page: this.pager.pageIndex,
+      pageSize: this.pager.pageSize,
+      ...this._search
+      //status: this.miningFileStatusValue[this.miningFileStatus]
+    }
 
+    this.busy = this.api.post("api/Statistic/StatisticProfileSearch", data).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      this.basicDataSource = a.data;
+      console.log(this.basicDataSource);
 
+      let datax: Array<any>=new Array;
+      let timeList: Array<any>=new Array;
+      let datay: Array<any>=new Array;
+      for(let i=0;i<this.basicDataSource.length;i++){
+        let time:any;
+        if(this.basicDataSource[i].from_date==null){
+          // time= new Date(new Date());
+          continue;
+        }
+        else{
+          time= new Date(this.basicDataSource[i].from_date);
+        }
+        let year=time.getFullYear();
+        let month=time.getMonth()+1;
+        let day=time.getDate();
+        let newTime=day+"/"+month+"/"+year;
 
+        if(timeList.length==0){
+            // sumlist.unshift(sum);
+            timeList.unshift({timeItem:newTime,sum:1});
+          }
+          else{
+            // debugger
+            let check=true;
+            for(let j=0;j<timeList.length;j++){
+              console.log(timeList[j].timeItem==newTime);
+              if(timeList[j].timeItem==newTime){
+                check=true;
+                timeList[j].sum=timeList[j].sum+1;
+                break;
+              }
+              else{
+                check=false;
+              }
+            }
+            if(check==false){
+              timeList.unshift({timeItem:newTime,sum:1});
+            }
+          }
+
+        // console.log(timeList);
+      }
+      console.log(timeList);
+      for(let i =0; i<timeList.length;i++){
+        datay.unshift(timeList[i].sum);
+        datax.unshift(timeList[i].timeItem);
+      }
+
+      console.log(datay);
+      this.serviceData.xAxis.data=datax;
+      this.serviceData.series[0].data=datay;
+
+      this.pager.total = a.totalItems;
+      this.pieChart.setOption(this.serviceData, true);
+    });
+  }
 
 
 
@@ -121,22 +158,6 @@ export class ReportArchivalProfileComponent implements OnInit {
 
   search() {
     this.getList();
-  }
-
-  getList() {
-    const data = {
-      page: this.pager.pageIndex,
-      pageSize: this.pager.pageSize,
-      ...this._search
-      //status: this.miningFileStatusValue[this.miningFileStatus]
-    }
- 
-    this.busy = this.api.post("api/Statistic/StatisticProfileSearch", data).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.basicDataSource = a.data;
-      console.log(a.data);
-      this.pager.total = a.totalItems;
-    });
   }
 
   reset() {

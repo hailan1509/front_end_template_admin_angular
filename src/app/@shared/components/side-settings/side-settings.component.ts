@@ -92,10 +92,13 @@ export class SideSettingsComponent implements OnDestroy {
       this.layoutConfig = SIDEBAR_LAYOUT_CONFIG;
     } else if (layout === 'left-right') {
       this.layoutConfig = LEFT_RIGHT_LAYOUT_CONFIG;
-    }
+    } 
 
+    //làm mới bố cục
     this.refreshReactiveLayout();
+    //sửa thành bố cục mới
     this.layoutService.updateLayoutConfig(this.layoutConfig);
+    //gửi event
     window.dispatchEvent(new Event('resize'));
   }
 

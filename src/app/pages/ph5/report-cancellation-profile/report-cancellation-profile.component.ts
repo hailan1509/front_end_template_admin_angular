@@ -76,7 +76,9 @@ export class ReportCancellationProfileComponent implements OnInit {
       console.log(a.data);
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
-
+    },
+    (err)=>{
+      alert("call error!");
     });
   }
 

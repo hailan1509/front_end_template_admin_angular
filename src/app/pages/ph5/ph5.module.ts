@@ -17,6 +17,7 @@ import { ReportProfileDocumentBorrowedComponent } from './report-profile-documen
 import { StatisticDocumentComponent } from './statistic-document/statistic-document.component';
 import { StatisticInputReportArchiveComponent } from './statistic_input_report_archive/statistic_input_report_archive.component';
 import { StatisticQuantityProfileForYearComponent } from './statistic-quantity-profile-for-year/statistic-quantity-profile-for-year.component';
+import { DataAlterComponent } from './report-data-alter/report-data-alter.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { StatisticQuantityProfileForYearComponent } from './statistic-quantity-p
     ReportProfileDocumentBorrowedComponent,
     StatisticDocumentComponent,
     StatisticInputReportArchiveComponent,
-    StatisticQuantityProfileForYearComponent
+    StatisticQuantityProfileForYearComponent,
+    DataAlterComponent
   ],
   imports: [
     PaginationModule,

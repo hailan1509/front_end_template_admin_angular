@@ -10,8 +10,24 @@
     <div class="da-content-banner-title">Báo cáo thống kê</div>
     <div>Báo cáo hồ sơ lưu trữ</div>
   </div>
-  <!-- <d-echarts [options]="serviceData" height="20rem" width="80%"></d-echarts> -->
   <div class="da-content-wrapper">
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+
+
+        <div class="da-list-container">
+          <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="80%"></d-echarts>
+        </div>
+        <div class="da-content-card" style="text-align:center">
+          <div class="da-content-title">
+            Biểu đồ lưu trữ hồ sơ theo ngày thành lập
+          </div>
+          </div>
+
+      </da-col-item>
+    </da-layout-row>
+
     <da-layout-row [daGutter]="[24, 24]">
       <da-col-item [daSpan]="24" [daXs]="24">
         <div class="da-list-container">
