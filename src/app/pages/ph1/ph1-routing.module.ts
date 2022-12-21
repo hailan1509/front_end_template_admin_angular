@@ -7,7 +7,7 @@ const routes: Routes = [
     path:'',
     component: ph1Component,
     children:[
-       {path:'', component: ProfileRefComponent},
+       {path:'qlhsdcl', component: ProfileRefComponent},
     ],
     
   },

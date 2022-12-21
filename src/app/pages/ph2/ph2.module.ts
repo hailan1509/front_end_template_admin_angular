@@ -11,12 +11,14 @@ import {
 import { AdminFormModule } from 'src/app/@shared/components/admin-form/admin-form.module';
 import { ph2Component } from './ph2.component';
 import { HandoverMinutesComponent } from './handover-minutes/handover-minutes.component';
+import { CreateHandoverMinutesComponent } from './create-handover-minutes/create-handover-minutes.component';
 
 
 @NgModule({
   declarations: [
     ph2Component,
     HandoverMinutesComponent,
+    CreateHandoverMinutesComponent,
     
   ],
   imports: [

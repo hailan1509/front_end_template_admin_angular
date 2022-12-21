@@ -13,12 +13,16 @@ import { CancellationProfileListComponent } from './cancellation-profile-list/ca
 import { ph3Component } from './ph3.component';
 import { CancellationMinutesComponent } from './cancellation-minutes/cancellation-minutes.component';
 import { ph3RoutingModule } from './ph3-routing.module';
+import { ProfileRecordsComponent } from './profile-records/profile-records.component';
+import { CreateHandoverRecordCancelledComponent } from './create-handover-record-canceled/create-handover-record-canceled.component';
 
 @NgModule({
   declarations: [
     ph3Component,
     CancellationMinutesComponent,
     CancellationProfileListComponent,
+    ProfileRecordsComponent,
+    CreateHandoverRecordCancelledComponent,
     // CancellationMinutesComponent
   ],
   imports: [

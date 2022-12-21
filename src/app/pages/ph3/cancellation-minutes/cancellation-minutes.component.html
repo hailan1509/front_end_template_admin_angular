@@ -27,7 +27,7 @@
                     [placeholder]="'Tìm tên biên bản hủy'"
                   ></d-search> -->
                   <d-search [size]="'sm'" (searchFn)="getList()" 
-                  [(ngModel)]="_search.cancellation_minutes_name" 
+                  [(ngModel)]="_search.keyword" 
                   class="da-inline" 
                   [placeholder]="'Tìm tên người dùng'">
                 </d-search>
@@ -52,7 +52,8 @@
             <d-column  header="STT" [width]="'100px'">
               <d-cell>
                 <ng-template let-rowIndex="rowIndex">
-                  {{ rowIndex+1 }}
+                  <!-- {{ rowIndex+1 }} -->
+                  <input type = "checkbox" name = "" value = "on">
                 </ng-template>
               </d-cell>
             </d-column>
