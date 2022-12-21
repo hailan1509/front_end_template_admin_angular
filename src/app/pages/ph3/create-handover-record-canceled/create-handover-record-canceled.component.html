@@ -13,100 +13,206 @@
       <div>Lập biên bản bàn giao hủy tài liệu</div>
     </div>
     <div class="da-content-wrapper">
-      <form dForm #eForm>
-        <p style="font-weight: bold; margin-bottom: 30px">Thông tin biên bản</p>
-        <d-form-item>
-          <d-form-label [required]="true">Số ký hiệu văn bản:</d-form-label>
-          <d-form-control>
-            <input
-              dTextInput
-              [name]="'product_name'"
-              [placeholder]="'Số ký hiệu văn bản'"
-              [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
-              autocomplete="off"
-              maxlength="500"
-              [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
-            />
-          </d-form-control>
-        </d-form-item>
-        <d-form-item>
-          <d-form-label [required]="true">Tên biên bản:</d-form-label>
-          <d-form-control>
-            <input
-              dTextInput
-              [name]="'product_name'"
-              [placeholder]="'Tên biên bản'"
-              [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
-              autocomplete="off"
-              maxlength="500"
-              [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
-            />
-          </d-form-control>
-        </d-form-item>
-        <d-form-item>
-          <d-form-label [required]="true">Địa điểm bàn giao:</d-form-label>
-          <d-form-control>
-            <input
-              dTextInput
-              [name]="'product_name'"
-              [placeholder]="'Địa điểm bàn giao'"
-              [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
-              autocomplete="off"
-              maxlength="500"
-              [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
-            />
-          </d-form-control>
-        </d-form-item>
-        <d-form-item>
-          <d-form-label [required]="true">Lý do bàn giao:</d-form-label>
-          <d-form-control>
-            <input
-              dTextInput
-              [name]="'product_name'"
-              [placeholder]="'Lý do bàn giao'"
-              [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
-              autocomplete="off"
-              maxlength="500"
-              [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
-            />
-          </d-form-control>
-        </d-form-item>
-        <d-form-item>
-          <d-form-label [required]="true">Ghi chú:</d-form-label>
-          <d-form-control>
-            <input
-              dTextInput
-              [name]="'product_name'"
-              [placeholder]="'Ghi chú'"
-              [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
-              autocomplete="off"
-              maxlength="500"
-              [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
-            />
-          </d-form-control>
-        </d-form-item>
-        <d-form-item>
-          <d-form-label [required]="true">Người được giao:</d-form-label>
-          <d-form-control>
-            <d-select
-              [options]="users"
-              [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
-              [name]="'subcategory_id'"
-              [filterKey]="'subcategory_name'"
-              [placeholder]="'Người duyệt'"
-              [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+      <div class="da-list-container">
+        <form dForm #eForm>
+          <p style="font-weight: bold; margin-bottom: 30px">Thông tin biên bản</p>
+          <d-form-item>
+            <d-form-label [required]="true">Số ký hiệu văn bản:</d-form-label>
+            <d-form-control>
+              <input
+                dTextInput
+                [name]="'product_name'"
+                [placeholder]="'Số ký hiệu văn bản'"
+                [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
+                autocomplete="off"
+                maxlength="500"
+                [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+              />
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <d-form-label [required]="true">Tên biên bản:</d-form-label>
+            <d-form-control>
+              <input
+                dTextInput
+                [name]="'product_name'"
+                [placeholder]="'Tên biên bản'"
+                [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
+                autocomplete="off"
+                maxlength="500"
+                [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+              />
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <d-form-label [required]="true">Địa điểm bàn giao:</d-form-label>
+            <d-form-control>
+              <input
+                dTextInput
+                [name]="'product_name'"
+                [placeholder]="'Địa điểm bàn giao'"
+                [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
+                autocomplete="off"
+                maxlength="500"
+                [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+              />
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <d-form-label [required]="true">Lý do bàn giao:</d-form-label>
+            <d-form-control>
+              <input
+                dTextInput
+                [name]="'product_name'"
+                [placeholder]="'Lý do bàn giao'"
+                [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
+                autocomplete="off"
+                maxlength="500"
+                [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+              />
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <d-form-label [required]="true">Ghi chú:</d-form-label>
+            <d-form-control>
+              <input
+                dTextInput
+                [name]="'product_name'"
+                [placeholder]="'Ghi chú'"
+                [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
+                autocomplete="off"
+                maxlength="500"
+                [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+              />
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <d-form-label [required]="true">Người được giao:</d-form-label>
+            <d-form-control>
+              <d-select
+                [options]="users"
+                [(ngModel)]="handoverRecordCancelled.handover_record_cancelled_rcd"
+                [name]="'subcategory_id'"
+                [filterKey]="'subcategory_name'"
+                [placeholder]="'Người duyệt'"
+                [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+              >
+              </d-select>
+            </d-form-control>
+          </d-form-item>
+          <p style="font-weight: bold; margin-bottom: 30px">Danh sách hồ sơ hết giá trị</p>
+          <div  style="margin-bottom: 15px">
+            <d-button (click)="addProfileToHandover()" style="margin-right: 8px">Bổ sung</d-button>
+            <d-button (click)="reset()" bsStyle="common" style="margin-right: 8px">Loại bỏ</d-button>
+          </div>
+
+          <div class="list-content" dLoading [loading]="busy">
+            <d-data-table
+              #datatable
+              [dataSource]="basicDataSource"
+              [borderType]="searchForm.borderType"
+              [size]="searchForm.size"
+              [tableLayout]="searchForm.layout"
+              [scrollable]="true"
             >
-            </d-select>
-          </d-form-control>
-        </d-form-item>
-        <p style="font-weight: bold; margin-bottom: 30px">Danh sách hồ sơ hết giá trị</p>
-        <div  style="margin-bottom: 15px">
-          <d-button (click)="addProfileToHandover()" style="margin-right: 8px">Bổ sung</d-button>
-          <d-button (click)="reset()" bsStyle="common" style="margin-right: 8px">Loại bỏ</d-button>
-        </div>
-     
-        <div class="list-content" dLoading [loading]="busy">
-          <d-data-table
+              <thead dTableHead [checkable]="true">
+                <tr dTableRow>
+                  <th dHeadCell>#</th>
+                  <th dHeadCell>Số ký hiệu hồ sơ</th>
+                  <th dHeadCell>Tiêu đề hồ sơ</th>
+                  <th dHeadCell>Ghi chú</th>
+                  <th dHeadCell>Tác vụ</th>
+                </tr>
+              </thead>
+              <tbody dTableBody>
+                <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
+                  <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
+                    <td dTableCell class="devui-checkable-cell">
+                      <d-checkbox
+                        [ngModel]="rowItem.$checked"
+                        [halfchecked]="rowItem.$halfChecked"
+                        [disabled]="rowItem.$checkDisabled"
+                        dTooltip
+                        [content]="rowItem.$checkBoxTips"
+                        [position]="['top', 'right', 'bottom', 'left']"
+                        [showAnimation]="false"
+                      >
+                      </d-checkbox>
+                    </td>
+                    <td dTableCell>{{ rowIndex + 1 }}</td>
+                    <td dTableCell>
+                      <img
+                        style="width: 60px; height: 100%; border-radius: 2px"
+                        src=""
+                        alt=""
+                      />
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.product_name }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.colors.length }} Màu (<span *ngFor="let cl of rowItem.colors; index as i">
+                        {{ cl.color_name + (i == rowItem.colors.length - 1 ? '' : ',') }} </span
+                      >), {{ rowItem.colors[0].sizes.length }} Size
+                    </td>
+                    <td dTableCell>
+                      <div class="btn-group over-flow-ellipsis">
+                        <d-button
+                          icon="icon-edit"
+                          bsStyle="danger"
+                          bsSize="xs"
+                          title="edit"
+                          shape="circle"
+                          style="margin-right: 8px"
+                          (btnClick)="editRow(rowIndex, rowItem.product_id)"
+                        ></d-button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </d-data-table>
+          </div>
+          <div style="text-align: center; margin: 30px 0">
+            <d-button style="margin-right: 8px" dFormSubmit [dFormSubmitData]="'submit-button'">Lưu</d-button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<ng-template #EditorTemplate>
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="da-common-search">
+              <div class="da-left">
+                <!-- <d-search
+                    [size]="'sm'"
+                    (searchFn)="getList()"
+                    [(ngModel)]="_search.keyword"
+                    class="da-inline"
+                    [placeholder]="'Tìm tên biên bản hủy'"
+                  ></d-search> -->
+                  <d-search [size]="'sm'" (searchFn)="getList()"
+                  [(ngModel)]="_search.text_search"
+                  class="da-inline"
+                  [placeholder]="'Tìm tên người dùng'">
+                </d-search>
+                  <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
+                  <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
+              </div>
+              <div class="da-right">
+
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="list-content" dLoading [loading]="busy">
+            <d-data-table
             #datatable
             [dataSource]="basicDataSource"
             [borderType]="searchForm.borderType"
@@ -119,7 +225,7 @@
                 <th dHeadCell>#</th>
                 <th dHeadCell>Số ký hiệu hồ sơ</th>
                 <th dHeadCell>Tiêu đề hồ sơ</th>
-                <th dHeadCell>Lý do hủy</th>
+                <th dHeadCell>Ghi chú</th>
                 <th dHeadCell>Tác vụ</th>
               </tr>
             </thead>
@@ -171,105 +277,28 @@
               </ng-template>
             </tbody>
           </d-data-table>
-        </div>
-      </form>
-    </div>
-</div>
-
-<div style="text-align: center; margin: 30px 0">
-  <d-button style="margin-right: 8px" dFormSubmit [dFormSubmitData]="'submit-button'">Lưu</d-button>
-</div>
-
-<ng-template #EditorTemplate>
-  <form dForm #eForm>
-    <div style="margin-bottom: 15px; display: flex;">
-      <div style="display: flex; align-items: center;">
-        <div class="da-header-item-label">Số ký hiệu hồ sơ:</div>
-        <d-search
-          [size]="'sm'"
-          (searchFn)="getList()"
-          class="da-inline"
-          [placeholder]="'Số ký hiệu hồ sơ:'"
-        ></d-search>
-      </div>
-      <div style="display: flex; align-items: center; margin-left: 15px;">
-        <div class="da-header-item-label">Tiêu đề hồ sơ:</div>
-        <d-search
-          [size]="'sm'"
-          (searchFn)="getList()"
-          class="da-inline"
-          [placeholder]="'Tiêu đề hồ sơ:'"
-        ></d-search>
-      </div>
-    </div>
-    <d-data-table
-    #datatable
-    [dataSource]="basicDataSource"
-    [borderType]="searchForm.borderType"
-    [size]="searchForm.size"
-    [tableLayout]="searchForm.layout"
-    [scrollable]="true"
-  >
-    <thead dTableHead [checkable]="true">
-      <tr dTableRow>
-        <th dHeadCell>#</th>
-        <th dHeadCell>Số ký hiệu hồ sơ</th>
-        <th dHeadCell>Tiêu đề hồ sơ</th>
-        <th dHeadCell>Lý do hủy</th>
-        <th dHeadCell>Tác vụ</th>
-      </tr>
-    </thead>
-    <tbody dTableBody>
-      <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
-        <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
-          <td dTableCell class="devui-checkable-cell">
-            <d-checkbox
-              [ngModel]="rowItem.$checked"
-              [halfchecked]="rowItem.$halfChecked"
-              [disabled]="rowItem.$checkDisabled"
-              dTooltip
-              [content]="rowItem.$checkBoxTips"
-              [position]="['top', 'right', 'bottom', 'left']"
-              [showAnimation]="false"
+          </div>
+          <div class="da-list-footer">
+            <d-pagination
+              [size]="'sm'"
+              [total]="pager.total"
+              [(pageSize)]="pager.pageSize"
+              [(pageIndex)]="pager.pageIndex"
+              [canViewTotal]="true"
+              [canChangePageSize]="true"
+              [canJumpPage]="true"
+              [maxItems]="5"
+              (pageIndexChange)="onPageChange($event)"
+              (pageSizeChange)="onSizeChange($event)"
             >
-            </d-checkbox>
-          </td>
-          <td dTableCell>{{ rowIndex + 1 }}</td>
-          <td dTableCell>
-            <img
-              style="width: 60px; height: 100%; border-radius: 2px"
-              src=""
-              alt=""
-            />
-          </td>
-          <td dTableCell>
-            {{ rowItem.product_name }}
-          </td>
-          <td dTableCell>
-            {{ rowItem.colors.length }} Màu (<span *ngFor="let cl of rowItem.colors; index as i">
-              {{ cl.color_name + (i == rowItem.colors.length - 1 ? '' : ',') }} </span
-            >), {{ rowItem.colors[0].sizes.length }} Size
-          </td>
-          <td dTableCell>
-            <div class="btn-group over-flow-ellipsis">
-              <d-button
-                icon="icon-edit"
-                bsStyle="danger"
-                bsSize="xs"
-                title="edit"
-                shape="circle"
-                style="margin-right: 8px"
-                (btnClick)="editRow(rowIndex, rowItem.product_id)"
-              ></d-button>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </tbody>
-    </d-data-table>
-    <d-form-operation class="da-form-operation" style="text-align: right; margin-top: 30px;">
-      <d-button style="margin-right: 8px" dFormSubmit [dFormSubmitData]="'submit-button'">Ok</d-button>
-      <d-button bsStyle="common" (click)="onCanceled()">Hủy</d-button>
-    </d-form-operation>
-  </form>
+            </d-pagination>
+          </div>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+  </div>
+  <div style="text-align: right;">
+    <d-button style="margin-right: 8px" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting">Ok</d-button>
+    <d-button bsStyle="common" (click)="onCanceled()">Hủy</d-button>
+  </div>
 </ng-template>
