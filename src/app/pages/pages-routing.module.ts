@@ -20,7 +20,7 @@ const routes: Routes = [
           import('./list/list.module').then((m) => m.ListModule),
       },
       {
-        path: 'ph1',
+        path: 'PH1',
         loadChildren: () =>
           import('./ph1/ph1.module').then((m) => m.PH1Module),
       },
