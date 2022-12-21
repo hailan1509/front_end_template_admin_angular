@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Subscription, Observable, combineLatest } from 'rxjs';
 import { DataTableComponent } from 'ng-devui/data-table';
 import { DialogService } from 'ng-devui/modal';
@@ -6,44 +6,33 @@ import { ToastService } from 'ng-devui/toast';
 import { ApiService } from 'src/app/api.service';
 
 @Component({
-  selector: 'app-create-handover-record-canceled',
-  templateUrl: './create-handover-record-canceled.component.html',
-  styleUrls: ['./create-handover-record-canceled.component.scss'],
+  selector: 'app-profile-pending-canceled',
+  templateUrl: './profile-pending-canceled.component.html',
+  styleUrls: ['./profile-pending-canceled.component.scss'],
 })
-export class CreateHandoverRecordCancelledComponent implements OnInit {
+export class ProfilePendingCanceledComponent implements OnInit {
 
-  @ViewChildren(DataTableComponent) datatables: QueryList<DataTableComponent>;
+  @ViewChild(DataTableComponent, { static: true }) datatable: DataTableComponent;
   @ViewChild('EditorTemplate', { static: true }) EditorTemplate: TemplateRef<any>;
   basicDataSource = [];
-
-  handoverRecordCanceled: any = {
-    handover_record_canceled_code: "",
-    handover_record_canceled_name: "",
-    place: "",
-    reason: "",
-    handover_record_canceled_note: "",
-    user_rcd: "",
-    profiles: []
+  handoverRecordCancelled = {
+    handover_record_cancelled_rcd: ""
   }
-
-  profiles: any = [];
   users = [];
-  user: any;
   insert = true;
   doneSetup: Subscription;
   isSubmitting = false;
 
   deleteList: any[] = [];
-  addList: any[] = [];
-
-  year: any;
 
   editRowIndex = -1;
 
-  _search = {
+  year: any;
+
+  _search: any = {
     profile_code: null,
     profile_name: null,
-    status: 1,
+    status: 2,
     year: null
   };
 
@@ -69,7 +58,6 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
 
   ngOnInit(): void {
     this.getList();
-    this.loadUsersMore();
   }
 
   search() {
@@ -81,21 +69,13 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
       ...this._search,
-      year: year?.selectedDate?.getFullYear(),
-      json_list_id: this.addList.map((item:any) => item.profile_rcd)
+      year: year?.selectedDate?.getFullYear()
     };
 
     this.busy = this.api.post('api/manager/HandoverMinutesRef/SearchProfile', data).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
-    });
-  }
-
-  loadUsersMore() {
-    this.busy = this.api.post('api/manager/HandoverMinutesRef/SearchUser', { page: 0, pageSize: 0}).subscribe((res: any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.users = a.data;
     });
   }
 
@@ -110,47 +90,25 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
   }
 
   onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(this.datatables)
-
     console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
-    this.datatables.first.setRowCheckStatus({
+    this.datatable.setRowCheckStatus({
       rowIndex: rowIndex,
       nestedIndex: nestedIndex,
       rowItem: rowItem,
       checked: checked,
     });
 
-    this.deleteList = this.datatables.first.getCheckedRows();
+    this.deleteList = this.datatable.getCheckedRows();
     console.log(this.deleteList);
   }
 
-  onRowCheckChange2(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(this.datatables)
-
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
-    rowItem.$checked = checked;
-    rowItem.$halfChecked = false;
-    this.datatables.last.setRowCheckStatus({
-      rowIndex: rowIndex,
-      nestedIndex: nestedIndex,
-      rowItem: rowItem,
-      checked: checked,
-    });
-
-    this.addList = this.datatables.last.getCheckedRows();
-    console.log(this.addList);
-  }
-
   onCheckAllChange() {
-    this.deleteList = this.datatables.first.getCheckedRows();
-  }
-  onCheckAllChange2() {
-    this.addList = this.datatables.last.getCheckedRows();
+    this.deleteList = this.datatable.getCheckedRows();
   }
 
-  openModal() {
+  addProfileToHandover() {
     this.insert = true;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
@@ -162,16 +120,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
       onClose: () => {},
       buttons: [],
     });
-  }
 
-  addProfilesToHandover() {
-    if (this.addList.length > 0) {
-      this.profiles = [...this.profiles, ...this.addList];
-      console.log(this.profiles)
-
-      this.deleteList = [...this.deleteList, ...this.profiles]
-      this.getList();
-    }
   }
 
   addRow() {
@@ -205,43 +154,53 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
 
 
 
-  onSubmitted({ valid, directive, data, errors }: any) {
-    console.log('Valid:', valid, 'Directive:', directive, 'data', data, 'errors', errors);
-    if (!valid) {
-      this.toastService.open({
-        value: [{ severity: 'warn', summary: 'Chú ý', content: `Chưa điền đủ thông tin được yêu cầu!` }],
-      });
-      return false;
-    }
-    if (this.isSubmitting) {
-      return false;
-    }
-
-    this.handoverRecordCanceled.profiles = this.profiles.map((item: any) => {
-      return {
-        profile_rcd: item.profile_rcd
-      }
-    })
-    this.api.post('api/manager/HandoverRecordCanceled/Create', this.handoverRecordCanceled).subscribe((res: any) => {
-      this.toastService.open({
-        value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu hủy thành công!` }],
-      });
-
-      this.isSubmitting = false;
-    })
+  onSubmitted() {
 
 
-    return true;
   }
 
   batchDelete(deleteList: any[]) {
     if (deleteList.length > 0) {
-      let remain = this.addList.filter((item: any) => {
-          console.log(deleteList.findIndex(d => d.profile_rcd == item.profile_rcd) != -1)
-        return deleteList.findIndex(d=>d.profile_rcd == item.profile_rcd) == -1
-      })
-      this.addList = remain;
-      this.handoverRecordCanceled.profiles = remain;
+      const results = this.dialogService.open({
+        id: 'delete-dialog',
+        width: '600px',
+        maxHeight: '600px',
+        title: 'Xóa sản phẩm',
+        showAnimate: true,
+        content: `Bạn có chắc chắn muốn xóa ${deleteList.length} bản ghi?`,
+        backdropCloseable: true,
+        onClose: () => {},
+        buttons: [
+          {
+            cssClass: 'primary',
+            text: 'Ok',
+            disabled: false,
+            handler: ($event: Event) => {
+              if (!this.isSubmitting) {
+                this.isSubmitting = true;
+                this.deleteRows(deleteList).subscribe((res) => {
+                  results.modalInstance.hide();
+                  this.reset();
+                  this.toastService.open({
+                    value: [{ severity: 'success', summary: 'Thành công', content: `Xóa phẩm thành công!` }],
+                  });
+                  this.isSubmitting = false;
+                });
+              }
+            },
+          },
+          {
+            id: 'btn-cancel',
+            cssClass: 'common',
+            text: 'Hủy',
+            handler: ($event: Event) => {
+              results.modalInstance.hide();
+            },
+          },
+        ],
+      });
+
+      console.log(results);
     }
   }
 

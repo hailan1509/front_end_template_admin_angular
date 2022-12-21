@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/@shared/shared.module';
 import {
   DatepickerModule,
@@ -13,7 +12,7 @@ import { CancellationProfileListComponent } from './cancellation-profile-list/ca
 import { ph3Component } from './ph3.component';
 import { CancellationMinutesComponent } from './cancellation-minutes/cancellation-minutes.component';
 import { ph3RoutingModule } from './ph3-routing.module';
-import { ProfileRecordsComponent } from './profile-records/profile-records.component';
+import { ProfilePendingCanceledComponent } from './profile-pending-canceled/profile-pending-canceled.component';
 import { CreateHandoverRecordCancelledComponent } from './create-handover-record-canceled/create-handover-record-canceled.component';
 
 @NgModule({
@@ -21,13 +20,11 @@ import { CreateHandoverRecordCancelledComponent } from './create-handover-record
     ph3Component,
     CancellationMinutesComponent,
     CancellationProfileListComponent,
-    ProfileRecordsComponent,
+    ProfilePendingCanceledComponent,
     CreateHandoverRecordCancelledComponent,
-    // CancellationMinutesComponent
   ],
   imports: [
     SharedModule,
-    FormsModule,
     PaginationModule,
     AdminFormModule,
     InputNumberModule,
@@ -37,5 +34,5 @@ import { CreateHandoverRecordCancelledComponent } from './create-handover-record
   ],
 })
 export class ph3Module {
-  
+
  }
