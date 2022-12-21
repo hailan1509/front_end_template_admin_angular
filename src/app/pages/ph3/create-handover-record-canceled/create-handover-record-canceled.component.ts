@@ -84,20 +84,20 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
     this.getList();
   }
 
-  onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
-    rowItem.$checked = checked;
-    rowItem.$halfChecked = false;
-    this.datatable.setRowCheckStatus({
-      rowIndex: rowIndex,
-      nestedIndex: nestedIndex,
-      rowItem: rowItem,
-      checked: checked,
-    });
+  // onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
+  //   console.log(rowIndex, nestedIndex, rowItem.$checked);
+  //   rowItem.$checked = checked;
+  //   rowItem.$halfChecked = false;
+  //   this.datatable.setRowCheckStatus({
+  //     rowIndex: rowIndex,
+  //     nestedIndex: nestedIndex,
+  //     rowItem: rowItem,
+  //     checked: checked,
+  //   });
 
-    this.deleteList = this.datatable.getCheckedRows();
-    console.log(this.deleteList);
-  }
+  //   this.deleteList = this.datatable.getCheckedRows();
+  //   console.log(this.deleteList);
+  // }
 
   onCheckAllChange() {
     this.deleteList = this.datatable.getCheckedRows();
