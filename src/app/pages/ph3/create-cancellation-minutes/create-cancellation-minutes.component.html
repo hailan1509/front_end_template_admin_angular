@@ -21,10 +21,9 @@
             <d-form-control>
               <input
                 dTextInput
-                [name]="'product_name'"
                 [placeholder]="'Số ký hiệu văn bản'"
-                name="handover_record_cancelled_code"
-                [(ngModel)]="handoverRecordCanceled.handover_record_canceled_code"
+                name="cancellation_minutes_number"
+                [(ngModel)]="cancellationMinutes.cancellation_minutes_number"
                 autocomplete="off"
                 maxlength="50"
                 [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
@@ -32,14 +31,58 @@
             </d-form-control>
           </d-form-item>
           <d-form-item>
-            <d-form-label [required]="true">Tên biên bản:</d-form-label>
+            <d-form-label [required]="true">Số quyết định:</d-form-label>
             <d-form-control>
               <input
                 dTextInput
-                [name]="'product_name'"
-                [placeholder]="'Tên biên bản'"
-                name="handover_record_cancelled_name"
-                [(ngModel)]="handoverRecordCanceled.handover_record_canceled_name"
+                [placeholder]="'Số ký hiệu văn bản'"
+                name="decision_number"
+                [(ngModel)]="cancellationMinutes.decision_number"
+                autocomplete="off"
+                maxlength="50"
+                [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+              />
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <d-form-label [required]="true">Sô lượng hủy:</d-form-label>
+            <d-form-control>
+              <d-input-number
+                style="width: 50%"
+                class="input-number"
+                name="number_of_cancellations"
+                [size]="'sm'"
+                [(ngModel)]="cancellationMinutes.number_of_cancellations"
+                class="da-inline"
+                [min]="0"
+                [step]="10000"
+                [placeholder]="'Số lượng hủy'"
+                [allowEmpty]="true"
+              >
+              </d-input-number>
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <d-form-label [required]="true">Nội dung:</d-form-label>
+            <d-form-control>
+              <input
+                dTextInput
+                [placeholder]="'Nội dung'"
+                name="content"
+                [(ngModel)]="cancellationMinutes.content"
+                autocomplete="off"
+                maxlength="500"
+              />
+            </d-form-control>
+          </d-form-item>
+          <d-form-item>
+            <d-form-label [required]="true">Địa điểm hủy:</d-form-label>
+            <d-form-control>
+              <input
+                dTextInput
+                [placeholder]="'Địa điểm hủy'"
+                name="place"
+                [(ngModel)]="cancellationMinutes.place"
                 autocomplete="off"
                 maxlength="100"
                 [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
@@ -47,31 +90,42 @@
             </d-form-control>
           </d-form-item>
           <d-form-item>
-            <d-form-label [required]="true">Địa điểm bàn giao:</d-form-label>
+            <d-form-label [required]="true">Phương pháp hủy:</d-form-label>
             <d-form-control>
               <input
                 dTextInput
-                [name]="'product_name'"
-                [placeholder]="'Địa điểm bàn giao'"
-                name="place"
-                [(ngModel)]="handoverRecordCanceled.place"
+                [placeholder]="'Phương pháp hủy'"
+                name="cancellation_method"
+                [(ngModel)]="cancellationMinutes.cancellation_method"
                 autocomplete="off"
-                maxlength="100"
+                maxlength="250"
+                [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
               />
             </d-form-control>
           </d-form-item>
           <d-form-item>
-            <d-form-label [required]="true">Lý do bàn giao:</d-form-label>
+            <d-form-label [required]="true">Ngày hủy:</d-form-label>
             <d-form-control>
-              <input
-                dTextInput
-                [name]="'product_name'"
-                [placeholder]="'Lý do bàn giao'"
-                name="reason"
-                [(ngModel)]="handoverRecordCanceled.reason"
-                autocomplete="off"
-                maxlength="250"
-              />
+              <div class="devui-input-group devui-dropdown-origin">
+                <input
+                  class="devui-input devui-form-control"
+                  placeholder="Ngày hủy:"
+                  name="dp"
+                  [(ngModel)]="cancellationMinutes.time_destroy"
+                  (click)="datePicker2.toggle()"
+                  autocomplete="off"
+                  dDatepicker
+                  appendToBody
+                  #datePicker2="datepicker"
+                  (selectedDateChange)="getList()"
+                />
+                <div *ngIf="cancellationMinutes.time_destroy" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
+                  <i class="icon icon-close"></i>
+                </div>
+                <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
+                  <i class="icon icon-calendar"></i>
+                </div>
+              </div>
             </d-form-control>
           </d-form-item>
           <d-form-item>
@@ -79,17 +133,16 @@
             <d-form-control>
               <input
                 dTextInput
-                [name]="'product_name'"
                 [placeholder]="'Ghi chú'"
-                name="handover_record_cancelled_note"
-                [(ngModel)]="handoverRecordCanceled.handover_record_canceled_note"
+                name="cancellation_minutes_note_l"
+                [(ngModel)]="cancellationMinutes.cancellation_minutes_note_l"
                 autocomplete="off"
                 maxlength="250"
               />
             </d-form-control>
           </d-form-item>
           <d-form-item>
-            <d-form-label [required]="true">Người được giao:</d-form-label>
+            <d-form-label [required]="true">Người duyệt:</d-form-label>
             <d-form-control>
               <d-select
                 [options]="users"
@@ -127,6 +180,7 @@
                     <th dHeadCell>Tên hồ sơ</th>
                     <th dHeadCell>Ghi chú</th>
                     <th dHeadCell>Năm</th>
+                    <th dHeadCell>Lý do hủy</th>
                     <th dHeadCell>Trạng thái</th>
                     <th dHeadCell>Tác vụ</th>
                   </tr>
@@ -160,6 +214,27 @@
                       </td>
                       <td dTableCell>
                         {{ rowItem.year }}
+                      </td>
+                      <!-- <td dTableCell [editable]="true" [(editing)]="rowItem['cancellation_reason']">
+                        {{ rowItem.cancellation_reason }}
+                      </td> -->
+                      <td
+                        dTableCell
+                        [editable]="true"
+                        [editableTip]="editableTip"
+                        [(editing)]="rowItem['nameEdit']"
+                        [rowItem]="rowItem"
+                        [field]="'cancellation_reason'"
+                      >
+                        <span *ngIf="!rowItem['nameEdit']">{{ rowItem?.cancellation_reason }}</span>
+                        <div *ngIf="rowItem['nameEdit']" class="edit-padding-fix">
+                          <input
+                            class="devui-form-control"
+                            autofocus
+                            name="cancellation_reason{{rowIndex}}"
+                            [(ngModel)]="rowItem.cancellation_reason"
+                          />
+                        </div>
                       </td>
                       <td dTableCell>
                         {{ rowItem.status | profileStatus}}

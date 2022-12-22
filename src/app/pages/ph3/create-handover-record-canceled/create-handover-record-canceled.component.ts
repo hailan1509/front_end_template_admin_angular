@@ -223,11 +223,13 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
         profile_rcd: item.profile_rcd
       }
     })
+
+    this.handoverRecordCanceled.user_rcd = this.user.user_rcd
     this.api.post('api/manager/HandoverRecordCanceled/Create', this.handoverRecordCanceled).subscribe((res: any) => {
       this.toastService.open({
         value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu hủy thành công!` }],
       });
-
+      this.handoverRecordCanceled.profiles = [];
       this.isSubmitting = false;
     })
 

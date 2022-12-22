@@ -4,6 +4,7 @@ import { DataTableComponent } from 'ng-devui/data-table';
 import { DialogService } from 'ng-devui/modal';
 import { ToastService } from 'ng-devui/toast';
 import { ApiService } from 'src/app/api.service';
+import { EditableTip } from 'ng-devui/data-table';
 
 @Component({
   selector: 'app-create-cancellation-minutes',
@@ -15,15 +16,22 @@ export class CreateCancellationMinutesComponent implements OnInit {
   @ViewChildren(DataTableComponent) datatables: QueryList<DataTableComponent>;
   @ViewChild('EditorTemplate', { static: true }) EditorTemplate: TemplateRef<any>;
   basicDataSource = [];
-
-  handoverRecordCanceled: any = {
-    handover_record_canceled_code: "",
-    handover_record_canceled_name: "",
+  editableTip = EditableTip.hover;
+  cancellationMinutes: any = {
+    cancellation_minutes_number: "",
+    decision_number: "",
+    number_of_cancellations: null,
+    content: "",
     place: "",
-    reason: "",
-    handover_record_canceled_note: "",
+    cancellation_method: "",
+    time_destroy: null,
+    cancellation_minutes_note_l: "",
+    cancellation_minutes_note_e: "",
+    attached_file: "",
+    status: 0,
+    comment: "",
     user_rcd: "",
-    create_by_user_id: JSON.parse(localStorage.getItem('userinfo') || '{}')?.user_rcd,
+    created_by_user_id: JSON.parse(localStorage.getItem('userinfo') || '{}')?.user_rcd,
     profiles: []
   }
 
@@ -44,7 +52,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
   _search = {
     profile_code: null,
     profile_name: null,
-    status: 1,
+    user_rcd: JSON.parse(localStorage.getItem('userinfo') || '{}').user_rcd,
     year: null
   };
 
@@ -86,8 +94,12 @@ export class CreateCancellationMinutesComponent implements OnInit {
       json_list_id: this.addList.map((item:any) => item.profile_rcd)
     };
 
-    this.busy = this.api.post('api/manager/HandoverMinutesRef/SearchProfile', data).subscribe((res: any) => {
+    this.busy = this.api.post('api/manager/HandoverRecordCanceled/SearchProfile', data).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
+      a.data.forEach((element:any) => {
+        element.cancellation_reason = "Tài liệu hết giá trị";
+      });
+
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
     });
@@ -218,16 +230,23 @@ export class CreateCancellationMinutesComponent implements OnInit {
       return false;
     }
 
-    this.handoverRecordCanceled.profiles = this.profiles.map((item: any) => {
+    this.cancellationMinutes.profiles = this.profiles.map((item: any) => {
       return {
-        profile_rcd: item.profile_rcd
+        profile_rcd: item.profile_rcd,
+        cancellation_reason: item.cancellation_reason
       }
     })
-    this.api.post('api/manager/HandoverRecordCanceled/Create', this.handoverRecordCanceled).subscribe((res: any) => {
+
+    this.cancellationMinutes.user_rcd = this.user.user_rcd
+
+    this.cancellationMinutes.time_destroy = this.cancellationMinutes.time_destroy ? new Date(Date.UTC(this.cancellationMinutes.time_destroy.getFullYear(), this.cancellationMinutes.time_destroy.getMonth(), this.cancellationMinutes.time_destroy.getDate())) : null
+
+    this.api.post('api/manager/CancellationMinutesRef/Create', this.cancellationMinutes).subscribe((res: any) => {
       this.toastService.open({
         value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu hủy thành công!` }],
       });
 
+      this.cancellationMinutes.profiles = [];
       this.isSubmitting = false;
     })
 
