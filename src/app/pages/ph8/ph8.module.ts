@@ -14,6 +14,8 @@ import {
 } from 'ng-devui';
 import { AddValueComponent } from './number-list/add-value/add-value.component';
 import { InputDocumentComponent } from './input-document/input-document.component';
+import { DocumentsComponent } from './documents/documents.component';
+import { AddDocumentComponent } from './input-document/add-document/add-document.component';
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import { InputDocumentComponent } from './input-document/input-document.componen
     NumberListComponent,
     AddValueComponent,
     InputDocumentComponent,
+    DocumentsComponent,
+    AddDocumentComponent,
   ],
   imports: [
     SharedModule,

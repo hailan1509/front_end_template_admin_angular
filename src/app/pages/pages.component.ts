@@ -148,7 +148,8 @@ export class PagesComponent implements OnInit {
       PH8 : {
         title: "Quản lý số hoá",
         tltdl: "Thiết lập trường dữ liệu",
-        bmdv : "Biểu mẫu đầu vào"
+        bmdv : "Biểu mẫu đầu vào",
+        hstl: "Hồ sơ tài liệu"
       }
   };
     this.menu = getMenu(menu_object);

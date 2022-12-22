@@ -8,10 +8,10 @@ import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
   selector: 'da-number-list',
-  templateUrl: './input-document.component.html',
-  styleUrls: ['./input-document.component.scss'],
+  templateUrl: './documents.component.html',
+  styleUrls: ['./documents.component.scss'],
 })
-export class InputDocumentComponent implements OnInit {
+export class DocumentsComponent implements OnInit {
   filterAreaShow = false;
   // public pdfSrc: any;
   // public file: any;

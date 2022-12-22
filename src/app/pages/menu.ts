@@ -183,8 +183,8 @@ export default function (values: any) {
           link: '/pages/PH8/bmdv',
         },
         {
-          title: values['PH8']['qlhsdcl'],
-          link: '/pages/PH8/qlhsdcl',
+          title: values['PH8']['hstl'],
+          link: '/pages/PH8/hstl',
         },
         
       ],

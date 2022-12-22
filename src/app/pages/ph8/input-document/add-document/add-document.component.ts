@@ -5,17 +5,18 @@ import { Subscription } from 'rxjs';
 import { Item, Area } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'da-number-list',
-  templateUrl: './input-document.component.html',
-  styleUrls: ['./input-document.component.scss'],
+  templateUrl: './add-document.component.html',
+  styleUrls: ['./add-document.component.scss'],
 })
-export class InputDocumentComponent implements OnInit {
+export class AddDocumentComponent implements OnInit {
   filterAreaShow = false;
-  // public pdfSrc: any;
-  // public file: any;
-  values: any=[]
+  public pdfSrc: any;
+  public file: any;
+  
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -99,7 +100,32 @@ export class InputDocumentComponent implements OnInit {
   ];
 
   basicDataSource: Area[] = [];
- 
+
+values: any=[];
+bioSection : any;
+
+callingFunction(e: any) {
+  const obj = {
+    document_rcd: this.bioSection.get('txt_field').value,
+    document_type_rcd: this.bioSection.get('txt_type').value,
+    status:  typeof this.bioSection.get('txt_status').value === 'boolean' ? this.bioSection.get('txt_status').value : false,
+    document_name_l:'' ,
+    document_name_e: '',
+    document_note_e: '',
+    document_note_l: '',
+    document_number: this.bioSection.get('txt_number').value,
+  }
+
+  // obj.status=obj.status?1:0;
+  this.values = [obj, ...this.values];
+}
+savechange(){
+  this.values.forEach((item: any) => {
+    this.api.post("api/manager/DocumentRef/Create",item).subscribe((res:any) => {
+      console.log(res)
+    });
+  })
+}
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
@@ -181,34 +207,39 @@ export class InputDocumentComponent implements OnInit {
     }
     this.getList();
     this.getCountry();
+    this.bioSection= new FormGroup({
+      txt_field: new FormControl(''),
+      txt_type: new FormControl(''),
+      txt_status: new FormControl(''),
+      txt_number: new FormControl(''),
+    });
   }
-  // public upload(event:any) {
-  //   var reader = new FileReader();
-  //   reader.onload = (event: any) => {
-  //       this.pdfSrc = event.target.result;
-  //       console.log("dit cu may");
+  public upload(event:any) {
+    var reader = new FileReader();
+    reader.onload = (event: any) => {
+        this.pdfSrc = event.target.result;
+        console.log("dit cu may");
         
-  //   }
-  //   // if (reader.result){
-  //   let blob = new Blob([ event.target.files[0]]);
-  //   reader.readAsDataURL(blob);
-
-  //   // }
+    }
+    // if (reader.result){
+      let blob = new Blob([ event.target.files[0]]);
+      reader.readAsDataURL(blob);
+  
+      // }
            
     
     
             
-  // }
+  }
 
   search() {
     this.getList();
   }
 
   getList() {
-    this.api.post("api/manager/DocumentRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , area_name : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/AreaRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , area_name : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
-      this.values = a.data;
-      console.log(this.values)
+      this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
     });
   }
@@ -222,7 +253,6 @@ export class InputDocumentComponent implements OnInit {
   }
 
   editRow(row: any, index: number) {
-    console.log(row)
     this.insert = false;
     this.editRowIndex = index;
     this.formData = row;
@@ -240,19 +270,19 @@ export class InputDocumentComponent implements OnInit {
   }
 
   addRow() {
-    // this.insert = true;
-    // this.formData = this.newArea;
-    // this.editForm = this.dialogService.open({
-    //   id: 'edit-dialog',
-    //   width: '600px',
-    //   maxHeight: '600px',
-    //   title: 'Editor',
-    //   showAnimate: false,
-    //   contentTemplate: this.EditorTemplate,
-    //   backdropCloseable: true,
-    //   onClose: () => {},
-    //   buttons: [],
-    // });
+    this.insert = true;
+    this.formData = this.newArea;
+    this.editForm = this.dialogService.open({
+      id: 'edit-dialog',
+      width: '600px',
+      maxHeight: '600px',
+      title: 'Editor',
+      showAnimate: false,
+      contentTemplate: this.EditorTemplate,
+      backdropCloseable: true,
+      onClose: () => {},
+      buttons: [],
+    });
   }
 
   deleteRow(id: string) {
@@ -260,7 +290,7 @@ export class InputDocumentComponent implements OnInit {
       id: 'delete-dialog',
       width: '346px',
       maxHeight: '600px',
-      title: 'Xóa khu vực',
+      title: 'Xóa dữ liệu',
       showAnimate: false,
       content: 'Bạn có chắc chắn muốn xóa?',
       backdropCloseable: true,
@@ -271,11 +301,8 @@ export class InputDocumentComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/DocumentRef/DeleteMulti",[id]).subscribe((res:any) => {
-              alert("Xóa thành công!");
-              this.getList();
-
-            });
+            const index = this.values.findIndex((item:any) => item.document_rcd === id);
+            this.values.splice(index, 1);
             results.modalInstance.hide();
           },
         },
@@ -329,13 +356,16 @@ export class InputDocumentComponent implements OnInit {
       e.area_name_e = e.area_name;
       e.area_note_l = e.area_note;
       e.area_note_e = e.area_note;
-      this.api.post("api/manager/DocumentRef/Update",{...e}).subscribe((res:any) => {
-        let a = JSON.parse(JSON.stringify(res));
-        this.getList();
-      });
-      console.log(e);
+      // this.api.post("api/manager/AreaRef/Update",{...e}).subscribe((res:any) => {
+      //   let a = JSON.parse(JSON.stringify(res));
+      //   this.getList();
+      // });
+      // console.log(e);
+      const index = this.values.findIndex((item:any) => item.document_rcd === e.document_rcd);
+      console.log(index);
+      this.values[index] = e;
 
-    }
+        }
   }
 
   onCanceled() {

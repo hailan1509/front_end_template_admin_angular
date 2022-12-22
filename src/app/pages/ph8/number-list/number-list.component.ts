@@ -180,7 +180,7 @@ export class NumberListComponent implements OnInit {
       pdfViewer.style.height = (window.innerHeight/2 - 100)+"px"
     }
     this.getList();
-    this.getCountry();
+    // this.getCountry();
   }
   // public upload(event:any) {
   //   var reader = new FileReader();
@@ -205,7 +205,7 @@ export class NumberListComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/DocumentRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , area_name : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/DocumentRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , document_rcd : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.values = a.data;
       console.log(this.values)
@@ -213,13 +213,13 @@ export class NumberListComponent implements OnInit {
     });
   }
 
-  getCountry() {
-    this.api.post("api/manager/CountryRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.lstCountry = a.data;
-      console.log(this.lstCountry);
-    });
-  }
+  // getCountry() {
+  //   this.api.post("api/manager/CountryRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
+  //     let a = JSON.parse(JSON.stringify(res));
+  //     this.lstCountry = a.data;
+  //     console.log(this.lstCountry);
+  //   });
+  // }
 
   editRow(row: any, index: number) {
     console.log(row)

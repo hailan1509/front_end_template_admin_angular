@@ -1,0 +1,111 @@
+<div class="da-list-wrap">
+    <div class="da-content-banner">
+      <d-breadcrumb>
+        <d-breadcrumb-item
+          ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+        >
+        <d-breadcrumb-item>Biểu mẫu đầu vào</d-breadcrumb-item>
+        <d-breadcrumb-item>Thêm biểu mẫu</d-breadcrumb-item>
+      </d-breadcrumb>
+      
+      
+    </div>
+    
+</div>
+<div class="content-document" style="display: flex;">
+    <div class="right-content" style="flex: 60%; margin: 10px;">
+        <div style="width: 100% !important; height: 50vh !important;" id="pdf" >
+            <input (change)="upload($event)"  type="file" />
+            <pdf-viewer *ngIf="pdfSrc" [src]="pdfSrc" [render-text]="true" [original-size]="true" style="display: block; width: 100%; height: 100%;"></pdf-viewer>
+        </div>
+    </div>
+    <div class="left-content" style="flex: 40%;">
+        <form [formGroup]="bioSection" (ngSubmit)="callingFunction($event)">
+            <div class="da-content2" style="width:42%;height: 100%;">
+                <div class="da-content-banner-title" style="margin: 15px;">Thiết lập trường dữ liệu
+                    
+                </div>
+                <div class="name-value" style="margin: 30px;">Tên biểu mẫu: 
+                    <input formControlName="txt_field" _ngcontent-dho-c233="" dtextinput="" ng-reflect-name="area_rcd" ng-reflect-model="" ng-reflect-is-disabled="false" ng-reflect-rules="[object Object]" class="ng-untouched ng-pristine ng-invalid ng-star-inserted"></div>
+                    <div class="kind-value" style="margin: 30px;">Loại biểu mẫu: 
+                        <select name="cars" id="cars" formControlName="txt_type" >
+                            <option value="" selected>Chọn loại</option>
+                            <option value="1">Văn bằng-Chứng chỉ</option>
+                            <option value="2">vietkey</option>
+                            <option value="3">english</option>
+                            
+                        </select></div>
+                    <div class="number-value" style="margin: 30px;">Mô tả: 
+                      <input formControlName="txt_number" _ngcontent-dho-c233="" dtextinput="" ng-reflect-name="area_rcd" ng-reflect-model="" ng-reflect-is-disabled="false" ng-reflect-rules="[object Object]" class="ng-untouched ng-pristine ng-invalid ng-star-inserted"></div>
+                      <div class="number-value" style="margin: 30px;">Chiều rộng: 
+                        <input formControlName="txt_number" _ngcontent-dho-c233="" dtextinput="" ng-reflect-name="area_rcd" ng-reflect-model="" ng-reflect-is-disabled="false" ng-reflect-rules="[object Object]" class="ng-untouched ng-pristine ng-invalid ng-star-inserted">(cm)
+                      </div>
+                
+                <div class="status" style="margin: 30px;">Trạng thái:<input formControlName="txt_status" type="checkbox" name="" value="" style="margin: 10px;">Được sử dụng</div>
+                <d-button type="submit" (click)="addRow" style="margin-left: 194px">Cập nhật</d-button>
+            
+                
+            </div>
+        </form>
+
+        <div class="da-content-banner-title" style="margin: 40px;">
+            Danh sách trường dữ liệu:
+        </div>
+        <div class="list-content" dLoading [loading]="busy">
+            <d-data-table
+              #datatable
+              [dataSource]="values"
+              [borderType]="searchForm.borderType"
+              [size]="searchForm.size"
+              [tableLayout]="searchForm.layout"
+              [scrollable]="true"
+            >
+              <d-column  header="STT" [width]="'5px'">
+                <d-cell>
+                  <ng-template let-rowIndex="rowIndex">
+                    {{ rowIndex+1 }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+                <d-column field="document_rcd" header="Tên trường " [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="document_number" header="Toạ độ" [width]="'10px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="document_number" header="Kích thước " [width]="'10px'">
+                    <d-cell>
+                      <ng-template let-cellItem="cellItem">
+                        {{ cellItem }}
+                      </ng-template>
+                    </d-cell>
+                  </d-column>
+                
+                
+                
+            </d-data-table>
+          </div>
+          <div class="button-footer" style="margin-left: 70px;padding: 100px;">
+            <d-button type="submit" (click)="savechange()" style="padding: 10px;">Lưu</d-button>
+            <d-button type="submit" (click)="addRow" >Quay lại</d-button>
+          </div>
+          <ng-template #EditorTemplate>
+            <da-admin-form [formConfig]="formConfig" [insert]="insert"  [formData]="formData" (submitted)="onSubmitted($event)" (canceled)="onCanceled()">
+            </da-admin-form>
+          </ng-template>
+    </div>
+</div>
+
+
+
+
+
+

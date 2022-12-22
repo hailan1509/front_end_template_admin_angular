@@ -19,6 +19,13 @@
           <div class="da-list-header">
             <div class="da-common-search">
               <div class="da-left">
+                <d-search
+                [size]="'sm'"
+                (searchFn)="getList()"
+                [(ngModel)]="_search.keyword"
+                class="da-inline"
+                [placeholder]="'Tìm tên trường dữ liệu'"
+                ></d-search>
                   <a class="btn btn-primary" (click)="addRow()" routerLink="/pages/PH8/new"  style="margin-left: 12px">Thêm trường dữ liệu</a>
 
                   <d-button (click)="reset()" style="margin-left: 12px">Xoá</d-button>
