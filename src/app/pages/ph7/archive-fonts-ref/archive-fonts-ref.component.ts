@@ -2,18 +2,18 @@ import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@a
 import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
 import { ApiService } from 'src/app/api.service';
 import { Subscription } from 'rxjs';
-import { Item, Archives } from 'src/app/@core/data/listData';
+import { Item, ArchiveFonts } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
-  selector: 'app-archives-ref',
-  templateUrl: './archives-ref.component.html',
-  styleUrls: ['./archives-ref.component.scss']
+  selector: 'app-archive-fonts-ref',
+  templateUrl: './archive-fonts-ref.component.html',
+  styleUrls: ['./archive-fonts-ref.component.scss']
 })
-export class ArchivesRefComponent implements OnInit {
+export class ArchiveFontsRefComponent implements OnInit {
 
-  filterArchivesShow = false;
+  filterArchiveFontsShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -38,14 +38,14 @@ export class ArchivesRefComponent implements OnInit {
   ];
   numberValue = 0;
 
-  newArchives  = {
-    archives_rcd: "",
+  newArchiveFonts  = {
+    archive_fonts_rcd: "",
     
-    archives_name_e: "",
-    archives_name_l: "", 
+    archive_fonts_name_e: "",
+    archive_fonts_name_l: "", 
     sort_order: 1,
-    archives_note_e: "",
-    archives_note_l: "",
+    archive_fonts_note_e: "",
+    archive_fonts_note_l: "",
     active_flag: 0,
     created_by_user_id: "",
     created_date_time: "",
@@ -66,24 +66,24 @@ export class ArchivesRefComponent implements OnInit {
 
   tableWidthConfig: TableWidthConfig[] = [
     {
-      field: 'archives_rcd',
+      field: 'archive_fonts_rcd',
       width: '150px',
     },
     
     {
-      field: 'archives_name_e',
+      field: 'archive_fonts_name_e',
       width: '150px',
     },
     {
-      field: 'archives_name_l',
+      field: 'archive_fonts_name_l',
       width: '150px',
     },
     {
-      field: 'archives_note_e',
+      field: 'archive_fonts_note_e',
       width: '100px',
     },
     {
-      field: 'archives_note_l',
+      field: 'archive_fonts_note_l',
       width: '100px',
     },
     {
@@ -96,14 +96,14 @@ export class ArchivesRefComponent implements OnInit {
     },
   ];
 
-  basicDataSource: Archives[] = [];
+  basicDataSource: ArchiveFonts[] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
       {
-        label: 'Mã kho lưu trữ',
-        prop: 'archives_rcd',
+        label: 'Mã phông lưu trữ',
+        prop: 'archive_fonts_rcd',
         type: 'input',
         primary: true,
         required: true,
@@ -113,8 +113,8 @@ export class ArchivesRefComponent implements OnInit {
       },
       
       {
-        label: 'Tên kho lưu trữ',
-        prop: 'archives_name_l',
+        label: 'Tên phông lưu trữ',
+        prop: 'archive_fonts_name_l',
         type: 'input',
         primary: false,
         required: true,
@@ -125,7 +125,7 @@ export class ArchivesRefComponent implements OnInit {
       
       {
         label: 'Ghi chú',
-        prop: 'archives_note_l',
+        prop: 'archive_fonts_note_l',
         type: 'input',
       },
       {
@@ -180,7 +180,7 @@ export class ArchivesRefComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/ArchivesRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , archives_name_l : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/ArchiveFontsRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , archive_fonts_name_l : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -208,12 +208,12 @@ export class ArchivesRefComponent implements OnInit {
 
   addRow() {
     this.insert = true;
-    this.formData = this.newArchives;
+    this.formData = this.newArchiveFonts;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
       maxHeight: '600px',
-      title: 'Thêm kho lưu trữ',
+      title: 'Thêm phông lưu trữ',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
       backdropCloseable: true,
@@ -227,7 +227,7 @@ export class ArchivesRefComponent implements OnInit {
       id: 'delete-dialog',
       width: '346px',
       maxHeight: '600px',
-      title: 'Xóa kho lưu trữ',
+      title: 'Xóa phông lưu trữ',
       showAnimate: false,
       content: 'Bạn có chắc chắn muốn xóa?',
       backdropCloseable: true,
@@ -238,7 +238,7 @@ export class ArchivesRefComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/ArchivesRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/ArchiveFontsRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
               
@@ -281,14 +281,14 @@ export class ArchivesRefComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.archives_rcd=e.archives_rcd;
+      e.archive_fonts_rcd=e.archive_fonts_rcd;
       
-      e.archives_name_e = e.archives_name_e;
-      e.archives_name_l = e.archives_name_l;
-      e.archives_note_e = e.archives_note_e;
-      e.archives_note_l = e.archives_note_l;
+      e.archive_fonts_name_e = e.archive_fonts_name_e;
+      e.archive_fonts_name_l = e.archive_fonts_name_l;
+      e.archive_fonts_note_e = e.archive_fonts_note_e;
+      e.archive_fonts_note_l = e.archive_fonts_note_l;
 
-      this.api.post("api/manager/ArchivesRef/Create",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/ArchiveFontsRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         console.log(a);
         this.getList();
@@ -298,13 +298,13 @@ export class ArchivesRefComponent implements OnInit {
     }
     else {
       
-      e.archives_name_e = e.archives_name_e;
-      e.archives_name_l = e.archives_name_l;
-      e.archives_note_e = e.archives_note_e;
-      e.archives_note_l = e.archives_note_l;
+      e.archive_fonts_name_e = e.archive_fonts_name_e;
+      e.archive_fonts_name_l = e.archive_fonts_name_l;
+      e.archive_fonts_note_e = e.archive_fonts_note_e;
+      e.archive_fonts_note_l = e.archive_fonts_note_l;
      
       console.log(e);
-      this.api.post("api/manager/ArchivesRef/Update",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/ArchiveFontsRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         console.log(a);
         this.getList();

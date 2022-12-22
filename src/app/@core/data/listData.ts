@@ -115,6 +115,16 @@ export interface DocumentType {
   active_flag?: number;
 }
 
+export interface ArchiveFonts {
+  archive_fonts_rcd?: number;
+  archive_fonts_name_e?: string; 
+  archive_fonts_name_l?: string;     
+  sort_order?:number;
+  archive_fonts_note_e?: string; 
+  archive_fonts_note_l?: string;
+  active_flag?: number;
+}
+
 export interface ListPager {
   pageSize?: number;
   pageIndex?: number

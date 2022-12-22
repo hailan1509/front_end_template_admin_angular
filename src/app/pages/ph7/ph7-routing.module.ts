@@ -11,6 +11,7 @@ import { PhysicalConditionRefComponent } from './physical-condition-ref/physical
 import {MiningPurposeRefComponent } from './mining-purpose-ref/mining-purpose-ref.component';
 import {MiningBookRefComponent } from './mining-book-ref/mining-book-ref.component';
 import {DocumentTypeRefComponent } from './document-type-ref/document-type-ref.component';
+import {ArchiveFontsRefComponent } from './archive-fonts-ref/archive-fonts-ref.component';
 
 import { ph7Component } from './ph7.component';
 
@@ -29,6 +30,7 @@ const routes: Routes = [
       { path: 'qlmdkt', component: MiningPurposeRefComponent },
       { path: 'qlskt', component: MiningBookRefComponent },
       { path: 'qllhsvb', component: DocumentTypeRefComponent },
+      { path: 'qlplt', component: ArchiveFontsRefComponent },
   
       
     ],
