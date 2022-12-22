@@ -14,12 +14,14 @@ import {
 } from 'ng-devui';
 import { AdminFormModule } from 'src/app/@shared/components/admin-form/admin-form.module';
 import { ph1Component } from './ph1.component';
+import { DocumentByProfileComponent } from './document-by-profile/document-by-profile.component';
 
 
 @NgModule({
   declarations: [
     ProfileRefComponent,
     ph1Component,
+    DocumentByProfileComponent,
 
 
   ],

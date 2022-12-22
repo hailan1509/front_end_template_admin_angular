@@ -102,7 +102,7 @@
                       <div class="btn-group over-flow-ellipsis">
                         <d-button icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
                         <d-button icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.profile_rcd)"></d-button>
-                        <d-button icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="deleteRow(rowItem.profile_rcd)"></d-button>
+                        <d-button icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="getDocuments(rowItem.profile_rcd)"></d-button>
                       </div>
                     </ng-template>
                   </d-cell>
