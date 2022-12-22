@@ -48,18 +48,19 @@ export interface Role {
 }
 
 export interface Users {
-  user_rcd?: number;
-  user_code?:number;
-  full_name?: string;
-  gender?:string;
-  date_of_birth?:string;
-  email?:string;
-  phone_number?:string;
-  address?:string;
-  user_name?: string; 
-  pass_word?:string;
+  user_rcd: string;
+  user_code:string;
+  full_name: string;
+  gender:string;
+  date_of_birth:string;
+  email:string;
+  phone_number:string;
+  address:string;
+  user_name: string; 
+  pass_word:string;
   user_note_e?: string;
   user_note_l?: string;
+  department_rcd?:string;
   active_flag?: number;
 }
 

@@ -14,6 +14,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class UsersRefComponent implements OnInit {
   filterUserShow = false;
+  showPassword = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -80,6 +81,7 @@ export class UsersRefComponent implements OnInit {
     size: 'md',
     layout: 'auto',
   };
+  lstDepartment : any;
 
   tableWidthConfig: TableWidthConfig[] = [
     {
@@ -131,6 +133,10 @@ export class UsersRefComponent implements OnInit {
       width: '100px',
     },
     {
+      field: 'department_name_l',
+      width: '100px',
+    },
+    {
       field: 'active_flag',
       width: '100px',
     },
@@ -178,24 +184,57 @@ export class UsersRefComponent implements OnInit {
       {
         label: 'Giới tính',
         prop: 'gender',
-        type: 'select-object',
-        options: this.value,
+        type: 'input',
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
       },
      
       {
         label: 'Ngày sinh',
         prop: 'date_of_birth',
         type: 'datePicker',
+      
+        rule: {
+          validators: [{ required: true }],
+        },
+      },
+      {
+        label: 'Số điện thoại',
+        type:'input',      
+        required: true,
+        rule: {
+          validators: [{ required: true },
+            { minlength: 10 },
+            { maxlength: 12 },
+            {
+              pattern: /^((\\+91-?)|0)?[0-9]{10}$/,
+              message: 'Số điện thoại chỉ chứa số',
+
+            }
+          ],
+        },
       },
       {
         label: 'Email',
         prop: 'email',
         type: 'input',
+        required: true,
+        rule: {
+          validators: [{ required: true }, { email: true }],
+        },
       },
       {
         label: 'Địa chỉ',
         prop: 'address',
         type: 'input',
+      
+        rule: {
+          validators: [{ required: true },
+           
+          ],
+        },
       },
       {
         label: 'Username',
@@ -204,7 +243,14 @@ export class UsersRefComponent implements OnInit {
         primary: false,
         required: true,
         rule: {
-          validators: [{ required: true }],
+          validators: [{ required: true },
+            { minlength: 3 },
+            { maxlength: 20 },
+            {
+              pattern: /^[a-zA-Z0-9]+(\s+[a-zA-Z0-9]+)*$/,
+              message: 'The user name cannot contain characters except uppercase and lowercase letters.',
+            },
+          ],
         },
       },
       {
@@ -214,13 +260,25 @@ export class UsersRefComponent implements OnInit {
         primary: false,
         required: true,
         rule: {
-          validators: [{ required: true }],
+          validators: [{ required: true },
+            { minlength: 6 }, { maxlength: 15 }, { pattern: /^[a-zA-Z0-9\d@$!%*?&.]+(\s+[a-zA-Z0-9]+)*$/ }
+          ],
         },
       },
       {
         label: 'Ghi chú',
         prop: 'user_note_l',
         type: 'input',
+      },
+      {
+        label: 'Tên phòng ban',
+        prop: 'department_rcd',
+        type: 'input',      
+        primary: false,
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
       },
       {
         label: 'Trạng thái',
@@ -261,6 +319,17 @@ export class UsersRefComponent implements OnInit {
      pass_word:"",   
     user_note_e: "",
     user_note_l: "",
+    department_rcd:""
+
+  };
+
+  _search1 = {
+    lang: 'l',
+     department_rcd: "",
+     department_code: "",
+     department_name_l: "", 
+     department_note_e: "",
+     department_note_l: "",
 
   };
 
@@ -279,10 +348,30 @@ export class UsersRefComponent implements OnInit {
 
   ngOnInit() {
     this.getList();
-    
+   //this.getDepartment();
+  }
+  getDepartmentName() {
+    this.api.post("api/manager/DepartmentRef/GetListDropdown",{}).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      this.basicDataSource = a.data;
+      this.pager.total = a.totalItems;
+    });
   }
 
-  
+  getDepartment() {
+    const searchBody1 = {
+      page: this.pager.pageIndex,
+      pageSize: this.pager.pageSize,
+      ...this._search1
+    }
+    this.api.post("api/manager/DepartmentRef/Search", searchBody1).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      this.lstDepartment = a.data;
+      console.log(this.lstDepartment);
+    });
+  }
+
+ 
 
 
   search() {
@@ -299,6 +388,7 @@ export class UsersRefComponent implements OnInit {
     this.api.post("api/manager/UserRef/Search", searchBody).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
+      console.log(this.basicDataSource);
       this.pager.total = a.totalItems;
     });
   }
@@ -432,7 +522,6 @@ export class UsersRefComponent implements OnInit {
       e.user_name=e.user_name;
       e.pass_word=e.pass_word;
       e.user_note_l = e.user_note_l;
-     
       console.log(e);
       this.api.post("api/manager/UserRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
