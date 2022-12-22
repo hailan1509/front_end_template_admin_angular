@@ -4,6 +4,8 @@ import { CancellationMinutesComponent} from './cancellation-minutes/cancellation
 import { CreateHandoverRecordCancelledComponent } from './create-handover-record-canceled/create-handover-record-canceled.component';
 import {ph3Component} from './ph3.component';
 import { ProfilePendingCanceledComponent } from './profile-pending-canceled/profile-pending-canceled.component';
+import { CreateCancellationMinutesComponent } from './create-cancellation-minutes/create-cancellation-minutes.component';
+import { HandoverRecordCancelledComponent } from './handover-record-canceled/handover-record-canceled.component';
 
 const routes: Routes = [
   {
@@ -11,8 +13,10 @@ const routes: Routes = [
     component: ph3Component,
     children:[
       {path:'qlhsch', component: ProfilePendingCanceledComponent},
-      {path:'qlbbbghtl', component: CancellationMinutesComponent},
       {path:'lbbbghtl', component: CreateHandoverRecordCancelledComponent},
+      {path:'qlbbbghtl', component: HandoverRecordCancelledComponent},
+      {path:'lbbthtl', component: CreateCancellationMinutesComponent},
+      {path:'qlbbthtl', component: CancellationMinutesComponent},
 
     ],
 

@@ -23,7 +23,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
     reason: "",
     handover_record_canceled_note: "",
     user_rcd: "",
-    create_by_user_id: JSON.parse(localStorage.getItem('userinfo') || '{}')?.user_rcd,
+    created_by_user_id: JSON.parse(localStorage.getItem('userinfo') || '{}').user_rcd,
     profiles: []
   }
 
@@ -244,33 +244,6 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
       this.profiles = remain;
     }
   }
-
-  deleteRows(deleteList: any[]) {
-    let product_ids: any[] = [];
-    let paths_for_delete: any[] = [];
-    deleteList.forEach((product: any) => {
-      product_ids.push(product.product_id)
-      product.colors.forEach((color: any) => {
-        color.product_image1 && paths_for_delete.push(color.product_image1);
-        color.product_image2 && paths_for_delete.push(color.product_image2);
-        color.product_image3 && paths_for_delete.push(color.product_image3);
-        color.product_image4 && paths_for_delete.push(color.product_image4);
-        color.product_image5 && paths_for_delete.push(color.product_image5);
-      });
-    })
-
-    let arrayRequest = [];
-    arrayRequest.push(this.api.post(`api/admin/file/delete`, {
-      paths: paths_for_delete,
-    }));
-
-    arrayRequest.push(this.api.post('api/admin/product/deleteMulti', {
-      ids: product_ids
-    }))
-
-    return combineLatest(arrayRequest);
-  }
-
   onCanceled() {
     this.editForm!.modalInstance.hide();
     this.editRowIndex = -1;

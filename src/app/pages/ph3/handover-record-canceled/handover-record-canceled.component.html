@@ -5,10 +5,10 @@
         ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
       >
       <d-breadcrumb-item>Quản lý hồ sơ hủy</d-breadcrumb-item>
-      <d-breadcrumb-item>Quản lý hồ sơ chờ hủy</d-breadcrumb-item>
+      <d-breadcrumb-item>Quản lý biên bản bàn giao hủy tài liệu</d-breadcrumb-item>
     </d-breadcrumb>
     <div class="da-content-banner-title">Quản lý hồ sơ hủy</div>
-    <div>Quản lý hồ sơ chờ hủy</div>
+    <div>Quản lý biên bản bàn giao hủy tài liệu</div>
   </div>
   <div class="da-content-wrapper">
     <da-layout-row [daGutter]="[24, 24]">
@@ -17,48 +17,24 @@
           <div class="da-list-header">
             <div class="da-header-left">
               <div class="da-header-item">
-                <div class="da-header-item-label">Số/Ký hiệu hồ sơ:</div>
+                <div class="da-header-item-label">Số/Ký hiệu biên bản:</div>
                 <d-search
                   [size]="'sm'"
                   (searchFn)="search()"
-                  [(ngModel)]="_search.profile_code"
+                  [(ngModel)]="_search.handover_record_canceled_code"
                   class="da-inline"
-                  [placeholder]="'Số/Ký hiệu hồ sơ'"
+                  [placeholder]="'Số/Ký hiệu biên bản'"
                 ></d-search>
               </div>
               <div class="da-header-item">
-                <div class="da-header-item-label">Tên hồ sơ:</div>
+                <div class="da-header-item-label">Tên biên bản:</div>
                 <d-search
                 [size]="'sm'"
                 (searchFn)="search()"
-                [(ngModel)]="_search.profile_name"
+                [(ngModel)]="_search.handover_record_canceled_name"
                 class="da-inline"
-                [placeholder]="'Tên hồ sơ'"
+                [placeholder]="'Tên biên bản'"
               ></d-search>
-              </div>
-              <div class="da-header-item">
-                <div class="da-header-item-label">Năm:</div>
-                <div class="devui-input-group devui-dropdown-origin">
-                  <input
-                    [mode]="'year'"
-                    [dateFormat]="'y'"
-                    class="devui-input devui-form-control"
-                    placeholder="Năm"
-                    name="dp"
-                    [(ngModel)]="year"
-                    (click)="datePicker2.toggle()"
-                    autocomplete="off"
-                    dDatepicker
-                    #datePicker2="datepicker"
-                    (selectedDateChange)="getList($event)"
-                  />
-                  <div *ngIf="year" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
-                    <i class="icon icon-close"></i>
-                  </div>
-                  <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
-                    <i class="icon icon-calendar"></i>
-                  </div>
-                </div>
               </div>
             </div>
             <div class="header-right">
@@ -81,11 +57,12 @@
               <thead dTableHead [checkable]="true">
                 <tr dTableRow>
                   <th dHeadCell>#</th>
-                  <th dHeadCell>Số/Ký hiệu hồ sơ</th>
-                  <th dHeadCell>Tên hồ sơ</th>
+                  <th dHeadCell>Số/Ký hiệu biên bản</th>
+                  <th dHeadCell>Tên biên bản</th>
+                  <th dHeadCell>Nơi bàn giao</th>
+                  <th dHeadCell>Lý do bàn giao</th>
                   <th dHeadCell>Ghi chú</th>
-                  <th dHeadCell>Năm</th>
-                  <th dHeadCell>Trạng thái</th>
+                  <th dHeadCell>Người tạo</th>
                   <th dHeadCell>Tác vụ</th>
                 </tr>
               </thead>
@@ -107,19 +84,22 @@
                     </td>
                     <td dTableCell>{{ rowIndex + 1 }}</td>
                     <td dTableCell>
-                      {{ rowItem.profile_code }}
+                      {{ rowItem.handover_record_canceled_code }}
                     </td>
                     <td dTableCell>
-                      {{ rowItem.profile_name }}
+                      {{ rowItem.handover_record_canceled_name }}
                     </td>
                     <td dTableCell>
-                      {{ rowItem.profile_note }}
+                      {{ rowItem.place }}
                     </td>
                     <td dTableCell>
-                      {{ rowItem.year }}
+                      {{ rowItem.reason }}
                     </td>
                     <td dTableCell>
-                      {{ rowItem.status | profileStatus}}
+                      {{ rowItem.handover_record_canceled_note}}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.full_name}}
                     </td>
                     <td dTableCell>
                       <div class="btn-group over-flow-ellipsis">

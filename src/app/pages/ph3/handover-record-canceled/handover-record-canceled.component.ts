@@ -6,18 +6,15 @@ import { ToastService } from 'ng-devui/toast';
 import { ApiService } from 'src/app/api.service';
 
 @Component({
-  selector: 'app-profile-pending-canceled',
-  templateUrl: './profile-pending-canceled.component.html',
-  styleUrls: ['./profile-pending-canceled.component.scss'],
+  selector: 'app-handover-record-canceled',
+  templateUrl: './handover-record-canceled.component.html',
+  styleUrls: ['./handover-record-canceled.component.scss'],
 })
-export class ProfilePendingCanceledComponent implements OnInit {
+export class HandoverRecordCancelledComponent implements OnInit {
 
   @ViewChild(DataTableComponent, { static: true }) datatable: DataTableComponent;
   @ViewChild('EditorTemplate', { static: true }) EditorTemplate: TemplateRef<any>;
   basicDataSource = [];
-  handoverRecordCancelled = {
-    handover_record_cancelled_rcd: ""
-  }
   users = [];
   insert = true;
   doneSetup: Subscription;
@@ -30,10 +27,8 @@ export class ProfilePendingCanceledComponent implements OnInit {
   year: any;
 
   _search: any = {
-    profile_code: null,
-    profile_name: null,
-    status: 2,
-    year: null
+    handover_record_canceled_code: null,
+    handover_record_canceled_name: null,
   };
 
   pager = {
@@ -69,10 +64,9 @@ export class ProfilePendingCanceledComponent implements OnInit {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
       ...this._search,
-      year: year?.selectedDate?.getFullYear()
     };
 
-    this.busy = this.api.post('api/manager/HandoverMinutesRef/SearchProfile', data).subscribe((res: any) => {
+    this.busy = this.api.post('api/manager/HandoverRecordCanceled/Search', data).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
