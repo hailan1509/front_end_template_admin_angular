@@ -1,10 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit,TemplateRef, ViewChild } from '@angular/core';
-import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { Subscription, Observable, combineLatest } from 'rxjs';
+import { DataTableComponent } from 'ng-devui/data-table';
+import { DialogService } from 'ng-devui/modal';
+import { ToastService } from 'ng-devui/toast';
 import { ApiService } from 'src/app/api.service';
-import { Item, HandoverMinutesRef } from 'src/app/@core/data/listData';
-import { ListDataService } from 'src/app/@core/mock/list-data.service';
-import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
   selector: 'app-create-handover-minutes',
@@ -13,62 +12,48 @@ import { FormConfig } from 'src/app/@shared/components/admin-form';
 })
 export class CreateHandoverMinutesComponent implements OnInit {
 
-  
-  handoverRecordCancelled = {
-    handover_record_cancelled_rcd: ""
-  };
-  users = [];
+  @ViewChildren(DataTableComponent) datatables: QueryList<DataTableComponent>;
+  @ViewChild('EditorTemplate', { static: true }) EditorTemplate: TemplateRef<any>;
+  basicDataSource = [];
 
-  filterhandoverMinutesRefShow = false;
-
-  options = ['normal', 'borderless', 'bordered'];
-
-  sizeOptions = ['sm', 'md', 'lg'];
-
-  layoutOptions = ['auto', 'fixed'];
-
-  arr_status = {
-    '-1' : 'Không hoạt động',
-    '1' : 'Hoạt động'
-  };
-
-  status = [
-    {
-      name : 'Không hoạt động',
-      id : -1
-    },
-    {
-      name : 'Hoạt động',
-      id : 1
-    }
-  ];
-  numberValue = 0;
-
-  newHandoverMinutesRef  = {
-    handover_minutes_rcd: "",
-    staff_rcd: "",
-    profile_rcd: "",
+  handoverMinutes: any = {
+    handover_minutes_code: "",
     handover_minutes_name_l: "",
-    handover_minutes_name: "",
     handover_minutes_name_e: "",
-    staff_name_l: "",
-    staff_name: "",
-    profile_name_e: "",
-    profile_name_l: "",
-    profile_name: "",
-    staff_name_e: "",
     place: "",
     reason: "",
-    sort_order: 1,
     handover_minutes_note_l: "",
-    handover_minutes_note: "",
     handover_minutes_note_e: "",
-    active_flag: 0,
-    created_by_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    created_date_time: "",
-    lu_updated: "",
-    lu_user_id: "",
-    // handover_minutes_group: 1,
+    user_rcd: "",
+    create_by_user_id: JSON.parse(localStorage.getItem('userinfo') || '{}')?.user_rcd,
+    profiles: []
+  }
+
+  profiles: any = [];
+  users = [];
+  user: any;
+  insert = true;
+  doneSetup: Subscription;
+  isSubmitting = false;
+
+  deleteList: any[] = [];
+  addList: any[] = [];
+
+  year: any;
+
+  editRowIndex = -1;
+
+  _search = {
+    profile_code: null,
+    profile_name: null,
+    status: 0,
+    year: null
+  };
+
+  pager = {
+    total: 0,
+    pageIndex: 1,
+    pageSize: 5,
   };
 
   searchForm: {
@@ -80,319 +65,41 @@ export class CreateHandoverMinutesComponent implements OnInit {
     size: 'md',
     layout: 'auto',
   };
-
-  tableWidthConfig: TableWidthConfig[] = [
-    // {
-    //   field: 'handover_minutes_rcd',
-    //   width: '150px',
-    // },  
-    {
-      field: 'staff_name',
-      width: '100px',
-    },
-    {
-      field: 'profile_name',
-      width: '150px',
-    },
-    // {
-    //   field: 'profile_name',
-    //   width: '150px',
-    // },
-
-    // {
-    //   field: 'handover_minutes_note',
-    //   width: '150px',
-    // },
-    {
-      field: 'reason',
-      width: '100px',
-    },
-    {
-      field: 'place',
-      width: '100px',
-    },
-    {
-      field: 'attached_file',
-      width: '150px',
-    },
-    {
-      field: 'handover_minutes_note',
-      width: '100px',
-    },
-    {
-      field: 'active_flag',
-      width: '100px',
-    },
-    {
-      field: 'Actions',
-      width: '100px',
-    },
-  ];
-
-  basicDataSource: HandoverMinutesRef[] = [];
-
-  formConfig: FormConfig = {
-    layout: FormLayout.Horizontal,
-    items: [
-      // {
-      //   label: 'Mã biên bản bàn giao',
-      //   prop: 'handover_minutes_rcd',
-      //   type: 'input',
-      //   primary: true,
-      //   required: true,
-      //   rule: {
-      //     validators: [{ required: true }],
-      //   },
-      // },    
-      {
-        label: 'Tên nhân viên bàn giao',
-        prop: 'staff_name',
-        primary: false,
-        type: 'input',
-      },
-      {
-        label: 'Tên hồ sơ bàn giao',
-        prop: 'profile_name',
-        primary: false,
-        type: 'input',
-      },
-      {
-        label: 'Địa điểm',
-        prop: 'place',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Địa điểm',
-        prop: 'place',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      // {
-      //   label: 'Số kí hiệu biên bản',
-      //   prop: 'handover_minutes_number',
-      //   type: 'input',
-      //   primary: false,
-      //   required: true,
-      //   rule: {
-      //     validators: [{ required: true }],
-      //   },
-      // },
-      {
-        label: 'Nội dung',
-        prop: 'content',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      // {
-      //   label: 'Địa điểm',
-      //   prop: 'place',
-      //   type: 'input',
-      //   primary: true,
-      //   required: true,
-      //   rule: {
-      //     validators: [{ required: true }],
-      //   },
-      // },
-      {
-        label: 'Tệp đính kèm',
-        prop: 'attached_file',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Ghi chú',
-        prop: 'handover_minutes_note',
-        type: 'input',
-      },
-      {
-        label: 'Trạng thái',
-        prop: 'active_flag',
-        type: 'select-object',
-        options: this.status,
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-    ],
-    labelSize: '',
-  };
-
-  formData = {};
-
   editForm: any = null;
 
-  insert = true;
-
-  editRowIndex = -1;
-
-  lstStaffRef : any;
-
-  _search = {
-    lang: 'l',
-    handover_minutes_rcd: "",
-    staff_rcd: "",
-    profile_rcd:"",
-    handover_minutes_name:"",
-    handover_minutes_note:"",
-    keyword:""
-  };
-
-  pager = {
-    total: 0,
-    pageIndex: 1,
-    pageSize: 10,
-  };
-
-  // busy: any;
   busy: Subscription;
+  constructor(private api: ApiService, private dialogService: DialogService, private toastService: ToastService) {}
 
-  @ViewChild('EditorTemplate', { static: true })
-  // EditorTemplate: any;
-  EditorTemplate: TemplateRef<any>;
-
-  constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService ) {}
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.getList();
-    // this.gethandover_minutes();
+    this.loadUsersMore();
   }
 
   search() {
     this.getList();
   }
 
-
-  getList() {
-    const searchBody = {
+  getList(year: any = null) {
+    const data = {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
-      ...this._search
-    }
-    this.api.post("api/manager/HandoverMinutesRef/Search",searchBody).subscribe((res:any) => {
+      ...this._search,
+      year: year?.selectedDate?.getFullYear(),
+      json_list_id: this.addList.map((item:any) => item.profile_rcd)
+    };
+
+    this.busy = this.api.post('api/manager/HandoverMinutesRef/SearchProfile', data).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
     });
   }
 
-  getStaffRef() {
-    this.api.post("api/manager/StaffRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
+  loadUsersMore() {
+    this.busy = this.api.post('api/manager/HandoverMinutesRef/SearchUser', { page: 0, pageSize: 0}).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
-      this.lstStaffRef = a.data;
-      console.log(this.lstStaffRef);
+      this.users = a.data;
     });
-  }
-
-  editRow(row: any, index: number) {
-    this.insert = false;
-    this.editRowIndex = index;
-    this.formData = row;
-    this.editForm = this.dialogService.open({
-      id: 'edit-dialog',
-      width: '600px',
-      maxHeight: '600px',
-      title: 'Editor',
-      showAnimate: false,
-      contentTemplate: this.EditorTemplate,
-      backdropCloseable: true,
-      onClose: () => {},
-      buttons: [],
-    });
-  }
-
-  addProfileToHandover() {
-    this.insert = true;
-    this.editForm = this.dialogService.open({
-      id: 'edit-dialog',
-      width: '65%',
-      title: 'Thêm hồ sơ vào biên bản bàn giao hồ sơ hủy',
-      showAnimate: false,
-      contentTemplate: this.EditorTemplate,
-      backdropCloseable: true,
-      onClose: () => {},
-      buttons: [],
-    });
-  }
-
-  addRow() {
-    this.insert = true;
-    this.formData = this.newHandoverMinutesRef;
-    this.editForm = this.dialogService.open({
-      id: 'edit-dialog',
-      width: '600px',
-      maxHeight: '600px',
-      title: 'Editor',
-      showAnimate: false,
-      contentTemplate: this.EditorTemplate,
-      backdropCloseable: true,
-      onClose: () => {},
-      buttons: [],
-    });
-  }
-
-  deleteRow(id: string) {
-    const results = this.dialogService.open({
-      id: 'delete-dialog',
-      width: '346px',
-      maxHeight: '600px',
-      title: 'Xóa biên bản hủy',
-      showAnimate: false,
-      content: 'Bạn có chắc chắn muốn xóa?',
-      backdropCloseable: true,
-      onClose: () => {},
-      buttons: [
-        {
-          cssClass: 'primary',
-          text: 'Xóa',
-          disabled: false,
-          handler: ($event: Event) => {
-            this.api.post("api/manager/HandoverMinutesRef/DeleteMulti",[id]).subscribe((res:any) => {
-              alert("Xóa thành công!");
-              this.getList();
-              
-            });
-            results.modalInstance.hide();
-          },
-        },
-        {
-          id: 'btn-cancel',
-          cssClass: 'common',
-          text: 'Không',
-          handler: ($event: Event) => {
-            results.modalInstance.hide();
-          },
-        },
-      ],
-    });
-  }
-
-  onPageChange(e: number) {
-    this.pager.pageIndex = e;
-    this.getList();
-  }
-
-  onSizeChange(e: number) {
-    this.pager.pageSize = e;
-    this.getList();
   }
 
   reset() {
@@ -405,46 +112,180 @@ export class CreateHandoverMinutesComponent implements OnInit {
     this.getList();
   }
 
-  onSubmitted(e: any) {
-    this.editForm!.modalInstance.hide();
-    if (this.insert) {
-      // e.handover_minutes_group = 1;
-       e.handover_minutes_name_l = e.handover_minutes_name;
-      // e.handover_minutes_name_e = e.handover_minutes_name;
-       e.handover_minutes_note_l = e.handover_minutes_note;
-      // e.handover_minutes_note_e = e.handover_minutes_note;
-      // this.api.post("api/manager/handoverMinutesRef/Create",{...e}).subscribe((res:any) => {
-      //   let a = JSON.parse(JSON.stringify(res));
-      //   this.getList();
-      // });
-      console.log({...e})
+  onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
+    console.log(this.datatables)
 
-      this.api.post("api/manager/CancellationMinutesRef/Create",{...e}).subscribe((res:any) => {
-        let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
-        this.getList();
-        alert("Thêm thành công!");
-      });
-      console.log(e);
-    }
-    else {
-      // e.handover_minutes_name_l = e.handover_minutes_name;
-      // e.handover_minutes_name_e = e.handover_minutes_name;
-      e.handover_minutes_note_l = e.handover_minutes_note;
-      e.handover_minutes_note_e = e.handover_minutes_note;
-      this.api.post("api/manager/HandoverMinutesRef/Update",{...e}).subscribe((res:any) => {
-        let a = JSON.parse(JSON.stringify(res));
-        this.getList();
-        alert("Sửa thành công!");
-      });
-      console.log(e);
+    console.log(rowIndex, nestedIndex, rowItem.$checked);
+    rowItem.$checked = checked;
+    rowItem.$halfChecked = false;
+    this.datatables.first.setRowCheckStatus({
+      rowIndex: rowIndex,
+      nestedIndex: nestedIndex,
+      rowItem: rowItem,
+      checked: checked,
+    });
 
+    this.deleteList = this.datatables.first.getCheckedRows();
+    console.log(this.deleteList);
+  }
+
+  onRowCheckChange2(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
+    console.log(this.datatables)
+
+    console.log(rowIndex, nestedIndex, rowItem.$checked);
+    rowItem.$checked = checked;
+    rowItem.$halfChecked = false;
+    this.datatables.last.setRowCheckStatus({
+      rowIndex: rowIndex,
+      nestedIndex: nestedIndex,
+      rowItem: rowItem,
+      checked: checked,
+    });
+
+    this.addList = this.datatables.last.getCheckedRows();
+    console.log(this.addList);
+  }
+
+  onCheckAllChange() {
+    this.deleteList = this.datatables.first.getCheckedRows();
+  }
+  onCheckAllChange2() {
+    this.addList = this.datatables.last.getCheckedRows();
+  }
+
+  openModal() {
+    this.insert = true;
+    this.editForm = this.dialogService.open({
+      id: 'edit-dialog',
+      width: '65%',
+      title: 'Thêm danh sách hồ sơ chờ chỉnh lý',
+      showAnimate: false,
+      contentTemplate: this.EditorTemplate,
+      backdropCloseable: true,
+      onClose: () => {},
+      buttons: [],
+    });
+  }
+
+  addProfilesToHandover() {
+    if (this.addList.length > 0) {
+      this.profiles = [...this.profiles, ...this.addList];
+      console.log(this.profiles)
+
+      this.deleteList = [...this.deleteList, ...this.addList]
+      this.getList();
     }
+  }
+
+  addRow() {
+    this.insert = true;
+    this.editForm = this.dialogService.open({
+      id: 'edit-dialog',
+      width: '65%',
+      title: 'Thêm danh sách hồ sơ chờ chỉnh lý',
+      showAnimate: false,
+      contentTemplate: this.EditorTemplate,
+      backdropCloseable: true,
+      onClose: () => {},
+      buttons: [],
+    });
+  }
+
+  editRow(index: number, product_id: any) {
+    this.insert = false;
+    this.editRowIndex = index;
+    this.editForm = this.dialogService.open({
+      id: 'edit-dialog',
+      width: '65%',
+      title: 'Cập nhập biên bản',
+      showAnimate: false,
+      contentTemplate: this.EditorTemplate,
+      backdropCloseable: true,
+      onClose: () => {},
+      buttons: [],
+    });
+  }
+
+
+
+  onSubmitted({ valid, directive, data, errors }: any) {
+    console.log('Valid:', valid, 'Directive:', directive, 'data', data, 'errors', errors);
+    if (!valid) {
+      this.toastService.open({
+        value: [{ severity: 'warn', summary: 'Chú ý', content: `Chưa điền đủ thông tin được yêu cầu!` }],
+      });
+      return false;
+    }
+    if (this.isSubmitting) {
+      return false;
+    }
+
+    this.handoverMinutes.profiles = this.profiles.map((item: any) => {
+      return {
+        profile_rcd: item.profile_rcd
+      }
+    })
+    this.api.post('api/manager/HandoverMinutes/Create', this.handoverMinutes).subscribe((res: any) => {
+      this.toastService.open({
+        value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu hủy thành công!` }],
+      });
+
+      this.isSubmitting = false;
+    })
+
+
+    return true;
+  }
+
+  batchDelete(deleteList: any[]) {
+    if (deleteList.length > 0) {
+      let remain = this.profiles.filter((item: any) => {
+          console.log(deleteList.findIndex(d => d.profile_rcd == item.profile_rcd) != -1)
+        return deleteList.findIndex(d=>d.profile_rcd == item.profile_rcd) == -1
+      })
+      this.profiles = remain;
+    }
+  }
+
+  deleteRows(deleteList: any[]) {
+    let product_ids: any[] = [];
+    let paths_for_delete: any[] = [];
+    deleteList.forEach((product: any) => {
+      product_ids.push(product.product_id)
+      product.colors.forEach((color: any) => {
+        color.product_image1 && paths_for_delete.push(color.product_image1);
+        color.product_image2 && paths_for_delete.push(color.product_image2);
+        color.product_image3 && paths_for_delete.push(color.product_image3);
+        color.product_image4 && paths_for_delete.push(color.product_image4);
+        color.product_image5 && paths_for_delete.push(color.product_image5);
+      });
+    })
+
+    let arrayRequest = [];
+    arrayRequest.push(this.api.post(`api/admin/file/delete`, {
+      paths: paths_for_delete,
+    }));
+
+    arrayRequest.push(this.api.post('api/admin/product/deleteMulti', {
+      ids: product_ids
+    }))
+
+    return combineLatest(arrayRequest);
   }
 
   onCanceled() {
     this.editForm!.modalInstance.hide();
     this.editRowIndex = -1;
+
   }
 
+  onPageChange(e: number) {
+    this.pager.pageIndex = e;
+    this.getList();
+  }
+
+  onSizeChange(e: number) {
+    this.pager.pageSize = e;
+    this.getList();
+  }
 }
