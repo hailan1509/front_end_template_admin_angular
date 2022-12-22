@@ -53,7 +53,8 @@ export class CreateCancellationMinutesComponent implements OnInit {
     profile_code: null,
     profile_name: null,
     user_rcd: JSON.parse(localStorage.getItem('userinfo') || '{}').user_rcd,
-    year: null
+    year: null,
+    status: 2
   };
 
   pager = {
@@ -94,7 +95,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
       json_list_id: this.addList.map((item:any) => item.profile_rcd)
     };
 
-    this.busy = this.api.post('api/manager/HandoverRecordCanceled/SearchProfile', data).subscribe((res: any) => {
+    this.busy = this.api.post('api/manager/CancellationMinutesRef/SearchProfile', data).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
       a.data.forEach((element:any) => {
         element.cancellation_reason = "Tài liệu hết giá trị";
