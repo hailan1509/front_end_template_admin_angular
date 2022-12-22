@@ -31,7 +31,7 @@ export class ReportArchivalProfileComponent implements OnInit {
     console.log(e)
   }
 
-  
+
   getList() {
     const data = {
       page: this.pager.pageIndex,

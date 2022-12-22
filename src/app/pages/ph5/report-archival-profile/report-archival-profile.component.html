@@ -15,8 +15,7 @@
     <da-layout-row [daGutter]="[24, 24]">
       <da-col-item [daSpan]="24" [daXs]="24">
 
-
-        <div class="da-list-container">
+        <div class="da-list-container" style="text-align:center">
           <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="80%"></d-echarts>
         </div>
         <div class="da-content-card" style="text-align:center">

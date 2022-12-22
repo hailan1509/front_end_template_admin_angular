@@ -16,7 +16,7 @@
        <section>
         <div class="row">
           <div class="col-md-6">
-            <div class="devui-input-group devui-dropdown-origin-wrapper devui-dropdown-origin">
+            <div class="devui-input-group devui-dropdown-origin">
               <input
                 [mode]="'year'"
                 [dateFormat]="'y'"
@@ -30,7 +30,7 @@
                 #datePicker1="datepicker"
                 (selectedDateChange)="getValue($event)"
               />
-              <div *ngIf="selectedDate1" class="devui-input-group-addon icon-close-wrapper" (click)="datePicker1.clearAll()">
+              <div *ngIf="selectedDate1" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker1.clearAll()">
                 <i class="icon icon-close"></i>
               </div>
               <div class="devui-input-group-addon" (click)="datePicker1.toggle()">

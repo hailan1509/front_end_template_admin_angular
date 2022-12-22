@@ -232,7 +232,7 @@ export class DataAlterComponent implements OnInit {
         }
       }
       // console.log(datax);
-      
+
       this.serviceData.series[0].data = datax;
 
       // console.log(this.generality);
