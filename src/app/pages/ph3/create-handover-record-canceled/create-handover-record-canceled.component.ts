@@ -23,6 +23,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
     reason: "",
     handover_record_canceled_note: "",
     user_rcd: "",
+    create_by_user_id: JSON.parse(localStorage.getItem('userinfo') || '{}')?.user_rcd,
     profiles: []
   }
 
@@ -169,7 +170,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
       this.profiles = [...this.profiles, ...this.addList];
       console.log(this.profiles)
 
-      this.deleteList = [...this.deleteList, ...this.profiles]
+      this.deleteList = [...this.deleteList, ...this.addList]
       this.getList();
     }
   }
@@ -236,12 +237,11 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
 
   batchDelete(deleteList: any[]) {
     if (deleteList.length > 0) {
-      let remain = this.addList.filter((item: any) => {
+      let remain = this.profiles.filter((item: any) => {
           console.log(deleteList.findIndex(d => d.profile_rcd == item.profile_rcd) != -1)
         return deleteList.findIndex(d=>d.profile_rcd == item.profile_rcd) == -1
       })
-      this.addList = remain;
-      this.handoverRecordCanceled.profiles = remain;
+      this.profiles = remain;
     }
   }
 
@@ -274,6 +274,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
   onCanceled() {
     this.editForm!.modalInstance.hide();
     this.editRowIndex = -1;
+
   }
 
   onPageChange(e: number) {
