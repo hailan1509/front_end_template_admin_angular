@@ -5,7 +5,7 @@
           ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
         >
         <d-breadcrumb-item>Quản lý hồ sơ hủy</d-breadcrumb-item>
-        <d-breadcrumb-item>Lập biên bản bàn giao hủy tài liệu</d-breadcrumb-item>
+        <d-breadcrumb-item>Quản lý biên bản bàn giao hồ sơ</d-breadcrumb-item>
       </d-breadcrumb>
       <div class="da-content-banner-title">
         Quản lý hồ sơ hủy
@@ -97,7 +97,7 @@
                 [isSearch]="true"
                 [(ngModel)]="user"
                 [filterKey]="'full_name'"
-                [placeholder]="'Người được giao'"
+                [placeholder]="'Người duyệt'"
                 [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
               >
               </d-select>

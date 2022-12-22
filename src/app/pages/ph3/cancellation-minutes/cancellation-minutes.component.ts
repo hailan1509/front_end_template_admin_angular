@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit,TemplateRef, ViewChild } from '@angular/core';
-import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
+import { DataTableComponent, DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { Item, CancellationMinutesRef } from 'src/app/@core/data/listData';
@@ -13,7 +13,8 @@ import { FormConfig } from 'src/app/@shared/components/admin-form';
 })
 export class CancellationMinutesComponent implements OnInit {
 
-
+  @ViewChild(DataTableComponent, { static: true }) datatable: DataTableComponent;
+  deleteList: any[] = [];
   filterCancellationMinutesRefShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
@@ -77,77 +78,6 @@ export class CancellationMinutesComponent implements OnInit {
     layout: 'auto',
   };
 
-  tableWidthConfig: TableWidthConfig[] = [
-    {
-      field: 'cancellation_minutes_rcd',
-      width: '150px',
-    },  
-    {
-      field: 'staff_name',
-      width: '100px',
-    },
-    {
-      field: 'user_name',
-      width: '100px',
-    },
-    {
-      field: 'number_of_cancellations',
-      width: '150px',
-    },
-    {
-      field: 'cancellation_minutes_number',
-      width: '150px',
-    },
-    {
-      field: 'decision_number',
-      width: '100px',
-    },
-    {
-      field: 'content',
-      width: '100px',
-    },
-    {
-      field: 'place',
-      width: '100px',
-    },
-    {
-      field: 'cancellation_method',
-      width: '100px',
-    },
-    {
-      field: 'time_destroy',
-      width: '100px',
-    },
-    {
-      field: 'attached_file',
-      width: '150px',
-    },
-    {
-      field: 'cancellation_minutes_note_e',
-      width: '100px',
-    },
-    {
-      field: 'cancellation_minutes_note_l',
-      width: '100px',
-    },
-    {
-      field: 'status',
-      width: '100px',
-    },
-    {
-      field: 'comment',
-      width: '100px',
-    },
-    {
-      field: 'active_flag',
-      width: '100px',
-    },
-    {
-      field: 'Actions',
-      width: '100px',
-    },
-  ];
-
   basicDataSource: CancellationMinutesRef[] = [];
 
   formConfig: FormConfig = {
@@ -162,7 +92,7 @@ export class CancellationMinutesComponent implements OnInit {
         rule: {
           validators: [{ required: true }],
         },
-      },    
+      },
       {
         label: 'Tên nhân viên',
         prop: 'staff_name',
@@ -265,7 +195,7 @@ export class CancellationMinutesComponent implements OnInit {
         prop: 'comment',
         type: 'input',
       },
-      
+
       {
         label: 'Trạng thái',
         prop: 'active_flag',
@@ -292,25 +222,12 @@ export class CancellationMinutesComponent implements OnInit {
   lstStaffRef : any;
   lstUsersfRef : any;
 
-  _search = {
-    // lang: 'l',
-    // cancellation_minutes_rcd: "",
-    // staff_rcd: "",
-    // user_rcd: "",
-    // cancellation_minutes_number:"",
-    // decision_number:"",
-    // number_of_cancellations:1,
-    // content:"",
-    // place:"",
-    // cancellation_method:"",
-    // time_destroy:new Date(),
-    // attached_file:"",
-    // status:1,
-    // comment:"",
-    // cancellation_minutes_name:"",
-    // cancellation_minutes_note_e:"",
-    // cancellation_minutes_note_l:"",
-    keyword: ''
+  _search: any = {
+    cancellation_minutes_number: null,
+    place: null,
+    cancellation_method: null,
+    time_destroy: null,
+    status: null,
   };
 
   pager = {
@@ -338,7 +255,7 @@ export class CancellationMinutesComponent implements OnInit {
   }
 
   // getList() {
-    
+
   //   const searchBody = {
   //     page: this.pager.pageIndex,
   //     pageSize: this.pager.pageSize,
@@ -352,7 +269,13 @@ export class CancellationMinutesComponent implements OnInit {
   // }
 
   getList() {
-    this.api.post("api/manager/CancellationMinutesRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name : this._search.keyword}).subscribe((res:any) => {
+    const data = {
+      page: this.pager.pageIndex,
+      pageSize: this.pager.pageSize,
+      ...this._search,
+      time_destroy: this._search.time_destroy ? new Date(Date.UTC(this._search.time_destroy.getFullYear(), this._search.time_destroy.getMonth(), this._search.time_destroy.getDate())) : null
+    };
+    this.api.post("api/manager/CancellationMinutesRef/Search", data).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -425,7 +348,7 @@ export class CancellationMinutesComponent implements OnInit {
             this.api.post("api/manager/CancellationMinutesRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
-              
+
             });
             results.modalInstance.hide();
           },
@@ -499,6 +422,31 @@ export class CancellationMinutesComponent implements OnInit {
         alert("Sửa thành công!");
       });
       console.log(e);
+
+    }
+  }
+
+  onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
+    console.log(rowIndex, nestedIndex, rowItem.$checked);
+    rowItem.$checked = checked;
+    rowItem.$halfChecked = false;
+    this.datatable.setRowCheckStatus({
+      rowIndex: rowIndex,
+      nestedIndex: nestedIndex,
+      rowItem: rowItem,
+      checked: checked,
+    });
+
+    this.deleteList = this.datatable.getCheckedRows();
+    console.log(this.deleteList);
+  }
+
+  onCheckAllChange() {
+    this.deleteList = this.datatable.getCheckedRows();
+  }
+
+  batchDelete(deleteList: any[]) {
+    if (deleteList.length > 0) {
 
     }
   }

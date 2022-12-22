@@ -78,8 +78,8 @@ export default function (values: any) {
           link: '/pages/PH3/lbbthtl',
         },
         {
-          title: values['PH3']['qlbbthhtl'],
-          link: '/pages/PH3/qlbbthhtl',
+          title: values['PH3']['qlbbthtl'],
+          link: '/pages/PH3/qlbbthtl',
         },
       ],
       link: '/pages/PH3',
