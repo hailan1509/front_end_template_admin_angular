@@ -46,6 +46,26 @@ import { RegisterComponent } from './components/register/register.component';
 import { HeaderNoticeComponent } from './components/header/header-operation/header-notice/header-notice.component';
 
 import { MiningFileStatusPipe } from './pipe/mining-file-status.pipe';
+import { FormUploadComponent } from './components/form-upload/form-upload.component';
+import {
+  AutoCompletePopupComponent,
+  DatepickerComponent,
+  DragPreviewComponent,
+  DrawerComponent,
+  InputNumberComponent,
+  LoadingBackdropComponent,
+  LoadingComponent,
+  ModalComponent,
+  ModalContainerComponent,
+  PopoverComponent,
+  ReadTipComponent,
+  SelectComponent,
+  StepsGuideComponent,
+  ToastComponent,
+  TooltipComponent,
+  TreeSelectComponent
+} from "ng-devui";
+import { DevUIModule } from "ng-devui";
 
 const DEVUI_MODULES = [
   LayoutModule,
@@ -82,7 +102,8 @@ const PIPES = [MiningFileStatusPipe]
     HeaderNoticeComponent,
     RegisterComponent,
     ...COMPONENTS,
-    ...PIPES
+    ...PIPES,
+    FormUploadComponent
   ],
   imports: [
     CommonModule,
@@ -97,7 +118,8 @@ const PIPES = [MiningFileStatusPipe]
     TooltipModule,
     I18nModule,
     DaGridModule,
-    ...DEVUI_MODULES,
+    DevUIModule,
+    TranslateModule.forRoot(),
   ],
   exports: [
     CommonModule,
@@ -112,6 +134,25 @@ const PIPES = [MiningFileStatusPipe]
     ...COMPONENTS,
     ...PIPES
   ],
+  entryComponents: [
+    AutoCompletePopupComponent,
+    DatepickerComponent,
+    DragPreviewComponent,
+    DrawerComponent,
+    InputNumberComponent,
+    LoadingBackdropComponent,
+    LoadingComponent,
+    ModalComponent,
+    ModalContainerComponent,
+    PopoverComponent,
+    ReadTipComponent,
+    SelectComponent,
+    StepsGuideComponent,
+    ToastComponent,
+    TooltipComponent,
+    TreeSelectComponent,
+  ],
+  bootstrap: [ FormUploadComponent ],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

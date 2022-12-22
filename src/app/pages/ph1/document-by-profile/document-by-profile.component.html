@@ -1,1 +1,155 @@
-<p>document-by-profile works!</p>
+<div class="da-list-wrap">
+    <div class="da-content-banner">
+      <d-breadcrumb>
+        <d-breadcrumb-item
+          ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+        >
+        <d-breadcrumb-item>Quản lý</d-breadcrumb-item>
+        <d-breadcrumb-item>Quản lý hồ sơ</d-breadcrumb-item>
+        <d-breadcrumb-item>Quản lý tài liệu</d-breadcrumb-item>
+      </d-breadcrumb>
+      <div class="da-content-banner-title" style="border-bottom: 1px solid #ccc;">
+        Thông tin hồ sơ
+      </div>
+      <d-row>
+        <d-col [dSpan]="11">
+            <b>Tên hồ sơ:</b> {{ profileInfo.profile_name_l }}
+        </d-col>
+        <d-col [dSpan]="1" style="border-right: 1px solid #ccc;"></d-col>
+        <d-col [dSpan]="1"></d-col>
+        <d-col [dSpan]="11">
+            <b>Số hồ sơ:</b> {{ profileInfo.profile_number }}
+        </d-col>
+      </d-row>
+      <d-row>
+        <d-col [dSpan]="11">
+            <b>Loại hồ sơ:</b> {{ profileInfo.profile_type_name_l }}
+        </d-col>
+        <d-col [dSpan]="1" style="border-right: 1px solid #ccc;"></d-col>
+        <d-col [dSpan]="1"></d-col>
+        <d-col [dSpan]="11">
+            <b>Cơ quan ban hành:</b> {{ profileInfo.agency_issued_name_l }}
+        </d-col>
+      </d-row>
+      <d-row>
+        <d-col [dSpan]="11">
+            <b>Lưu trữ:</b> {{ profileInfo.archives_name_l }}
+        </d-col>
+        <d-col [dSpan]="1" style="border-right: 1px solid #ccc;"></d-col>
+        <d-col [dSpan]="1"></d-col>
+        <d-col [dSpan]="11">
+            <b>Phòng ban:</b> {{ profileInfo.phong_name_l }}
+        </d-col>
+      </d-row>
+    </div>
+    <div class="da-content-wrapper">
+      <da-layout-row [daGutter]="[24, 24]">
+        <da-col-item [daSpan]="24" [daXs]="24">
+          <div class="da-list-container">
+            <div class="da-list-header">
+              <div class="da-common-search">
+                <div class="da-left">
+                </div>
+                <div class="da-right" style="text-align: right">
+                    <b>Danh sách tài liệu</b>
+                    <d-button (click)="getList()" style="margin-left: 12px">Reset</d-button>
+                    <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
+  
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="list-content" dLoading [loading]="busy">
+              <d-data-table
+                #datatable
+                [dataSource]="basicDataSource"
+                [borderType]="'bordered'"
+                [scrollable]="true"
+              >
+              <d-column  header="STT" [width]="'100px'">
+                <d-cell>
+                  <ng-template let-rowIndex="rowIndex">
+                    {{ rowIndex+1 }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+                <d-column field="document_name_l" header="Tên tài liệu" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="document_number" header="Mã số" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="date" header="Ngày" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                        {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="document_type_name_l" header="Loại" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="physical_condition_name_l" header="Tình trạng" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="confidentiality_name_l" header="Bảo mật" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      <span >{{ cellItem }}</span>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="Actions" header="Actions" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
+                      <div class="btn-group over-flow-ellipsis">
+                        <d-button icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
+                        <!-- <d-button icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.profile_rcd)"></d-button> -->
+                        <d-button icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="openPreventCloseDialog()"></d-button>
+                      </div>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+              </d-data-table>
+            </div>
+            <div class="da-list-footer">
+              <!-- <d-pagination
+                [size]="'sm'"
+                [total]="pager.total"
+                [(pageSize)]="pager.pageSize"
+                [(pageIndex)]="pager.pageIndex"
+                [canViewTotal]="true"
+                [canChangePageSize]="true"
+                [canJumpPage]="true"
+                [maxItems]="5"
+                (pageIndexChange)="onPageChange($event)"
+                (pageSizeChange)="onSizeChange($event)"
+              >
+              </d-pagination> -->
+            </div>
+          </div>
+        </da-col-item>
+      </da-layout-row>
+    </div>
+  </div>
+  
+  <ng-template #EditorTemplate>
+    <da-admin-form [formConfig]="formConfig" [insert]="insert"  [formData]="formData" (submitted)="onSubmitted($event)" (canceled)="onCanceled()">
+    </da-admin-form>
+  </ng-template>
