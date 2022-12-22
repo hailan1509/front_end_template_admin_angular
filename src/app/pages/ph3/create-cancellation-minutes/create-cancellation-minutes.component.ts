@@ -92,7 +92,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
       pageSize: this.pager.pageSize,
       ...this._search,
       year: year?.selectedDate?.getFullYear(),
-      json_list_id: this.addList.map((item:any) => item.profile_rcd)
+      json_list_id: this.profiles.map((item:any) => item.profile_rcd)
     };
 
     this.busy = this.api.post('api/manager/CancellationMinutesRef/SearchProfile', data).subscribe((res: any) => {
@@ -247,6 +247,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
         value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu hủy thành công!` }],
       });
 
+      this.profiles = [];
       this.cancellationMinutes.profiles = [];
       this.isSubmitting = false;
     })

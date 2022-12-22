@@ -83,7 +83,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
       pageSize: this.pager.pageSize,
       ...this._search,
       year: year?.selectedDate?.getFullYear(),
-      json_list_id: this.addList.map((item:any) => item.profile_rcd)
+      json_list_id: this.profiles.map((item:any) => item.profile_rcd)
     };
 
     this.busy = this.api.post('api/manager/HandoverMinutesRef/SearchProfile', data).subscribe((res: any) => {
@@ -229,6 +229,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
       this.toastService.open({
         value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu hủy thành công!` }],
       });
+      this.profiles = [];
       this.handoverRecordCanceled.profiles = [];
       this.isSubmitting = false;
     })
