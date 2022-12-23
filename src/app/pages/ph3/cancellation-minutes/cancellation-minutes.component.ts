@@ -447,7 +447,7 @@ export class CancellationMinutesComponent implements OnInit {
 
   batchDelete(deleteList: any[]) {
     if (deleteList.length > 0) {
-
+      
     }
   }
 

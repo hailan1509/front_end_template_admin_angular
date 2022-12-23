@@ -181,7 +181,13 @@ export class HandedOverProfileComponent implements OnInit {
   lstCountry : any;
 
   _search = {
-    keyword: ''
+    keyword: '',
+    profile_code:null,
+    profile_number: null,
+    year: null,
+    profile_name: null,
+    profile_note:null,
+    status:0,
   };
 
   pager = {
