@@ -225,9 +225,9 @@ export class CreateHandoverMinutesComponent implements OnInit {
         profile_rcd: item.profile_rcd
       }
     })
-    this.api.post('api/manager/HandoverMinutes/Create', this.handoverMinutes).subscribe((res: any) => {
+    this.api.post('api/manager/HandoverMinutesRef/Create', this.handoverMinutes).subscribe((res: any) => {
       this.toastService.open({
-        value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu hủy thành công!` }],
+        value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu thành công!` }],
       });
 
       this.isSubmitting = false;

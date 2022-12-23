@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateHandoverMinutesComponent } from './create-handover-minutes/create-handover-minutes.component';
+import { HandedOverProfileComponent } from './handed-over-profile/handed-over-profile.component';
 import { HandoverMinutesComponent } from './handover-minutes/handover-minutes.component';
 import {ph2Component} from './ph2.component';
 const routes: Routes = [
@@ -10,6 +11,7 @@ const routes: Routes = [
     children:[
        {path:'qlbbbg', component: HandoverMinutesComponent},
        {path:'lbbbg', component: CreateHandoverMinutesComponent},
+       {path:'qlhsdbg', component: HandedOverProfileComponent},
     ],
     
   },

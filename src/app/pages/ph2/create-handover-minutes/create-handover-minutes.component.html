@@ -23,7 +23,7 @@
               dTextInput
               [name]="'product_name'"
               [placeholder]="'Số ký hiệu văn bản'"
-              name="handover_record_cancelled_code"
+              name="handover_minutes_code"
               [(ngModel)]="handoverMinutes.handover_minutes_code"
               autocomplete="off"
               maxlength="50"
@@ -38,8 +38,23 @@
               dTextInput
               [name]="'product_name'"
               [placeholder]="'Tên biên bản'"
-              name="handover_record_cancelled_name"
-              [(ngModel)]="handoverMinutes.handover_minutes_name"
+              name="handover_minutes_name"
+              [(ngModel)]="handoverMinutes.handover_minutes_name_l"
+              autocomplete="off"
+              maxlength="100"
+              [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+            />
+          </d-form-control>
+        </d-form-item>
+        <d-form-item>
+          <d-form-label [required]="true">Handover minutes name:</d-form-label>
+          <d-form-control>
+            <input
+              dTextInput
+              [name]="'product_name'"
+              [placeholder]="'Handover minutes name'"
+              name="handover_minutes_name"
+              [(ngModel)]="handoverMinutes.handover_minutes_name_e"
               autocomplete="off"
               maxlength="100"
               [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
@@ -81,8 +96,22 @@
               dTextInput
               [name]="'product_name'"
               [placeholder]="'Ghi chú'"
-              name="handover_record_cancelled_note"
-              [(ngModel)]="handoverMinutes.handover_minutes_note"
+              name="handover_minutes_note"
+              [(ngModel)]="handoverMinutes.handover_minutes_note_l"
+              autocomplete="off"
+              maxlength="250"
+            />
+          </d-form-control>
+        </d-form-item>
+        <d-form-item>
+          <d-form-label [required]="true">Note:</d-form-label>
+          <d-form-control>
+            <input
+              dTextInput
+              [name]="'product_name'"
+              [placeholder]="'Note'"
+              name="handover_minutes_note"
+              [(ngModel)]="handoverMinutes.handover_minutes_note_e"
               autocomplete="off"
               maxlength="250"
             />
@@ -93,7 +122,7 @@
           <d-form-control>
             <d-select
               [options]="users"
-              name="user"
+              name="user_rcd"
               [isSearch]="true"
               [(ngModel)]="user"
               [filterKey]="'full_name'"
@@ -103,7 +132,7 @@
             </d-select>
           </d-form-control>
         </d-form-item>
-        <p style="font-weight: bold; margin-bottom: 30px">Danh sách hồ sơ hết giá trị</p>
+        <p style="font-weight: bold; margin-bottom: 30px">Danh sách hồ sơ chờ bàn giao</p>
         <div  style="margin-bottom: 15px">
           <d-button (click)="openModal()" style="margin-right: 8px">Bổ sung</d-button>
           <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Loại bỏ</d-button>
