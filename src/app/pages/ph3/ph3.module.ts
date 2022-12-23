@@ -15,6 +15,8 @@ import { ProfilePendingCanceledComponent } from './profile-pending-canceled/prof
 import { CreateHandoverRecordCancelledComponent } from './create-handover-record-canceled/create-handover-record-canceled.component';
 import { CreateCancellationMinutesComponent } from './create-cancellation-minutes/create-cancellation-minutes.component';
 import { HandoverRecordCancelledComponent } from './handover-record-canceled/handover-record-canceled.component';
+import { ProfileCanceledComponent } from './profile-canceled/profile-canceled.component';
+import { CancellationMinutesWaitingApprovalComponent } from './cancellation-minutes-waiting-approval/cancellation-minutes-waiting-approval.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { HandoverRecordCancelledComponent } from './handover-record-canceled/han
     ProfilePendingCanceledComponent,
     CreateHandoverRecordCancelledComponent,
     HandoverRecordCancelledComponent,
-    CreateCancellationMinutesComponent
+    CreateCancellationMinutesComponent,
+    ProfileCanceledComponent,
+    CancellationMinutesWaitingApprovalComponent
   ],
   imports: [
     SharedModule,
