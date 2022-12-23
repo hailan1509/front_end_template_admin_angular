@@ -5,12 +5,12 @@
         ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
       >
       <d-breadcrumb-item>Quản lý hủy hồ sơ</d-breadcrumb-item>
-      <d-breadcrumb-item>Quản lý biên bản tiêu hủy tài liệu</d-breadcrumb-item>
+      <d-breadcrumb-item>Biên bản tiêu hủy tài liệu chờ duyệt</d-breadcrumb-item>
     </d-breadcrumb>
     <div class="da-content-banner-title">
       Quản lý hủy hồ sơ
     </div>
-    <div>Quản lý biên bản tiêu hủy tài liệu</div>
+    <div>Biên bản tiêu hủy tài liệu chờ duyệt</div>
   </div>
   <div class="da-content-wrapper">
     <da-layout-row [daGutter]="[24, 24]">
@@ -74,7 +74,7 @@
                 </div>
               </div>
               <div class="header-right">
-                <d-button class="btn btn-primary" (click)="addRow()" style="margin-right: 8px">Thêm</d-button>
+                <d-button class="btn btn-primary" [disabled]="!deleteList.length" (click)="batchApproval(deleteList)" style="margin-right: 8px">Duyệt</d-button>
                 <d-button (click)="reset()" bsStyle="common" style="margin-right: 8px">Reset</d-button>
                 <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button>
               </div>
@@ -167,7 +167,7 @@
                           title="edit"
                           shape="circle"
                           style="margin-right: 8px"
-                          (btnClick)="editRow(rowIndex, rowItem.product_id)"
+                          (btnClick)="batchApproval([rowIndex])"
                         ></d-button>
                         <d-button (btnClick)="batchDelete([rowItem])" icon="icon-delete" bsStyle="danger" bsSize="xs" title="delete" shape="circle"></d-button>
                       </div>
@@ -199,6 +199,24 @@
 </div>
 
 <ng-template #EditorTemplate>
-  <da-admin-form [formConfig]="formConfig" [insert]="insert"  [formData]="formData" (submitted)="onSubmitted($event)" (canceled)="onCanceled()">
-  </da-admin-form>
+  <form dForm #eForm dLoading [loading]="doneSetup" (dSubmit)="onSubmitted($event)">
+    <d-form-item>
+      <d-form-label [required]="true">Ý kiến:</d-form-label>
+      <d-form-control>
+        <input
+          dTextInput
+          [name]="'product_name'"
+          [placeholder]="'Ý kiến'"
+          [(ngModel)]="cancelaltionMinutes.comment"
+          autocomplete="off"
+          maxlength="500"
+        />
+      </d-form-control>
+    </d-form-item>
+    <d-form-operation class="da-form-operation" style="text-align: right">
+      <d-button style="margin-right: 8px" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting" (btnClick)="approvalRows(deleteList, 1)">Ok</d-button>
+      <d-button bsStyle="danger"  (btnClick)="approvalRows(deleteList, -1)" style="margin-right: 8px" [showLoading]="isSubmitting">Từ chối</d-button>
+      <d-button bsStyle="common" (click)="onCanceled()">Hủy</d-button>
+    </d-form-operation>
+  </form>
 </ng-template>
