@@ -281,20 +281,24 @@ export class PhysicalConditionRefComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.physical_condition_rcd=e.physical_condition_rcd;
-      
-      e.physical_condition_name_e = e.physical_condition_name_e;
-      e.physical_condition_name_l = e.physical_condition_name_l;
-      e.physical_condition_note_e = e.physical_condition_note_e;
-      e.physical_condition_note_l = e.physical_condition_note_l;
+      const obj = {
+        physical_condition_rcd:e.physical_condition_rcd,
+        physical_condition_name_e : '',
+        physical_condition_name_l : e.physical_condition_name_l,
+        physical_condition_note_e : '',
+        physical_condition_note_l : e.physical_condition_note_l,
+        created_by_user_id : '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        active_flag : e.active_flag,
+        created_date_time : '2022-12-23T02:13:28.930Z',
+      }
 
-      this.api.post("api/manager/PhysicalConditionRef/Create",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/PhysicalConditionRef/Create",{...obj}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(e);
+      console.log(obj);
     }
     else {
       

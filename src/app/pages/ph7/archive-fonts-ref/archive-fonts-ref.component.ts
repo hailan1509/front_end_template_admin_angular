@@ -281,20 +281,24 @@ export class ArchiveFontsRefComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.archive_fonts_rcd=e.archive_fonts_rcd;
-      
-      e.archive_fonts_name_e = e.archive_fonts_name_e;
-      e.archive_fonts_name_l = e.archive_fonts_name_l;
-      e.archive_fonts_note_e = e.archive_fonts_note_e;
-      e.archive_fonts_note_l = e.archive_fonts_note_l;
+      const obj = {
+        archive_fonts_rcd:e.archive_fonts_rcd,
+        archive_fonts_name_e : '',
+        archive_fonts_name_l : e.archive_fonts_name_l,
+        archive_fonts_note_e : '',
+        archive_fonts_note_l : e.archive_fonts_note_l,
+        created_by_user_id : '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        active_flag : e.active_flag,
+        created_date_time : '2022-12-23T02:13:28.930Z',
+      }
 
-      this.api.post("api/manager/ArchiveFontsRef/Create",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/ArchiveFontsRef/Create",{...obj}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(e);
+      console.log(obj);
     }
     else {
       

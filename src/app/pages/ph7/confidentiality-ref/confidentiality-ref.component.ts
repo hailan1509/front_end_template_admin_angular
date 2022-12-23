@@ -281,20 +281,24 @@ export class ConfidentialityRefComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.confidentiality_rcd=e.confidentiality_rcd;
-      
-      e.confidentiality_name_e = e.confidentiality_name_e;
-      e.confidentiality_name_l = e.confidentiality_name_l;
-      e.confidentiality_note_e = e.confidentiality_note_e;
-      e.confidentiality_note_l = e.confidentiality_note_l;
+      const obj = {
+        confidentiality_rcd:e.confidentiality_rcd,
+        confidentiality_name_e : '',
+        confidentiality_name_l : e.confidentiality_name_l,
+        confidentiality_note_e : '',
+        confidentiality_note_l : e.confidentiality_note_l,
+        created_by_user_id : '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        active_flag : e.active_flag,
+        created_date_time : '2022-12-23T02:13:28.930Z',
+      }
 
-      this.api.post("api/manager/ConfidentialityRef/Create",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/ConfidentialityRef/Create",{...obj}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(e);
+      console.log(obj);
     }
     else {
       
