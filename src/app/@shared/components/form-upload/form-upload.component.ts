@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FileUploader, IFileOptions, IUploadOptions } from 'ng-devui/upload';
+import { FormLayout } from 'ng-devui/form';
 
 @Component({
   selector: 'app-form-upload',
@@ -7,6 +8,11 @@ import { FileUploader, IFileOptions, IUploadOptions } from 'ng-devui/upload';
   styleUrls: ['./form-upload.component.scss']
 })
 export class FormUploadComponent implements OnInit {
+  @Input() data: any;
+  branch = 'develop';
+  tagName = '';
+  des = '';
+  layoutDirection: FormLayout = FormLayout.Vertical;
 
   additionalParameter2 = {
     name: 'tom',
@@ -22,7 +28,9 @@ export class FormUploadComponent implements OnInit {
     multiple: true,
     accept: '.xls,.xlsx,.pages,.mp3,.png',
   };
-  uploadedFiles2: Array<Object> = [];
+  uploadedFiles2: Array<Object> = [
+
+  ];
   UPLOADED: string;
   FAILED: string;
   DELETE: string;
@@ -40,11 +48,12 @@ export class FormUploadComponent implements OnInit {
   }
 
   onSuccess3(result:any) {
-    // console.log(result);
+    console.log(result);
+    console.log(this.uploadedFiles2);
   }
 
   onError3(error:any) {
-    // console.log(error);
+    console.log(error);
   }
 
   deleteUploadedFile3(filePath: string) {
@@ -70,10 +79,13 @@ export class FormUploadComponent implements OnInit {
     }
     return uploadOptions;
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.data);
+  }
   
   onClick(event: any) {
 
   }
+
 
 }

@@ -254,25 +254,29 @@ export class DocumentByProfileComponent implements OnInit {
     this.editRowIndex = -1;
   }
 
-  openPreventCloseDialog() {
-    const results = this.dialogService.open({
-      id: 'dialog-service',
-      width: '500px',
-      maxHeight: '500px',
-      title: 'This is title',
-      content: FormUploadComponent,
-      dialogtype: 'standard',
-      beforeHidden: () => this.beforeHidden(),
-      backdropCloseable: true,
-      buttons: [
-        {
-          cssClass: 'primary',
-          text: 'Save',
-          handler: ($event: Event) => {
-            results.modalInstance.hide();
+  openPreventCloseDialog(document_rcd:any) {
+    this.api.get("api/manager/DocumentRef/GetByDocumentId/"+document_rcd).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      const results = this.dialogService.open({
+        id: 'dialog-service',
+        width: '500px',
+        maxHeight: '500px',
+        title: 'Danh sách file trong tài liệu',
+        content: FormUploadComponent,
+        dialogtype: 'standard',
+        beforeHidden: () => this.beforeHidden(),
+        backdropCloseable: true,
+        buttons: [
+          {
+            cssClass: 'primary',
+            text: 'Save',
+            handler: ($event: Event) => {
+              results.modalInstance.hide();
+            },
           },
-        },
-      ],
+        ],
+        data: a.data
+      });
     });
   }
 

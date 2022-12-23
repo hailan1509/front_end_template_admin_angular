@@ -1,29 +1,57 @@
 <div (click)="onClick($event)">
-    
     <div class="d-form-field">
+      <div class="clear-fix">
+        <b>Danh sách file hiện có</b>
+      </div>
+    </div>
+    <div class="d-form-field" *ngFor="let item of data;index as i;" style="padding-left: 15px;">
+      <div class="clear-fix">
+        <d-row>
+          <d-col [dSpan]="15">
+            {{data[i].file_name}}
+          </d-col>
+          <d-col [dSpan]="1"> </d-col>
+          <d-col [dSpan]="8">
+            <d-button icon="trash" bsStyle="primary" bsSize="xs">
+              {{ DELETE }}
+            </d-button>
+          </d-col>
+        </d-row>
+      </div>
+    </div>
+    <div class="d-form-field" style="border-top: 1px solid #ccc !important; padding-top: 10px;">
         <div class="clear-fix">
-            <div class="upload-body">
-              <d-multiple-upload
-                #multipleupload
-                [fileOptions]="fileOptions2"
-                [uploadedFiles]="uploadedFiles2"
-                [filePath]="'name'"
-                [uploadOptions]="uploadOptions2"
-                (successEvent)="onSuccess3($event)"
-                (deleteUploadedFileEvent)="deleteUploadedFile3($event)"
-                (errorEvent)="onError3($event)"
-                [setCustomUploadOptions]="setCustomUploadOptions"
-                [uploadedFilesRef]="uploadedFilesTemp"
-                [preloadFilesRef]="preloadFilesTemp"
-                [withoutBtn]="true"
-              >
-              </d-multiple-upload>
-            </div>
-            <div class="upload-btn">
-              <d-button [bsStyle]="'primary'" (click)="multipleupload.upload($event)">
-                {{ UPLOAD }}
-              </d-button>
-            </div>
+            <d-row>
+              <d-col [dSpan]="15">
+
+                <div class="upload-body">
+                  <d-multiple-upload
+                    #multipleupload
+                    [fileOptions]="fileOptions2"
+                    [uploadedFiles]="uploadedFiles2"
+                    [filePath]="'name'"
+                    [uploadOptions]="uploadOptions2"
+                    (successEvent)="onSuccess3($event)"
+                    (deleteUploadedFileEvent)="deleteUploadedFile3($event)"
+                    (errorEvent)="onError3($event)"
+                    [setCustomUploadOptions]="setCustomUploadOptions"
+                    [uploadedFilesRef]="uploadedFilesTemp"
+                    [preloadFilesRef]="preloadFilesTemp"
+                    [withoutBtn]="true"
+                  >
+                  </d-multiple-upload>
+                </div>
+              </d-col>
+              <d-col [dSpan]="1"> </d-col>
+              <d-col [dSpan]="8">
+
+                <div class="upload-btn">
+                  <d-button [bsStyle]="'primary'" (click)="multipleupload.upload($event)">
+                    {{ UPLOAD }}
+                  </d-button>
+                </div>
+              </d-col>
+            </d-row>
           </div>
           <ng-template #uploadedFilesTemp let-uploadedFiles="uploadedFiles" let-deleteFile="deleteFile" let-filePath="filePath">
             <table class="table" *ngIf="uploadedFiles.length > 0" [style.margin-bottom.px]="0">
