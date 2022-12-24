@@ -34,8 +34,8 @@ export class LoginComponent implements OnInit {
   languages = LANGUAGES;
 
   formData = {
-    userAccount: 'Admin',
-    userAccountPassword: 'DevUI.admin',
+    userAccount: '',
+    userAccountPassword: '',
     userEmail: 'admin@devui.com',
     userEmailPassword: 'devuiadmin',
   };

@@ -352,7 +352,6 @@ export class ProfileRefComponent implements OnInit {
         let a = JSON.parse(JSON.stringify(res));
         this.getList();
       });
-      console.log(e);
 
     }
   }
@@ -360,5 +359,9 @@ export class ProfileRefComponent implements OnInit {
   onCanceled() {
     this.editForm!.modalInstance.hide();
     this.editRowIndex = -1;
+  }
+
+  getDocuments(profile_rcd: any) {
+    window.open("/pages/PH1/documents/"+profile_rcd);
   }
 }
