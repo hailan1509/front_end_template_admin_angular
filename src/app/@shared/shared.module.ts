@@ -1,3 +1,4 @@
+import { CancellationMinutesStatusPipe } from './pipe/cancellation-minutes-status.pipe';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -46,6 +47,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HeaderNoticeComponent } from './components/header/header-operation/header-notice/header-notice.component';
 
 import { MiningFileStatusPipe } from './pipe/mining-file-status.pipe';
+import { ProfileStatusPipe } from './pipe/profile-status.pipe';
 import { FormUploadComponent } from './components/form-upload/form-upload.component';
 import {
   AutoCompletePopupComponent,
@@ -91,7 +93,7 @@ const DEVUI_MODULES = [
   ModalModule,
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
-const PIPES = [MiningFileStatusPipe]
+const PIPES = [MiningFileStatusPipe, ProfileStatusPipe, CancellationMinutesStatusPipe]
 @NgModule({
   declarations: [
     LoginComponent,

@@ -1,18 +1,19 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit,TemplateRef, ViewChild } from '@angular/core';
 import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
-import { ApiService } from 'src/app/api.service';
 import { Subscription } from 'rxjs';
-import { Item, Profile } from 'src/app/@core/data/listData';
+import { ApiService } from 'src/app/api.service';
+import { Item, MiningBookRef } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
-  selector: 'app-profile-ref',
-  templateUrl: './profile-ref.component.html',
-  styleUrls: ['./profile-ref.component.scss']
+  selector: 'app-mining-book',
+  templateUrl: './mining-book.component.html',
+  styleUrls: ['./mining-book.component.scss']
 })
-export class ProfileRefComponent implements OnInit {
-  filterprofileShow = false;
+export class MiningBookComponent implements OnInit {
+
+  filterMiningBookRefShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -21,54 +22,37 @@ export class ProfileRefComponent implements OnInit {
   layoutOptions = ['auto', 'fixed'];
 
   arr_status = {
-    '-1' : 'Chờ chỉnh',
-    '1' : 'Đã chỉnh'
+    '-1' : 'Không hoạt động',
+    '1' : 'Hoạt động'
   };
 
   status = [
     {
-      name : 'Chờ chỉnh',
+      name : 'Không hoạt động',
       id : -1
     },
     {
-      name : 'Đã chỉnh',
+      name : 'Hoạt động',
       id : 1
     }
   ];
   numberValue = 0;
 
-  newprofile  = {
-    profile_rcd:"",
-    profile_code: "",
-    profile_number:"",
-    profile_name_e:"",
-    profile_name_l: "",
-    from_date:"",
-    to_date:"",
-    year:"",
-    number_of_paper:"",
-    profile_note_e:"",
-    profile_note_l: "",
-    cancellation_reason:"",
-    is_digital_profile:"",
-    status:1,
+  newMiningBookRef  = {
+    mining_book_rcd: "",
+    mining_name_l: "",
+    mining_name: "",
+    mining_name_e: "",
+    mining_book_note_l: "",
+    mining_book_note: "",
+    mining_book_note_e: "",
     sort_order: 1,
-    date_pending:"",
-    date_edited:"",
-    date_pending_cancellation:"",
-    date_cancellation:"",
-    agency_issued_rcd:"",
-    phong_rcd:"",
-    duration_storage_rcd:"",
-    archives_rcd:"",
-    profile_type_rcd:"",
-    profile_box_rcd:"",
     active_flag: 0,
     created_by_user_id: "",
     created_date_time: "",
     lu_updated: "",
     lu_user_id: "",
-
+    // mining_book_group: 1,
   };
 
   searchForm: {
@@ -83,19 +67,15 @@ export class ProfileRefComponent implements OnInit {
 
   tableWidthConfig: TableWidthConfig[] = [
     {
-      field: 'profile_code',
+      field: 'mining_book_rcd',
       width: '150px',
-    },
+    },  
     {
-      field: 'profile_name_l',
-      width: '150px',
-    },
-    {
-      field: 'year',
+      field: 'mining_name',
       width: '100px',
     },
     {
-      field: 'profile_note',
+      field: 'mining_note',
       width: '100px',
     },
     {
@@ -108,50 +88,30 @@ export class ProfileRefComponent implements OnInit {
     },
   ];
 
-  basicDataSource: Profile[] = [];
+  basicDataSource: MiningBookRef[] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
       {
-        label: 'Mã hồ sơ',
-        prop: 'profile_code',
+        label: 'Mã sổ mượn hồ sơ',
+        prop: 'mining_book_rcd',
         type: 'input',
-        primary: false,
+        primary: true,
         required: true,
         rule: {
           validators: [{ required: true }],
         },
-      },
+      },    
       {
-        label: 'Số hồ sơ',
-        prop: 'profile_number',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Tên hồ sơ',
-        prop: 'profile_name_l',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Năm',
-        prop: 'year',
+        label: 'Tên sổ mượn hồ sơ',
+        prop: 'mining_name',
         primary: false,
         type: 'input',
       },
       {
         label: 'Ghi chú',
-        prop: 'profile_note_l',
+        prop: 'mining_note',
         type: 'input',
       },
       {
@@ -177,7 +137,6 @@ export class ProfileRefComponent implements OnInit {
 
   editRowIndex = -1;
 
-  lstCountry : any;
 
   _search = {
     keyword: ''
@@ -189,16 +148,18 @@ export class ProfileRefComponent implements OnInit {
     pageSize: 10,
   };
 
+  // busy: any;
   busy: Subscription;
 
   @ViewChild('EditorTemplate', { static: true })
+  // EditorTemplate: any;
   EditorTemplate: TemplateRef<any>;
 
   constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService ) {}
 
   ngOnInit() {
     this.getList();
-    // this.getCountry();
+    // this.getmining_book();
   }
 
   search() {
@@ -206,20 +167,13 @@ export class ProfileRefComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/MiningBookRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , mining_book_rcd : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
     });
   }
 
-  // getCountry() {
-  //   this.api.post("api/manager/CountryRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
-  //     let a = JSON.parse(JSON.stringify(res));
-  //     this.lstCountry = a.data;
-  //     console.log(this.lstCountry);
-  //   });
-  // }
 
   editRow(row: any, index: number) {
     this.insert = false;
@@ -240,7 +194,7 @@ export class ProfileRefComponent implements OnInit {
 
   addRow() {
     this.insert = true;
-    this.formData = this.newprofile;
+    this.formData = this.newMiningBookRef;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
@@ -259,7 +213,7 @@ export class ProfileRefComponent implements OnInit {
       id: 'delete-dialog',
       width: '346px',
       maxHeight: '600px',
-      title: 'Xóa hồ sơ',
+      title: 'Xóa biên bản hủy',
       showAnimate: false,
       content: 'Bạn có chắc chắn muốn xóa?',
       backdropCloseable: true,
@@ -270,10 +224,10 @@ export class ProfileRefComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/profileRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/MiningBookRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
-
+              
             });
             results.modalInstance.hide();
           },
@@ -313,45 +267,26 @@ export class ProfileRefComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.profile_rcd = e.profile_rcd;
-      e.profile_code=e.profile_code;
-      e.profile_name_l = e.profile_name;
-      e.profile_name_e = e.profile_name;
-      e.from_date=e.from_date;
-      e.to_date=e.to_date;
-      e.year=e.year;
-      e.number_of_paper=e.number_of_paper;
-      e.profile_note_l = e.profile_note;
-      e.profile_note_e = e.profile_note;
-      e.cancellation_reason=e.cancellation_reason;
-      e.is_digital_profile=e.is_digital_profile;
-      e.status=e.status;
-      e.sort_order=e.sort_order;
-      e.date_pending=e.date_pending;
-      e.date_edited=e.date_edited;
-      e.date_pending_cancellation=e.date_pending_cancellation;
-      e.date_cancellation=e.date_cancellation;
-      e.agency_issued_rcd=e.agency_issued_rcd;
-      e.phong_rcd=e.phong_rcd;
-      e.duration_storage_rcd=e.duration_storage_rcd;
-      e.archives_rcd=e.archives_rcd;
-      e.profile_box_rcd=e.profile_box_rcd;
-      e.profile_tyle_rcd=e.profile_tyle_rcd;
-      e.active_flag=e.active_flag;
-      this.api.post("api/manager/profileRef/Create",{...e}).subscribe((res:any) => {
-        let a = JSON.parse(JSON.stringify(res));
-        this.getList();
-      });//
+      // e.mining_book_group = 1;
+      // e.mining_book_name_l = e.mining_book_name;
+      // e.mining_book_name_e = e.mining_book_name;
+      // e.mining_book_note_l = e.mining_book_note;
+      // e.mining_book_note_e = e.mining_book_note;
+      // this.api.post("api/manager/MiningBookRef/Create",{...e}).subscribe((res:any) => {
+      //   let a = JSON.parse(JSON.stringify(res));
+      //   this.getList();
+      // });
     }
     else {
-      e.profile_name_l = e.profile_name;
-      e.profile_name_e = e.profile_name;
-      e.profile_note_l = e.profile_note;
-      e.profile_note_e = e.profile_note;
-      this.api.post("api/manager/profileRef/Update",{...e}).subscribe((res:any) => {
+      // e.mining_book_name_l = e.mining_book_name;
+      // e.mining_book_name_e = e.mining_book_name;
+      e.mining_book_note_l = e.mining_book_note;
+      e.mining_book_note_e = e.mining_book_note;
+      this.api.post("api/manager/MiningBookRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.getList();
       });
+      console.log(e);
 
     }
   }
@@ -359,9 +294,5 @@ export class ProfileRefComponent implements OnInit {
   onCanceled() {
     this.editForm!.modalInstance.hide();
     this.editRowIndex = -1;
-  }
-
-  getDocuments(profile_rcd: any) {
-    window.open("/pages/PH1/documents/"+profile_rcd);
   }
 }
