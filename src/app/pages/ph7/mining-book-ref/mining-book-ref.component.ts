@@ -2,17 +2,18 @@ import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@a
 import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
 import { ApiService } from 'src/app/api.service';
 import { Subscription } from 'rxjs';
-import { Item, Area } from 'src/app/@core/data/listData';
+import { Item, MiningBook } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
-  selector: 'da-basic-list',
-  templateUrl: './basic-list.component.html',
-  styleUrls: ['./basic-list.component.scss'],
+  selector: 'app-mining-book-ref',
+  templateUrl: './mining-book-ref.component.html',
+  styleUrls: ['./mining-book-ref.component.scss']
 })
-export class BasicListComponent implements OnInit {
-  filterAreaShow = false;
+export class MiningBookRefComponent implements OnInit {
+
+  filterMiningBookShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
 
@@ -37,25 +38,20 @@ export class BasicListComponent implements OnInit {
   ];
   numberValue = 0;
 
-  newArea  = {
-    area_rcd: "",
-    country_rcd: 237,
-    country_name_l: "",
-    country_name: "",
-    country_name_e: "",
-    area_name_l: "",
-    area_name: "",
-    area_name_e: "",
-    area_note_l: "",
-    area_note: "",
-    area_note_e: "",
+  newMiningBook  = {
+    mining_book_rcd: "",
+    
+    mining_book_name_e: "",
+    mining_book_name_l: "", 
     sort_order: 1,
+    mining_book_note_e: "",
+    mining_book_note_l: "",
     active_flag: 0,
     created_by_user_id: "",
     created_date_time: "",
-    lu_updated: "",
     lu_user_id: "",
-    area_group: 1,
+    lu_updated: ""
+    
   };
 
   searchForm: {
@@ -70,19 +66,24 @@ export class BasicListComponent implements OnInit {
 
   tableWidthConfig: TableWidthConfig[] = [
     {
-      field: 'area_rcd',
+      field: 'mining_book_rcd',
+      width: '150px',
+    },
+    
+    {
+      field: 'mining_book_name_e',
       width: '150px',
     },
     {
-      field: 'area_name',
+      field: 'mining_book_name_l',
       width: '150px',
     },
     {
-      field: 'country_name',
+      field: 'mining_book_note_e',
       width: '100px',
     },
     {
-      field: 'area_note',
+      field: 'mining_book_note_l',
       width: '100px',
     },
     {
@@ -95,14 +96,14 @@ export class BasicListComponent implements OnInit {
     },
   ];
 
-  basicDataSource: Area[] = [];
+  basicDataSource: MiningBook[] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
       {
-        label: 'Mã khu vực',
-        prop: 'area_rcd',
+        label: 'Mã sổ khai thác',
+        prop: 'mining_book_rcd',
         type: 'input',
         primary: true,
         required: true,
@@ -110,9 +111,10 @@ export class BasicListComponent implements OnInit {
           validators: [{ required: true }],
         },
       },
+      
       {
-        label: 'Tên khu vực',
-        prop: 'area_name',
+        label: 'Tên sổ khai thác',
+        prop: 'mining_book_name_l',
         type: 'input',
         primary: false,
         required: true,
@@ -120,15 +122,10 @@ export class BasicListComponent implements OnInit {
           validators: [{ required: true }],
         },
       },
-      {
-        label: 'Tên đất nước',
-        prop: 'country_name',
-        primary: false,
-        type: 'input',
-      },
+      
       {
         label: 'Ghi chú',
-        prop: 'area_note',
+        prop: 'mining_book_note_l',
         type: 'input',
       },
       {
@@ -154,7 +151,7 @@ export class BasicListComponent implements OnInit {
 
   editRowIndex = -1;
 
-  lstCountry : any;
+
 
   _search = {
     keyword: ''
@@ -175,7 +172,7 @@ export class BasicListComponent implements OnInit {
 
   ngOnInit() {
     this.getList();
-    // this.getCountry();
+    
   }
 
   search() {
@@ -183,20 +180,14 @@ export class BasicListComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/AreaRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , area_name : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/MiningBookRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , mining_book_name_l : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
     });
   }
 
-  getCountry() {
-    this.api.post("api/manager/CountryRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.lstCountry = a.data;
-      console.log(this.lstCountry);
-    });
-  }
+  
 
   editRow(row: any, index: number) {
     this.insert = false;
@@ -206,7 +197,7 @@ export class BasicListComponent implements OnInit {
       id: 'edit-dialog',
       width: '600px',
       maxHeight: '600px',
-      title: 'Sửa khu vực',
+      title: 'Sửa',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
       backdropCloseable: true,
@@ -217,12 +208,12 @@ export class BasicListComponent implements OnInit {
 
   addRow() {
     this.insert = true;
-    this.formData = this.newArea;
+    this.formData = this.newMiningBook;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
       maxHeight: '600px',
-      title: 'Thêm khu vực',
+      title: 'Thêm sổ khai thác',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
       backdropCloseable: true,
@@ -236,7 +227,7 @@ export class BasicListComponent implements OnInit {
       id: 'delete-dialog',
       width: '346px',
       maxHeight: '600px',
-      title: 'Xóa khu vực',
+      title: 'Xóa sổ khai thác',
       showAnimate: false,
       content: 'Bạn có chắc chắn muốn xóa?',
       backdropCloseable: true,
@@ -247,10 +238,10 @@ export class BasicListComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/AreaRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/MiningBookRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
-
+              
             });
             results.modalInstance.hide();
           },
@@ -290,24 +281,38 @@ export class BasicListComponent implements OnInit {
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      // e.area_group = 1;
-      // e.area_name_l = e.area_name;
-      // e.area_name_e = e.area_name;
-      // e.area_note_l = e.area_note;
-      // e.area_note_e = e.area_note;
-      // this.api.post("api/manager/AreaRef/Create",{...e}).subscribe((res:any) => {
-      //   let a = JSON.parse(JSON.stringify(res));
-      //   this.getList();
-      // });
+      const obj = {
+        mining_book_rcd:e.mining_book_rcd,
+        mining_book_name_e : '',
+        mining_book_name_l : e.mining_book_name_l,
+        mining_book_note_e : '',
+        mining_book_note_l : e.mining_book_note_l,
+        created_by_user_id : '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        active_flag : e.active_flag,
+        created_date_time : '2022-12-23T02:13:28.930Z',
+      }
+
+      this.api.post("api/manager/MiningBookRef/Create",{...obj}).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        console.log(a);
+        this.getList();
+        alert("Thêm thành công!");
+      });
+      console.log(obj);
     }
     else {
-      e.area_name_l = e.area_name;
-      e.area_name_e = e.area_name;
-      e.area_note_l = e.area_note;
-      e.area_note_e = e.area_note;
-      this.api.post("api/manager/AreaRef/Update",{...e}).subscribe((res:any) => {
+      
+      e.mining_book_name_e = e.mining_book_name_e;
+      e.mining_book_name_l = e.mining_book_name_l;
+      e.mining_book_note_e = e.mining_book_note_e;
+      e.mining_book_note_l = e.mining_book_note_l;
+     
+      console.log(e);
+      this.api.post("api/manager/MiningBookRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
+        console.log(a);
         this.getList();
+        alert("Sửa thành công!");
       });
       console.log(e);
 
@@ -318,4 +323,5 @@ export class BasicListComponent implements OnInit {
     this.editForm!.modalInstance.hide();
     this.editRowIndex = -1;
   }
+
 }
