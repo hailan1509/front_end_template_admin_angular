@@ -44,20 +44,14 @@
                 [tableLayout]="searchForm.layout"
                 [scrollable]="true"
               >
-              <d-column  header="STT" [width]="'100px'">
+              <d-column  header="STT" [width]="'60px'">
                 <d-cell>
                   <ng-template let-rowIndex="rowIndex">
                     {{ rowIndex+1 }}
                   </ng-template>
                 </d-cell>
               </d-column>
-                <d-column field="profile_code" header="Mã hồ sơ" [width]="'100px'">
-                  <d-cell>
-                    <ng-template let-cellItem="cellItem">
-                      {{ cellItem }}
-                    </ng-template>
-                  </d-cell>
-                </d-column>
+      
                 <d-column field="profile_number" header="Số hồ sơ" [width]="'100px'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
