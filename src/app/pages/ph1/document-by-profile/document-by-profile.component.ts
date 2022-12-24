@@ -35,6 +35,10 @@ export class DocumentByProfileComponent implements OnInit {
     }
   ];
 
+  confidentialityDropdown = [];
+  documentTypeDropdown = [];
+  phisicalCondisionDropdown = [];
+
   newDocument:DocumentRef = {
 
   };
@@ -116,6 +120,7 @@ export class DocumentByProfileComponent implements OnInit {
         prop: 'document_type_rcd',
         type: 'select-object',
         primary: false,
+        options: this.documentTypeDropdown,
         required: true,
         rule: {
           validators: [{ required: true }],
@@ -123,9 +128,9 @@ export class DocumentByProfileComponent implements OnInit {
       },
       {
         label: 'Tình trạng',
-        prop: 'confidentiality_name_l',
+        prop: 'confidentiality_rcd',
         type: 'select-object',
-        // options: this.status,
+        options: this.confidentialityDropdown,
         primary: false,
         required: true,
         rule: {
@@ -136,7 +141,7 @@ export class DocumentByProfileComponent implements OnInit {
         label: 'Bảo mật',
         prop: 'physical_condition_rcd',
         type: 'select-object',
-        // options: this.status,
+        options: this.phisicalCondisionDropdown,
         primary: false,
         required: true,
         rule: {
@@ -157,6 +162,7 @@ export class DocumentByProfileComponent implements OnInit {
     ],
     labelSize: '',
   };
+  msgs: Array<Object> = [];
 
   busy: Subscription;
 
@@ -174,6 +180,105 @@ export class DocumentByProfileComponent implements OnInit {
     });
     this.getList();
     this.getProfileInfo();
+    this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let rs = a.data.map((x:any) => {
+        return { id : x.value, name : x.label};
+      })
+      this.phisicalCondisionDropdown = rs;
+    });
+    this.api.get("api/manager/DocumentRef/GetListDropdown/"+"document_type_ref_get_list_dropdown").subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let rs = a.data.map((x:any) => {
+        return { id : x.value, name : x.label};
+      })
+      this.documentTypeDropdown = rs;
+      
+    });
+    this.api.get("api/manager/DocumentRef/GetListDropdown/"+"confidentiality_ref_get_list_dropdown").subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let rs = a.data.map((x:any) => {
+        return { id : x.value, name : x.label};
+      })
+      this.confidentialityDropdown = rs;
+      
+      this.formConfig = {
+        layout: FormLayout.Horizontal,
+        items: [
+          {
+            label: 'Tên tài liệu',
+            prop: 'document_name_l',
+            type: 'input',
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Số tài liệu',
+            prop: 'document_number',
+            type: 'input',
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Ngày',
+            prop: 'date',
+            primary: false,
+            type: 'datePicker',
+          },
+          {
+            label: 'Loại tài liệu',
+            prop: 'document_type_rcd',
+            type: 'select-object',
+            primary: false,
+            options: this.documentTypeDropdown,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Tình trạng',
+            prop: 'confidentiality_rcd',
+            type: 'select-object',
+            options: this.confidentialityDropdown,
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Bảo mật',
+            prop: 'physical_condition_rcd',
+            type: 'select-object',
+            options: this.phisicalCondisionDropdown,
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Trạng thái',
+            prop: 'active_flag',
+            type: 'select-object',
+            primary: false,
+            options: this.status,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+        ],
+        labelSize: '',
+      };
+    });
   }
 
   getList() {
@@ -186,7 +291,6 @@ export class DocumentByProfileComponent implements OnInit {
     this.api.get("api/manager/ProfileRef/GetById/"+this.profile_rcd).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.profileInfo = a.data;
-      console.log(a.data);
     });
   }
   editRow(row: any, index: number) {
@@ -224,29 +328,46 @@ export class DocumentByProfileComponent implements OnInit {
 
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
-    if (this.insert) {
-      // e.area_group = 1;
-      // e.area_name_l = e.area_name;
-      // e.area_name_e = e.area_name;
-      // e.area_note_l = e.area_note;
-      // e.area_note_e = e.area_note;
-      // this.api.post("api/manager/AreaRef/Create",{...e}).subscribe((res:any) => {
-      //   let a = JSON.parse(JSON.stringify(res));
-      //   this.getList();
-      // });
+    if(typeof(e.date) != "string") {
+      e.date = this.formatDate(e.date);
     }
-    else {
-      e.area_name_l = e.area_name;
-      e.area_name_e = e.area_name;
-      e.area_note_l = e.area_note;
-      e.area_note_e = e.area_note;
-      this.api.post("api/manager/AreaRef/Update",{...e}).subscribe((res:any) => {
+    if (this.insert) {
+      e.profile_rcd = this.profile_rcd;
+      this.api.post("api/manager/DocumentRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
+        if(a.data) {
+          this.showToast("success");
+        }
+        else {
+          this.showToast("error");
+        }
         this.getList();
       });
-      console.log(e);
+    }
+    else {
+      this.api.post("api/manager/DocumentRef/Update",{...e}).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        if(a.data) {
+          this.showToast("success");
+        }
+        else {
+          this.showToast("error");
+        }
+        this.getList();
+      });
 
     }
+  }
+  padTo2Digits(num:any) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  formatDate(date:any) {
+    return [
+      date.getFullYear(),
+      this.padTo2Digits(date.getMonth() + 1),
+      this.padTo2Digits(date.getDate()),
+    ].join('-');
   }
 
   onCanceled() {
@@ -264,18 +385,23 @@ export class DocumentByProfileComponent implements OnInit {
         title: 'Danh sách file trong tài liệu',
         content: FormUploadComponent,
         dialogtype: 'standard',
-        beforeHidden: () => this.beforeHidden(),
+        // beforeHidden: () => this.beforeHidden(),
         backdropCloseable: true,
         buttons: [
-          {
-            cssClass: 'primary',
-            text: 'Save',
-            handler: ($event: Event) => {
-              results.modalInstance.hide();
-            },
-          },
+          
         ],
-        data: a.data
+        data: {
+          document_attachment: a.data,
+          document_rcd: document_rcd
+        }
+      });
+      const sub = results.modalContentInstance.onAdd.subscribe((type:any) => {
+        this.showToast(type);
+        results.modalInstance.hide();
+      });
+      const sub1 = results.modalContentInstance.onDelete.subscribe((type:any) => {
+        this.showToast(type);
+        // results.modalInstance.hide();
       });
     });
   }
@@ -311,6 +437,29 @@ export class DocumentByProfileComponent implements OnInit {
         ],
       });
     });
+  }
+
+  showToast(type:any) {
+    switch (type) {
+      case 'success':
+        this.msgs = [{ severity: "success", summary: 'Thông báo', content: 'Cập nhật thành công!' }];
+        break;
+      case 'error':
+        this.msgs = [{ severity: "error", summary: 'Thông báo', content: 'Cập nhật thất bại!' }];
+        break;
+      default:
+        this.msgs = [{ severity: "success", summary: 'Thông báo', content: 'Cập nhật thành công!' }];
+      }
+  }
+
+  formatDateView(date:any) {
+    if (date) {
+
+      let arr_date_time = date.split('T');
+      let  arr_date = arr_date_time[0].split('-');
+      return arr_date[2] + '/' + arr_date[1] + '/' + arr_date[0];
+    }
+    return "";
   }
 
 }

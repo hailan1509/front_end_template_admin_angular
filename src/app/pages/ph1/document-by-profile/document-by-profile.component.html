@@ -2,10 +2,10 @@
     <div class="da-content-banner">
       <d-breadcrumb>
         <d-breadcrumb-item
-          ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+          ><a routerLink="/">Home</a></d-breadcrumb-item
         >
         <d-breadcrumb-item>Quản lý</d-breadcrumb-item>
-        <d-breadcrumb-item>Quản lý hồ sơ</d-breadcrumb-item>
+        <d-breadcrumb-item><a routerLink="/pages/PH1/qlhsdcl">Quản lý hồ sơ</a></d-breadcrumb-item>
         <d-breadcrumb-item>Quản lý tài liệu</d-breadcrumb-item>
       </d-breadcrumb>
       <div class="da-content-banner-title" style="border-bottom: 1px solid #ccc;">
@@ -90,7 +90,7 @@
                 <d-column field="date" header="Ngày" [width]="'100px'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
-                        {{ cellItem }}
+                        {{ formatDateView(cellItem) }}
                     </ng-template>
                   </d-cell>
                 </d-column>
@@ -149,6 +149,7 @@
     </div>
   </div>
   
+  <d-toast [value]="msgs" [style]="{ top: '20px' }"></d-toast>
   <ng-template #EditorTemplate>
     <da-admin-form [formConfig]="formConfig" [insert]="insert"  [formData]="formData" (submitted)="onSubmitted($event)" (canceled)="onCanceled()">
     </da-admin-form>

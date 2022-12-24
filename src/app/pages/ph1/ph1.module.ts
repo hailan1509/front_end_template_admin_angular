@@ -11,6 +11,7 @@ import {
   InputNumberModule,
   PaginationModule,
   TooltipModule,
+  ToastModule
 } from 'ng-devui';
 import { AdminFormModule } from 'src/app/@shared/components/admin-form/admin-form.module';
 import { ph1Component } from './ph1.component';
@@ -30,6 +31,7 @@ import { DocumentByProfileComponent } from './document-by-profile/document-by-pr
     FormsModule,
     PaginationModule,
     AdminFormModule,
+    ToastModule,
     InputNumberModule,
     DatepickerModule,
     TooltipModule,

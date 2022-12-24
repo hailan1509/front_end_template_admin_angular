@@ -4,15 +4,15 @@
         <b>Danh sách file hiện có</b>
       </div>
     </div>
-    <div class="d-form-field" *ngFor="let item of data;index as i;" style="padding-left: 15px;">
+    <div class="d-form-field" *ngFor="let item of data['document_attachment'];index as i;" style="padding-left: 15px;">
       <div class="clear-fix">
         <d-row>
           <d-col [dSpan]="15">
-            {{data[i].file_name}}
+            {{data['document_attachment'][i].file_name}}
           </d-col>
           <d-col [dSpan]="1"> </d-col>
           <d-col [dSpan]="8">
-            <d-button icon="trash" bsStyle="primary" bsSize="xs">
+            <d-button icon="trash" bsStyle="primary" bsSize="xs" (click)="delete(data['document_attachment'][i].document_attachment_id)">
               {{ DELETE }}
             </d-button>
           </d-col>

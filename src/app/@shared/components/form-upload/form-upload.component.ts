@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,TemplateRef, ViewChild, EventEmitter } from '@angular/core';
 import { FileUploader, IFileOptions, IUploadOptions } from 'ng-devui/upload';
 import { FormLayout } from 'ng-devui/form';
-
+import { DialogService } from 'ng-devui';
+import { ApiService } from 'src/app/api.service';
 @Component({
   selector: 'app-form-upload',
   templateUrl: './form-upload.component.html',
@@ -15,18 +16,18 @@ export class FormUploadComponent implements OnInit {
   layoutDirection: FormLayout = FormLayout.Vertical;
 
   additionalParameter2 = {
-    name: 'tom',
-    age: 11
   };
+  onAdd = new EventEmitter();
+  onDelete = new EventEmitter();
   uploadOptions2: IUploadOptions = {
-    uri: '/upload',
+    uri: 'http://localhost:61029/api/manager/DocumentRef/Upload',
     additionalParameter: this.additionalParameter2,
     maximumSize: 20,
     checkSameName: true
   };
   fileOptions2: IFileOptions = {
     multiple: true,
-    accept: '.xls,.xlsx,.pages,.mp3,.png',
+    accept: '.xls,.xlsx,.jpg,.pdf,.png',
   };
   uploadedFiles2: Array<Object> = [
 
@@ -38,22 +39,20 @@ export class FormUploadComponent implements OnInit {
   UPLOADING: string;
   UPLOAD: string;
 
-  constructor() {
-    this.UPLOAD = 'Upload';
-    this.PRELOAD = 'preLoad';
-    this.UPLOADING = 'Uploading';
-    this.UPLOADED = 'Uploaded';
-    this.FAILED = 'Upload Failed';
-    this.DELETE = 'Delete';
+  constructor(private api: ApiService, private dialogService: DialogService) {
+    this.UPLOAD = 'Tải lên';
+    this.PRELOAD = 'Chưa tải';
+    this.UPLOADING = 'Đang tải';
+    this.UPLOADED = 'Thành công';
+    this.FAILED = 'Thất bại';
+    this.DELETE = 'Xóa';
   }
 
   onSuccess3(result:any) {
-    console.log(result);
-    console.log(this.uploadedFiles2);
+    this.onAdd.emit("success");
   }
 
   onError3(error:any) {
-    console.log(error);
   }
 
   deleteUploadedFile3(filePath: string) {
@@ -61,31 +60,69 @@ export class FormUploadComponent implements OnInit {
   }
   setCustomUploadOptions(file:any, options:any) {
     let uploadOptions = options;
+    // uploadOptions.uri = 'http://localhost:61029/api/manager/DocumentRef/Upload/'+ this.data.document_rcd;
     if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-      uploadOptions = {
-        uri: '/upload',
-        additionalParameter: this.additionalParameter2,
-        maximumSize: 0.1,
-        checkSameName: true
-      };
+      uploadOptions.maximumSize = 0.1;
     }
     if (file.type  === 'image/png') {
-      uploadOptions = {
-        uri: '/upload',
-        additionalParameter: this.additionalParameter2,
-        maximumSize: 0.5,
-        checkSameName: true
-      };
+      uploadOptions.maximumSize = 0.5;
     }
     return uploadOptions;
   }
   ngOnInit(): void {
-    console.log(this.data);
+    this.uploadOptions2.uri = 'http://localhost:61029/api/manager/DocumentRef/Upload/' + this.data.document_rcd;
+    // console.log(this.data);
   }
-  
-  onClick(event: any) {
+
+  onClick(event: any): void {
 
   }
+  
+  delete(id:any) {
+    const results = this.dialogService.open({
+      id: 'delete-dialog',
+      width: '346px',
+      maxHeight: '600px',
+      title: 'Xóa file tài liệu',
+      showAnimate: false,
+      content: 'Bạn có chắc chắn muốn xóa?',
+      backdropCloseable: true,
+      onClose: () => {},
+      buttons: [
+        {
+          cssClass: 'primary',
+          text: 'Xóa',
+          disabled: false,
+          handler: ($event: Event) => {
+            this.api.get("api/manager/DocumentAttachment/Delete/"+id).subscribe((res:any) => {
+              let a = JSON.parse(JSON.stringify(res));
+              
+              if(a.data) {
+                this.onDelete.emit("success");
+                this.data['document_attachment'] = this.data['document_attachment'].filter((x:any) => x.document_attachment_id != id);
+              }
+              else {
+                this.onDelete.emit("error");
+              }
+            });
+            results.modalInstance.hide();
+          },
+        },
+        {
+          id: 'btn-cancel',
+          cssClass: 'common',
+          text: 'Không',
+          handler: ($event: Event) => {
+            results.modalInstance.hide();
+          },
+        },
+      ],
+    });
+    
+  }
+
+  
+
 
 
 }
