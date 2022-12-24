@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { throwError, of } from 'rxjs';
+import { ApiService } from 'src/app/api.service';
 import { User } from 'src/app/@shared/models/user';
 
 const USERS = [
@@ -34,16 +35,27 @@ const USERS = [
 
 @Injectable()
 export class AuthService {
-  constructor() {}
+  constructor(private api: ApiService) {}
 
   login(account: string, password: string) {
-    for (let i = 0; i < USERS.length; i++) {
-      if (account === USERS[i].account && password === USERS[i].password) {
-        let { userName, gender, phoneNumber, email } = USERS[i];
-        let userInfo: User = { userName, gender, phoneNumber, email };
-        return of(userInfo);
+    this.api.post("api/user/login",{user_name : account , pass_word : password}).subscribe((res:any) => {
+      let rs = JSON.parse(JSON.stringify(res));
+      if (rs.data) {
+
+        let { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender} = rs.data;
+        let userInfo: User = { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender };
+        console.log(of(userInfo));
+        return userInfo;
       }
-    }
+      return null;
+    });
+    // for (let i = 0; i < USERS.length; i++) {
+    //   if (account === USERS[i].account && password === USERS[i].password) {
+    //     let { userName, gender, phoneNumber, email } = USERS[i];
+    //     let userInfo: User = { userName, gender, phoneNumber, email };
+    //     return of(userInfo);
+    //   }
+    // }
     return throwError('Please make sure you have input correct account and password');
   }
 

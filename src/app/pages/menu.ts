@@ -78,8 +78,16 @@ export default function (values: any) {
           link: '/pages/PH3/lbbthtl',
         },
         {
-          title: values['PH3']['qlbbthhtl'],
-          link: '/pages/PH3/qlbbthhtl',
+          title: values['PH3']['bbthtlcd'],
+          link: '/pages/PH3/bbthtlcd',
+        },
+        {
+          title: values['PH3']['qlbbthtl'],
+          link: '/pages/PH3/qlbbthtl',
+        },
+        {
+          title: values['PH3']['qlhsdh'],
+          link: '/pages/PH3/qlhsdh',
         },
       ],
       link: '/pages/PH3',
@@ -125,6 +133,7 @@ export default function (values: any) {
       menuIcon: 'icon icon-modify',
     },
     {
+
       title: values['PH7']['title'],
       children: [
         { title: values['PH7']['qllv'], link: '/pages/PH7/qllv' },
@@ -141,6 +150,52 @@ export default function (values: any) {
         { title: values['PH7']['qlskt'],link: '/pages/PH7/qlskt',},
       ],
       link: '/pages/PH7',
+
+      title: values['PH5']['title'],
+      children: [
+        {
+          title: values['PH5']['bcdlskdn'],
+          link: '/pages/PH5/bcdlskdn',
+        },
+        {
+          title: values['PH5']['bchslt'],
+          link: '/pages/PH5/bchslt',
+        },
+        {
+          title: values['PH5']['bchsh'],
+          link: '/pages/PH5/bchsh',
+        },
+        {
+          title: values['PH5']['bcpkt'],
+          link: '/pages/PH5/bcpkt',
+        },
+        {
+          title: values['PH5']['bchstldm'],
+          link: '/pages/PH5/bchstldm',
+        },
+        {
+          title: values['PH5']['tkhsdvlt'],
+          link: '/pages/PH5/tkhsdvlt',
+        },
+        {
+          title: values['PH5']['tkslhstn'],
+          link: '/pages/PH5/tkslhstn',
+        },
+        {
+          title: values['PH5']['tksltltn'],
+          link: '/pages/PH5/tksltltn',
+        },
+        {
+          title: values['PH5']['tkbctvsh'],
+          link: '/pages/PH5/tkbctvsh',
+        },
+        {
+          title: values['PH5']['bcdmvbctlhs'],
+          link: '/pages/PH5/bcdmvbctlhs',
+        }
+      ],
+      link: '/pages/PH5',
+
       menuIcon: 'icon icon-table',
     },
   ];

@@ -1,3 +1,4 @@
+import { CancellationMinutesStatusPipe } from './pipe/cancellation-minutes-status.pipe';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -45,6 +46,29 @@ import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HeaderNoticeComponent } from './components/header/header-operation/header-notice/header-notice.component';
 
+import { MiningFileStatusPipe } from './pipe/mining-file-status.pipe';
+import { ProfileStatusPipe } from './pipe/profile-status.pipe';
+import { FormUploadComponent } from './components/form-upload/form-upload.component';
+import {
+  AutoCompletePopupComponent,
+  DatepickerComponent,
+  DragPreviewComponent,
+  DrawerComponent,
+  InputNumberComponent,
+  LoadingBackdropComponent,
+  LoadingComponent,
+  ModalComponent,
+  ModalContainerComponent,
+  PopoverComponent,
+  ReadTipComponent,
+  SelectComponent,
+  StepsGuideComponent,
+  ToastComponent,
+  TooltipComponent,
+  TreeSelectComponent
+} from "ng-devui";
+import { DevUIModule } from "ng-devui";
+
 const DEVUI_MODULES = [
   LayoutModule,
   AccordionModule,
@@ -69,6 +93,7 @@ const DEVUI_MODULES = [
   ModalModule,
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
+const PIPES = [MiningFileStatusPipe, ProfileStatusPipe, CancellationMinutesStatusPipe]
 @NgModule({
   declarations: [
     LoginComponent,
@@ -79,6 +104,8 @@ const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, Personali
     HeaderNoticeComponent,
     RegisterComponent,
     ...COMPONENTS,
+    ...PIPES,
+    FormUploadComponent
   ],
   imports: [
     CommonModule,
@@ -93,7 +120,8 @@ const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, Personali
     TooltipModule,
     I18nModule,
     DaGridModule,
-    ...DEVUI_MODULES,
+    DevUIModule,
+    TranslateModule.forRoot(),
   ],
   exports: [
     CommonModule,
@@ -106,7 +134,27 @@ const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, Personali
     SideMenuComponent,
     ...DEVUI_MODULES,
     ...COMPONENTS,
+    ...PIPES
   ],
+  entryComponents: [
+    AutoCompletePopupComponent,
+    DatepickerComponent,
+    DragPreviewComponent,
+    DrawerComponent,
+    InputNumberComponent,
+    LoadingBackdropComponent,
+    LoadingComponent,
+    ModalComponent,
+    ModalContainerComponent,
+    PopoverComponent,
+    ReadTipComponent,
+    SelectComponent,
+    StepsGuideComponent,
+    ToastComponent,
+    TooltipComponent,
+    TreeSelectComponent,
+  ],
+  bootstrap: [ FormUploadComponent ],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

@@ -1,0 +1,130 @@
+<div class="da-list-wrap">
+    <div class="da-content-banner">
+      <d-breadcrumb>
+        <d-breadcrumb-item
+          ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+        >
+        <d-breadcrumb-item>Quản lý</d-breadcrumb-item>
+        <d-breadcrumb-item>Quản lý hồ sơ đã chỉnh lý</d-breadcrumb-item>
+      </d-breadcrumb>
+      <div class="da-content-banner-title">
+        Quản lý hồ sơ
+      </div>
+      <div>Danh sách hồ sơ</div>
+    </div>
+    <div class="da-content-wrapper">
+      <da-layout-row [daGutter]="[24, 24]">
+        <da-col-item [daSpan]="24" [daXs]="24">
+          <div class="da-list-container">
+            <div class="da-list-header">
+              <div class="da-common-search">
+                <div class="da-left">
+                  <d-search
+                      [size]="'sm'"
+                      (searchFn)="getList()"
+                      [(ngModel)]="_search.keyword"
+                      class="da-inline"
+                      [placeholder]="'Tìm tên hồ sơ'"
+                    ></d-search>
+                    <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
+                    <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
+                </div>
+                <div class="da-right">
+
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="list-content" dLoading [loading]="busy">
+              <d-data-table
+                #datatable
+                [dataSource]="basicDataSource"
+                [borderType]="searchForm.borderType"
+                [size]="searchForm.size"
+                [tableLayout]="searchForm.layout"
+                [scrollable]="true"
+              >
+              <d-column  header="STT" [width]="'60px'">
+                <d-cell>
+                  <ng-template let-rowIndex="rowIndex">
+                    {{ rowIndex+1 }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+      
+                <d-column field="profile_number" header="Số hồ sơ" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="profile_name_l" header="Tên hồ sơ" [width]="'300px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      <span [title]="cellItem" class="over-flow-ellipsis" [style.width]="'300px'">
+                        <!-- <d-tag [tag]="'Epic'" [labelStyle]="'epic'"></d-tag> -->
+                        {{ cellItem }}
+                      </span>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="year" header="Năm" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="profile_note_l" header="Ghi chú" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="active_flag" header="Trạng thái" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      <span >{{ cellItem == 1 ? 'Đã điều chỉnh' : 'Chờ điều chỉnh'  }}</span>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="Actions" header="Actions" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
+                      <div class="btn-group over-flow-ellipsis">
+                        <d-button icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
+                        <d-button icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.profile_rcd)"></d-button>
+                        <d-button icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="getDocuments(rowItem.profile_rcd)"></d-button>
+                      </div>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+              </d-data-table>
+            </div>
+            <div class="da-list-footer">
+              <d-pagination
+                [size]="'sm'"
+                [total]="pager.total"
+                [(pageSize)]="pager.pageSize"
+                [(pageIndex)]="pager.pageIndex"
+                [canViewTotal]="true"
+                [canChangePageSize]="true"
+                [canJumpPage]="true"
+                [maxItems]="5"
+                (pageIndexChange)="onPageChange($event)"
+                (pageSizeChange)="onSizeChange($event)"
+              >
+              </d-pagination>
+            </div>
+          </div>
+        </da-col-item>
+      </da-layout-row>
+    </div>
+  </div>
+
+  <ng-template #EditorTemplate>
+    <da-admin-form [formConfig]="formConfig" [insert]="insert"  [formData]="formData" (submitted)="onSubmitted($event)" (canceled)="onCanceled()">
+    </da-admin-form>
+  </ng-template>
