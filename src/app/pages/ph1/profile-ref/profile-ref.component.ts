@@ -68,7 +68,7 @@ export class ProfileRefComponent implements OnInit {
     created_date_time: "",
     lu_updated: "",
     lu_user_id: "",
-   
+
   };
 
   searchForm: {

@@ -25,17 +25,17 @@ const routes: Routes = [
           import('./ph1/ph1.module').then((m) => m.PH1Module),
       },
       {
-        path: 'ph2',
+        path: 'PH2',
         loadChildren: () =>
           import('./ph2/ph2.module').then((m) => m.PH2Module),
       },
       {
-        path: 'ph3',
+        path: 'PH3',
         loadChildren: () =>
-          import('./ph3/ph3.module').then((m) => m.PH3Module),
+          import('./ph3/ph3.module').then((m) => m.ph3Module),
       },
       {
-        path: 'ph4',
+        path: 'PH4',
         loadChildren: () =>
           import('./ph4/ph4.module').then((m) => m.PH4Module),
       },
@@ -45,22 +45,22 @@ const routes: Routes = [
           import('./ph5/ph5.module').then((m) => m.PH5Module),
       },
       {
-        path: 'ph6',
+        path: 'PH6',
         loadChildren: () =>
           import('./ph6/ph6.module').then((m) => m.PH6Module),
       },
       {
-        path: 'ph7',
+        path: 'PH7',
         loadChildren: () =>
           import('./ph7/ph7.module').then((m) => m.PH7Module),
       },
       {
-        path: 'ph8',
+        path: 'PH8',
         loadChildren: () =>
           import('./ph8/ph8.module').then((m) => m.PH8Module),
       },
       {
-        path: 'ph9',
+        path: 'PH9',
         loadChildren: () =>
           import('./ph9/ph9.module').then((m) => m.PH9Module),
       },

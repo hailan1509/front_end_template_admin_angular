@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HscclComponent } from './hsccl/hsccl.component';
 import { ph1Component } from './ph1.component';
 import { ProfileRefComponent } from './profile-ref/profile-ref.component';
+// import { ProfileCclComponent } from './profile-ccl/profile-ccl.component';
 
 const routes: Routes = [
   {
@@ -10,7 +11,7 @@ const routes: Routes = [
     component: ph1Component,
     children: [
       { path: 'qlhsdcl', component: ProfileRefComponent },
-      { path: 'qlhsccl', component: HscclComponent },
+      // { path: 'qlhsccl', component: HscclComponent },
     ],
   },
 ];
