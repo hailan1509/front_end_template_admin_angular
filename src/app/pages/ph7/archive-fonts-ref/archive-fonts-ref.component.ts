@@ -101,16 +101,16 @@ export class ArchiveFontsRefComponent implements OnInit {
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
-      {
-        label: 'Mã phông lưu trữ',
-        prop: 'archive_fonts_rcd',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
+      // {
+      //   label: 'Mã phông lưu trữ',
+      //   prop: 'archive_fonts_rcd',
+      //   type: 'input',
+      //   primary: true,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
       
       {
         label: 'Tên phông lưu trữ',

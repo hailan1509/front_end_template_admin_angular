@@ -101,16 +101,16 @@ export class ArchivesRefComponent implements OnInit {
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
-      {
-        label: 'Mã kho lưu trữ',
-        prop: 'archives_rcd',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
+      // {
+      //   label: 'Mã kho lưu trữ',
+      //   prop: 'archives_rcd',
+      //   type: 'input',
+      //   primary: true,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
       
       {
         label: 'Tên kho lưu trữ',

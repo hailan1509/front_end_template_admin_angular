@@ -101,16 +101,16 @@ export class MiningPurposeRefComponent implements OnInit {
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
-      {
-        label: 'Mã mục đích khai thác',
-        prop: 'mining_purpose_rcd',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
+      // {
+      //   label: 'Mã mục đích khai thác',
+      //   prop: 'mining_purpose_rcd',
+      //   type: 'input',
+      //   primary: true,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
       
       {
         label: 'Mục đích khai thác',

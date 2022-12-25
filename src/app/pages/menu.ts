@@ -128,11 +128,11 @@ export default function (values: any) {
       title: values['PH7']['title'],
       children: [
         { title: values['PH7']['qllv'], link: '/pages/PH7/qllv' },
-        { title: values['PH7']['qlhsvb'], link: '/pages/PH7/qlhsvb' },
+        // { title: values['PH7']['qlhsvb'], link: '/pages/PH7/qlhsvb' },
         { title: values['PH7']['qllhsvb'],link: '/pages/PH7/qllhsvb',},
         { title: values['PH7']['qlcqbh'],link: '/pages/PH7/qlcqbh',},
         { title: values['PH7']['qldm'],link: '/pages/PH7/qldm',},
-        { title: values['PH7']['thvcdc'],link: '/pages/PH7/thvcdc',},
+        // { title: values['PH7']['thvcdc'],link: '/pages/PH7/thvcdc',},
         { title: values['PH7']['qlplt'],link: '/pages/PH7/qlplt',},
         { title: values['PH7']['qlklt'],link: '/pages/PH7/qlklt',},
         { title: values['PH7']['qlthlt'],link: '/pages/PH7/qlthlt',},
