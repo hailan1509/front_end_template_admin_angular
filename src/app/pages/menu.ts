@@ -150,7 +150,8 @@ export default function (values: any) {
         { title: values['PH7']['qlskt'],link: '/pages/PH7/qlskt',},
       ],
       link: '/pages/PH7',
-
+      menuIcon: 'icon icon-table',
+    },{
       title: values['PH5']['title'],
       children: [
         {
