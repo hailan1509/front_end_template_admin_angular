@@ -150,7 +150,7 @@
                           title="edit"
                           shape="circle"
                           style="margin-right: 8px"
-                          (btnClick)="editRow(rowIndex, rowItem.product_id)"
+                          [routerLink]="['/pages/PH1/bshs/', rowItem.profile_rcd]"
                         ></d-button>
                         <d-button (btnClick)="batchDelete([rowItem])" icon="icon-delete" bsStyle="danger" bsSize="xs" title="delete" shape="circle"></d-button>
                       </div>

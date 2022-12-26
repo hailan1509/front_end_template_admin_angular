@@ -5,10 +5,12 @@
         ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
       >
       <d-breadcrumb-item>Quản lý hồ sơ</d-breadcrumb-item>
-      <d-breadcrumb-item>Bổ sung hồ sơ</d-breadcrumb-item>
+      <d-breadcrumb-item *ngIf="!this.profile.profile_rcd">Bổ sung hồ sơ</d-breadcrumb-item>
+      <d-breadcrumb-item *ngIf="this.profile.profile_rcd">Cập nhập hồ sơ</d-breadcrumb-item>
     </d-breadcrumb>
     <div class="da-content-banner-title">Quản lý hồ sơ</div>
-    <div>Bổ sung hồ sơ</div>
+    <div *ngIf="!this.profile.profile_rcd">Bổ sung hồ sơ</div>
+    <div *ngIf="this.profile.profile_rcd">Cập nhập hồ sơ</div>
   </div>
   <div class="da-content-wrapper">
     <div class="da-list-container">
@@ -20,7 +22,7 @@
               <d-col [dSpan]="24">
                 <div class="content-box">
                   <d-form-item>
-                    <d-form-label>Cơ quan ban hành:</d-form-label>
+                    <d-form-label [required]="true">Cơ quan ban hành:</d-form-label>
                     <d-form-control>
                       <div>
                         <d-select
@@ -124,7 +126,7 @@
               <d-col [dSpan]="24">
                 <div class="content-box">
                   <d-form-item>
-                    <d-form-label>Kho lưu trữ:</d-form-label>
+                    <d-form-label [required]="true">Kho lưu trữ:</d-form-label>
                     <d-form-control>
                       <div>
                         <d-select
@@ -145,7 +147,7 @@
               <d-col [dSpan]="24">
                 <div class="content-box">
                   <d-form-item>
-                    <d-form-label>Phòng lưu trữ:</d-form-label>
+                    <d-form-label [required]="true">Phòng lưu trữ:</d-form-label>
                     <d-form-control>
                       <div>
                         <d-select
@@ -166,7 +168,7 @@
               <d-col [dSpan]="24">
                 <div class="content-box">
                   <d-form-item>
-                    <d-form-label>Hộp hồ sơ lưu trữ:</d-form-label>
+                    <d-form-label [required]="true">Hộp hồ sơ lưu trữ:</d-form-label>
                     <d-form-control>
                       <div>
                         <d-select
@@ -187,7 +189,7 @@
               <d-col [dSpan]="24">
                 <div class="content-box">
                   <d-form-item>
-                    <d-form-label>Thời hạn lưu trữ:</d-form-label>
+                    <d-form-label [required]="true">Thời hạn lưu trữ:</d-form-label>
                     <d-form-control>
                       <div>
                         <d-select
@@ -232,7 +234,7 @@
               <d-col [dSpan]="24">
                 <div class="content-box">
                   <d-form-item>
-                    <d-form-label>Số/Ký hiệu hồ sơ:</d-form-label>
+                    <d-form-label [required]="true">Số/Ký hiệu hồ sơ:</d-form-label>
                     <d-form-control>
                       <div>
                         <input
@@ -242,6 +244,7 @@
                           name="profile_code"
                           maxlength="50"
                           [(ngModel)]="profile.profile_code"
+                          [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
                         />
                       </div>
                     </d-form-control>
@@ -251,7 +254,7 @@
               <d-col [dSpan]="24">
                 <div class="content-box">
                   <d-form-item>
-                    <d-form-label>Tên hồ sơ:</d-form-label>
+                    <d-form-label [required]="true">Tên hồ sơ:</d-form-label>
                     <d-form-control>
                       <div>
                         <textarea
@@ -275,7 +278,7 @@
               <d-col [dSpan]="{ ss: 24, mm: 8 }">
                 <div class="content-box">
                   <d-form-item>
-                    <d-form-label>Năm:</d-form-label>
+                    <d-form-label [required]="true">Năm:</d-form-label>
                     <d-form-control>
                       <div>
                         <div class="devui-input-group devui-dropdown-origin">
@@ -422,110 +425,156 @@
         </d-row>
 
         <d-form-operation class="da-form-operation" style="text-align: center; margin: 30px 0">
-          <d-button bsSize="lg" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting">Lưu thông tin hồ sơ</d-button>
-          <d-button bsStyle="common" style="margin-left: 12px" *ngIf="!profile_rcd">Làm mới</d-button>
+          <d-button *ngIf="!this.profile.profile_rcd" bsSize="lg" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting">Bổ sung hồ sơ</d-button>
+          <d-button *ngIf="this.profile.profile_rcd" bsSize="lg" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting">Cập nhập hồ sơ</d-button>
+          <d-button bsStyle="common" style="margin-left: 12px" (btnClick)="reset()" [routerLink]="['/pages/PH1/bshs/']">Làm mới</d-button>
         </d-form-operation>
 
         <p style="font-weight: bold; margin-bottom: 30px">Thông tin danh sách văn bản trong hồ sơ</p>
-        <div style="margin-bottom: 15px">
-          <d-button (click)="addRow()" style="margin-right: 8px" [disabled]="profile_rcd == undefined">Bổ sung</d-button>
-          <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button>
-        </div>
+        <div class="da-list-container">
 
-        <div class="list-content" dLoading [loading]="busy">
+          <div class="da-list-header">
+            <div class="da-header-left">
+              <div class="da-header-item">
+                <div class="da-header-item-label">Số/Ký hiệu văn bản:</div>
+                <d-search
+                  [size]="'sm'"
+                  (searchFn)="search()"
+                  [(ngModel)]="_search.document_number"
+                  class="da-inline"
+                  name="document_number_search"
+                  [placeholder]="'Số/Ký hiệu hồ sơ'"
+                ></d-search>
+              </div>
+              <div class="da-header-item">
+                <div class="da-header-item-label">Tên văn bản:</div>
+                <d-search
+                [size]="'sm'"
+                (searchFn)="search()"
+                [(ngModel)]="_search.document_name"
+                class="da-inline"
+                name="document_name_search"
+                [placeholder]="'Tên hồ sơ'"
+              ></d-search>
+              </div>
+            </div>
+            <div class="header-right">
+              <!-- <d-button (click)="addRow()" style="margin-right: 8px">Thêm sản phẩm</d-button> -->
+              <d-button (click)="addRow()" style="margin-right: 8px" [disabled]="!profile.profile_rcd">Bổ sung</d-button>
+              <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button>
+            </div>
+          </div>
+          <br />
           <div class="list-content" dLoading [loading]="busy">
-            <d-data-table
-              #datatable
-              [dataSource]="documents"
-              [borderType]="searchForm.borderType"
-              [size]="searchForm.size"
-              [tableLayout]="searchForm.layout"
-              [scrollable]="true"
-              (checkAllChange)="onCheckAllChange()"
-            >
-              <thead dTableHead [checkable]="true">
-                <tr dTableRow>
-                  <th dHeadCell>#</th>
-                  <th dHeadCell>Số/Ký hiệu văn bản</th>
-                  <th dHeadCell>Tên văn bản</th>
-                  <th dHeadCell>Trích yếu nội dung</th>
-                  <th dHeadCell>Ngày ban hành</th>
-                  <th dHeadCell>Tác giả</th>
-                  <th dHeadCell>Loại văn bản</th>
-                  <th dHeadCell>Cơ quan ban hành</th>
-                  <th dHeadCell>Tệp đính kèm</th>
-                  <th dHeadCell>Tác vụ</th>
-                </tr>
-              </thead>
-              <tbody dTableBody>
-                <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
-                  <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
-                    <td dTableCell class="devui-checkable-cell">
-                      <d-checkbox
-                        name="check{{ rowIndex }}"
-                        (ngModelChange)="onRowCheckChange($event, rowIndex, nestedIndex, rowItem)"
-                        [ngModel]="rowItem.$checked"
-                        [halfchecked]="rowItem.$halfChecked"
-                        [disabled]="rowItem.$checkDisabled"
-                        dTooltip
-                        [content]="rowItem.$checkBoxTips"
-                        [position]="['top', 'right', 'bottom', 'left']"
-                        [showAnimation]="false"
-                      >
-                      </d-checkbox>
-                    </td>
-                    <td dTableCell>{{ rowIndex + 1 }}</td>
-                    <td dTableCell>
-                      {{ rowItem.document_number }}
-                    </td>
-                    <td dTableCell>
-                      {{ rowItem.document_name_l }}
-                    </td>
-                    <td dTableCell>
-                      {{ rowItem.excerpt }}
-                    </td>
-                    <td dTableCell>
-                      {{ rowItem.date | date : 'dd/MM/yyyy' }}
-                    </td>
-                    <td dTableCell>
-                      {{ rowItem.author }}
-                    </td>
-                    <td dTableCell>
-                      {{ rowItem.document_type_name }}
-                    </td>
-                    <td dTableCell>
-                      {{ rowItem.agency_issued_name }}
-                    </td>
-                    <td dTableCell>
-                      <p *ngFor="let d of rowItem.document_attachments">
-                        {{ d.file_name + '.' + d.file_extension }}
-                      </p>
-                    </td>
-                    <td dTableCell>
-                      <div class="btn-group over-flow-ellipsis">
-                        <d-button
-                          icon="icon-edit"
-                          bsStyle="danger"
-                          bsSize="xs"
-                          title="edit"
-                          shape="circle"
-                          style="margin-right: 8px"
-                          (btnClick)="editRow(rowIndex, rowItem.document_rcd)"
-                        ></d-button>
-                        <d-button
-                          (btnClick)="batchDelete([rowItem])"
-                          icon="icon-delete"
-                          bsStyle="danger"
-                          bsSize="xs"
-                          title="delete"
-                          shape="circle"
-                        ></d-button>
-                      </div>
-                    </td>
+            <div class="list-content" dLoading [loading]="busy">
+              <d-data-table
+                #datatable
+                [dataSource]="documents"
+                [borderType]="searchForm.borderType"
+                [size]="searchForm.size"
+                [tableLayout]="searchForm.layout"
+                [scrollable]="true"
+                (checkAllChange)="onCheckAllChange()"
+              >
+                <thead dTableHead [checkable]="true">
+                  <tr dTableRow>
+                    <th dHeadCell>#</th>
+                    <th dHeadCell>Số/Ký hiệu văn bản</th>
+                    <th dHeadCell>Tên văn bản</th>
+                    <th dHeadCell>Trích yếu nội dung</th>
+                    <th dHeadCell>Ngày ban hành</th>
+                    <th dHeadCell>Tác giả</th>
+                    <th dHeadCell>Loại văn bản</th>
+                    <th dHeadCell>Cơ quan ban hành</th>
+                    <th dHeadCell>Tệp đính kèm</th>
+                    <th dHeadCell>Tác vụ</th>
                   </tr>
-                </ng-template>
-              </tbody>
-            </d-data-table>
+                </thead>
+                <tbody dTableBody>
+                  <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
+                    <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
+                      <td dTableCell class="devui-checkable-cell">
+                        <d-checkbox
+                          name="check{{ rowIndex }}"
+                          (ngModelChange)="onRowCheckChange($event, rowIndex, nestedIndex, rowItem)"
+                          [ngModel]="rowItem.$checked"
+                          [halfchecked]="rowItem.$halfChecked"
+                          [disabled]="rowItem.$checkDisabled"
+                          dTooltip
+                          [content]="rowItem.$checkBoxTips"
+                          [position]="['top', 'right', 'bottom', 'left']"
+                          [showAnimation]="false"
+                        >
+                        </d-checkbox>
+                      </td>
+                      <td dTableCell>{{ rowIndex + 1 }}</td>
+                      <td dTableCell>
+                        {{ rowItem.document_number }}
+                      </td>
+                      <td dTableCell>
+                        {{ rowItem.document_name_l }}
+                      </td>
+                      <td dTableCell>
+                        {{ rowItem.excerpt }}
+                      </td>
+                      <td dTableCell>
+                        {{ rowItem.date | date : 'dd/MM/yyyy' }}
+                      </td>
+                      <td dTableCell>
+                        {{ rowItem.author }}
+                      </td>
+                      <td dTableCell>
+                        {{ rowItem.document_type_name_l }}
+                      </td>
+                      <td dTableCell>
+                        {{ rowItem.agency_issued_name_l }}
+                      </td>
+                      <td dTableCell>
+                        <p *ngFor="let d of rowItem.attachments_json">
+                          {{ d.file_name }}
+                        </p>
+                      </td>
+                      <td dTableCell>
+                        <div class="btn-group over-flow-ellipsis">
+                          <d-button
+                            icon="icon-edit"
+                            bsStyle="danger"
+                            bsSize="xs"
+                            title="edit"
+                            shape="circle"
+                            style="margin-right: 8px"
+                            (btnClick)="editRow(rowIndex, rowItem.document_rcd)"
+                          ></d-button>
+                          <d-button
+                            (btnClick)="batchDelete([rowItem])"
+                            icon="icon-delete"
+                            bsStyle="danger"
+                            bsSize="xs"
+                            title="delete"
+                            shape="circle"
+                          ></d-button>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </tbody>
+              </d-data-table>
+            </div>
+            <div class="da-list-footer">
+              <d-pagination
+                [size]="'sm'"
+                [total]="pager.total"
+                [(pageSize)]="pager.pageSize"
+                [(pageIndex)]="pager.pageIndex"
+                [canViewTotal]="true"
+                [canChangePageSize]="true"
+                [canJumpPage]="true"
+                [maxItems]="5"
+                (pageIndexChange)="onPageChange($event)"
+                (pageSizeChange)="onSizeChange($event)"
+              >
+              </d-pagination>
+            </div>
           </div>
         </div>
       </form>
@@ -534,12 +583,12 @@
 </div>
 
 <ng-template #EditorTemplate>
-  <form dForm #Form2 (dSubmit)="onSubmitted($event)" [layout]="layoutDirection">
+  <form dForm #Form2 dLoading [loading]="doneSetup" (dSubmit)="onSubmitted2($event)" [layout]="layoutDirection">
     <d-row [dGutter]="24">
       <d-col [dSpan]="{ ss: 24, ml: 12 }">
         <div class="content-box">
           <d-form-item>
-            <d-form-label>Cơ quan ban hành:</d-form-label>
+            <d-form-label [required]="true">Cơ quan ban hành:</d-form-label>
             <d-form-control>
               <div>
                 <d-select
@@ -639,7 +688,7 @@
       <d-col [dSpan]="24">
         <div class="content-box">
           <d-form-item>
-            <d-form-label>Tên văn bản:</d-form-label>
+            <d-form-label [required]="true">Tên văn bản:</d-form-label>
             <d-form-control>
               <div>
                 <textarea
@@ -690,7 +739,7 @@
       <d-col [dSpan]="{ ss: 24, ml: 8 }">
         <div class="content-box">
           <d-form-item>
-            <d-form-label>Ngày ban hành văn bản:</d-form-label>
+            <d-form-label [required]="true">Ngày ban hành văn bản:</d-form-label>
             <d-form-control>
               <div>
                 <div class="devui-input-group devui-dropdown-origin">
@@ -768,12 +817,11 @@
     </div>
     <d-data-table
       #datatable
-      [dataSource]="files"
+      [dataSource]="attachments"
       [borderType]="searchForm.borderType"
       [size]="searchForm.size"
       [tableLayout]="searchForm.layout"
       [scrollable]="true"
-      (checkAllChange)="onCheckAllChange()"
     >
       <thead dTableHead>
         <tr dTableRow>
@@ -784,14 +832,14 @@
         </tr>
       </thead>
       <tbody dTableBody>
-        <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
-          <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
+        <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
+          <tr dTableRow>
             <td dTableCell>{{ rowIndex + 1 }}</td>
             <td dTableCell>
-              {{ rowItem.name }}
+              {{ rowItem.name || rowItem.file_name }}
             </td>
             <td dTableCell>
-              {{ rowItem.size }}
+              {{ rowItem.size || rowItem.file_weight }}
             </td>
             <td dTableCell>
               <d-button

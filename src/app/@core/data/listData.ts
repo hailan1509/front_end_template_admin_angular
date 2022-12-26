@@ -56,7 +56,7 @@ export interface Profile {
 }
 
 export interface ProfileRef {
-  profile_rcd?: number;
+  profile_rcd?: string;
   profile_code?: string;
   profile_number?: number;
   profile_name_l?: string;
@@ -105,7 +105,7 @@ export interface DocumentRef {
   profile_rcd?: string;
   active_flag?: number;
   created_by_user_id?: string;
-  document_attachments?: DocumentAttachment[];
+  attachments_json?: DocumentAttachment[];
 
 }
 
