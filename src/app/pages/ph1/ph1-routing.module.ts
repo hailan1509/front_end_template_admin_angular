@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HscclComponent } from './hsccl/hsccl.component';
 import { ph1Component } from './ph1.component';
-import { ProfileRefComponent } from './profile-ref/profile-ref.component';
-// import { ProfileCclComponent } from './profile-ccl/profile-ccl.component';
+import { ProfilePendingComponent } from './profile-pending/profile-pending.component';
+import { ProfileEditedComponent } from './profile-edited/profile-edited.component';
+import { CreateProfileComponent } from './create-profile/create-profile.component';
 
 const routes: Routes = [
   {
     path: '',
     component: ph1Component,
     children: [
-      { path: 'qlhsdcl', component: ProfileRefComponent },
-      // { path: 'qlhsccl', component: HscclComponent },
+      { path: 'qlhsccl', component: ProfilePendingComponent },
+      {path: 'bshs', redirectTo: 'bshs/', pathMatch: 'full'},
+      {path: 'bshs/:id', component: CreateProfileComponent},
+      { path: 'qlhsdcl', component: ProfileEditedComponent },
     ],
   },
 ];
