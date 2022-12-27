@@ -479,14 +479,14 @@
                 <tr dTableRow>
                   <th dHeadCell>#</th>
                   <th dHeadCell>Số/Ký hiệu văn bản</th>
-                  <th dHeadCell>Tên văn bản</th>
+                  <th dHeadCell style="padding-right: 200px;">Tên văn bản</th>
                   <th dHeadCell>Trích yếu nội dung</th>
                   <th dHeadCell>Ngày ban hành</th>
                   <th dHeadCell>Tác giả</th>
                   <th dHeadCell>Loại văn bản</th>
                   <th dHeadCell>Cơ quan ban hành</th>
                   <th dHeadCell>Tệp đính kèm</th>
-                  <th dHeadCell>Tác vụ</th>
+                  <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
                 </tr>
               </thead>
               <tbody dTableBody>
@@ -506,7 +506,7 @@
                       >
                       </d-checkbox>
                     </td>
-                    <td dTableCell>{{ rowIndex + 1 }}</td>
+                    <td dTableCell [style.width]="'300px'">{{ rowIndex + 1 }}</td>
                     <td dTableCell>
                       {{ rowItem.document_number }}
                     </td>
@@ -533,7 +533,7 @@
                         {{ d.file_name }}
                       </p>
                     </td>
-                    <td dTableCell>
+                    <td dTableCell [fixedRight]="'0px'">
                       <div class="btn-group over-flow-ellipsis">
                         <d-button
                           icon="icon-edit"
@@ -805,7 +805,7 @@
           <th dHeadCell>#</th>
           <th dHeadCell>Tên tài liệu</th>
           <th dHeadCell>Kích thước (bytes)</th>
-          <th dHeadCell>Tác vụ</th>
+          <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
         </tr>
       </thead>
       <tbody dTableBody>
@@ -818,7 +818,7 @@
             <td dTableCell>
               {{ rowItem.size || rowItem.file_weight }}
             </td>
-            <td dTableCell>
+            <td dTableCell [fixedRight]="'0px'">
               <d-button
                 (btnClick)="onRemoveFile(rowItem)"
                 icon="icon-delete"

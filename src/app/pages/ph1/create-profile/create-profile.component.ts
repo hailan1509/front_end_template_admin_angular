@@ -5,7 +5,7 @@ import { DialogService } from 'ng-devui/modal';
 import { ToastService } from 'ng-devui/toast';
 import { ApiService } from 'src/app/api.service';
 import { FormLayout } from 'ng-devui/form';
-import { DocumentRef, ProfileRef } from 'src/app/@core/data/listData';
+import { DocumentAttachment, DocumentRef, ProfileRef } from 'src/app/@core/data/listData';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 
@@ -28,6 +28,7 @@ export class CreateProfileComponent implements OnInit {
   profile: ProfileRef = {};
 
   attachments: any[] = [];
+  cloneAttachments: DocumentAttachment[] = [];
 
   agency_issued_options: any[] = [];
   agency_issued_current: any;
@@ -215,13 +216,35 @@ export class CreateProfileComponent implements OnInit {
       profile_rcd: this.profile.profile_rcd,
     };
 
-    if (file_names) {
+    if (file_names && this.insert) {
       for (let i = 0; i < file_names.length; i++) {
         this.document.attachments_json!.push({
           file_name: file_names[i],
           file_weight: this.files[i].size,
         });
       }
+    }
+
+    if (!this.insert) {
+      this.cloneAttachments.forEach((item) => {
+        if (this.document.attachments_json!.findIndex(a => a.document_attachment_id == item.document_attachment_id)) {
+          item.action = 'DELETE';
+        }
+      })
+
+      if (file_names) {
+        for (let i = 0; i < file_names.length; i++) {
+          this.cloneAttachments!.push({
+            document_attachment_id: this.newGuid(),
+            file_name: file_names[i],
+            file_weight: this.files[i].size,
+            action: 'INSERT'
+          });
+        }
+      }
+
+      this.document.attachments_json = this.cloneAttachments;
+      this.files = [];
     }
   }
 
@@ -287,6 +310,7 @@ export class CreateProfileComponent implements OnInit {
     this.document = {
       attachments_json: [],
     };
+    this.cloneAttachments = [];
 
     this.physical_condition_current = null;
     this.document_type_current = null;
@@ -321,6 +345,8 @@ export class CreateProfileComponent implements OnInit {
 
     this.doneSetup = this.getDocumentById(document_rcd).subscribe((res: any) => {
       this.document = res.data;
+      this.cloneAttachments = JSON.parse(JSON.stringify(this.document.attachments_json))
+
       this.mapOptionsForDocument();
 
       this.attachments = [...this.files, ...this.document.attachments_json!];
@@ -418,10 +444,39 @@ export class CreateProfileComponent implements OnInit {
         },
       });
     } else {
+      this.api.uploadFile('api/manager/DocumentRef/OnlyUpload', this.files).subscribe({
+        next: (event: any) => {
+          console.log(event);
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress = Math.round((100 * event.loaded) / event.total);
+          } else if (event.type === HttpEventType.Response) {
+            this.mapDocumentFromSelect(event.body.data);
+            this.api.post('api/manager/DocumentRef/Update', this.document).subscribe((res: any) => {
+              this.search();
+              this.isSubmitting = false;
+
+              this.document.attachments_json = this.document.attachments_json!.filter((item) => {
+                return item.action != 'DELETE';
+              })
+
+              this.document.attachments_json.forEach(item => item.action = undefined);
+
+              this.attachments = [...this.document.attachments_json]
+
+              this.toastService.open({
+                value: [{ severity: 'success', summary: 'Thành công', content: `Cập nhập văn bản thành công!` }],
+              });
+              console.log(this.document);
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isSubmitting = false;
+          console.log(err);
+        },
+      });
+
     }
-
-    this.isSubmitting = true;
-
     return true;
   }
 
@@ -457,4 +512,12 @@ export class CreateProfileComponent implements OnInit {
     this.pager.pageSize = e;
     this.search();
   }
+
+  public newGuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        // tslint:disable-next-line:no-bitwise
+        let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 }

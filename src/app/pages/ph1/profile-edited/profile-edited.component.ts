@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Subscription, Observable, combineLatest } from 'rxjs';
-import { DataTableComponent } from 'ng-devui/data-table';
+import { DataTableComponent, TableWidthConfig } from 'ng-devui/data-table';
 import { DialogService } from 'ng-devui/modal';
 import { ToastService } from 'ng-devui/toast';
 import { ApiService } from 'src/app/api.service';
@@ -50,7 +50,7 @@ export class ProfileEditedComponent implements OnInit {
     borderType: 'bordered',
     size: 'md',
     layout: 'auto',
-  };
+    };
   editForm: any = null;
 
   busy: Subscription;

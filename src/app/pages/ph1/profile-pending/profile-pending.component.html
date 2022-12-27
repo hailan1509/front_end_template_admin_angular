@@ -83,7 +83,7 @@
                   <th dHeadCell>#</th>
                   <th dHeadCell>Hộp hồ sơ</th>
                   <th dHeadCell>Số/Ký hiệu hồ sơ</th>
-                  <th dHeadCell>Tên hồ sơ</th>
+                  <th dHeadCell style="padding-right: 200px;">Tên hồ sơ</th>
                   <th dHeadCell>Năm</th>
                   <th dHeadCell>Thời gian bắt đầu</th>
                   <th dHeadCell>Thời gian kết thúc</th>
@@ -91,7 +91,7 @@
                   <th dHeadCell>Thời hạn lưu trữ</th>
                   <th dHeadCell>Trạng thái</th>
                   <th dHeadCell>Ghi chú</th>
-                  <th dHeadCell>Tác vụ</th>
+                  <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
                 </tr>
               </thead>
               <tbody dTableBody>
@@ -141,7 +141,7 @@
                     <td dTableCell>
                       {{ rowItem.profile_note_l }}
                     </td>
-                    <td dTableCell>
+                    <td dTableCell [fixedRight]="'0px'">
                       <div class="btn-group over-flow-ellipsis">
                         <d-button
                           icon="icon-edit"

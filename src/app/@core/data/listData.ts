@@ -120,6 +120,7 @@ export class DocumentAttachment {
   file_weight?: number;
   active_flag?: number;
   created_by_user_id?: string;
+  action?: string;
 }
 
 export interface CancellationMinutesRef {
