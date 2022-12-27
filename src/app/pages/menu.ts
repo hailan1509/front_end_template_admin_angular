@@ -133,6 +133,33 @@ export default function (values: any) {
       menuIcon: 'icon icon-modify',
     },
     {
+      title: values['PH6']['title'],
+      children: [
+        {
+          title: values['PH6']['qlndnb'],
+          link: '/pages/PH6/qlndnb',
+        },
+        {
+          title: values['PH6']['qlnnd'],
+          link: '/pages/PH6/qlnnd',
+        },
+        {
+          title: values['PH6']['qlvt'],
+          link: '/pages/PH6/qlvt',
+        },
+        {
+          title: values['PH6']['qlpb'],
+          link: '/pages/PH6/qlpb',
+        },
+        {
+          title: values['PH6']['qlnk'],
+          link: '/pages/PH6/qlnk',
+        }        
+      ],
+      link: '/pages/PH6',
+      menuIcon: 'icon icon-modify',
+    },
+    {
 
       title: values['PH7']['title'],
       children: [

@@ -25,6 +25,45 @@ export interface Area {
   active_flag?: number;
 }
 
+export interface Department {
+  department_rcd?: number;
+  department_code?:number;
+  departmment_name_e?: string; 
+  departmment_name_l?: string;
+  sort_order?:number;
+  department_note_e?: string; 
+  department_note_l?: string;
+  active_flag?: number;
+}
+
+export interface Role {
+  role_rcd?: number;
+  role_code?:number;
+  role_name_e?: string; 
+  role_name_l?: string;
+  sort_order?:number;
+  role_note_e?: string; 
+  role_note_l?: string;
+  active_flag?: number;
+}
+
+export interface Users {
+  user_rcd: string;
+  user_code:string;
+  full_name: string;
+  gender:string;
+  date_of_birth:string;
+  email:string;
+  phone_number:string;
+  address:string;
+  user_name: string; 
+  pass_word:string;
+  user_note_e?: string;
+  user_note_l?: string;
+  department_rcd?:string;
+  active_flag?: number;
+}
+
 
 export interface Fields {
   fields_rcd?: number;

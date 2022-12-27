@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { throwError, of } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { User } from 'src/app/@shared/models/user';
-
-const USERS = [
+import { Item, Users } from 'src/app/@core/data/listData';
+import { ApiService } from 'src/app/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+const USERS = [ 
   {
     account: 'Admin',
     gender: 'male',
@@ -35,6 +37,7 @@ const USERS = [
 
 @Injectable()
 export class AuthService {
+
   constructor(private api: ApiService) {}
 
   login(account: string, password: string) {
@@ -59,13 +62,24 @@ export class AuthService {
     return throwError('Please make sure you have input correct account and password');
   }
 
+  // login(account: string, password: string) {
+  //   for (let i = 0; i < USERS.length; i++) {
+  //     if (account === USERS[i].account && password === USERS[i].password) {
+  //       let { userName, gender, phoneNumber, email } = USERS[i];
+  //       let userInfo: User = { userName, gender, phoneNumber, email };
+  //       return of(userInfo);
+  //     }
+  //   }
+  //   return throwError('Please make sure you have input correct account and password');
+  // }
+
   logout() {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('userinfo');
   }
 
-  setSession(userInfo: User) {
+  setSession(userInfo: Users) {
     localStorage.setItem('id_token', '123456');
     localStorage.setItem('userinfo', JSON.stringify(userInfo));
     localStorage.setItem('expires_at', '120');
