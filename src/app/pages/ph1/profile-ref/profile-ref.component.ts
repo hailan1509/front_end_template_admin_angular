@@ -27,12 +27,16 @@ export class ProfileRefComponent implements OnInit {
 
   status = [
     {
-      name : 'Chờ chỉnh',
-      id : -1
+      name : 'Chờ chỉnh lý',
+      id : 2
     },
     {
-      name : 'Đã chỉnh',
+      name : 'Đã chỉnh lý',
       id : 1
+    },
+    {
+      name : 'Chưa chỉnh lý',
+      id : 0
     }
   ];
   numberValue = 0;
@@ -99,6 +103,14 @@ export class ProfileRefComponent implements OnInit {
       width: '100px',
     },
     {
+      field: 'from_date',
+      width: '100px',
+    },
+    {
+      field: 'to_date',
+      width: '100px',
+    },
+    {
       field: 'active_flag',
       width: '100px',
     },
@@ -113,16 +125,6 @@ export class ProfileRefComponent implements OnInit {
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
-      {
-        label: 'Mã hồ sơ',
-        prop: 'profile_code',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
       {
         label: 'Số hồ sơ',
         prop: 'profile_number',
@@ -148,6 +150,18 @@ export class ProfileRefComponent implements OnInit {
         prop: 'year',
         primary: false,
         type: 'input',
+      },
+      {
+        label: 'Ngày bắt đầu',
+        prop: 'from_date',
+        primary: false,
+        type: 'datePicker',
+      },
+      {
+        label: 'Ngày kết thúc',
+        prop: 'to_date',
+        primary: false,
+        type: 'datePicker',
       },
       {
         label: 'Ghi chú',
@@ -290,6 +304,18 @@ export class ProfileRefComponent implements OnInit {
     });
   }
 
+  padTo2Digits(num:any) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  formatDate(date:any) {
+    return [
+      date.getFullYear(),
+      this.padTo2Digits(date.getMonth() + 1),
+      this.padTo2Digits(date.getDate()),
+    ].join('-');
+  }
+
   onPageChange(e: number) {
     this.pager.pageIndex = e;
     this.getList();
@@ -311,6 +337,7 @@ export class ProfileRefComponent implements OnInit {
   }
 
   onSubmitted(e: any) {
+    console.log(e,this.basicDataSource);
     this.editForm!.modalInstance.hide();
     if (this.insert) {
       e.profile_rcd = e.profile_rcd;
@@ -344,10 +371,16 @@ export class ProfileRefComponent implements OnInit {
       });//
     }
     else {
-      e.profile_name_l = e.profile_name;
-      e.profile_name_e = e.profile_name;
-      e.profile_note_l = e.profile_note;
-      e.profile_note_e = e.profile_note;
+      e.profile_code=e.profile_code;
+      e.profile_name_l = e.profile_name_l;
+      e.profile_name_e = e.profile_name_l;
+      e.from_date= typeof(e.from_date) == "string" ? this.formatDateView(e.from_date,false) : this.formatDate(e.from_date);
+      e.to_date= typeof(e.to_date) == "string" ? this.formatDateView(e.to_date,false) : this.formatDate(e.to_date);
+      e.year=e.year;
+      e.profile_note_l = e.profile_note_l;
+      e.profile_note_e = e.profile_note_l;
+      e.is_digital_profile=e.is_digital_profile;
+      e.active_flag=e.active_flag;
       this.api.post("api/manager/profileRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.getList();
@@ -363,5 +396,15 @@ export class ProfileRefComponent implements OnInit {
 
   getDocuments(profile_rcd: any) {
     window.open("/pages/PH1/documents/"+profile_rcd);
+  }
+
+  formatDateView(date:any, yearFirst:boolean) {
+    if (date) {
+
+      let arr_date_time = date.split('T');
+      let  arr_date = arr_date_time[0].split('-');
+      return arr_date[yearFirst ?2 : 0 ] + '/' + arr_date[1] + '/' + arr_date[yearFirst ? 0 :2];
+    }
+    return "";
   }
 }

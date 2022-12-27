@@ -76,6 +76,20 @@
                     </ng-template>
                   </d-cell>
                 </d-column>
+                <d-column field="from_date" header="Ngày bắt đầu" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                        {{ formatDateView(cellItem,true) }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="to_date" header="Ngày kết thúc" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                        {{ formatDateView(cellItem,true) }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
                 <d-column field="profile_note_l" header="Ghi chú" [width]="'100px'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
@@ -86,7 +100,7 @@
                 <d-column field="active_flag" header="Trạng thái" [width]="'100px'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
-                      <span >{{ cellItem == 1 ? 'Đã điều chỉnh' : 'Chờ điều chỉnh'  }}</span>
+                      <span >{{ cellItem == 1 ? 'Đã chỉnh lý' : (cellItem == 2 ? 'Chờ chỉnh lý' : (cellItem == 0 ? 'Chưa chỉnh lý' : 'Xóa') )  }}</span>
                     </ng-template>
                   </d-cell>
                 </d-column>
