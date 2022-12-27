@@ -7,6 +7,7 @@ import { ApiService } from 'src/app/api.service';
 import { FormLayout } from 'ng-devui/form';
 import { DocumentRef, ProfileRef } from 'src/app/@core/data/listData';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-profile',
@@ -15,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CreateProfileComponent implements OnInit {
   files: File[] = [];
+  progress: any;
 
   @ViewChild(DataTableComponent, { static: true }) datatable: DataTableComponent;
   @ViewChild('EditorTemplate', { static: true }) EditorTemplate: TemplateRef<any>;
@@ -22,11 +24,8 @@ export class CreateProfileComponent implements OnInit {
   layoutDirection: FormLayout = FormLayout.Vertical;
 
   documents: DocumentRef[] = [];
-  document: DocumentRef = {
-
-  };
-  profile: ProfileRef = {
-  };
+  document: DocumentRef = {};
+  profile: ProfileRef = {};
 
   attachments: any[] = [];
 
@@ -74,7 +73,7 @@ export class CreateProfileComponent implements OnInit {
   _search: any = {
     document_number: null,
     document_name: null,
-    profile_rcd: null
+    profile_rcd: null,
   };
 
   searchForm: {
@@ -90,12 +89,18 @@ export class CreateProfileComponent implements OnInit {
   editForm: any = null;
 
   busy: Subscription;
-  constructor(private api: ApiService, private dialogService: DialogService, private toastService: ToastService, private activatedRoute: ActivatedRoute, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private dialogService: DialogService,
+    private toastService: ToastService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.subscribe((params) => {
       this.profile.profile_rcd = params['id'];
-      this.getOptions().subscribe((res: any[]) => {
+      this.busy = this.getOptions().subscribe((res: any[]) => {
         this.fields_options = res[1].data;
         this.agency_issued_options = res[2].data;
         this.archives_options = res[3].data;
@@ -120,7 +125,6 @@ export class CreateProfileComponent implements OnInit {
         }
       });
     });
-
   }
   search() {
     this.getDocumentByProfileId(this.profile.profile_rcd!);
@@ -152,19 +156,29 @@ export class CreateProfileComponent implements OnInit {
   }
 
   mapOptionsForProfile() {
-    this.agency_issued_current = this.agency_issued_options.find(a => a.value == this.profile.agency_issued_rcd);
-    this.fields_current = this.fields_options.find(a => a.value == this.profile.fields_rcd);
-    this.archives_current = this.archives_options.find(a => a.value == this.profile.archives_rcd);
-    this.confidentiality_current = this.confidentiality_options.find(a => a.value == this.profile.confidentiality_rcd);
-    this.duration_storage_current = this.duration_storage_options.find(a => a.value == this.profile.duration_storage_rcd);
-    this.archive_fonts_current = this.archive_fonts_options.find(a => a.value == this.profile.archive_fonts_rcd);
-    this.profile_type_current = this.profile_type_options.find(a => a.value == this.profile.profile_type_rcd);
-    this.profile_box_current = this.profile_box_options.find(a => a.value == this.profile.profile_box_rcd);
-    this.phong_current = this.phong_options.find(a => a.value == this.profile.phong_rcd);
+    this.agency_issued_current = this.agency_issued_options.find((a) => a.value == this.profile.agency_issued_rcd);
+    this.fields_current = this.fields_options.find((a) => a.value == this.profile.fields_rcd);
+    this.archives_current = this.archives_options.find((a) => a.value == this.profile.archives_rcd);
+    this.confidentiality_current = this.confidentiality_options.find((a) => a.value == this.profile.confidentiality_rcd);
+    this.duration_storage_current = this.duration_storage_options.find((a) => a.value == this.profile.duration_storage_rcd);
+    this.archive_fonts_current = this.archive_fonts_options.find((a) => a.value == this.profile.archive_fonts_rcd);
+    this.profile_type_current = this.profile_type_options.find((a) => a.value == this.profile.profile_type_rcd);
+    this.profile_box_current = this.profile_box_options.find((a) => a.value == this.profile.profile_box_rcd);
+    this.phong_current = this.phong_options.find((a) => a.value == this.profile.phong_rcd);
     this.year = new Date(this.profile.year!, 0);
   }
 
-  mapProfileFromOption() {
+  convertDateToUTC(date: any) {
+    if (date) {
+      date = new Date(date);
+      var now_utc = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+      return new Date(now_utc);
+    } else {
+      return undefined;
+    }
+  }
+
+  mapProfileFromSelects() {
     this.profile = {
       ...this.profile,
       agency_issued_rcd: this.agency_issued_current?.value,
@@ -177,18 +191,38 @@ export class CreateProfileComponent implements OnInit {
       profile_box_rcd: this.profile_box_current?.value,
       phong_rcd: this.phong_current?.value,
       year: this.year?.getFullYear(),
-      from_date: this.profile.from_date ? new Date(Date.UTC(this.profile.from_date.getFullYear(), this.profile.from_date.getMonth(), this.profile.from_date.getDate())) : undefined,
-      to_date: this.profile.to_date ? new Date(Date.UTC(this.profile.to_date.getFullYear(), this.profile.to_date.getMonth(), this.profile.to_date.getDate())) : undefined,
-      created_by_user_id: JSON.parse(localStorage.getItem('userinfo')!).user_rcd
-    }
+      from_date: this.convertDateToUTC(this.profile.from_date),
+      to_date: this.convertDateToUTC(this.profile.to_date),
+      created_by_user_id: JSON.parse(localStorage.getItem('userinfo')!).user_rcd,
+    };
   }
 
   mapOptionsForDocument() {
-    this.physical_condition_current = this.physical_condition_options.find(a => a.value == this.document.physical_condition_rcd);
-    this.document_type_current = this.document_type_options.find(a => a.value == this.document.document_type_rcd);
-    this.confidentiality_current2 = this.confidentiality_options.find(a => a.value == this.document.confidentiality_rcd);
-    this.agency_issued_current2 = this.agency_issued_options.find(a => a.value == this.document.agency_issued_rcd);
+    this.physical_condition_current = this.physical_condition_options.find((a) => a.value == this.document.physical_condition_rcd);
+    this.document_type_current = this.document_type_options.find((a) => a.value == this.document.document_type_rcd);
+    this.confidentiality_current2 = this.confidentiality_options.find((a) => a.value == this.document.confidentiality_rcd);
+    this.agency_issued_current2 = this.agency_issued_options.find((a) => a.value == this.document.agency_issued_rcd);
+  }
 
+  mapDocumentFromSelect(file_names: string[]) {
+    this.document = {
+      ...this.document,
+      physical_condition_rcd: this.physical_condition_current?.value,
+      document_type_rcd: this.document_type_current?.value,
+      confidentiality_rcd: this.confidentiality_current2?.value,
+      agency_issued_rcd: this.agency_issued_current2?.value,
+      created_by_user_id: JSON.parse(localStorage.getItem('userinfo')!).user_rcd,
+      profile_rcd: this.profile.profile_rcd,
+    };
+
+    if (file_names) {
+      for (let i = 0; i < file_names.length; i++) {
+        this.document.attachments_json!.push({
+          file_name: file_names[i],
+          file_weight: this.files[i].size,
+        });
+      }
+    }
   }
 
   getOptions() {
@@ -215,12 +249,12 @@ export class CreateProfileComponent implements OnInit {
         page: this.pager.pageIndex,
         pageSize: this.pager.pageSize,
         ...this._search,
-        profile_rcd: profile_rcd
+        profile_rcd: profile_rcd,
       };
       this.api.post('api/manager/DocumentRef/Search', data).subscribe((res: any) => {
         this.documents = res.data;
         this.pager.total = res.totalItems;
-      })
+      });
     }
   }
 
@@ -247,13 +281,22 @@ export class CreateProfileComponent implements OnInit {
     this.deleteList = this.datatable.getCheckedRows();
   }
 
+  resetDocument() {
+    this.files = [];
+    this.attachments = [];
+    this.document = {
+      attachments_json: [],
+    };
+
+    this.physical_condition_current = null;
+    this.document_type_current = null;
+    this.confidentiality_current2 = null;
+    this.agency_issued_current2 = null;
+  }
+
   addRow() {
     if (this.profile.profile_rcd) {
-      this.files = [];
-      this.attachments = [];
-      this.document = {
-        attachments_json: []
-      };
+      this.resetDocument();
 
       this.insert = true;
       this.editForm = this.dialogService.open({
@@ -274,14 +317,14 @@ export class CreateProfileComponent implements OnInit {
   }
 
   editRow(index: number, document_rcd: any) {
-    this.files = [];
-    this.attachments = [];
+    this.resetDocument();
+
     this.doneSetup = this.getDocumentById(document_rcd).subscribe((res: any) => {
       this.document = res.data;
       this.mapOptionsForDocument();
 
-      this.attachments = [...this.files, ...this.document.attachments_json!]
-      console.log(this.attachments)
+      this.attachments = [...this.files, ...this.document.attachments_json!];
+      console.log(this.attachments);
     });
 
     this.insert = false;
@@ -298,8 +341,6 @@ export class CreateProfileComponent implements OnInit {
     });
   }
 
-
-
   onSubmitted({ valid, directive, data, errors }: any) {
     console.log('Valid:', valid, 'Directive:', directive, 'data', data, 'errors', errors);
     if (!valid) {
@@ -314,26 +355,25 @@ export class CreateProfileComponent implements OnInit {
     }
     this.isSubmitting = true;
 
-    this.mapProfileFromOption();
+    this.mapProfileFromSelects();
     if (this.profile.profile_rcd) {
       this.api.post('api/manager/ProfileRef/Update', this.profile).subscribe((res: any) => {
         this.isSubmitting = false;
         this.toastService.open({
           value: [{ severity: 'success', summary: 'Thành công', content: `Cập nhập hồ sơ thành công!` }],
-        })
-        console.log(this.profile)
-      })
+        });
+        console.log(this.profile);
+      });
     } else {
       this.api.post('api/manager/ProfileRef/Create', this.profile).subscribe((res: any) => {
         this.profile.profile_rcd = res.data.profile_rcd;
         this.isSubmitting = false;
         this.toastService.open({
           value: [{ severity: 'success', summary: 'Thành công', content: `Bổ sung hồ sơ thành công!` }],
-        })
-        console.log(this.profile)
-      })
+        });
+        console.log(this.profile);
+      });
     }
-
 
     return true;
   }
@@ -352,28 +392,55 @@ export class CreateProfileComponent implements OnInit {
     }
     this.isSubmitting = true;
 
+    if (this.insert) {
+      this.api.uploadFile('api/manager/DocumentRef/OnlyUpload', this.files).subscribe({
+        next: (event: any) => {
+          console.log(event);
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress = Math.round((100 * event.loaded) / event.total);
+          } else if (event.type === HttpEventType.Response) {
+            this.mapDocumentFromSelect(event.body.data);
+            this.api.post('api/manager/DocumentRef/Create', this.document).subscribe((res: any) => {
+              this.search();
+              this.isSubmitting = false;
 
+              this.resetDocument();
+              this.toastService.open({
+                value: [{ severity: 'success', summary: 'Thành công', content: `Thêm văn bản thành công!` }],
+              });
+              console.log(this.document);
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isSubmitting = false;
+          console.log(err);
+        },
+      });
+    } else {
+    }
+
+    this.isSubmitting = true;
 
     return true;
   }
 
   batchDelete(deleteList: any[]) {
     if (deleteList.length > 0) {
-
     }
   }
 
   onSelectFiles(event: any) {
     console.log(event);
     this.files.push(...event.addedFiles);
-    this.attachments = [...this.files, ...this.document.attachments_json!]
+    this.attachments = [...this.files, ...this.document.attachments_json!];
   }
 
   onRemoveFile(event: any) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
     this.document.attachments_json!.splice(this.document.attachments_json!.indexOf(event), 1);
-    this.attachments = [...this.files, ...this.document.attachments_json!]
+    this.attachments = [...this.files, ...this.document.attachments_json!];
   }
 
   onCanceled() {

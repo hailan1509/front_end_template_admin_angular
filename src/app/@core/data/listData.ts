@@ -89,7 +89,7 @@ export interface DocumentRef {
   document_number?: string;
   document_name_l?: string;
   document_name_e?: string;
-  date?: Date;
+  date?: string;
   excerpt?: string;
   author?: string;
   number_of_paper?: number;
