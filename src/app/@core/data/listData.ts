@@ -25,6 +25,33 @@ export interface Area {
   active_flag?: number;
 }
 
+export interface DocumentRef {
+  document_rcd ?: string;
+  document_number?: string;
+  document_name_e?: string;
+  document_name_l?: string;
+  date?:string;
+  excerpt?:string;
+  author?:string;
+  number_of_paper?:number;
+  document_note_l?:string;
+  document_note_e?:string;
+  sort_order?:number;
+  attached_file?:string;
+  document_type_rcd?:string;
+  physical_condition_rcd?:string;
+  confidentiality_rcd?:string;
+  profile_rcd?:string;
+  active_flag?:number;
+  created_by_user_id?:string;
+  created_date_time?:string;
+  lu_updated?:string;
+  lu_user_id?:string;
+  document_type_name_l?:string;
+  physical_condition_name_l?:string;
+  confidentiality_name_l?:string;
+}
+
 export interface Profile {
   profile_rcd?:number;
   profile_code?: number;
@@ -51,7 +78,10 @@ export interface Profile {
   profile_box_rcd?:string;
   profile_tyle_rcd?:string;
   active_flag?: number;
-
+  profile_type_name_l?:string;
+  agency_issued_name_l?:string;
+  archives_name_l?:string;
+  phong_name_l?:string;
 }
 
 export interface ProfileRef {
