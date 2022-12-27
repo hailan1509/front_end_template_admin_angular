@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/@core/services/auth.service';
 import { LANGUAGES } from 'src/config/language-config';
 import { User } from '../../../models/user';
 import { I18nService } from 'ng-devui/i18n';
+import { Users } from 'src/app/@core/data/listData';
 
 @Component({
   selector: 'da-header-operation',
@@ -12,7 +13,7 @@ import { I18nService } from 'ng-devui/i18n';
   styleUrls: ['./header-operation.component.scss'],
 })
 export class HeaderOperationComponent implements OnInit {
-  user: User;
+  user: Users;
   languages = LANGUAGES;
   language: string;
   haveLoggedIn = false;
@@ -25,7 +26,7 @@ export class HeaderOperationComponent implements OnInit {
       this.user = JSON.parse(localStorage.getItem('userinfo')!);
       this.haveLoggedIn = true;
     } else {
-      this.authService.login('Admin', 'Devui.admin').subscribe((res) => {
+      this.authService.login('Admin', 'Devui.admin').subscribe((res:any) => {
         this.authService.setSession(res);
         this.user = JSON.parse(localStorage.getItem('userinfo')!);
         this.haveLoggedIn = true;

@@ -12,7 +12,9 @@ import { LANGUAGES } from 'src/config/language-config';
 import { environment } from 'src/environments/environment';
 import { ThemeType } from '../../models/theme';
 import { ApiService } from 'src/app/api.service';
+
 import { User } from 'src/app/@shared/models/user';
+
 
 @Component({
   selector: 'da-login',
@@ -108,12 +110,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onClick(tabId: string | number) {
+   onClick(tabId: string | number) {
     switch (tabId) {
       case 'tab1':
         // this.authService.login(this.formData.userAccount, this.formData.userAccountPassword).subscribe(
         //   (res) => {
+
         //     console.log(res);
+
         //     this.authService.setSession(res);
         //     this.router.navigate(['/']);
         //   },
@@ -122,11 +126,14 @@ export class LoginComponent implements OnInit {
         //       {
         //         severity: 'error',
         //         summary: this.i18nValues['noticeMessage']['summary'],
+
         //         content: "Tài khoản hoặc mật khẩu không chính xác!",
+
         //       },
         //     ];
         //   }
         // );
+
         this.api.post("api/user/login",{user_name : this.formData.userAccount , pass_word : this.formData.userAccountPassword}).subscribe((res:any) => {
           let rs = JSON.parse(JSON.stringify(res));
           if (rs.data) {
@@ -136,24 +143,27 @@ export class LoginComponent implements OnInit {
             this.authService.setSession(userInfo);
             this.router.navigate(['/']);
           }
+
           else {
             this.toastMessage = [
               {
                 severity: 'error',
                 summary: this.i18nValues['noticeMessage']['summary'],
+
                 content: "Tài khoản hoặc mật khẩu không chính xác!",
               },
             ];
           }
+
         });
         break;
       case 'tab2':
         this.authService.login(this.formData.userEmail, this.formData.userEmailPassword).subscribe(
-          (res) => {
+          (res:any) => {
             this.authService.setSession(res);
             this.router.navigate(['/']);
           },
-          (error) => {
+          (error:any) => {
             this.toastMessage = [
               {
                 severity: 'error',

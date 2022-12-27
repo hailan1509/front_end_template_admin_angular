@@ -9,4 +9,5 @@ export interface User {
 	address : string,
 	user_name : string,
   pass_word : string,
+
 }

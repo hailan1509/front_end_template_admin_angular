@@ -135,6 +135,15 @@ export class PagesComponent implements OnInit {
         bctklspd : "Báo cáo thông kê"
       },
 
+      PH6 : {
+        title : "Quản trị hệ thống",
+        qlndnb : "Quản lý người dùng nội bộ",
+        qlnnd : "Quản lý nhóm người dùng",
+        qlvt : "Quản lý vai trò",
+        qlpb : "Quản lý phòng ban",
+        qlnk : "Quản lý nhật ký, ghi log hệ thống",     
+      },
+
       PH7 : {
         title : "Quản lý danh mục",
         qllv : "Quản lý lĩnh vực",
