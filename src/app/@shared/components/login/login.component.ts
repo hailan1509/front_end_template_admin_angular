@@ -12,7 +12,7 @@ import { LANGUAGES } from 'src/config/language-config';
 import { environment } from 'src/environments/environment';
 import { ThemeType } from '../../models/theme';
 import { ApiService } from 'src/app/api.service';
-import { Users } from 'src/app/@core/data/listData';
+
 import { User } from 'src/app/@shared/models/user';
 
 
@@ -36,8 +36,8 @@ export class LoginComponent implements OnInit {
   languages = LANGUAGES;
 
   formData = {
-    userAccount: 'Admin',
-    userAccountPassword: 'DevUI.admin',
+    userAccount: '',
+    userAccountPassword: '',
     userEmail: 'admin@devui.com',
     userEmailPassword: 'devuiadmin',
   };
@@ -115,6 +115,9 @@ export class LoginComponent implements OnInit {
       case 'tab1':
         // this.authService.login(this.formData.userAccount, this.formData.userAccountPassword).subscribe(
         //   (res) => {
+
+        //     console.log(res);
+
         //     this.authService.setSession(res);
         //     this.router.navigate(['/']);
         //   },
@@ -123,42 +126,35 @@ export class LoginComponent implements OnInit {
         //       {
         //         severity: 'error',
         //         summary: this.i18nValues['noticeMessage']['summary'],
-        //         content: this.i18nValues['noticeMessage']['accountContent'],
+
+        //         content: "Tài khoản hoặc mật khẩu không chính xác!",
+
         //       },
         //     ];
         //   }
         // );
-         this.authService.login(this.formData.userAccount, this.formData.userAccountPassword).subscribe(
-          (res:any) => {
-            console.log(res);
-            // this.router.navigate(['/']);
-            this.authService.setSession(res);      
-        this.api.get(`api/manager/UserRef/Login?user_name=${this.formData.userAccount}&pass_word=${this.formData.userAccountPassword}`).subscribe((res:any) => {
-          let rs = JSON.parse(JSON.stringify(res));
-          
-          // console.log(rs.data);
 
+        this.api.post("api/user/login",{user_name : this.formData.userAccount , pass_word : this.formData.userAccountPassword}).subscribe((res:any) => {
+          let rs = JSON.parse(JSON.stringify(res));
           if (rs.data) {
-            console.log(rs.data);
-            let {user_rcd, user_code,full_name,gender,date_of_birth,email,phone_number,address,user_name, pass_word} = rs.data;
-            let userInfo: Users = {user_rcd, user_code,full_name,gender,date_of_birth,email,phone_number,address,user_name, pass_word};
+    
+            let { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender} = rs.data;
+            let userInfo: User = { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender };
             this.authService.setSession(userInfo);
             this.router.navigate(['/']);
           }
-          //,
-          // (error) => {
-          // }
+
           else {
             this.toastMessage = [
               {
                 severity: 'error',
                 summary: this.i18nValues['noticeMessage']['summary'],
-                content: this.i18nValues['noticeMessage']['accountContent'],
-                content1: "Tài khoản hoặc mật khẩu không chính xác!",
+
+                content: "Tài khoản hoặc mật khẩu không chính xác!",
               },
             ];
           }
-          });
+
         });
         break;
       case 'tab2':

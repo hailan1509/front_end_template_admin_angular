@@ -21,6 +21,7 @@
       <d-select
         *ngIf="item.type === 'select-object'"
         [appendToBody]="true"
+        [isSearch]="true"
         [options]="item.options"
         [name]="item.prop" [filterKey]="'name'" (ngModelChange)="modelChange($event,item.prop)"
         [ngModel]="_formData[item.prop] | parseFrom: 'id': item.options"
@@ -57,7 +58,7 @@
     </d-form-control>
   </d-form-item>
   <d-form-operation class="da-form-operation">
-    <d-button style="margin-right: 5px" dFormSubmit [dFormSubmitData]="'submit-button'">Confirm</d-button>
-    <d-button bsStyle="common" (click)="cancel()">Cancel</d-button>
+    <d-button style="margin-right: 5px" dFormSubmit [dFormSubmitData]="'submit-button'">Xác Nhận</d-button>
+    <d-button bsStyle="common" (click)="cancel()">Thoát</d-button>
   </d-form-operation>
 </form>

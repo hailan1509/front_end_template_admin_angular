@@ -1,5 +1,4 @@
-# front_end_template_admin_angular
-Các bước cài đặt
+# Các bước cài đặt
 1. Lấy code về
 2. Chạy lần  lượt các command sau : 
 
@@ -15,7 +14,7 @@ Các bước cài đặt
 
  - ng serve --o
 # Code 
-- khi code các folder đã tạo sẵn cho mỗi phân hệ. các bạn sẽ code tại tên folder phân hệ của mình, không code sang folder khác. (pages/[tên phân hệ])
+- khi code các folder đã tạo sẵn cho mỗi phân hệ. các bạn sẽ code tại tên folder phân hệ của mình, không code sang folder phân hệ khác. (pages/[tên phân hệ])
 - code mẫu : Quản lý khu vực (src/app/pages/list/basic-list)
 # Commit code
 - không commit các file có đuôi .json

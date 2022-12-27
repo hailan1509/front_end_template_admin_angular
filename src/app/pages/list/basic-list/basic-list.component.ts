@@ -206,7 +206,7 @@ export class BasicListComponent implements OnInit {
       id: 'edit-dialog',
       width: '600px',
       maxHeight: '600px',
-      title: 'Editor',
+      title: 'Sửa khu vực',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
       backdropCloseable: true,
@@ -222,7 +222,7 @@ export class BasicListComponent implements OnInit {
       id: 'edit-dialog',
       width: '600px',
       maxHeight: '600px',
-      title: 'Editor',
+      title: 'Thêm khu vực',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
       backdropCloseable: true,
@@ -250,7 +250,7 @@ export class BasicListComponent implements OnInit {
             this.api.post("api/manager/AreaRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
-              
+
             });
             results.modalInstance.hide();
           },

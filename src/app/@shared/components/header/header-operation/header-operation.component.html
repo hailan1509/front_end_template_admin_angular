@@ -12,14 +12,14 @@
     </div>
   </div> -->
 
-    <div class="da-operations-user" dDropDown [trigger]="'hover'" appendToBody dDropDownToggle>
-        <!-- <d-avatar [name]="user.userName" [width]="22" [height]="22"></d-avatar>
-        <span class="da-user-name">{{ user?.userName }}</span> -->
-        <d-avatar [name]="user.user_name" [width]="22" [height]="22"></d-avatar>
-        <span class="da-user-name">{{ user?.user_name }}</span>
-        <ul dDropDownMenu class="devui-dropdown-menu devui-scrollbar" role="menu" style="min-width: 120px">
-            <ng-container *ngIf="haveLoggedIn; else login">
-                <!-- <li role="menuitem">
+
+  <div class="da-operations-user" dDropDown [trigger]="'hover'" appendToBody dDropDownToggle>
+    <d-avatar [name]="user.user_name" [width]="22" [height]="22"></d-avatar>
+    <span class="da-user-name">{{ user?.user_name }}</span>
+    <ul dDropDownMenu class="devui-dropdown-menu devui-scrollbar" role="menu" style="min-width: 120px">
+      <ng-container *ngIf="haveLoggedIn; else login">
+        <!-- <li role="menuitem">
+
           <a class="devui-dropdown-item" [routerLink]="['/pages', 'user', 'center']"
             ><i class="icon icon-mine"></i>{{ 'header.userCenter' | translate }}</a
           >

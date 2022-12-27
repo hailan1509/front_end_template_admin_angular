@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { throwError, of } from 'rxjs';
+import { ApiService } from 'src/app/api.service';
 import { User } from 'src/app/@shared/models/user';
 import { Item, Users } from 'src/app/@core/data/listData';
 import { ApiService } from 'src/app/api.service';
@@ -36,38 +37,28 @@ const USERS = [
 
 @Injectable()
 export class AuthService {
-  constructoc() {}
-  constructor(private api: ApiService,private router: Router) {}
-  login(account: string, password: string) 
-  {
-    //console.log(account,password);
-    // for (let i = 0; i < USERS.length; i++)
-    // {
-    // console.log(USERS[i]);
 
-      // if (account === USERS[i].account && password === USERS[i].password) 
-      // {
-      //   let { userName, gender, phoneNumber, email } = USERS[i];
-      //   let userInfo: User = { userName, gender, phoneNumber, email };
-      //   return of(userInfo);
-      // }
-      this.api.get(`api/manager/UserRef/Login?user_name=${account}&pass_word=${password}`).subscribe((res:any) => 
-      {
-        console.log(res.data);
+  constructor(private api: ApiService) {}
 
-        let rs = JSON.parse(JSON.stringify(res));
-          if (rs.data)
-          {
+  login(account: string, password: string) {
+    this.api.post("api/user/login",{user_name : account , pass_word : password}).subscribe((res:any) => {
+      let rs = JSON.parse(JSON.stringify(res));
+      if (rs.data) {
 
-            let {user_rcd, user_code,full_name,gender,date_of_birth,email,phone_number,address,user_name, pass_word} = rs.data;
-            let userInfo: Users = {user_rcd, user_code,full_name,gender,date_of_birth,email,phone_number,address,user_name, pass_word};
-            console.log(userInfo);
-            return rs.data;
-          }
-          return throwError('Please make sure you have input correct account and password');
-      });
-   // }
-    // this.router.navigate(['']);
+        let { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender} = rs.data;
+        let userInfo: User = { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender };
+        console.log(of(userInfo));
+        return userInfo;
+      }
+      return null;
+    });
+    // for (let i = 0; i < USERS.length; i++) {
+    //   if (account === USERS[i].account && password === USERS[i].password) {
+    //     let { userName, gender, phoneNumber, email } = USERS[i];
+    //     let userInfo: User = { userName, gender, phoneNumber, email };
+    //     return of(userInfo);
+    //   }
+    // }
     return throwError('Please make sure you have input correct account and password');
   }
 
