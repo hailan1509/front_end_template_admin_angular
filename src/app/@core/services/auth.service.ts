@@ -3,7 +3,6 @@ import { throwError, of } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { User } from 'src/app/@shared/models/user';
 import { Item, Users } from 'src/app/@core/data/listData';
-import { ApiService } from 'src/app/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 const USERS = [ 
   {
