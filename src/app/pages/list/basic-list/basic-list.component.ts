@@ -78,7 +78,7 @@ export class BasicListComponent implements OnInit {
       width: '150px',
     },
     {
-      field: 'country_name',
+      field: 'country_rcd',
       width: '100px',
     },
     {
@@ -122,7 +122,7 @@ export class BasicListComponent implements OnInit {
       },
       {
         label: 'Tên đất nước',
-        prop: 'country_name',
+        prop: 'country_rcd',
         primary: false,
         type: 'input',
       },
@@ -287,18 +287,30 @@ export class BasicListComponent implements OnInit {
     this.getList();
   }
 
+  // area_rcd: e.area_rcd;
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      // e.area_group = 1;
-      // e.area_name_l = e.area_name;
-      // e.area_name_e = e.area_name;
-      // e.area_note_l = e.area_note;
-      // e.area_note_e = e.area_note;
-      // this.api.post("api/manager/AreaRef/Create",{...e}).subscribe((res:any) => {
-      //   let a = JSON.parse(JSON.stringify(res));
-      //   this.getList();
-      // });
+      const obj = {
+        area_group : '1',
+        area_rcd: e.area_rcd,
+        area_name_l : e.area_name,
+        area_name: e.area_name,
+        area_note: e.area_note,
+        area_name_e : e.area_name,
+        area_note_l : e.area_note,
+        area_note_e : e.area_note,
+        country_rcd: e.country_rcd + '',
+        sort_order: 1,
+        active_flag: e.active_flag,
+        created_by_user_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        created_date_time: '2022-12-23T03:58:18.029Z'
+      }
+      console.log(obj);
+      this.api.post("api/manager/AreaRef/Create",{...obj}).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        this.getList();
+      });
     }
     else {
       e.area_name_l = e.area_name;

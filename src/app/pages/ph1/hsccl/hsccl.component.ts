@@ -206,7 +206,7 @@ export class HscclComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/ProfileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -263,7 +263,7 @@ export class HscclComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/profileRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/ProfileRef/DeleteMulti",[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
 
@@ -331,7 +331,7 @@ export class HscclComponent implements OnInit {
       e.profile_box_rcd=e.profile_box_rcd;
       e.profile_tyle_rcd=e.profile_tyle_rcd;
       e.active_flag=e.active_flag;
-      this.api.post("api/manager/profileRef/Create",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/ProfileRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.getList();
       });//
@@ -341,7 +341,7 @@ export class HscclComponent implements OnInit {
       e.profile_name_e = e.profile_name;
       e.profile_note_l = e.profile_note;
       e.profile_note_e = e.profile_note;
-      this.api.post("api/manager/profileRef/Update",{...e}).subscribe((res:any) => {
+      this.api.post("api/manager/ProfileRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.getList();
       });

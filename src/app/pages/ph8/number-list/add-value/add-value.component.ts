@@ -41,7 +41,7 @@ export class AddValueComponent implements OnInit {
   ];
   numberValue = 0;
 
-  newArea  = {
+  newArea  = {       //formdata
     area_rcd: "",
     country_rcd: 237,
     country_name_l: "",
@@ -104,7 +104,7 @@ export class AddValueComponent implements OnInit {
 values: any=[];
 bioSection : any;
 
-callingFunction(e: any) {
+callingFunction(e: any) {  //add vao bang
   const obj = {
     document_rcd: this.bioSection.get('txt_field').value,
     document_type_rcd: this.bioSection.get('txt_type').value,
@@ -218,7 +218,7 @@ savechange(){
     var reader = new FileReader();
     reader.onload = (event: any) => {
         this.pdfSrc = event.target.result;
-        console.log("dit cu may");
+        console.log("hihi");
         
     }
     // if (reader.result){
@@ -239,7 +239,7 @@ savechange(){
   getList() {
     this.api.post("api/manager/AreaRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , area_name : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
-      this.basicDataSource = a.data;
+      this.basicDataSource = a.data;   //value find
       this.pager.total = a.totalItems;
     });
   }
@@ -271,7 +271,7 @@ savechange(){
 
   addRow() {
     this.insert = true;
-    this.formData = this.newArea;
+    this.formData = this.newArea;   //create formcontrollname
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
@@ -338,7 +338,7 @@ savechange(){
     this.getList();
   }
 
-  onSubmitted(e: any) {
+  onSubmitted(e: any) {  //edit 
     this.editForm!.modalInstance.hide();
     if (this.insert) {
       // e.area_group = 1;

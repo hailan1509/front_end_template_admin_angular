@@ -291,7 +291,7 @@ export class NumberListComponent implements OnInit {
     });
   }
 
-  onPageChange(e: number) {
+  onPageChange(e: number) { 
     this.pager.pageIndex = e;
     this.getList();
   }
