@@ -478,4 +478,11 @@ export class DocumentByProfileComponent implements OnInit {
     window.open(source);
   }
 
+  subStringFileName(fileName:any) {
+    if(fileName.length >10) {
+      return fileName.substring(0,10) + "...";
+    }
+    else return fileName;
+  }
+
 }

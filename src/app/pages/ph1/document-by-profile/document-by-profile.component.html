@@ -105,7 +105,7 @@
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
                       <ng-container *ngFor="let it of cellItem">
-                        <a style="cursor: pointer!important; font-weight: bold;" title="{{it.file_name}}" (click)="viewFile(it.file_source)">{{it.file_name+it.file_extension}}</a> <br>
+                        <a style="cursor: pointer!important; font-weight: bold;" title="{{it.file_name}}" (click)="viewFile(it.file_source)">{{subStringFileName(it.file_name)+it.file_extension}}</a> <br>
                       </ng-container>
                     </ng-template>
                   </d-cell>
