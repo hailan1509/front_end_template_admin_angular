@@ -84,7 +84,7 @@ export class DocumentByProfileComponent implements OnInit {
     },
   ];
 
-  basicDataSource: DocumentRef[] = [];
+  basicDataSource: DocumentRef [] = [];
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
@@ -392,7 +392,9 @@ export class DocumentByProfileComponent implements OnInit {
         ],
         data: {
           document_attachment: a.data,
-          document_rcd: document_rcd
+          document_rcd: document_rcd,
+          year: this.profileInfo.year,
+          profile_number: this.profileInfo.profile_number
         }
       });
       const sub = results.modalContentInstance.onAdd.subscribe((type:any) => {
@@ -457,7 +459,15 @@ export class DocumentByProfileComponent implements OnInit {
 
       let arr_date_time = date.split('T');
       let  arr_date = arr_date_time[0].split('-');
-      return arr_date[2] + '/' + arr_date[1] + '/' + arr_date[0];
+      let rs = [];
+      if(arr_date[2])
+        rs.push(arr_date[2])
+      if(arr_date[1])
+        rs.push(arr_date[1])
+      if(arr_date[0])
+        rs.push(arr_date[0])
+
+      return rs.join('/');
     }
     return "";
   }

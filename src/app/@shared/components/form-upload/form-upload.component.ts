@@ -70,7 +70,8 @@ export class FormUploadComponent implements OnInit {
     return uploadOptions;
   }
   ngOnInit(): void {
-    this.uploadOptions2.uri = 'http://localhost:61029/api/manager/DocumentRef/Upload/' + this.data.document_rcd;
+    const param = [this.data.document_rcd, this.data.year, this.data.profile_number];
+    this.uploadOptions2.uri = 'http://localhost:61029/api/manager/DocumentRef/Upload/' + param.join('_');
     // console.log(this.data);
   }
 
