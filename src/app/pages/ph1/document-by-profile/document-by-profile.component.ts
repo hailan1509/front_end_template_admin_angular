@@ -400,9 +400,11 @@ export class DocumentByProfileComponent implements OnInit {
       const sub = results.modalContentInstance.onAdd.subscribe((type:any) => {
         this.showToast(type);
         results.modalInstance.hide();
+        this.getList();
       });
       const sub1 = results.modalContentInstance.onDelete.subscribe((type:any) => {
         this.showToast(type);
+        this.getList();
         // results.modalInstance.hide();
       });
     });
@@ -470,6 +472,10 @@ export class DocumentByProfileComponent implements OnInit {
       return rs.join('/');
     }
     return "";
+  }
+
+  viewFile(source:any) {
+    window.open(source);
   }
 
 }

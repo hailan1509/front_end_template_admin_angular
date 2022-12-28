@@ -66,56 +66,58 @@
                 [borderType]="'bordered'"
                 [scrollable]="true"
               >
-              <d-column  header="STT" [width]="'100px'">
+              <d-column  header="STT" [width]="'5%'">
                 <d-cell>
                   <ng-template let-rowIndex="rowIndex">
                     {{ rowIndex+1 }}
                   </ng-template>
                 </d-cell>
               </d-column>
-                <d-column field="document_name_l" header="Tên tài liệu" [width]="'100px'">
+                <d-column field="document_name_l" header="Tên tài liệu" [width]="'40%'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
                       {{ cellItem }}
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="document_number" header="Mã số" [width]="'100px'">
+                <d-column field="document_number" header="Mã số" [width]="'10%'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
                       {{ cellItem }}
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="date" header="Ngày" [width]="'100px'">
+                <d-column field="date" header="Ngày" [width]="'10%'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
                         {{ formatDateView(cellItem) }}
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="document_type_name_l" header="Loại" [width]="'100px'">
+                <!-- <d-column field="document_type_name_l" header="Loại" [width]="'100px'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
                       <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
                     </ng-template>
                   </d-cell>
-                </d-column>
-                <d-column field="physical_condition_name_l" header="Tình trạng" [width]="'100px'">
+                </d-column> -->
+                <d-column field="list_json" header="Tệp" [width]="'15%'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
-                      {{ cellItem }}
+                      <ng-container *ngFor="let it of cellItem">
+                        <a style="cursor: pointer!important; font-weight: bold;" title="{{it.file_name}}" (click)="viewFile(it.file_source)">{{it.file_name+it.file_extension}}</a> <br>
+                      </ng-container>
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="confidentiality_name_l" header="Bảo mật" [width]="'100px'">
+                <d-column field="confidentiality_name_l" header="Bảo mật" [width]="'10%'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
                       <span >{{ cellItem }}</span>
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="Actions" header="Actions" [width]="'100px'">
+                <d-column field="Actions" header="Actions" [width]="'10%'">
                   <d-cell>
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
