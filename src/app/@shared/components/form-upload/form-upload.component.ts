@@ -20,7 +20,7 @@ export class FormUploadComponent implements OnInit {
   onAdd = new EventEmitter();
   onDelete = new EventEmitter();
   uploadOptions2: IUploadOptions = {
-    uri: 'http://localhost:61029/api/manager/DocumentRef/Upload',
+    uri: 'http://api.khcnhungyen.top:61029/api/manager/DocumentRef/Upload',
     additionalParameter: this.additionalParameter2,
     maximumSize: 20,
     checkSameName: true
@@ -71,7 +71,7 @@ export class FormUploadComponent implements OnInit {
   }
   ngOnInit(): void {
     const param = [this.data.document_rcd, this.data.year, this.data.profile_number];
-    this.uploadOptions2.uri = 'http://localhost:61029/api/manager/DocumentRef/Upload/' + param.join('_');
+    this.uploadOptions2.uri = 'http://api.khcnhungyen.top:61029/api/manager/DocumentRef/Upload/' + param.join('_');
     // console.log(this.data);
   }
 
