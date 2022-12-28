@@ -13,34 +13,34 @@ export default function (values: any) {
     {
       title: values['PH1']['title'],
       children: [
-        {
-          title: values['PH1']['qlhsccl'],
-          link: '/pages/PH1/qlhsccl',
-        },
-        {
-          title: values['PH1']['bshs'],
-          link: '/pages/PH1/bshs',
-        },
+        // {
+        //   title: values['PH1']['qlhsccl'],
+        //   link: '/pages/PH1/qlhsccl',
+        // },
+        // {
+        //   title: values['PH1']['bshs'],
+        //   link: '/pages/PH1/bshs',
+        // },
         {
           title: values['PH1']['qlhsdcl'],
           link: '/pages/PH1/qlhsdcl',
         },
-        {
-          title: values['PH1']['tchs'],
-          link: '/pages/PH1/tchs',
-        },
-        {
-          title: values['PH1']['tctl'],
-          link: '/pages/PH1/tctl',
-        },
-        {
-          title: values['PH1']['ihstf'],
-          link: '/pages/PH1/ihstf',
-        },
-        {
-          title: values['PH1']['itltf'],
-          link: '/pages/PH1/itltf',
-        },
+        // {
+        //   title: values['PH1']['tchs'],
+        //   link: '/pages/PH1/tchs',
+        // },
+        // {
+        //   title: values['PH1']['tctl'],
+        //   link: '/pages/PH1/tctl',
+        // },
+        // {
+        //   title: values['PH1']['ihstf'],
+        //   link: '/pages/PH1/ihstf',
+        // },
+        // {
+        //   title: values['PH1']['itltf'],
+        //   link: '/pages/PH1/itltf',
+        // },
       ],
       link: '/pages/PH1',
       menuIcon: 'icon icon-modify',
