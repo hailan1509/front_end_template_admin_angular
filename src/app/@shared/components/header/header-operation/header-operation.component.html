@@ -30,13 +30,12 @@
           >
         </li> -->
                 <li role="menuitem" (click)="handleUserOps('logout')">
-                    <a class="devui-dropdown-item logout"><i class="icon icon-exit"></i>{{ 'header.logout' | translate }}</a>
+                    <a class="devui-dropdown-item logout"><i class="icon icon-exit"></i>Đăng xuất</a>
                 </li>
             </ng-container>
         </ul>
     </div>
-    <div class="da-language-wrapper" dDropDown [trigger]="'hover'" appendToBody dDropDownToggle>
-        <!-- TODO: svg替换为图标 -->
+    <!-- <div class="da-language-wrapper" dDropDown [trigger]="'hover'" appendToBody dDropDownToggle>
         <svg width="16px" height="16px" viewBox="0 0 16 16">
       <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <path
@@ -51,7 +50,7 @@
                 </a>
             </li>
         </ul>
-    </div>
+    </div> -->
 </div>
 
 <ng-template #login>

@@ -220,7 +220,7 @@ export class ProfileRefComponent implements OnInit {
   }
 
   getList() {
-    this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -395,7 +395,7 @@ export class ProfileRefComponent implements OnInit {
   }
 
   getDocuments(profile_rcd: any) {
-    window.open("/pages/PH1/documents/"+profile_rcd);
+    window.location.href = "/pages/PH1/documents/"+profile_rcd;
   }
 
   formatDateView(date:any, yearFirst:boolean) {

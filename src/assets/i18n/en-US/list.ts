@@ -1,7 +1,7 @@
 export default {
   list: {
     breadcrumb: {
-      home: 'Home',
+      home: 'Trang chủ',
       formPage: 'List',
       basicList: 'Basic List',
       cardList: 'Card List',
