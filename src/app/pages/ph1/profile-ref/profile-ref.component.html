@@ -137,7 +137,7 @@
       </da-layout-row>
     </div>
   </div>
-
+  <d-toast [value]="msgs" [style]="{ top: '20px' }"></d-toast>
   <ng-template #EditorTemplate>
     <da-admin-form [formConfig]="formConfig" [insert]="insert"  [formData]="formData" (submitted)="onSubmitted($event)" (canceled)="onCanceled()">
     </da-admin-form>

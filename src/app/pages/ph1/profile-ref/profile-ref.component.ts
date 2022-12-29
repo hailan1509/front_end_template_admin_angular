@@ -212,6 +212,7 @@ export class ProfileRefComponent implements OnInit {
     pageIndex: 1,
     pageSize: 10,
   };
+  msgs: Array<Object> = [];
 
   busy: Subscription;
 
@@ -319,11 +320,13 @@ export class ProfileRefComponent implements OnInit {
   }
   
   formatDate(date:any) {
-    return [
-      date.getFullYear(),
-      this.padTo2Digits(date.getMonth() + 1),
-      this.padTo2Digits(date.getDate()),
-    ].join('-');
+    if(date) 
+      return [
+        date.getFullYear(),
+        this.padTo2Digits(date.getMonth() + 1),
+        this.padTo2Digits(date.getDate()),
+      ].join('-');
+    else return "";
   }
 
   onPageChange(e: number) {
@@ -362,6 +365,12 @@ export class ProfileRefComponent implements OnInit {
       e.active_flag=e.active_flag;
       this.api.post("api/manager/profileRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
+        if(a.data) {
+          this.showToast("success");
+        }
+        else {
+          this.showToast("error");
+        }
         this.getList();
       });//
     }
@@ -378,12 +387,30 @@ export class ProfileRefComponent implements OnInit {
       e.active_flag=e.active_flag;
       this.api.post("api/manager/profileRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
+        if(a.data) {
+          this.showToast("success");
+        }
+        else {
+          this.showToast("error");
+        }
         this.getList();
       });
 
     }
   }
 
+  showToast(type:any) {
+    switch (type) {
+      case 'success':
+        this.msgs = [{ severity: "success", summary: 'Thông báo', content: 'Cập nhật thành công!' }];
+        break;
+      case 'error':
+        this.msgs = [{ severity: "error", summary: 'Thông báo', content: 'Cập nhật thất bại!' }];
+        break;
+      default:
+        this.msgs = [{ severity: "success", summary: 'Thông báo', content: 'Cập nhật thành công!' }];
+      }
+  }
   onCanceled() {
     this.editForm!.modalInstance.hide();
     this.editRowIndex = -1;
