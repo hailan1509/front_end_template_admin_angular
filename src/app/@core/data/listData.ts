@@ -193,35 +193,46 @@ export interface DocumentRef {
 }
 
 export interface Profile {
-  profile_rcd?:number;
-  profile_code?: number;
-  profile_name_e?:number;
-  profile_name_l?: string;
-  from_date?:Date;
-  to_date?:Date;
-  year?:number;
-  number_of_paper?: number;
-  profile_type_rcd?: number;
-  profile_number?: number;
-  cancellation_reason?:string;
-  is_digital_profile?:string;
-  status?:string;
-  sort_order?:number;
-  date_pending?:Date;
-  date_edited?:Date;
-  date_pending_cancellation?:Date;
-  date_cancellation?:Date;
-  agency_issued_rcd?:string;
-  phong_rcd?:string;
-  duration_storage_rcd?:string;
-  archives_rcd?:string;
-  profile_box_rcd?:string;
-  profile_tyle_rcd?:string;
-  active_flag?: number;
-  profile_type_name_l?:string;
-  agency_issued_name_l?:string;
-  archives_name_l?:string;
-  phong_name_l?:string;
+  profile_rcd?:any;
+		profile_code?:any;
+	  profile_number?:any;
+    profile_name_e?:any;
+    profile_name_l?:any;
+		from_date?:any;
+		to_date?:any;
+		year?:any;
+		number_of_paper?:any;
+		profile_note_l?:any;
+    profile_note_e?:any;
+    status?:any;
+		sort_order?:any;
+    is_digital_profile?:any;
+    cancellation_reason?:any;
+    date_pending?:any;
+    date_edited?:any;
+    date_pending_cancellation?:any;
+    date_cancellation?:any;
+    agency_issued_ref?:any;
+    confidentiality_rcd?:any;
+    profile_box_rcd?:any;
+    fields_rcd?:any;
+    archive_fonts_rcd?:any;
+    phong_rcd?:any;
+    duration_storage_rcd?:any;
+    archives_rcd?:any;
+    profile_type_rcd?:any;
+    agency_issued_rcd?:any;
+    
+    active_flag?:any;
+    created_by_user_id?:any;
+    created_date_time?:any;
+    lu_updated?:any;
+		lu_user_id?:any;
+
+    profile_type_name_l?:any;
+    agency_issued_name_l?:any;
+    archives_name_l?:any;
+    phong_name_l?:any;
 }
 
 export interface ProfileRef {
