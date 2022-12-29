@@ -108,6 +108,9 @@ export class LoginComponent implements OnInit {
         });
       }
     });
+    localStorage.setItem('lang', 'en-us');
+    this.i18n.toggleLang('en-us');
+    this.translate.use('en-us');
   }
 
    onClick(tabId: string | number) {
