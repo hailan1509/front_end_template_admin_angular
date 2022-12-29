@@ -1,25 +1,25 @@
 export default {
   loginPage: {
-    coperation: 'DevUI Design 出品',
+    coperation: 'DevUI Design Presented',
     loginWays: {
-      account: '账号密码登录',
-      email: '邮箱登录',
+      account: 'Account Login',
+      email: 'Email Login',
     },
-    autoLogin: '自动登录',
-    forgetPassword: '忘记密码？',
-    submit: '提交',
-    userName: '用户名',
-    password: '密码',
-    email: '邮箱',
+    autoLogin: 'Remember me',
+    forgetPassword: 'Forgot Password?',
+    submit: 'Submit',
+    userName: 'Username',
+    password: 'Password',
+    email: 'Email',
     noticeMessage: {
-      summary: '用户名或密码错误',
+      summary: 'Login Failed',
       accountContent:
-        '请输入正确的用户名密码，用户名：Admin，密码：DevUI.admin',
+        'Please input correct username and password, username: Admin, password: DevUI.admin',
       emailContent:
-        '请输入正确的用户名密码，用户名：admin@devui.com，密码：devuiadmin',
+        'Please input correct username and password, username: admin@devui.com, password: devuiadmin',
     },
-    other: '其它登录方式',
-    register: '注册账户',
-    callbackMessage: 'Github授权回调成功',
+    other: 'Sign in with',
+    register: 'Sign up',
+    callbackMessage: 'Github authorization callback succeeded',
   },
 };

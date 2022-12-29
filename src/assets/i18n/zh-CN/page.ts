@@ -1,33 +1,33 @@
 export default {
-  'page': {
-    'dashboard' : {
-      'title': 'Dashboard',
-      'analysis': '分析页',
-      'monitor': '监控页',
-      'workspace': '工作台'
+  page: {
+    dashboard: {
+      title: 'Dashboard',
+      analysis: 'Analysis',
+      monitor: 'Monitor',
+      workspace: 'Work Space',
     },
-    'form': {
-      'title': '表单页',
-      'basicForm':  '基础表单',
-      'formLayout': '表单布局',
-      'advancedForm': '高级表单',
-      'dynamicForm': '动态表单'
+    form: {
+      title: 'Form',
+      basicForm: 'Basic Form',
+      formLayout: 'Form Layout',
+      advancedForm: 'Advanced Form',
+      dynamicForm: 'Dynamic Form'
     },
-    'list': {
-      'title': '列表页',
-      'basicList': '基础列表',
-      'cardList': '卡片列表',
-      'editableList': '编辑列表',
-      'advanceList': '高级列表',
-      'treeList': '树状列表',
+    list: {
+      title: 'List',
+      basicList: 'Basic List',
+      cardList: 'Card List',
+      editableList: 'Editable List',
+      advanceList: 'Advance List',
+      treeList: 'Tree List',
     },
-    'abnormal': {
-      'title': '异常页'
+    abnormal: {
+      title: 'Abnormal',
     },
-    'user': {
-      'title': '个人页',
-      'center': '个人中心',
-      'settings': '个人设置'
-    }
-  }
-}
+    user: {
+      title: 'User',
+      center: 'User Center',
+      settings: 'User Settings',
+    },
+  },
+};

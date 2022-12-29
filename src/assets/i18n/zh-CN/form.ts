@@ -1,32 +1,32 @@
 export default {
   'form': {
     'breadcrumb': {
-      'home': '首页',
-      'formPage': '表单页',
-      'basicForm': '基础表单',
-      'formLayout': '表单布局',
-      'advancedForm': '高级表单',
-      'dynamicForm': '动态表单'
+      'home': 'Home',
+      'formPage': 'Form',
+      'basicForm': 'Basic Form',
+      'formLayout': 'Form Layout',
+      'advancedForm': 'Advanced Form',
+      'dynamicForm': 'Dynamic Form'
     },
     'basicForm':{
-      'title': '基础表单',
-      'description': '表单页用于对用户信息进行收集或校验。基础表单具备数据收集、校验和提交功能。'
+      'title': 'Basic Form',
+      'description': 'The form page is used to collect or verify user information. Basic forms can be used to collect, verify, and submit data.'
     },
     'formLayout':{
-      'title': '表单布局',
-      'description': '表单布局页展示了多种布局形式的表单，包含横向、垂直、弹框、多列等形式。',
-      'horizontalForm': '横向表单',
-      'verticalForm': '垂直表单',
-      'modalForm': '弹窗表单',
-      'multiForm': '多列表单'
+      'title': 'Form Layout',
+      'description': 'The form layout page displays various forms, including horizontal, vertical, pop-up, and multi-column layouts.',
+      'horizontalForm': 'Horizontal Form',
+      'verticalForm': 'Vertical Form',
+      'modalForm': 'Pop-up Form',
+      'multiForm': 'Multi-column Form'
     },
     'advancedForm': {
-      'title': '高级表单',
-      'description': '高级表单用于列表中编辑相关信息。'
+      'title': 'Advanced Form',
+      'description': 'Advanced forms are used to edit related information in the list.'
     },
     'dynamicForm': {
-      'title': '动态表单',
-      'description': '根据业务对象模型的元数据（JSON）来创建动态表单，创建更加快速、且结构化方便维护，与正常表单具体使用差别请查看实际代码。'
+      'title': 'Dynamic Form',
+      'description': 'Dynamic forms can be created based on the metadata (JSON) of the business object model. The creation is quick, structured, and easy to maintain. For details about the differences between forms and normal forms, see the actual code.'
     }
   }
 }

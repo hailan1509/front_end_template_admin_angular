@@ -1,9 +1,9 @@
 export default {
   header: {
-    userCenter: '个人中心',
-    userSettings: '个人设置',
-    logout: '登出',
-    login: '登录',
-    register: '注册',
+    userCenter: 'User Center',
+    userSettings: 'User Settings',
+    logout: 'Logout',
+    login: 'Login',
+    register: 'Register',
   },
 };

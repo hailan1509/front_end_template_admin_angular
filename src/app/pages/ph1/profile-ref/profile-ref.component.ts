@@ -340,30 +340,15 @@ export class ProfileRefComponent implements OnInit {
     console.log(e,this.basicDataSource);
     this.editForm!.modalInstance.hide();
     if (this.insert) {
-      e.profile_rcd = e.profile_rcd;
       e.profile_code=e.profile_code;
-      e.profile_name_l = e.profile_name;
-      e.profile_name_e = e.profile_name;
-      e.from_date=e.from_date;
-      e.to_date=e.to_date;
+      e.profile_name_l = e.profile_name_l;
+      e.profile_name_e = e.profile_name_l;
+      e.from_date= typeof(e.from_date) == "string" ? this.formatDateView(e.from_date,false) : this.formatDate(e.from_date);
+      e.to_date= typeof(e.to_date) == "string" ? this.formatDateView(e.to_date,false) : this.formatDate(e.to_date);
       e.year=e.year;
-      e.number_of_paper=e.number_of_paper;
-      e.profile_note_l = e.profile_note;
-      e.profile_note_e = e.profile_note;
-      e.cancellation_reason=e.cancellation_reason;
+      e.profile_note_l = e.profile_note_l;
+      e.profile_note_e = e.profile_note_l;
       e.is_digital_profile=e.is_digital_profile;
-      e.status=e.status;
-      e.sort_order=e.sort_order;
-      e.date_pending=e.date_pending;
-      e.date_edited=e.date_edited;
-      e.date_pending_cancellation=e.date_pending_cancellation;
-      e.date_cancellation=e.date_cancellation;
-      e.agency_issued_rcd=e.agency_issued_rcd;
-      e.phong_rcd=e.phong_rcd;
-      e.duration_storage_rcd=e.duration_storage_rcd;
-      e.archives_rcd=e.archives_rcd;
-      e.profile_box_rcd=e.profile_box_rcd;
-      e.profile_tyle_rcd=e.profile_tyle_rcd;
       e.active_flag=e.active_flag;
       this.api.post("api/manager/profileRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
