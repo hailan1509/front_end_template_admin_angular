@@ -5,10 +5,10 @@
         ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
       >
       <d-breadcrumb-item>Quản lý hồ sơ</d-breadcrumb-item>
-      <d-breadcrumb-item>Quản lý hồ sơ đã chỉnh lý</d-breadcrumb-item>
+      <d-breadcrumb-item>Tra cứu hồ sơ</d-breadcrumb-item>
     </d-breadcrumb>
     <div class="da-content-banner-title">Quản lý hồ sơ</div>
-    <div>Quản lý hồ sơ đã chỉnh lý</div>
+    <div>Tra cứu hồ sơ</div>
   </div>
   <div class="da-content-wrapper">
     <da-layout-row [daGutter]="[24, 24]">
@@ -60,9 +60,13 @@
                   </div>
                 </div>
               </div>
+              <div class="da-header-item">
+                <div class="da-header-item-label">Trạng thái hồ sơ:</div>
+                <d-select [placeholder]="'--Tất cả--'" [filterKey]="'label'" [options]="statusOptions" [allowClear]="true" [(ngModel)]="statusCurrent" (ngModelChange)="search()"></d-select>
+              </div>
             </div>
             <div class="header-right">
-              <d-button style="margin-right: 8px">Chuyển hồ sơ sang đã chỉnh lý</d-button>
+              <!-- <d-button (click)="addRow()" style="margin-right: 8px">Thêm sản phẩm</d-button> -->
               <d-button (click)="reset()" bsStyle="common" style="margin-right: 8px">Reset</d-button>
               <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button>
             </div>
@@ -72,7 +76,6 @@
             <d-data-table
               #datatable
               [dataSource]="basicDataSource"
-              [tableOverflowType]="'overlay'"
               [borderType]="searchForm.borderType"
               [size]="searchForm.size"
               [tableLayout]="searchForm.layout"

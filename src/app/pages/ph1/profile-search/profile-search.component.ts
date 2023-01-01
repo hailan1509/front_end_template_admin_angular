@@ -1,16 +1,16 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Subscription, Observable, combineLatest } from 'rxjs';
-import { DataTableComponent, TableWidthConfig } from 'ng-devui/data-table';
+import { DataTableComponent } from 'ng-devui/data-table';
 import { DialogService } from 'ng-devui/modal';
 import { ToastService } from 'ng-devui/toast';
 import { ApiService } from 'src/app/api.service';
 
 @Component({
-  selector: 'app-profile-edited',
-  templateUrl: './profile-edited.component.html',
-  styleUrls: ['./profile-edited.component.scss'],
+  selector: 'app-profile-search',
+  templateUrl: './profile-search.component.html',
+  styleUrls: ['./profile-search.component.scss'],
 })
-export class ProfileEditedComponent implements OnInit {
+export class ProfileSearchComponent implements OnInit {
 
   @ViewChild(DataTableComponent, { static: true }) datatable: DataTableComponent;
   @ViewChild('EditorTemplate', { static: true }) EditorTemplate: TemplateRef<any>;
@@ -28,9 +28,30 @@ export class ProfileEditedComponent implements OnInit {
   _search: any = {
     profile_code: null,
     profile_name: null,
-    status: 1,
+    status: null,
     year: null
   };
+
+  statusOptions: any[] = [
+    {
+      label: "Chờ chỉnh lý",
+      value: 0
+    },
+    {
+      label: "Đã chỉnh lý",
+      value: 1
+    },
+    {
+      label: "Chờ hủy",
+      value: 2
+    },
+    {
+      label: "Đã hủy",
+      value: -1
+    },
+  ]
+
+  statusCurrent: any;
 
   pager = {
     total: 0,
@@ -46,7 +67,7 @@ export class ProfileEditedComponent implements OnInit {
     borderType: 'bordered',
     size: 'md',
     layout: 'auto',
-    };
+  };
   editForm: any = null;
 
   busy: Subscription;
@@ -65,6 +86,7 @@ export class ProfileEditedComponent implements OnInit {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
       ...this._search,
+      status: this.statusCurrent?.value,
       year: year?.selectedDate?.getFullYear()
     };
 
@@ -103,7 +125,6 @@ export class ProfileEditedComponent implements OnInit {
   onCheckAllChange() {
     this.deleteList = this.datatable.getCheckedRows();
   }
-
   batchDelete(deleteList: any[]) {
     if (deleteList.length > 0) {
       const results = this.dialogService.open({

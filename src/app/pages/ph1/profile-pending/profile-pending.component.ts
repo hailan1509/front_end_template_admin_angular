@@ -15,10 +15,6 @@ export class ProfilePendingComponent implements OnInit {
   @ViewChild(DataTableComponent, { static: true }) datatable: DataTableComponent;
   @ViewChild('EditorTemplate', { static: true }) EditorTemplate: TemplateRef<any>;
   basicDataSource = [];
-  handoverRecordCancelled = {
-    handover_record_cancelled_rcd: ""
-  }
-  users = [];
   insert = true;
   doneSetup: Subscription;
   isSubmitting = false;
@@ -107,62 +103,54 @@ export class ProfilePendingComponent implements OnInit {
   onCheckAllChange() {
     this.deleteList = this.datatable.getCheckedRows();
   }
-
-  addProfileToHandover() {
-    this.insert = true;
-    this.editForm = this.dialogService.open({
-      id: 'edit-dialog',
-      width: '65%',
-      title: 'Thêm danh sách hồ sơ hết giá trị',
-      showAnimate: false,
-      contentTemplate: this.EditorTemplate,
-      backdropCloseable: true,
-      onClose: () => {},
-      buttons: [],
-    });
-
-  }
-
-  addRow() {
-    this.insert = true;
-    this.editForm = this.dialogService.open({
-      id: 'edit-dialog',
-      width: '65%',
-      title: 'Thêm danh sách hồ sơ hết giá trị',
-      showAnimate: false,
-      contentTemplate: this.EditorTemplate,
-      backdropCloseable: true,
-      onClose: () => {},
-      buttons: [],
-    });
-  }
-
-  editRow(index: number, product_id: any) {
-    this.insert = false;
-    this.editRowIndex = index;
-    this.editForm = this.dialogService.open({
-      id: 'edit-dialog',
-      width: '65%',
-      title: 'Cập nhập sản phẩm',
-      showAnimate: false,
-      contentTemplate: this.EditorTemplate,
-      backdropCloseable: true,
-      onClose: () => {},
-      buttons: [],
-    });
-  }
-
-
-
-  onSubmitted() {
-
-
-  }
-
   batchDelete(deleteList: any[]) {
     if (deleteList.length > 0) {
+      const results = this.dialogService.open({
+        id: 'delete-dialog',
+        width: '600px',
+        maxHeight: '600px',
+        title: 'Xóa hồ sơ',
+        showAnimate: true,
+        content: `Bạn có chắc chắn muốn xóa ${deleteList.length} bản ghi?`,
+        backdropCloseable: true,
+        onClose: () => {},
+        buttons: [
+          {
+            cssClass: 'primary',
+            text: 'Ok',
+            disabled: false,
+            handler: ($event: Event) => {
+              if (!this.isSubmitting) {
+                this.isSubmitting = true;
+                this.deleteRows(deleteList).subscribe((res) => {
+                  results.modalInstance.hide();
+                  this.reset();
+                  this.toastService.open({
+                    value: [{ severity: 'success', summary: 'Thành công', content: `Xóa hồ sơ thành công!` }],
+                  });
+                  this.isSubmitting = false;
+                });
+              }
+            },
+          },
+          {
+            id: 'btn-cancel',
+            cssClass: 'common',
+            text: 'Hủy',
+            handler: ($event: Event) => {
+              results.modalInstance.hide();
+            },
+          },
+        ],
+      });
 
+      console.log(results);
     }
+  }
+
+  deleteRows(deleteList: any[]) {
+    let ids = deleteList.map((item: any) => item.profile_rcd)
+    return this.api.post('api/manager/ProfileRef/DeleteMulti', ids)
   }
 
   onCanceled() {

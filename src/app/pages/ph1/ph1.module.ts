@@ -17,6 +17,8 @@ import { ph1Component } from './ph1.component';
 import { ProfilePendingComponent } from './profile-pending/profile-pending.component';
 import { ProfileEditedComponent } from './profile-edited/profile-edited.component';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
+import { ProfileSearchComponent } from './profile-search/profile-search.component';
+import { DocumentSearchComponent } from './document-search/document-search.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
     ProfileEditedComponent,
     ph1Component,
     ProfilePendingComponent,
-    CreateProfileComponent
+    CreateProfileComponent,
+    ProfileSearchComponent,
+    DocumentSearchComponent
 
   ],
   imports: [
