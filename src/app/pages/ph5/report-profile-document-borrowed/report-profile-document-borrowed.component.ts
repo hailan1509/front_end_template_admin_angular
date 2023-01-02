@@ -82,6 +82,7 @@ export class ReportProfileDocumentBorrowedComponent implements OnInit {
     this.busy = this.api.post("api/Statistic/ReportProfileBorrowedSearch", data).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
+      console.log(this.basicDataSource);
       this.pager.total = a.totalItems;
     });
   }
@@ -96,6 +97,7 @@ export class ReportProfileDocumentBorrowedComponent implements OnInit {
     this.busy = this.api.post("api/Statistic/ReportDocumentBorrowedSearch", data).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource2 = a.data;
+      console.log(this.basicDataSource2);
       this.pager.total = a.totalItems;
     });
   }

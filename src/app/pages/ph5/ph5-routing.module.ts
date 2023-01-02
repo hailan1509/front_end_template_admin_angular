@@ -11,6 +11,9 @@ import { ReportProfileDocumentBorrowedComponent } from './report-profile-documen
 import { StatisticInputReportArchiveComponent } from './statistic_input_report_archive/statistic_input_report_archive.component';
 import { StatisticQuantityProfileForYearComponent } from './statistic-quantity-profile-for-year/statistic-quantity-profile-for-year.component';
 import { DataAlterComponent } from './report-data-alter/report-data-alter.component';
+import { ReportDigitizationComponent } from './report-digitization/report-digitization.component';
+import { ReportDocumentInProfileTypeComponent } from './report-document-in-profile-type/report-document-in-profile-type.component';
+
 
 
 
@@ -27,7 +30,8 @@ const routes: Routes = [
       { path: 'tkhsdvlt', component: StatisticInputReportArchiveComponent },
       { path: 'tkslhstn', component: StatisticQuantityProfileForYearComponent },
       { path: 'bcdlskdn', component: DataAlterComponent },
-      
+      { path: 'tkbctvsh', component: ReportDigitizationComponent },
+      { path: 'bcdmvbctlhs', component: ReportDocumentInProfileTypeComponent },
     ]
   }
 ];

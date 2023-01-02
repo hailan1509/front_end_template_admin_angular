@@ -210,7 +210,7 @@ export class DataAlterComponent implements OnInit {
       }
 
       // console.log()
-      console.log(this.profileData);
+      // console.log(this.profileData);
       let s=0;
       for (let j = 0; j < this.profileData.length; j++) {
         s+=this.profileData[j].sum;
@@ -341,7 +341,7 @@ export class DataAlterComponent implements OnInit {
       }
       this.generality.PDB.unshift({sum:s})
 
-      console.log(this.profileData1);
+      // console.log(this.profileData1);
       for (let i = 1; i <= 12; i++) {
         for (let j = 0; j < this.profileData1.length; j++) {
           if (this.profileData1[j].month == i) {
@@ -423,7 +423,6 @@ export class DataAlterComponent implements OnInit {
       this.dataSourceMiningFile = a.data;
       console.log(this.dataSourceMiningFile);
       let datax: Array<any> = new Array();
-      // let datay: Array<any>=new Array;
 
       for (let i = 0; i < this.dataSourceMiningFile.length; i++) {
         let time: any;
@@ -463,7 +462,7 @@ export class DataAlterComponent implements OnInit {
       }
       this.generality.MF.unshift({sum:s})
 
-      console.log(this.profileData2);
+      // console.log(this.profileData2);
       for (let i = 1; i <= 12; i++) {
         for (let j = 0; j < this.profileData2.length; j++) {
           if (this.profileData2[j].month == i) {
@@ -584,7 +583,7 @@ export class DataAlterComponent implements OnInit {
       }
       this.generality.CP.unshift({sum:s})
 
-      console.log(this.profileData3);
+      // console.log(this.profileData3);
       for (let i = 1; i <= 12; i++) {
         for (let j = 0; j < this.profileData3.length; j++) {
           if (this.profileData3[j].month == i) {
@@ -608,14 +607,6 @@ export class DataAlterComponent implements OnInit {
   }
 
 
-
-
-
-
-
-
-  // option = {
-  //   baseOption: {
   //     timeline: {
   //       axisType: 'category',
   //       autoPlay: false,
@@ -1996,7 +1987,4 @@ export class DataAlterComponent implements OnInit {
   //       ],
   //     },
   //   ],
-  // };
-
-
 }

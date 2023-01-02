@@ -48,6 +48,11 @@ export class StatisticQuantityProfileForYearComponent implements OnInit, AfterVi
   };
 
   pieChart: any;
+  
+  getPieChart(e: any) {
+    this.pieChart = e;
+    console.log(e)
+  }
 
 
   constructor(private api: ApiService) { }
@@ -60,10 +65,7 @@ export class StatisticQuantityProfileForYearComponent implements OnInit, AfterVi
   ngAfterViewInit() {
   }
 
-  getPieChart(e: any) {
-    this.pieChart = e;
-    console.log(e)
-  }
+  
 
   _search={
     status:1,

@@ -18,6 +18,8 @@ import { StatisticDocumentComponent } from './statistic-document/statistic-docum
 import { StatisticInputReportArchiveComponent } from './statistic_input_report_archive/statistic_input_report_archive.component';
 import { StatisticQuantityProfileForYearComponent } from './statistic-quantity-profile-for-year/statistic-quantity-profile-for-year.component';
 import { DataAlterComponent } from './report-data-alter/report-data-alter.component';
+import { ReportDigitizationComponent } from './report-digitization/report-digitization.component';
+import { ReportDocumentInProfileTypeComponent } from './report-document-in-profile-type/report-document-in-profile-type.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { DataAlterComponent } from './report-data-alter/report-data-alter.compon
     StatisticDocumentComponent,
     StatisticInputReportArchiveComponent,
     StatisticQuantityProfileForYearComponent,
-    DataAlterComponent
+    DataAlterComponent,
+    ReportDigitizationComponent,
+    ReportDocumentInProfileTypeComponent
   ],
   imports: [
     PaginationModule,

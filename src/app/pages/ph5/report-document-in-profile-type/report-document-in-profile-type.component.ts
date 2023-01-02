@@ -5,11 +5,11 @@ import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 
 @Component({
-  selector: 'app-statistic-document',
-  templateUrl: './statistic-document.component.html',
-  styleUrls: ['./statistic-document.component.scss']
+  selector: 'app-report-document-in-profile-type',
+  templateUrl: './report-document-in-profile-type.component.html',
+  styleUrls: ['./report-document-in-profile-type.component.scss']
 })
-export class StatisticDocumentComponent implements OnInit {
+export class ReportDocumentInProfileTypeComponent implements OnInit {
 
   basicDataSource: any[] = [];
   // basicDataSource1: any[] = [];

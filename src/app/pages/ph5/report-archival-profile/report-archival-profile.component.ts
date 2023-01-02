@@ -11,6 +11,7 @@ import { ApiService } from 'src/app/api.service';
 })
 export class ReportArchivalProfileComponent implements OnInit {
   basicDataSource: any[] = [];
+  basicDataSource1: any[] = [];
   datepicker1: any;
 
 
@@ -44,18 +45,31 @@ export class ReportArchivalProfileComponent implements OnInit {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       console.log(this.basicDataSource);
+    });
+  }
 
+  getDataChart() {
+    const data = {
+      page: 0,
+      pageSize: 0,
+      ...this._search
+      //status: this.miningFileStatusValue[this.miningFileStatus]
+    }
+
+    this.busy = this.api.post("api/Statistic/StatisticProfileSearch", data).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      this.basicDataSource1 = a.data;
       let datax: Array<any>=new Array;
       let timeList: Array<any>=new Array;
       let datay: Array<any>=new Array;
-      for(let i=0;i<this.basicDataSource.length;i++){
+      for(let i=0;i<this.basicDataSource1.length;i++){
         let time:any;
-        if(this.basicDataSource[i].from_date==null){
+        if(this.basicDataSource1[i].from_date==null){
           // time= new Date(new Date());
           continue;
         }
         else{
-          time= new Date(this.basicDataSource[i].from_date);
+          time= new Date(this.basicDataSource1[i].from_date);
         }
         let year=time.getFullYear();
         let month=time.getMonth()+1;
@@ -101,8 +115,6 @@ export class ReportArchivalProfileComponent implements OnInit {
       this.pieChart.setOption(this.serviceData, true);
     });
   }
-
-
 
 
 
@@ -153,7 +165,8 @@ export class ReportArchivalProfileComponent implements OnInit {
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
-    this.getList()
+    this.getList();
+    this.getDataChart(); 
   }
 
   search() {
@@ -168,6 +181,7 @@ export class ReportArchivalProfileComponent implements OnInit {
     };
     this.pager.pageIndex = 1;
     this.getList();
+    this.getDataChart();
   }
 
   onPageChange(e: number) {
