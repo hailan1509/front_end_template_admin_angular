@@ -28,7 +28,7 @@ export class ProfilePendingCanceledComponent implements OnInit {
   _search: any = {
     profile_code: null,
     profile_name: null,
-    status: -1,
+    status: 2,
     year: null
   };
 

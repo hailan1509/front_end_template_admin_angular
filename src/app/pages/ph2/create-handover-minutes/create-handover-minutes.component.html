@@ -47,21 +47,6 @@
           </d-form-control>
         </d-form-item>
         <d-form-item>
-          <d-form-label [required]="true">Handover minutes name:</d-form-label>
-          <d-form-control>
-            <input
-              dTextInput
-              [name]="'product_name'"
-              [placeholder]="'Handover minutes name'"
-              name="handover_minutes_name"
-              [(ngModel)]="handoverMinutes.handover_minutes_name_e"
-              autocomplete="off"
-              maxlength="100"
-              [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
-            />
-          </d-form-control>
-        </d-form-item>
-        <d-form-item>
           <d-form-label [required]="true">Địa điểm bàn giao:</d-form-label>
           <d-form-control>
             <input

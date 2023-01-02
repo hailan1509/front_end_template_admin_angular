@@ -230,6 +230,23 @@ export class CancellationMinutesComponent implements OnInit {
     status: null,
   };
 
+  statusOptions: any[] = [
+    {
+      label: "Đang chờ duyệt",
+      value: 0
+    },
+    {
+      label: "Đã duyệt",
+      value: 1
+    },
+    {
+      label: "Từ chối",
+      value: -1
+    }
+  ]
+
+  statusCurrent: any;
+
   pager = {
     total: 0,
     pageIndex: 1,
@@ -273,6 +290,7 @@ export class CancellationMinutesComponent implements OnInit {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
       ...this._search,
+      status: this.statusCurrent?.value,
       time_destroy: this._search.time_destroy ? new Date(Date.UTC(this._search.time_destroy.getFullYear(), this._search.time_destroy.getMonth(), this._search.time_destroy.getDate())) : null
     };
     this.api.post("api/manager/CancellationMinutesRef/Search", data).subscribe((res:any) => {
@@ -447,7 +465,7 @@ export class CancellationMinutesComponent implements OnInit {
 
   batchDelete(deleteList: any[]) {
     if (deleteList.length > 0) {
-      
+
     }
   }
 

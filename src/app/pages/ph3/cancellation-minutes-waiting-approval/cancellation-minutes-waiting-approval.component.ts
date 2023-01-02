@@ -17,7 +17,7 @@ export class CancellationMinutesWaitingApprovalComponent implements OnInit {
   @ViewChild('EditorTemplate', { static: true }) EditorTemplate: TemplateRef<any>;
   basicDataSource = [];
 
-  cancelaltionMinutes: any = {
+  cancellationMinutes: any = {
     comment: "",
     status: null
   }
@@ -39,6 +39,7 @@ export class CancellationMinutesWaitingApprovalComponent implements OnInit {
     cancellation_method: null,
     time_destroy: null,
     status: 0,
+    user_rcd: JSON.parse(localStorage.getItem('userinfo')!).user_rcd,
   };
 
   pager = {
@@ -127,7 +128,6 @@ export class CancellationMinutesWaitingApprovalComponent implements OnInit {
 
   }
   batchApproval(deleteList: any) {
-    this.deleteList = deleteList;
     if (deleteList.length > 0) {
       this.editForm = this.dialogService.open({
         id: 'edit-dialog',
@@ -145,30 +145,27 @@ export class CancellationMinutesWaitingApprovalComponent implements OnInit {
 
   approvalRows(deleteList: any[], status: any) {
     if (!this.isSubmitting) {
-      // this.isSubmitting = true;
-      this.cancelaltionMinutes.status = status
+      this.isSubmitting = true;
+
+      this.cancellationMinutes.status = status
       let cancellation_minutes_rcds: any[] = [];
       deleteList.forEach((cancellation_minutes: any) => {
         cancellation_minutes_rcds.push(cancellation_minutes.cancellation_minutes_rcd)
       })
 
-      console.log({
+      this.api.post('api/manager/CancellationMinutesRef/Approval', {
         items: cancellation_minutes_rcds,
-        comment: this.cancelaltionMinutes.comment,
-        status: this.cancelaltionMinutes.status,
+        comment: this.cancellationMinutes.comment,
+        status: this.cancellationMinutes.status,
+      }).subscribe((res: any) => {
+        this.editForm.modalInstance.hide();
+        this.reset();
+        this.toastService.open({
+          value: [{ severity: 'success', summary: 'Thành công', content: `Duyệt biên bản tiêu hủy tài liệu thành công!` }],
+        });
+        this.isSubmitting = false;
       })
 
-      // this.api.post('api/admin/product/deleteMulti', {
-      //   items: cancellation_minutes_rcds,
-      //   comment: this.cancelaltionMinutes.comment,
-      //   status: this.cancelaltionMinutes.status,
-      // }).subscribe((res) => {
-      //   this.cancelaltionMinutes = {
-      //     comment: '',
-      //     status: null
-      //   }
-      //   this.isSubmitting = true;
-      // })
     }
   }
 

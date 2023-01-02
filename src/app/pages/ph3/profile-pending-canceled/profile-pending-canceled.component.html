@@ -89,6 +89,7 @@
                   <th dHeadCell>Thời gian kết thúc</th>
                   <th dHeadCell>Số văn bản</th>
                   <th dHeadCell>Thời hạn lưu trữ</th>
+                  <th dHeadCell>Lý do hủy</th>
                   <th dHeadCell>Trạng thái</th>
                   <th dHeadCell>Ghi chú</th>
                   <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
@@ -134,6 +135,9 @@
                     </td>
                     <td dTableCell>
                       {{ rowItem.duration_storage_name }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.cancellation_reason }}
                     </td>
                     <td dTableCell>
                       {{ rowItem.status | profileStatus }}
