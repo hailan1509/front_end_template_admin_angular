@@ -49,11 +49,8 @@ export default function (values: any) {
       title: values['PH2']['title'],
       children: [
         { title: values['PH2']['lbbbg'], link: '/pages/PH2/lbbbg' },
+        { title: values['PH2']['bbbgcd'], link: '/pages/PH2/bbbgcd' },
         { title: values['PH2']['qlbbbg'], link: '/pages/PH2/qlbbbg' },
-        {
-          title: values['PH2']['qlhsdbg'],
-          link: '/pages/PH2/qlhsdbg',
-        },
       ],
       link: '/pages/PH2',
       menuIcon: 'icon icon-table',

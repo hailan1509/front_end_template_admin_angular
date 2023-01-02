@@ -105,7 +105,7 @@
                   <th dHeadCell>Người tạo</th>
                   <th dHeadCell>Người duyệt</th>
                   <th dHeadCell>Ghi chú</th>
-                  <th dHeadCell>Tác vụ</th>
+                  <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
                 </tr>
               </thead>
               <tbody dTableBody>
@@ -158,9 +158,9 @@
                     <td dTableCell>
                       {{ rowItem.cancellation_minutes_note}}
                     </td>
-                    <td dTableCell>
+                    <td dTableCell [fixedRight]="'0px'">
                       <div class="btn-group over-flow-ellipsis">
-                        <d-button
+                        <!-- <d-button
                           icon="icon-edit"
                           bsStyle="danger"
                           bsSize="xs"
@@ -168,7 +168,7 @@
                           shape="circle"
                           style="margin-right: 8px"
                           (btnClick)="editRow(rowIndex, rowItem.product_id)"
-                        ></d-button>
+                        ></d-button> -->
                         <d-button  (click)="deleteRow(rowItem.cancellation_minutes_rcd)" icon="icon-delete" bsStyle="danger" bsSize="xs" title="delete" shape="circle"></d-button>
                       </div>
                     </td>

@@ -4,10 +4,10 @@
       <d-breadcrumb-item
         ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
       >
-      <d-breadcrumb-item>Quản lý hồ sơ hủy</d-breadcrumb-item>
+      <d-breadcrumb-item>Quản lý hủy hồ sơ</d-breadcrumb-item>
       <d-breadcrumb-item>Quản lý hồ sơ chờ hủy</d-breadcrumb-item>
     </d-breadcrumb>
-    <div class="da-content-banner-title">Quản lý hồ sơ hủy</div>
+    <div class="da-content-banner-title">Quản lý hủy hồ sơ</div>
     <div>Quản lý hồ sơ chờ hủy</div>
   </div>
   <div class="da-content-wrapper">
@@ -81,12 +81,17 @@
               <thead dTableHead [checkable]="true">
                 <tr dTableRow>
                   <th dHeadCell>#</th>
+                  <th dHeadCell>Hộp hồ sơ</th>
                   <th dHeadCell>Số/Ký hiệu hồ sơ</th>
-                  <th dHeadCell>Tên hồ sơ</th>
-                  <th dHeadCell>Ghi chú</th>
+                  <th dHeadCell style="padding-right: 200px;">Tên hồ sơ</th>
                   <th dHeadCell>Năm</th>
+                  <th dHeadCell>Thời gian bắt đầu</th>
+                  <th dHeadCell>Thời gian kết thúc</th>
+                  <th dHeadCell>Số văn bản</th>
+                  <th dHeadCell>Thời hạn lưu trữ</th>
                   <th dHeadCell>Trạng thái</th>
-                  <th dHeadCell>Tác vụ</th>
+                  <th dHeadCell>Ghi chú</th>
+                  <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
                 </tr>
               </thead>
               <tbody dTableBody>
@@ -106,22 +111,37 @@
                       </d-checkbox>
                     </td>
                     <td dTableCell>{{ rowIndex + 1 }}</td>
+                    <td dTableCell style="text-align:right">
+                      {{ rowItem.profile_box_number }}
+                    </td>
                     <td dTableCell>
                       {{ rowItem.profile_code }}
                     </td>
                     <td dTableCell>
-                      {{ rowItem.profile_name }}
+                      {{ rowItem.profile_name_l }}
                     </td>
-                    <td dTableCell>
-                      {{ rowItem.profile_note }}
-                    </td>
-                    <td dTableCell>
+                    <td dTableCell style="text-align:right">
                       {{ rowItem.year }}
                     </td>
-                    <td dTableCell>
-                      {{ rowItem.status | profileStatus}}
+                    <td dTableCell style="text-align:center">
+                      {{ rowItem.from_date | date:'dd/MM/yyyy'  }}
+                    </td>
+                    <td dTableCell style="text-align:center">
+                      {{ rowItem.to_date | date:'dd/MM/yyyy' }}
+                    </td>
+                    <td dTableCell style="text-align:right">
+                      {{ rowItem.number_of_document }}
                     </td>
                     <td dTableCell>
+                      {{ rowItem.duration_storage_name }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.status | profileStatus }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.profile_note_l }}
+                    </td>
+                    <td dTableCell [fixedRight]="'0px'">
                       <div class="btn-group over-flow-ellipsis">
                         <d-button
                           icon="icon-edit"
@@ -130,7 +150,7 @@
                           title="edit"
                           shape="circle"
                           style="margin-right: 8px"
-                          (btnClick)="editRow(rowIndex, rowItem.product_id)"
+                          [routerLink]="['/pages/PH1/bshs/', rowItem.profile_rcd]"
                         ></d-button>
                         <d-button (btnClick)="batchDelete([rowItem])" icon="icon-delete" bsStyle="danger" bsSize="xs" title="delete" shape="circle"></d-button>
                       </div>

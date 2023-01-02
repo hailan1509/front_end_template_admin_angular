@@ -12,7 +12,6 @@ import { AdminFormModule } from 'src/app/@shared/components/admin-form/admin-for
 import { ph2Component } from './ph2.component';
 import { HandoverMinutesComponent } from './handover-minutes/handover-minutes.component';
 import { CreateHandoverMinutesComponent } from './create-handover-minutes/create-handover-minutes.component';
-import { HandedOverProfileComponent } from './handed-over-profile/handed-over-profile.component';
 
 
 @NgModule({
@@ -20,8 +19,7 @@ import { HandedOverProfileComponent } from './handed-over-profile/handed-over-pr
     ph2Component,
     HandoverMinutesComponent,
     CreateHandoverMinutesComponent,
-    HandedOverProfileComponent,
-    
+
   ],
   imports: [
     SharedModule,

@@ -110,8 +110,8 @@ export class PagesComponent implements OnInit {
       PH2 : {
         title : "Quản lý bàn giao hồ sơ",
         lbbbg : "Lập biên bản bàn giao",
+        bbbgcd : "Biên bản bàn giao chờ duyệt",
         qlbbbg : "Quản lý biên bản bàn giao",
-        qlhsdbg : "Quản lý hồ sơ đã bàn giao"
       },
       PH3 : {
         title : "Quản lý hủy hồ sơ",
