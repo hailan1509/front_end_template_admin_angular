@@ -1,0 +1,843 @@
+<div class="da-list-wrap">
+  <div class="da-content-banner">
+    <d-breadcrumb>
+      <d-breadcrumb-item
+        ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+      >
+      <d-breadcrumb-item>Quản lý hồ sơ</d-breadcrumb-item>
+      <d-breadcrumb-item *ngIf="!this.profile.profile_rcd">Bổ sung hồ sơ</d-breadcrumb-item>
+      <d-breadcrumb-item *ngIf="this.profile.profile_rcd">Cập nhập hồ sơ</d-breadcrumb-item>
+    </d-breadcrumb>
+    <div class="da-content-banner-title">Quản lý hồ sơ</div>
+    <div *ngIf="!this.profile.profile_rcd">Bổ sung hồ sơ</div>
+    <div *ngIf="this.profile.profile_rcd">Cập nhập hồ sơ</div>
+  </div>
+  <div class="da-content-wrapper">
+    <div class="da-list-container">
+      <form dForm #Form1 (dSubmit)="onSubmitted($event)" [layout]="layoutDirection">
+        <p style="font-weight: bold; margin-bottom: 30px">Thông tin hồ sơ</p>
+        <d-row [dGutter]="24" dLoading [loading]="busy">
+          <d-col [dSpan]="{ ss: 24, ml: 12 }">
+            <d-row [dGutter]="24">
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label [required]="true">Cơ quan ban hành:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-select
+                          [allowClear]="true"
+                          [options]="agency_issued_options"
+                          [isSearch]="true"
+                          [filterKey]="'label'"
+                          [name]="'agency_issued_rcd'"
+                          [(ngModel)]="agency_issued_current"
+                          [placeholder]="'Cơ quan ban hành'"
+                          [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                        ></d-select>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Phông lưu trữ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-select
+                          [allowClear]="true"
+                          [options]="archive_fonts_options"
+                          [isSearch]="true"
+                          [name]="'archive_fonts_rcd'"
+                          [filterKey]="'label'"
+                          [(ngModel)]="archive_fonts_current"
+                          [placeholder]="'Phông lưu trữ'"
+                        ></d-select>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Lĩnh vực:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-select
+                          [allowClear]="true"
+                          [options]="fields_options"
+                          [isSearch]="true"
+                          [name]="'field_rcd'"
+                          [filterKey]="'label'"
+                          [(ngModel)]="fields_current"
+                          [placeholder]="'Lĩnh vực:'"
+                        ></d-select>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Loại hồ sơ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-select
+                          [allowClear]="true"
+                          [options]="profile_type_options"
+                          [isSearch]="true"
+                          [name]="'profile_type_rcd'"
+                          [filterKey]="'label'"
+                          [(ngModel)]="profile_type_current"
+                          [placeholder]="'Loại hồ sơ'"
+                        ></d-select>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Số hồ sơ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-input-number
+                          size="sm"
+                          [name]="'profile_number'"
+                          [step]="1"
+                          [allowEmpty]="true"
+                          [(ngModel)]="profile.profile_number"
+                          class="input-number"
+                        ></d-input-number>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+            </d-row>
+          </d-col>
+          <d-col [dSpan]="{ ss: 24, ml: 12 }">
+            <d-row [dGutter]="24">
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label [required]="true">Kho lưu trữ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-select
+                          [allowClear]="true"
+                          [options]="archives_options"
+                          [isSearch]="true"
+                          [name]="'archives_rcd'"
+                          [filterKey]="'label'"
+                          [(ngModel)]="archives_current"
+                          [placeholder]="'Kho lưu trữ'"
+                          [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                        ></d-select>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label [required]="true">Phòng lưu trữ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-select
+                          [allowClear]="true"
+                          [options]="phong_options"
+                          [isSearch]="true"
+                          [name]="'phong_rcd'"
+                          [filterKey]="'label'"
+                          [(ngModel)]="phong_current"
+                          [placeholder]="'Phòng lưu trữ'"
+                          [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                        ></d-select>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label [required]="true">Hộp hồ sơ lưu trữ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-select
+                          [allowClear]="true"
+                          [options]="profile_box_options"
+                          [isSearch]="true"
+                          [name]="'profile_box_rcd'"
+                          [filterKey]="'label'"
+                          [(ngModel)]="profile_box_current"
+                          [placeholder]="'Hộp lưu trữ'"
+                          [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                        ></d-select>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label [required]="true">Thời hạn lưu trữ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-select
+                          [allowClear]="true"
+                          [options]="duration_storage_options"
+                          [isSearch]="true"
+                          [name]="'duration_storage_rcd'"
+                          [filterKey]="'label'"
+                          [(ngModel)]="duration_storage_current"
+                          [placeholder]="'Thời hạn lưu trữ'"
+                          [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                        ></d-select>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Độ mật:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-select
+                          [allowClear]="true"
+                          [options]="confidentiality_options"
+                          [isSearch]="true"
+                          [name]="'confidentiality_rcd'"
+                          [filterKey]="'label'"
+                          [(ngModel)]="confidentiality_current"
+                          [placeholder]="'Độ mật'"
+                        ></d-select>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+            </d-row>
+          </d-col>
+          <d-col [dSpan]="{ ss: 24, ml: 12 }">
+            <d-row [dGutter]="24">
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label [required]="true">Số/Ký hiệu hồ sơ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <input
+                          dTextInput
+                          autocomplete="off"
+                          placeholder="Số/Ký hiệu hồ sơ"
+                          name="profile_code"
+                          maxlength="50"
+                          [(ngModel)]="profile.profile_code"
+                          [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                        />
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label [required]="true">Tên hồ sơ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <textarea
+                          dTextarea
+                          name="profile_name"
+                          placeholder="Tên hồ sơ"
+                          maxlength="250"
+                          style="height: 80px"
+                          [(ngModel)]="profile.profile_name_l"
+                          [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                        ></textarea>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+            </d-row>
+          </d-col>
+          <d-col [dSpan]="{ ss: 24, ml: 12 }">
+            <d-row [dGutter]="24">
+              <d-col [dSpan]="{ ss: 24, mm: 8 }">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label [required]="true">Năm:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <div class="devui-input-group devui-dropdown-origin">
+                          <input
+                            [mode]="'year'"
+                            [dateFormat]="'y'"
+                            class="devui-input devui-form-control"
+                            placeholder="Năm"
+                            name="year"
+                            [(ngModel)]="year"
+                            (click)="datePicker1.toggle()"
+                            autocomplete="off"
+                            dDatepicker
+                            [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                            #datePicker1="datepicker"
+                          />
+                          <div *ngIf="year" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker1.clearAll()">
+                            <i class="icon icon-close"></i>
+                          </div>
+                          <div class="devui-input-group-addon" (click)="datePicker1.toggle()">
+                            <i class="icon icon-calendar"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="{ ss: 24, mm: 8 }">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Ngày bắt đầu hồ sơ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <div class="devui-input-group devui-dropdown-origin">
+                          <input
+                            [dateFormat]="'dd/MM/yyyy'"
+                            class="devui-input devui-form-control"
+                            placeholder="Ngày bắt đầu hồ sơ"
+                            name="from_date"
+                            [(ngModel)]="profile.from_date"
+                            (click)="datePicker2.toggle()"
+                            autocomplete="off"
+                            [locale]="'Z'"
+                            dDatepicker
+                            appendToBody
+                            #datePicker2="datepicker"
+                          />
+                          <div *ngIf="profile.from_date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
+                            <i class="icon icon-close"></i>
+                          </div>
+                          <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
+                            <i class="icon icon-calendar"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="{ ss: 24, mm: 8 }">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Ngày kết thúc hồ sơ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <div class="devui-input-group devui-dropdown-origin">
+                          <input
+                            [dateFormat]="'dd/MM/yyyy'"
+                            class="devui-input devui-form-control"
+                            placeholder="Ngày kết thúc hồ sơ"
+                            name="to_date"
+                            [(ngModel)]="profile.to_date"
+                            (click)="datePicker3.toggle()"
+                            autocomplete="off"
+                            dDatepicker
+                            appendToBody
+                            #datePicker3="datepicker"
+                          />
+                          <div *ngIf="profile.to_date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker3.clearAll()">
+                            <i class="icon icon-close"></i>
+                          </div>
+                          <div class="devui-input-group-addon" (click)="datePicker3.toggle()">
+                            <i class="icon icon-calendar"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="24">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Ghi chú:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <textarea
+                          dTextarea
+                          name="profile_note_l"
+                          placeholder="Ghi chú"
+                          maxlength="250"
+                          style="height: 80px"
+                          [(ngModel)]="profile.profile_note_l"
+                        ></textarea>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="6">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Số tờ:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-input-number
+                          size="sm"
+                          [name]="'number_of_pager'"
+                          [step]="1"
+                          [allowEmpty]="true"
+                          [(ngModel)]="profile.number_of_paper"
+                          class="input-number"
+                        >
+                        </d-input-number>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+              <d-col [dSpan]="6">
+                <div class="content-box">
+                  <d-form-item>
+                    <d-form-label>Hồ sơ số hóa:</d-form-label>
+                    <d-form-control>
+                      <div>
+                        <d-toggle name="is_digital_profile" [(ngModel)]="profile.is_digital_profile"></d-toggle>
+                      </div>
+                    </d-form-control>
+                  </d-form-item>
+                </div>
+              </d-col>
+            </d-row>
+          </d-col>
+        </d-row>
+
+        <d-form-operation class="da-form-operation" style="text-align: center; margin: 30px 0">
+          <d-button *ngIf="!this.profile.profile_rcd" bsSize="lg" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting">Bổ sung hồ sơ</d-button>
+          <d-button *ngIf="this.profile.profile_rcd" bsSize="lg" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting">Cập nhập hồ sơ</d-button>
+          <d-button bsStyle="common" style="margin-left: 12px" (btnClick)="reset()" [routerLink]="['/pages/PH1/bshs/']">Làm mới</d-button>
+        </d-form-operation>
+
+        <p style="font-weight: bold; margin-bottom: 30px">Thông tin danh sách văn bản trong hồ sơ</p>
+        <div class="da-list-container">
+
+          <div class="da-list-header">
+            <div class="da-header-left">
+              <div class="da-header-item">
+                <div class="da-header-item-label">Số/Ký hiệu văn bản:</div>
+                <d-search
+                  [size]="'sm'"
+                  (searchFn)="search()"
+                  [(ngModel)]="_search.document_number"
+                  class="da-inline"
+                  name="document_number_search"
+                  [placeholder]="'Số/Ký hiệu hồ sơ'"
+                ></d-search>
+              </div>
+              <div class="da-header-item">
+                <div class="da-header-item-label">Tên văn bản:</div>
+                <d-search
+                [size]="'sm'"
+                (searchFn)="search()"
+                [(ngModel)]="_search.document_name"
+                class="da-inline"
+                name="document_name_search"
+                [placeholder]="'Tên hồ sơ'"
+              ></d-search>
+              </div>
+            </div>
+            <div class="header-right">
+              <d-button (click)="addRow()" style="margin-right: 8px" [disabled]="!profile.profile_rcd">Bổ sung</d-button>
+              <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button>
+            </div>
+          </div>
+          <br />
+          <div class="list-content" dLoading [loading]="busy">
+            <d-data-table
+              #datatable
+              [dataSource]="documents"
+              [borderType]="searchForm.borderType"
+              [size]="searchForm.size"
+              [tableLayout]="searchForm.layout"
+              [scrollable]="true"
+              (checkAllChange)="onCheckAllChange()"
+            >
+              <thead dTableHead [checkable]="true">
+                <tr dTableRow>
+                  <th dHeadCell>#</th>
+                  <th dHeadCell>Số/Ký hiệu văn bản</th>
+                  <th dHeadCell style="padding-right: 200px;">Tên văn bản</th>
+                  <th dHeadCell>Trích yếu nội dung</th>
+                  <th dHeadCell>Ngày ban hành</th>
+                  <th dHeadCell>Tác giả</th>
+                  <th dHeadCell>Loại văn bản</th>
+                  <th dHeadCell>Cơ quan ban hành</th>
+                  <th dHeadCell>Tệp đính kèm</th>
+                  <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
+                </tr>
+              </thead>
+              <tbody dTableBody>
+                <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
+                  <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
+                    <td dTableCell class="devui-checkable-cell">
+                      <d-checkbox
+                        name="check{{ rowIndex }}"
+                        (ngModelChange)="onRowCheckChange($event, rowIndex, nestedIndex, rowItem)"
+                        [ngModel]="rowItem.$checked"
+                        [halfchecked]="rowItem.$halfChecked"
+                        [disabled]="rowItem.$checkDisabled"
+                        dTooltip
+                        [content]="rowItem.$checkBoxTips"
+                        [position]="['top', 'right', 'bottom', 'left']"
+                        [showAnimation]="false"
+                      >
+                      </d-checkbox>
+                    </td>
+                    <td dTableCell [style.width]="'300px'">{{ rowIndex + 1 }}</td>
+                    <td dTableCell>
+                      {{ rowItem.document_number }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.document_name_l }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.excerpt }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.date }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.author }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.document_type_name_l }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.agency_issued_name_l }}
+                    </td>
+                    <td dTableCell>
+                      <p *ngFor="let d of rowItem.attachments_json">
+                        {{ d.file_name }}
+                      </p>
+                    </td>
+                    <td dTableCell [fixedRight]="'0px'">
+                      <div class="btn-group over-flow-ellipsis">
+                        <d-button
+                          icon="icon-edit"
+                          bsStyle="danger"
+                          bsSize="xs"
+                          title="edit"
+                          shape="circle"
+                          style="margin-right: 8px"
+                          (btnClick)="editRow(rowIndex, rowItem.document_rcd)"
+                        ></d-button>
+                        <d-button
+                          (btnClick)="batchDelete([rowItem])"
+                          icon="icon-delete"
+                          bsStyle="danger"
+                          bsSize="xs"
+                          title="delete"
+                          shape="circle"
+                        ></d-button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </d-data-table>
+          </div>
+          <div class="da-list-footer">
+            <d-pagination
+              [size]="'sm'"
+              [total]="pager.total"
+              [(pageSize)]="pager.pageSize"
+              [(pageIndex)]="pager.pageIndex"
+              [canViewTotal]="true"
+              [canChangePageSize]="true"
+              [canJumpPage]="true"
+              [maxItems]="5"
+              (pageIndexChange)="onPageChange($event)"
+              (pageSizeChange)="onSizeChange($event)"
+            >
+            </d-pagination>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #EditorTemplate>
+  <form dForm #Form2 dLoading [loading]="doneSetup" (dSubmit)="onSubmitted2($event)" [layout]="layoutDirection">
+    <d-row [dGutter]="24">
+      <d-col [dSpan]="{ ss: 24, ml: 12 }">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label [required]="true">Cơ quan ban hành:</d-form-label>
+            <d-form-control>
+              <div>
+                <d-select
+                  [allowClear]="true"
+                  [options]="agency_issued_options"
+                  [isSearch]="true"
+                  [filterKey]="'label'"
+                  [name]="'agency_issued_rcd'"
+                  [(ngModel)]="agency_issued_current2"
+                  [placeholder]="'Cơ quan ban hành'"
+                  [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                ></d-select>
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="{ ss: 24, ml: 12 }">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label>Loại văn bản:</d-form-label>
+            <d-form-control>
+              <div>
+                <d-select
+                  [allowClear]="true"
+                  [options]="document_type_options"
+                  [isSearch]="true"
+                  [filterKey]="'label'"
+                  [name]="'document_type_rcd'"
+                  [(ngModel)]="document_type_current"
+                  [placeholder]="'Loại văn bản'"
+                ></d-select>
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="{ ss: 24, ml: 12 }">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label>Tình trạng vật lý:</d-form-label>
+            <d-form-control>
+              <div>
+                <d-select
+                  [allowClear]="true"
+                  [options]="physical_condition_options"
+                  [isSearch]="true"
+                  [filterKey]="'label'"
+                  [name]="'physical_condition_rcd'"
+                  [(ngModel)]="physical_condition_current"
+                  [placeholder]="'Tình trạng vật lý'"
+                ></d-select>
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="{ ss: 24, ml: 12 }">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label>Độ mật:</d-form-label>
+            <d-form-control>
+              <div>
+                <d-select
+                  [allowClear]="true"
+                  [options]="confidentiality_options"
+                  [isSearch]="true"
+                  [filterKey]="'label'"
+                  [name]="'confidentiality_rcd'"
+                  [(ngModel)]="confidentiality_current2"
+                  [placeholder]="'Độ mật'"
+                ></d-select>
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="24">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label>Số/Ký hiệu văn bản:</d-form-label>
+            <d-form-control>
+              <div>
+                <input
+                  dTextInput
+                  autocomplete="off"
+                  placeholder="Số/Ký hiệu văn bản"
+                  name="document_number"
+                  maxlength="50"
+                  [(ngModel)]="document.document_number"
+                />
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="24">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label [required]="true">Tên văn bản:</d-form-label>
+            <d-form-control>
+              <div>
+                <textarea
+                  dTextarea
+                  name="document_name_l"
+                  placeholder="Tên văn bản"
+                  maxlength="250"
+                  style="height: 80px"
+                  [(ngModel)]="document.document_name_l"
+                  [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
+                ></textarea>
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="24">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label>Trích yếu nội dung:</d-form-label>
+            <d-form-control>
+              <div>
+                <textarea
+                  dTextarea
+                  name="excerpt"
+                  placeholder="Trích yếu nội dung"
+                  maxlength="200"
+                  style="height: 80px"
+                  [(ngModel)]="document.excerpt"
+                ></textarea>
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="24">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label>Tác giả:</d-form-label>
+            <d-form-control>
+              <div>
+                <input dTextInput autocomplete="off" placeholder="Tác giả" name="author" maxlength="100" [(ngModel)]="document.author" />
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="{ ss: 24, ml: 8 }">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label [required]="true">Ngày ban hành văn bản:</d-form-label>
+            <d-form-control>
+              <div>
+                <input dTextInput autocomplete="off" placeholder="Ngày ban hành văn bản" name="date" maxlength="50" [(ngModel)]="document.date" [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"/>
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="{ ss: 24, ml: 6 }">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label>Số tờ:</d-form-label>
+            <d-form-control>
+              <div>
+                <d-input-number
+                  size="sm"
+                  [name]="'number_of_pager'"
+                  [step]="1"
+                  [allowEmpty]="true"
+                  [(ngModel)]="document.number_of_paper"
+                  class="input-number"
+                >
+                </d-input-number>
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+      <d-col [dSpan]="24">
+        <div class="content-box">
+          <d-form-item>
+            <d-form-label>Ghi chú:</d-form-label>
+            <d-form-control>
+              <div>
+                <textarea
+                  dTextarea
+                  name="document_note_l"
+                  placeholder="Ghi chú"
+                  maxlength="200"
+                  style="height: 80px"
+                  [(ngModel)]="document.document_note_l"
+                ></textarea>
+              </div>
+            </d-form-control>
+          </d-form-item>
+        </div>
+      </d-col>
+    </d-row>
+    <p style="font-weight: bold; margin-bottom: 15px">Tệp đính kèm</p>
+    <div style="margin-bottom: 15px; display: flex;">
+      <ngx-dropzone (change)="onSelectFiles($event)" style="border: none; overflow: hidden; width: 100px; height: 28px;">
+        <ngx-dropzone-label style="margin-right: 8px"><d-button>Bổ sung</d-button></ngx-dropzone-label>
+      </ngx-dropzone>
+    </div>
+    <d-data-table
+      #datatable
+      [dataSource]="attachments"
+      [borderType]="searchForm.borderType"
+      [size]="searchForm.size"
+      [tableLayout]="searchForm.layout"
+      [scrollable]="true"
+    >
+      <thead dTableHead>
+        <tr dTableRow>
+          <th dHeadCell>#</th>
+          <th dHeadCell>Tên tài liệu</th>
+          <th dHeadCell>Kích thước (bytes)</th>
+          <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
+        </tr>
+      </thead>
+      <tbody dTableBody>
+        <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
+          <tr dTableRow>
+            <td dTableCell>{{ rowIndex + 1 }}</td>
+            <td dTableCell>
+              {{ rowItem.name || rowItem.file_name }}
+            </td>
+            <td dTableCell>
+              {{ rowItem.size || rowItem.file_weight }}
+            </td>
+            <td dTableCell [fixedRight]="'0px'">
+              <d-button
+                (btnClick)="onRemoveFile(rowItem)"
+                icon="icon-delete"
+                bsStyle="danger"
+                bsSize="xs"
+                title="delete"
+                shape="circle"
+              ></d-button>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </d-data-table>
+    <d-form-operation class="da-form-operation" style="text-align: right; margin-top: 30px">
+      <div class="progress-container" style="margin-bottom: 8px" *ngIf="isSubmitting">
+        <d-progress [percentage]="progress" [strokeWidth]="10"> </d-progress>
+      </div>
+      <d-button style="margin-right: 8px" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting">Ok</d-button>
+      <d-button bsStyle="common" (click)="onCanceled()">Hủy</d-button>
+    </d-form-operation>
+  </form>
+</ng-template>

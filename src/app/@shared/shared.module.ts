@@ -30,6 +30,7 @@ import {
   SelectModule,
   LoadingModule,
   ModalModule,
+  ProgressModule,
 } from 'ng-devui';
 import { I18nModule } from 'ng-devui/i18n';
 import { TranslateModule } from '@ngx-translate/core';
@@ -91,6 +92,7 @@ const DEVUI_MODULES = [
   RadioModule,
   LoadingModule,
   ModalModule,
+  ProgressModule
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
 const PIPES = [MiningFileStatusPipe, ProfileStatusPipe, CancellationMinutesStatusPipe]

@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ph1Component } from './ph1.component';
-import { ProfileRefComponent } from './profile-ref/profile-ref.component';
+import { ProfilePendingComponent } from './profile-pending/profile-pending.component';
+import { ProfileEditedComponent } from './profile-edited/profile-edited.component';
+import { CreateProfileComponent } from './create-profile/create-profile.component';
+import { ProfileSearchComponent } from './profile-search/profile-search.component';
+import { DocumentSearchComponent } from './document-search/document-search.component';
 import { DocumentByProfileComponent } from './document-by-profile/document-by-profile.component';
 
 const routes: Routes = [
@@ -9,7 +13,12 @@ const routes: Routes = [
     path: '',
     component: ph1Component,
     children: [
-      { path: 'qlhsdcl', component: ProfileRefComponent },
+      { path: 'qlhsccl', component: ProfilePendingComponent },
+      { path: 'bshs', redirectTo: 'bshs/', pathMatch: 'full'},
+      { path: 'bshs/:id', component: CreateProfileComponent },
+      { path: 'qlhsdcl', component: ProfileEditedComponent },
+      { path: 'tchs', component: ProfileSearchComponent },
+      { path: 'tctl', component: DocumentSearchComponent },
       { path: 'documents/:id', component: DocumentByProfileComponent },
     ],
   },

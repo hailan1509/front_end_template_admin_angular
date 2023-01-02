@@ -1,3 +1,4 @@
+import { number } from 'echarts';
 import { Observable } from 'rxjs';
 
 
@@ -85,26 +86,73 @@ export interface Profile {
 }
 
 export interface ProfileRef {
-  profile_rcd?: number;
+  profile_rcd?: string;
   profile_code?: string;
   profile_number?: number;
+  profile_name_l?: string;
+  profile_name_e?: string;
+  from_date?: Date;
+  to_date?: Date;
+  year?: number;
+  number_of_paper?: number;
+  profile_note_l?: string;
+  profile_note_e?: string;
+  cancellation_reason?: string;
+  is_digital_profile?: boolean;
+  status?: number;
+  sort_order?: number;
+  active_flag?: number;
   profile_type_rcd?: string;
   profile_box_rcd?: string;
   phong_rcd?: string;
   archives_rcd?: string;
+  archive_fonts_rcd?: string;
   duration_storage_rcd?: string;
-  agency_issued_ref?: string;
-  profile_name?: string;
-  from_date?: Date;
-  to_date?: Date;
-  number_of_pager?: number;
-  profile_note?: string;
-  cancellation_reason?: string;
-  is_digital_profile?: number;
-  status?: number;
-  sort_order?: number;
-  active_flag?: number;
+  agency_issued_rcd?: string;
+  confidentiality_rcd?: string;
+  fields_rcd?: string;
+  created_by_user_id?: string;
 }
+
+export interface DocumentRef {
+  document_rcd?: string;
+  document_number?: string;
+  document_name_l?: string;
+  document_name_e?: string;
+  date?: string;
+  excerpt?: string;
+  author?: string;
+  number_of_paper?: number;
+  document_note_l?: string;
+  document_note_e?: string;
+  sort_order?: number;
+  attached_file?: string;
+  status?: number;
+  document_type_rcd?: string;
+  physical_condition_rcd?: string;
+  confidentiality_rcd?: string;
+  agency_issued_rcd?: string;
+  profile_rcd?: string;
+  active_flag?: number;
+  created_by_user_id?: string;
+  attachments_json?: DocumentAttachment[];
+
+}
+
+export class DocumentAttachment {
+  document_attachment_id?: string;
+  document_rcd?: string;
+  file_name?: string;
+  file_source?: string;
+  file_destination?: string;
+  file_extension?: string;
+  sort_order?: number;
+  file_weight?: number;
+  active_flag?: number;
+  created_by_user_id?: string;
+  action?: string;
+}
+
 export interface CancellationMinutesRef {
   cancellation_minutes_rcd?: number;
   staff_rcd?: string;
