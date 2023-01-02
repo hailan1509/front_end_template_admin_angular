@@ -110,8 +110,8 @@ export class PagesComponent implements OnInit {
       PH2 : {
         title : "Quản lý bàn giao hồ sơ",
         lbbbg : "Lập biên bản bàn giao",
+        bbbgcd : "Biên bản bàn giao chờ duyệt",
         qlbbbg : "Quản lý biên bản bàn giao",
-        qlhsdbg : "Quản lý hồ sơ đã bàn giao"
       },
       PH3 : {
         title : "Quản lý hủy hồ sơ",
@@ -119,7 +119,9 @@ export class PagesComponent implements OnInit {
         lbbbghtl : "Lập biên bản bàn giao hủy tài liệu",
         qlbbbghtl : "Quản lý biên bản bàn giao hủy tài liệu",
         lbbthtl : "Lập biên bản tiêu hủy tài liệu",
-        qlbbthhtl : "Quản lý biên bản tiêu hủy tài liệu"
+        bbthtlcd :"Biên bản tiêu hủy tài liệu chờ duyệt",
+        qlbbthtl : "Quản lý biên bản tiêu hủy tài liệu",
+        qlhsdh: "Quản lý hồ sơ đã hủy",
       },
       PH4 : {
         title : "Quản lý khai thác hồ sơ",

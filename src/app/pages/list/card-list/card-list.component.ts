@@ -30,7 +30,7 @@ export class CardListComponent implements OnInit {
 
   keyword = '';
 
-  busy: Subscription;
+  busy: Subscription = new Subscription;
 
   constructor(private listDataService: ListDataService) {}
 
@@ -61,3 +61,4 @@ export class CardListComponent implements OnInit {
     this.getList();
   }
 }
+

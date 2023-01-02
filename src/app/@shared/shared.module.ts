@@ -1,3 +1,4 @@
+import { CancellationMinutesStatusPipe } from './pipe/cancellation-minutes-status.pipe';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -29,6 +30,7 @@ import {
   SelectModule,
   LoadingModule,
   ModalModule,
+  ProgressModule,
 } from 'ng-devui';
 import { I18nModule } from 'ng-devui/i18n';
 import { TranslateModule } from '@ngx-translate/core';
@@ -46,6 +48,27 @@ import { RegisterComponent } from './components/register/register.component';
 import { HeaderNoticeComponent } from './components/header/header-operation/header-notice/header-notice.component';
 
 import { MiningFileStatusPipe } from './pipe/mining-file-status.pipe';
+import { ProfileStatusPipe } from './pipe/profile-status.pipe';
+import { FormUploadComponent } from './components/form-upload/form-upload.component';
+import {
+  AutoCompletePopupComponent,
+  DatepickerComponent,
+  DragPreviewComponent,
+  DrawerComponent,
+  InputNumberComponent,
+  LoadingBackdropComponent,
+  LoadingComponent,
+  ModalComponent,
+  ModalContainerComponent,
+  PopoverComponent,
+  ReadTipComponent,
+  SelectComponent,
+  StepsGuideComponent,
+  ToastComponent,
+  TooltipComponent,
+  TreeSelectComponent
+} from "ng-devui";
+import { DevUIModule } from "ng-devui";
 
 const DEVUI_MODULES = [
   LayoutModule,
@@ -69,9 +92,10 @@ const DEVUI_MODULES = [
   RadioModule,
   LoadingModule,
   ModalModule,
+  ProgressModule
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
-const PIPES = [MiningFileStatusPipe]
+const PIPES = [MiningFileStatusPipe, ProfileStatusPipe, CancellationMinutesStatusPipe]
 @NgModule({
   declarations: [
     LoginComponent,
@@ -82,7 +106,8 @@ const PIPES = [MiningFileStatusPipe]
     HeaderNoticeComponent,
     RegisterComponent,
     ...COMPONENTS,
-    ...PIPES
+    ...PIPES,
+    FormUploadComponent
   ],
   imports: [
     CommonModule,
@@ -97,7 +122,8 @@ const PIPES = [MiningFileStatusPipe]
     TooltipModule,
     I18nModule,
     DaGridModule,
-    ...DEVUI_MODULES,
+    DevUIModule,
+    TranslateModule.forRoot(),
   ],
   exports: [
     CommonModule,
@@ -112,6 +138,25 @@ const PIPES = [MiningFileStatusPipe]
     ...COMPONENTS,
     ...PIPES
   ],
+  entryComponents: [
+    AutoCompletePopupComponent,
+    DatepickerComponent,
+    DragPreviewComponent,
+    DrawerComponent,
+    InputNumberComponent,
+    LoadingBackdropComponent,
+    LoadingComponent,
+    ModalComponent,
+    ModalContainerComponent,
+    PopoverComponent,
+    ReadTipComponent,
+    SelectComponent,
+    StepsGuideComponent,
+    ToastComponent,
+    TooltipComponent,
+    TreeSelectComponent,
+  ],
+  bootstrap: [ FormUploadComponent ],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

@@ -1,0 +1,222 @@
+<div class="da-list-wrap">
+  <div class="da-content-banner">
+    <d-breadcrumb>
+      <d-breadcrumb-item
+        ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+      >
+      <d-breadcrumb-item>Quản lý hủy hồ sơ</d-breadcrumb-item>
+      <d-breadcrumb-item>Biên bản tiêu hủy tài liệu chờ duyệt</d-breadcrumb-item>
+    </d-breadcrumb>
+    <div class="da-content-banner-title">
+      Quản lý hủy hồ sơ
+    </div>
+    <div>Biên bản tiêu hủy tài liệu chờ duyệt</div>
+  </div>
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="da-common-search">
+              <div class="da-header-left">
+                <div class="da-header-item">
+                  <div class="da-header-item-label">Số/Ký hiệu biên bản:</div>
+                  <d-search
+                    [size]="'sm'"
+                    (searchFn)="search()"
+                    [(ngModel)]="_search.cancellation_minutes_number"
+                    class="da-inline"
+                    [placeholder]="'Số/Ký hiệu biên bản'"
+                  ></d-search>
+                </div>
+                <div class="da-header-item">
+                  <div class="da-header-item-label">Địa điểm hủy:</div>
+                  <d-search
+                  [size]="'sm'"
+                  (searchFn)="search()"
+                  [(ngModel)]="_search.place"
+                  class="da-inline"
+                  [placeholder]="'Địa điểm hủy:'"
+                ></d-search>
+                </div>
+                <div class="da-header-item">
+                  <div class="da-header-item-label">Phương pháp hủy:</div>
+                  <d-search
+                  [size]="'sm'"
+                  (searchFn)="search()"
+                  [(ngModel)]="_search.cancellation_method"
+                  class="da-inline"
+                  [placeholder]="'Phương pháp hủy:'"
+                ></d-search>
+                </div>
+                <div class="da-header-item">
+                  <div class="da-header-item-label">Ngày hủy:</div>
+                  <div class="devui-input-group devui-dropdown-origin">
+                    <input
+                      class="devui-input devui-form-control"
+                      placeholder="Ngày hủy:"
+                      name="dp"
+                      [(ngModel)]="_search.time_destroy"
+                      (click)="datePicker2.toggle()"
+                      autocomplete="off"
+                      dDatepicker
+                      appendToBody
+                      #datePicker2="datepicker"
+                      (selectedDateChange)="getList()"
+                    />
+                    <div *ngIf="_search.time_destroy" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
+                      <i class="icon icon-close"></i>
+                    </div>
+                    <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
+                      <i class="icon icon-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="header-right">
+                <d-button class="btn btn-primary" [disabled]="!deleteList.length" (click)="batchApproval(deleteList)" style="margin-right: 8px">Duyệt</d-button>
+                <d-button (click)="reset()" bsStyle="common" style="margin-right: 8px">Reset</d-button>
+                <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="list-content" dLoading [loading]="busy">
+            <d-data-table
+              #datatable
+              [dataSource]="basicDataSource"
+              [borderType]="searchForm.borderType"
+              [size]="searchForm.size"
+              [tableLayout]="searchForm.layout"
+              [scrollable]="true"
+              (checkAllChange)="onCheckAllChange()"
+            >
+              <thead dTableHead [checkable]="true">
+                <tr dTableRow>
+                  <th dHeadCell>#</th>
+                  <th dHeadCell>Số/Ký hiệu biên bản</th>
+                  <th dHeadCell>Số quyết định</th>
+                  <th dHeadCell>Số lượng hủy</th>
+                  <th dHeadCell>Nội dung</th>
+                  <th dHeadCell>Địa điểm hủy</th>
+                  <th dHeadCell>Phương pháp hủy</th>
+                  <th dHeadCell>Thời gian hủy</th>
+                  <th dHeadCell>Trạng thái</th>
+                  <th dHeadCell>Người tạo</th>
+                  <th dHeadCell>Người duyệt</th>
+                  <th dHeadCell>Ghi chú</th>
+                  <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
+                </tr>
+              </thead>
+              <tbody dTableBody>
+                <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
+                  <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
+                    <td dTableCell class="devui-checkable-cell">
+                      <d-checkbox
+                        (ngModelChange)="onRowCheckChange($event, rowIndex, nestedIndex, rowItem)"
+                        [ngModel]="rowItem.$checked"
+                        [halfchecked]="rowItem.$halfChecked"
+                        [disabled]="rowItem.$checkDisabled"
+                        dTooltip
+                        [content]="rowItem.$checkBoxTips"
+                        [position]="['top', 'right', 'bottom', 'left']"
+                        [showAnimation]="false"
+                      >
+                      </d-checkbox>
+                    </td>
+                    <td dTableCell>{{ rowIndex + 1 }}</td>
+                    <td dTableCell>
+                      {{ rowItem.cancellation_minutes_number }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.decision_number }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.number_of_cancellations }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.content }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.place}}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.cancellation_method}}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.time_destroy | date:'dd/MM/yyyy'}}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.status | cancellationMinutesStatus}}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.created_user_name}}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.reviewer_name}}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.cancellation_minutes_note}}
+                    </td>
+                    <td dTableCell [fixedRight]="'0px'">
+                      <div class="btn-group over-flow-ellipsis">
+                        <!-- <d-button
+                          icon="icon-edit"
+                          bsStyle="danger"
+                          bsSize="xs"
+                          title="edit"
+                          shape="circle"
+                          style="margin-right: 8px"
+                          (btnClick)="batchApproval([rowIndex])"
+                        ></d-button> -->
+                        <d-button (btnClick)="batchDelete([rowItem])" icon="icon-delete" bsStyle="danger" bsSize="xs" title="delete" shape="circle"></d-button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </d-data-table>
+          </div>
+          <div class="da-list-footer">
+            <d-pagination
+              [size]="'sm'"
+              [total]="pager.total"
+              [(pageSize)]="pager.pageSize"
+              [(pageIndex)]="pager.pageIndex"
+              [canViewTotal]="true"
+              [canChangePageSize]="true"
+              [canJumpPage]="true"
+              [maxItems]="5"
+              (pageIndexChange)="onPageChange($event)"
+              (pageSizeChange)="onSizeChange($event)"
+            >
+            </d-pagination>
+          </div>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+  </div>
+</div>
+
+<ng-template #EditorTemplate>
+  <form dForm #eForm dLoading [loading]="doneSetup" (dSubmit)="onSubmitted($event)">
+    <d-form-item>
+      <d-form-label [required]="true">Ý kiến:</d-form-label>
+      <d-form-control>
+        <input
+          dTextInput
+          [name]="'product_name'"
+          [placeholder]="'Ý kiến'"
+          [(ngModel)]="cancelaltionMinutes.comment"
+          autocomplete="off"
+          maxlength="500"
+        />
+      </d-form-control>
+    </d-form-item>
+    <d-form-operation class="da-form-operation" style="text-align: right">
+      <d-button style="margin-right: 8px" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting" (btnClick)="approvalRows(deleteList, 1)">Ok</d-button>
+      <d-button bsStyle="danger"  (btnClick)="approvalRows(deleteList, -1)" style="margin-right: 8px" [showLoading]="isSubmitting">Từ chối</d-button>
+      <d-button bsStyle="common" (click)="onCanceled()">Hủy</d-button>
+    </d-form-operation>
+  </form>
+</ng-template>

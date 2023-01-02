@@ -1,0 +1,188 @@
+<div class="da-list-wrap">
+  <div class="da-content-banner">
+    <d-breadcrumb>
+      <d-breadcrumb-item
+        ><a routerLink="/">{{ 'list.breadcrumb.home' | translate }}</a></d-breadcrumb-item
+      >
+      <d-breadcrumb-item>Quản lý hủy hồ sơ</d-breadcrumb-item>
+      <d-breadcrumb-item>Quản lý hồ sơ đã hủy</d-breadcrumb-item>
+    </d-breadcrumb>
+    <div class="da-content-banner-title">Quản lý hủy hồ sơ</div>
+    <div>Quản lý hồ sơ đã hủy</div>
+  </div>
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="da-header-left">
+              <div class="da-header-item">
+                <div class="da-header-item-label">Số/Ký hiệu hồ sơ:</div>
+                <d-search
+                  [size]="'sm'"
+                  (searchFn)="search()"
+                  [(ngModel)]="_search.profile_code"
+                  class="da-inline"
+                  [placeholder]="'Số/Ký hiệu hồ sơ'"
+                ></d-search>
+              </div>
+              <div class="da-header-item">
+                <div class="da-header-item-label">Tên hồ sơ:</div>
+                <d-search
+                [size]="'sm'"
+                (searchFn)="search()"
+                [(ngModel)]="_search.profile_name"
+                class="da-inline"
+                [placeholder]="'Tên hồ sơ'"
+              ></d-search>
+              </div>
+              <div class="da-header-item">
+                <div class="da-header-item-label">Năm:</div>
+                <div class="devui-input-group devui-dropdown-origin">
+                  <input
+                    [mode]="'year'"
+                    [dateFormat]="'y'"
+                    class="devui-input devui-form-control"
+                    placeholder="Năm"
+                    name="dp"
+                    [(ngModel)]="year"
+                    (click)="datePicker2.toggle()"
+                    autocomplete="off"
+                    dDatepicker
+                    #datePicker2="datepicker"
+                    (selectedDateChange)="getList($event)"
+                  />
+                  <div *ngIf="year" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
+                    <i class="icon icon-close"></i>
+                  </div>
+                  <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
+                    <i class="icon icon-calendar"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="header-right">
+              <d-button style="margin-right: 8px">Chuyển hồ sơ sang đã hủy</d-button>
+              <d-button (click)="reset()" bsStyle="common" style="margin-right: 8px">Reset</d-button>
+              <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button>
+            </div>
+          </div>
+          <br />
+          <div class="list-content" dLoading [loading]="busy">
+            <d-data-table
+              #datatable
+              [dataSource]="basicDataSource"
+              [tableOverflowType]="'overlay'"
+              [borderType]="searchForm.borderType"
+              [size]="searchForm.size"
+              [tableLayout]="searchForm.layout"
+              [scrollable]="true"
+              (checkAllChange)="onCheckAllChange()"
+            >
+              <thead dTableHead [checkable]="true">
+                <tr dTableRow>
+                  <th dHeadCell>#</th>
+                  <th dHeadCell>Hộp hồ sơ</th>
+                  <th dHeadCell>Số/Ký hiệu hồ sơ</th>
+                  <th dHeadCell style="padding-right: 200px;">Tên hồ sơ</th>
+                  <th dHeadCell>Năm</th>
+                  <th dHeadCell>Thời gian bắt đầu</th>
+                  <th dHeadCell>Thời gian kết thúc</th>
+                  <th dHeadCell>Số văn bản</th>
+                  <th dHeadCell>Thời hạn lưu trữ</th>
+                  <th dHeadCell>Trạng thái</th>
+                  <th dHeadCell>Ghi chú</th>
+                  <th dHeadCell [fixedRight]="'0px'">Tác vụ</th>
+                </tr>
+              </thead>
+              <tbody dTableBody>
+                <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
+                  <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
+                    <td dTableCell class="devui-checkable-cell">
+                      <d-checkbox
+                        (ngModelChange)="onRowCheckChange($event, rowIndex, nestedIndex, rowItem)"
+                        [ngModel]="rowItem.$checked"
+                        [halfchecked]="rowItem.$halfChecked"
+                        [disabled]="rowItem.$checkDisabled"
+                        dTooltip
+                        [content]="rowItem.$checkBoxTips"
+                        [position]="['top', 'right', 'bottom', 'left']"
+                        [showAnimation]="false"
+                      >
+                      </d-checkbox>
+                    </td>
+                    <td dTableCell>{{ rowIndex + 1 }}</td>
+                    <td dTableCell style="text-align:right">
+                      {{ rowItem.profile_box_number }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.profile_code }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.profile_name_l }}
+                    </td>
+                    <td dTableCell style="text-align:right">
+                      {{ rowItem.year }}
+                    </td>
+                    <td dTableCell style="text-align:center">
+                      {{ rowItem.from_date | date:'dd/MM/yyyy'  }}
+                    </td>
+                    <td dTableCell style="text-align:center">
+                      {{ rowItem.to_date | date:'dd/MM/yyyy' }}
+                    </td>
+                    <td dTableCell style="text-align:right">
+                      {{ rowItem.number_of_document }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.duration_storage_name }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.status | profileStatus }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.profile_note_l }}
+                    </td>
+                    <td dTableCell [fixedRight]="'0px'">
+                      <div class="btn-group over-flow-ellipsis">
+                        <d-button
+                          icon="icon-edit"
+                          bsStyle="danger"
+                          bsSize="xs"
+                          title="edit"
+                          shape="circle"
+                          style="margin-right: 8px"
+                          [routerLink]="['/pages/PH1/bshs/', rowItem.profile_rcd]"
+                        ></d-button>
+                        <d-button (btnClick)="batchDelete([rowItem])" icon="icon-delete" bsStyle="danger" bsSize="xs" title="delete" shape="circle"></d-button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </d-data-table>
+          </div>
+          <div class="da-list-footer">
+            <d-pagination
+              [size]="'sm'"
+              [total]="pager.total"
+              [(pageSize)]="pager.pageSize"
+              [(pageIndex)]="pager.pageIndex"
+              [canViewTotal]="true"
+              [canChangePageSize]="true"
+              [canJumpPage]="true"
+              [maxItems]="5"
+              (pageIndexChange)="onPageChange($event)"
+              (pageSizeChange)="onSizeChange($event)"
+            >
+            </d-pagination>
+          </div>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+  </div>
+</div>
+
+<ng-template #EditorTemplate>
+
+</ng-template>
+

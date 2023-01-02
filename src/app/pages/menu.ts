@@ -49,11 +49,8 @@ export default function (values: any) {
       title: values['PH2']['title'],
       children: [
         { title: values['PH2']['lbbbg'], link: '/pages/PH2/lbbbg' },
+        { title: values['PH2']['bbbgcd'], link: '/pages/PH2/bbbgcd' },
         { title: values['PH2']['qlbbbg'], link: '/pages/PH2/qlbbbg' },
-        {
-          title: values['PH2']['qlhsdbg'],
-          link: '/pages/PH2/qlhsdbg',
-        },
       ],
       link: '/pages/PH2',
       menuIcon: 'icon icon-table',
@@ -78,8 +75,16 @@ export default function (values: any) {
           link: '/pages/PH3/lbbthtl',
         },
         {
-          title: values['PH3']['qlbbthhtl'],
-          link: '/pages/PH3/qlbbthhtl',
+          title: values['PH3']['bbthtlcd'],
+          link: '/pages/PH3/bbthtlcd',
+        },
+        {
+          title: values['PH3']['qlbbthtl'],
+          link: '/pages/PH3/qlbbthtl',
+        },
+        {
+          title: values['PH3']['qlhsdh'],
+          link: '/pages/PH3/qlhsdh',
         },
       ],
       link: '/pages/PH3',

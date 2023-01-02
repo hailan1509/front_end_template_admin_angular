@@ -16,21 +16,14 @@ export class ApiService {
     return this.http.post(API_BASE_URL + url, data);
   }
 
-  post2(url: string, body: any, withToken: boolean = true) {
-    let header: any = {}
-    header['Content-Type'] = 'application/json';
+  uploadFile(url: string, files: File[]) {
+    let filesToUpload : File[] = files;
+    const formData = new FormData();
 
-    if (withToken) {
-      let access_token = ''
-      header['Authorization'] = `Bearer ${access_token}`;
-    }
+    Array.from(filesToUpload).map((file, index) => {
+      return formData.append('file'+index, file, file.name);
+    });
 
-    let options: any = {
-      headers: new HttpHeaders(header),
-    }
-
-    return this.http
-      .post<any>(API_BASE_URL + url, body, options)
+    return this.http.post(API_BASE_URL + url, formData, {reportProgress: true, observe: 'events'})
   }
-
 }
