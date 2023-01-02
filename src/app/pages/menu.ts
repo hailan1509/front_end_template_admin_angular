@@ -5,11 +5,11 @@ export default function (values: any) {
       link: '/pages/dashboard/analysis',
       menuIcon: 'icon icon-console',
     },
-    {
-      title: "Quản lý khu vực",
-      link: '/pages/quan-ly/area',
-      menuIcon: 'icon icon-console',
-    },
+    // {
+    //   title: "Quản lý khu vực",
+    //   link: '/pages/quan-ly/area',
+    //   menuIcon: 'icon icon-console',
+    // },
     {
       title: values['PH1']['title'],
       children: [

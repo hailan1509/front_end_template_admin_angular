@@ -13,18 +13,77 @@
   <div class="da-content-wrapper">
 
     <da-layout-row [daGutter]="[24, 24]">
-      <da-col-item [daSpan]="24" [daXs]="24" style="text-align: center;">
-
-  
-        <div class="da-list-container">
-          <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="80%"></d-echarts>
-        </div>
-        <div class="da-content-card">
+      <da-col-item [daSpan]="24">
+        <div class="da-content-card da-analysis-line">
           <div class="da-content-title">
             Biểu đồ báo cáo số lượng phiếu khai thác theo năm
           </div>
-          </div>
+          <d-echarts [options]="miningFileByYearOption" class="da-echarts-line"></d-echarts>
+        </div>
+      </da-col-item>
+    </da-layout-row>
 
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24">
+        <div class="da-content-card da-analysis-line">
+          <div class="da-content-title" style="display: flex">
+            <span style="margin-right: 8px;">Biểu đồ báo cáo số lượng phiếu khai thác tháng theo  năm</span>
+            <div class="devui-input-group devui-dropdown-origin">
+              <input
+                [mode]="'year'"
+                [dateFormat]="'y'"
+                class="devui-input devui-form-control"
+                placeholder="Năm"
+                name="dp"
+                [(ngModel)]="year"
+                (click)="datePicker1.toggle()"
+                autocomplete="off"
+                dDatepicker
+                #datePicker1="datepicker"
+                (selectedDateChange)="getMiningFileForMonthOfYear($event)"
+              />
+              <div *ngIf="year" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker1.clearAll()">
+                <i class="icon icon-close"></i>
+              </div>
+              <div class="devui-input-group-addon" (click)="datePicker1.toggle()">
+                <i class="icon icon-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <d-echarts [options]="miningFileForMonthOfYearOption" class="da-echarts-line"></d-echarts>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24">
+        <div class="da-content-card da-analysis-line">
+          <div class="da-content-title" style="display: flex">
+            <span style="margin-right: 8px;">Biểu đồ báo cáo số lượng phiếu khai thác ngày theo tháng năm</span>
+            <div class="devui-input-group devui-dropdown-origin-wrapper devui-dropdown-origin">
+              <input
+                [mode]="'month'"
+                [dateFormat]="'y-MM'"
+                class="devui-input devui-form-control"
+                placeholder="year-month"
+                (click)="datePicker2.toggle()"
+                name="dp"
+                [(ngModel)]="date"
+                autocomplete="off"
+                dDatepicker
+                #datePicker2="datepicker"
+                (selectedDateChange)="getMiningFileForDayOfMonthOption($event)"
+              />
+              <div *ngIf="date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
+                <i class="icon icon-close"></i>
+              </div>
+              <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
+                <i class="icon icon-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <d-echarts [options]="miningFileForDayOfMonthOption" class="da-echarts-line"></d-echarts>
+        </div>
       </da-col-item>
     </da-layout-row>
 
@@ -60,12 +119,12 @@
                   [(ngModel)]="miningFileStatus"
                   (valueChange)="getList()"
                   [placeholder]="'Trạng thái'"
-                  >
+                >
                 </d-select>
               </div>
               <div class="da-header-item">
                 <div class="da-header-item-label">Ngày khai thác:</div>
-                <section style="display: flex;">
+                <section style="display: flex">
                   <div class="col-md-6" style="margin-right: 10px">
                     <div class="row">
                       <div class="col-md-6">
@@ -82,7 +141,11 @@
                             #datePicker1="datepicker"
                             (selectedDateChange)="getList()"
                           />
-                          <div *ngIf="_search.borrowed_date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker1.clearAll()">
+                          <div
+                            *ngIf="_search.borrowed_date"
+                            class="devui-input-group-addon close-icon-wrapper"
+                            (click)="datePicker1.clearAll()"
+                          >
                             <i class="icon icon-close"></i>
                           </div>
                           <div class="devui-input-group-addon" (click)="datePicker1.toggle()">
@@ -109,7 +172,11 @@
                             #datePicker2="datepicker"
                             (selectedDateChange)="getList()"
                           />
-                          <div *ngIf="_search.return_date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
+                          <div
+                            *ngIf="_search.return_date"
+                            class="devui-input-group-addon close-icon-wrapper"
+                            (click)="datePicker2.clearAll()"
+                          >
                             <i class="icon icon-close"></i>
                           </div>
                           <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
@@ -150,7 +217,7 @@
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="staff_created_name" header="Tên người lập khai thác" [width]="'150px'">
+              <d-column field="staff_created_name" header="Tên người khai thác" [width]="'150px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem }}
