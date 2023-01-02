@@ -72,6 +72,10 @@
                     </div>
                   </div>
                 </div>
+                <div class="da-header-item">
+                  <div class="da-header-item-label">Trạng thái:</div>
+                  <d-select [placeholder]="'--Tất cả--'" [filterKey]="'label'" [options]="statusOptions" [allowClear]="true" [(ngModel)]="statusCurrent" (ngModelChange)="getList()"></d-select>
+                </div>
               </div>
               <div class="header-right">
                 <d-button class="btn btn-primary" (click)="addRow()" style="margin-right: 8px">Thêm</d-button>
