@@ -10,6 +10,18 @@
         [dValidateRules]="item.rule"
         [dValidateRules]="item.required ? item.rule : {}"
       />
+      <input
+        type="file"
+        id="file_upload"
+        [name]="item.prop"
+        [(ngModel)]="_formData[item.prop]"
+        *ngIf="item.type === 'input-file'"
+        [dValidateRules]="item.rule"
+        [dValidateRules]="item.required ? item.rule : {}"
+      />
+      <d-button *ngIf="item.type === 'input-file'" (click)="upLoad()">
+        <label for="">Tải ảnh lên</label>
+      </d-button>
       <d-select
         *ngIf="item.type === 'select'"
         [appendToBody]="true"

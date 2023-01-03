@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormLayout } from 'ng-devui';
 import { FormConfig } from './admin-form.type';
 import { MapToPipe } from './mapToPipe.pipe';
+import { ApiService } from 'src/app/api.service';
+import form from 'src/assets/i18n/zh-CN/form';
 
 @Component({
   selector: 'da-admin-form',
@@ -29,7 +31,7 @@ export class AdminFormComponent implements OnInit {
 
   @Output() canceled = new EventEmitter();
 
-  constructor() {}
+  constructor(private api: ApiService) {}
 
   ngOnInit() {
     this.formConfig.items.map((item:any) => {
@@ -56,5 +58,21 @@ export class AdminFormComponent implements OnInit {
 
   cancel() {
     this.canceled.emit();
+  }
+  upLoad() {
+    var input:any = document.getElementById('file_upload') as HTMLInputElement | null;
+    var file:any = input.files[0];
+    const formdata = new FormData();
+    formdata.append('file',file);
+    this.api.post("api/manager/DocumentRef/PDFToText/",formdata).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      if(a.content) {
+        console.log(JSON.parse(a.content))// this.showToast("success");
+      }
+      else {
+        // this.showToast("error");
+      }
+      // this.getList();
+    });
   }
 }

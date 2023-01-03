@@ -275,6 +275,16 @@ export class DocumentByProfileComponent implements OnInit {
               validators: [{ required: true }],
             },
           },
+          {
+            label: 'Lấy nội dung',
+            prop: 'content',
+            type: 'input-file',
+            primary: false,
+            required: true,
+            rule: {
+              // validators: [{ required: true }],
+            },
+          },
         ],
         labelSize: '',
       };
