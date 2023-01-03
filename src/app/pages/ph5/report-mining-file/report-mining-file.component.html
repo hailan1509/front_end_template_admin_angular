@@ -18,7 +18,7 @@
           <div class="da-content-title">
             Biểu đồ báo cáo số lượng phiếu khai thác theo năm
           </div>
-          <d-echarts [options]="miningFileByYearOption" class="da-echarts-line"></d-echarts>
+          <d-echarts [options]="byYearOption" class="da-echarts-line"></d-echarts>
         </div>
       </da-col-item>
     </da-layout-row>
@@ -27,7 +27,7 @@
       <da-col-item [daSpan]="24">
         <div class="da-content-card da-analysis-line">
           <div class="da-content-title" style="display: flex">
-            <span style="margin-right: 8px;">Biểu đồ báo cáo số lượng phiếu khai thác tháng theo  năm</span>
+            <span style="margin-right: 8px;">Biểu đồ báo cáo số lượng phiếu khai thác tháng theo năm</span>
             <div class="devui-input-group devui-dropdown-origin">
               <input
                 [mode]="'year'"
@@ -40,7 +40,7 @@
                 autocomplete="off"
                 dDatepicker
                 #datePicker1="datepicker"
-                (selectedDateChange)="getMiningFileForMonthOfYear($event)"
+                (selectedDateChange)="byMonthOfYearChart($event)"
               />
               <div *ngIf="year" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker1.clearAll()">
                 <i class="icon icon-close"></i>
@@ -50,7 +50,7 @@
               </div>
             </div>
           </div>
-          <d-echarts [options]="miningFileForMonthOfYearOption" class="da-echarts-line"></d-echarts>
+          <d-echarts [options]="byMonthOfYearOption" class="da-echarts-line"></d-echarts>
         </div>
       </da-col-item>
     </da-layout-row>
@@ -72,7 +72,7 @@
                 autocomplete="off"
                 dDatepicker
                 #datePicker2="datepicker"
-                (selectedDateChange)="getMiningFileForDayOfMonthOption($event)"
+                (selectedDateChange)="forDayOfMonthChart($event)"
               />
               <div *ngIf="date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
                 <i class="icon icon-close"></i>
@@ -82,7 +82,7 @@
               </div>
             </div>
           </div>
-          <d-echarts [options]="miningFileForDayOfMonthOption" class="da-echarts-line"></d-echarts>
+          <d-echarts [options]="forDayOfMonthOption" class="da-echarts-line"></d-echarts>
         </div>
       </da-col-item>
     </da-layout-row>

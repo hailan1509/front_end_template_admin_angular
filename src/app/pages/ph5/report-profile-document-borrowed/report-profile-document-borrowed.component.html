@@ -12,6 +12,81 @@
   </div>
   <div class="da-content-wrapper">
     <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24">
+        <div class="da-content-card da-analysis-line">
+          <div class="da-content-title">
+            Biểu đồ báo cáo số lượng hồ sơ, văn bản mượn theo năm
+          </div>
+          <d-echarts [options]="byYearOption" class="da-echarts-line"></d-echarts>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24">
+        <div class="da-content-card da-analysis-line">
+          <div class="da-content-title" style="display: flex">
+            <span style="margin-right: 8px;">Biểu đồ báo cáo số lượng hồ sơ, văn bản mượn tháng theo năm</span>
+            <div class="devui-input-group devui-dropdown-origin">
+              <input
+                [mode]="'year'"
+                [dateFormat]="'y'"
+                class="devui-input devui-form-control"
+                placeholder="Năm"
+                name="dp"
+                [(ngModel)]="year"
+                (click)="datePicker1.toggle()"
+                autocomplete="off"
+                dDatepicker
+                #datePicker1="datepicker"
+                (selectedDateChange)="byMonthOfYearChart($event)"
+              />
+              <div *ngIf="year" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker1.clearAll()">
+                <i class="icon icon-close"></i>
+              </div>
+              <div class="devui-input-group-addon" (click)="datePicker1.toggle()">
+                <i class="icon icon-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <d-echarts [options]="byMonthOfYearOption" class="da-echarts-line"></d-echarts>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24">
+        <div class="da-content-card da-analysis-line">
+          <div class="da-content-title" style="display: flex">
+            <span style="margin-right: 8px;">Biểu đồ báo cáo số lượng hồ sơ, văn bản mượn ngày theo tháng năm</span>
+            <div class="devui-input-group devui-dropdown-origin-wrapper devui-dropdown-origin">
+              <input
+                [mode]="'month'"
+                [dateFormat]="'y-MM'"
+                class="devui-input devui-form-control"
+                placeholder="year-month"
+                (click)="datePicker2.toggle()"
+                name="dp"
+                [(ngModel)]="date"
+                autocomplete="off"
+                dDatepicker
+                #datePicker2="datepicker"
+                (selectedDateChange)="forDayOfMonthYear($event)"
+              />
+              <div *ngIf="date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
+                <i class="icon icon-close"></i>
+              </div>
+              <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
+                <i class="icon icon-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <d-echarts [options]="forDayOfMonthOption" class="da-echarts-line"></d-echarts>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+    <da-layout-row [daGutter]="[24, 24]">
       <da-col-item [daSpan]="24" [daXs]="24">
         <div class="da-list-container">
           <div class="da-list-header">
@@ -171,13 +246,13 @@
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="price" header="Phí mượn" [width]="'100px'">
+              <!-- <d-column field="price" header="Phí mượn" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem ? cellItem : 'Miễn phí' }}
                   </ng-template>
                 </d-cell>
-              </d-column>
+              </d-column> -->
               <d-column field="mining_purpose_name" header="Mục đích khai thác" [width]="'150px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
@@ -266,13 +341,13 @@
                   </ng-template>
                 </d-cell>
               </d-column>
-              <d-column field="price" header="Phí mượn" [width]="'100px'">
+              <!-- <d-column field="price" header="Phí mượn" [width]="'100px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">
                     {{ cellItem ? cellItem : 'Miễn phí' }}
                   </ng-template>
                 </d-cell>
-              </d-column>
+              </d-column> -->
               <d-column field="mining_purpose_name" header="Mục đích khai thác" [width]="'150px'">
                 <d-cell>
                   <ng-template let-cellItem="cellItem">

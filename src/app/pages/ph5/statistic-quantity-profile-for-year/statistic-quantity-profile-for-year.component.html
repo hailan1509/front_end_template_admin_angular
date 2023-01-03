@@ -10,107 +10,203 @@
     <div class="da-content-banner-title">Báo cáo thống kê</div>
     <div>Báo cáo số lượng hồ sơ lưu trữ theo năm</div>
   </div>
-  
+
   <div class="da-content-wrapper">
+
     <da-layout-row [daGutter]="[24, 24]">
-      <da-col-item [daSpan]="24" [daXs]="24" style="text-align: center;">
-
-  
-        <div class="da-list-container">
-          <d-echarts (chartReady)="getPieChart($event)" [options]="serviceData" height="20rem" width="80%"></d-echarts>
-        </div>
-        <div class="da-content-card">
+      <da-col-item [daSpan]="24">
+        <div class="da-content-card da-analysis-line">
           <div class="da-content-title">
-            Biểu đồ báo cáo số lượng hồ sơ lưu trữ theo năm
+            Biểu đồ báo cáo số lượng hồ sơ theo năm
           </div>
-          </div>
-
+          <d-echarts [options]="byYearOption" class="da-echarts-line"></d-echarts>
+        </div>
       </da-col-item>
     </da-layout-row>
-  </div>
 
-  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24">
+        <div class="da-content-card da-analysis-line">
+          <div class="da-content-title" style="display: flex">
+            <span style="margin-right: 8px;">Biểu đồ báo cáo số lượng hồ sơ tháng theo năm</span>
+            <div class="devui-input-group devui-dropdown-origin">
+              <input
+                [mode]="'year'"
+                [dateFormat]="'y'"
+                class="devui-input devui-form-control"
+                placeholder="Năm"
+                name="dp"
+                [(ngModel)]="year"
+                (click)="datePicker1.toggle()"
+                autocomplete="off"
+                dDatepicker
+                #datePicker1="datepicker"
+                (selectedDateChange)="byMonthOfYearChart($event)"
+              />
+              <div *ngIf="year" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker1.clearAll()">
+                <i class="icon icon-close"></i>
+              </div>
+              <div class="devui-input-group-addon" (click)="datePicker1.toggle()">
+                <i class="icon icon-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <d-echarts [options]="byMonthOfYearOption" class="da-echarts-line"></d-echarts>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24">
+        <div class="da-content-card da-analysis-line">
+          <div class="da-content-title" style="display: flex">
+            <span style="margin-right: 8px;">Biểu đồ báo cáo số lượng hồ sơ ngày theo tháng năm</span>
+            <div class="devui-input-group devui-dropdown-origin-wrapper devui-dropdown-origin">
+              <input
+                [mode]="'month'"
+                [dateFormat]="'y-MM'"
+                class="devui-input devui-form-control"
+                placeholder="year-month"
+                (click)="datePicker2.toggle()"
+                name="dp"
+                [(ngModel)]="date"
+                autocomplete="off"
+                dDatepicker
+                #datePicker2="datepicker"
+                (selectedDateChange)="forDayOfMonthChart($event)"
+              />
+              <div *ngIf="date" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
+                <i class="icon icon-close"></i>
+              </div>
+              <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
+                <i class="icon icon-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <d-echarts [options]="forDayOfMonthOption" class="da-echarts-line"></d-echarts>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+
     <da-layout-row [daGutter]="[24, 24]">
       <da-col-item [daSpan]="24" [daXs]="24">
         <div class="da-list-container">
           <div class="da-list-header">
             <div class="da-header-left">
-              
+              <div class="da-header-item">
+                <div class="da-header-item-label">Số/Ký hiệu hồ sơ:</div>
+                <d-search
+                  [size]="'sm'"
+                  (searchFn)="search()"
+                  [(ngModel)]="_search.profile_code"
+                  class="da-inline"
+                  [placeholder]="'Số/Ký hiệu hồ sơ'"
+                ></d-search>
+              </div>
+              <div class="da-header-item">
+                <div class="da-header-item-label">Tên hồ sơ:</div>
+                <d-search
+                [size]="'sm'"
+                (searchFn)="search()"
+                [(ngModel)]="_search.profile_name"
+                class="da-inline"
+                [placeholder]="'Tên hồ sơ'"
+              ></d-search>
+              </div>
               <div class="da-header-item">
                 <div class="da-header-item-label">Năm:</div>
-                <d-select
-                  [options]="miningFileStatusOptions"
-                  [(ngModel)]="miningFileStatus"
-                  (valueChange)="getData()"
-                  [placeholder]="'Trạng thái'"
-                  >
-                </d-select>
+                <div class="devui-input-group devui-dropdown-origin">
+                  <input
+                    [mode]="'year'"
+                    [dateFormat]="'y'"
+                    class="devui-input devui-form-control"
+                    placeholder="Năm"
+                    name="dp"
+                    [(ngModel)]="year2"
+                    (click)="datePicker2.toggle()"
+                    autocomplete="off"
+                    dDatepicker
+                    #datePicker2="datepicker"
+                    (selectedDateChange)="getList($event)"
+                  />
+                  <div *ngIf="year" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
+                    <i class="icon icon-close"></i>
+                  </div>
+                  <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
+                    <i class="icon icon-calendar"></i>
+                  </div>
+                </div>
               </div>
-
               <div class="da-header-item">
-                <div class="da-header-item-label">Trạng thái:</div>
-                <d-select
-                  [options]="quantityProfileStatusOptions"
-                  [(ngModel)]="miningFileStatus1"
-                  (valueChange)="getData()"
-                  [placeholder]="'Trạng thái'"
-                  >
-                </d-select>
+                <div class="da-header-item-label">Trạng thái hồ sơ:</div>
+                <d-select [placeholder]="'--Tất cả--'" [filterKey]="'label'" [options]="statusOptions" [allowClear]="true" [(ngModel)]="statusCurrent" (ngModelChange)="search()"></d-select>
               </div>
-
-            </div>
-            <div class="header-right">
-              <!-- <d-button (click)="reset()">Reset</d-button> -->
             </div>
           </div>
-
+          <br />
           <div class="list-content" dLoading [loading]="busy">
             <d-data-table
               #datatable
-              [dataSource]="basicDataSource1"
+              [dataSource]="basicDataSource"
               [borderType]="searchForm.borderType"
               [size]="searchForm.size"
               [tableLayout]="searchForm.layout"
               [scrollable]="true"
             >
-              <d-column header="STT" [width]="'100px'">
-                <d-cell>
-                  <ng-template let-rowIndex="rowIndex">
-                    {{ (pager.pageIndex -1) * pager.pageSize +  rowIndex + 1 }}
-                  </ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="profile_number" header="Số hồ sơ" [width]="'100px'">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">
-                    {{ cellItem }}
-                  </ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="profile_name" header="Tên hồ sơ">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">
-                    {{ cellItem }}
-                  </ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="from_date" header="Ngày lập hồ sơ" [width]="'100px'">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">
-                    {{ cellItem | date : 'MM/dd/yyyy' }}
-                  </ng-template>
-                </d-cell>
-              </d-column>
-              <d-column field="to_date" header="Ngày kết thúc hồ sơ" [width]="'100px'">
-                <d-cell>
-                  <ng-template let-cellItem="cellItem">
-                    {{ cellItem | date : 'MM/dd/yyy' }}
-                  </ng-template>
-                </d-cell>
-              </d-column>
+              <thead dTableHead>
+                <tr dTableRow>
+                  <th dHeadCell [style.width]="'50px'">#</th>
+                  <th dHeadCell>Hộp hồ sơ</th>
+                  <th dHeadCell>Số/Ký hiệu hồ sơ</th>
+                  <th dHeadCell [style.width]="'350px'">Tên hồ sơ</th>
+                  <th dHeadCell>Năm</th>
+                  <th dHeadCell>Thời gian bắt đầu</th>
+                  <th dHeadCell>Thời gian kết thúc</th>
+                  <th dHeadCell>Số văn bản</th>
+                  <th dHeadCell>Thời hạn lưu trữ</th>
+                  <th dHeadCell>Trạng thái</th>
+                  <th dHeadCell>Ghi chú</th>
+                </tr>
+              </thead>
+              <tbody dTableBody>
+                <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
+                  <tr dTableRow>
+                    <td dTableCell>{{ rowIndex + 1 }}</td>
+                    <td dTableCell style="text-align:right">
+                      {{ rowItem.profile_box_number }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.profile_code }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.profile_name_l }}
+                    </td>
+                    <td dTableCell style="text-align:right">
+                      {{ rowItem.year }}
+                    </td>
+                    <td dTableCell style="text-align:center">
+                      {{ rowItem.from_date | date:'dd/MM/yyyy'  }}
+                    </td>
+                    <td dTableCell style="text-align:center">
+                      {{ rowItem.to_date | date:'dd/MM/yyyy' }}
+                    </td>
+                    <td dTableCell style="text-align:right">
+                      {{ rowItem.number_of_document }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.duration_storage_name }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.status | profileStatus }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.profile_note_l }}
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
             </d-data-table>
           </div>
-
           <div class="da-list-footer">
             <d-pagination
               [size]="'sm'"

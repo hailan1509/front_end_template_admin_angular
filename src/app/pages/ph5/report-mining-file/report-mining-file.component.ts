@@ -54,9 +54,9 @@ export class ReportMiningFileComponent implements OnInit {
 
   busy: Subscription;
 
-  miningFileByYearOption: any;
-  miningFileForMonthOfYearOption: any;
-  miningFileForDayOfMonthOption: any;
+  byYearOption: any;
+  byMonthOfYearOption: any;
+  forDayOfMonthOption: any;
 
   chartOption: any = {
     tooltip: {
@@ -128,7 +128,7 @@ export class ReportMiningFileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getList();
-    this.miningFileByYearChart();
+    this.byYearChart();
   }
 
   search() {
@@ -150,59 +150,59 @@ export class ReportMiningFileComponent implements OnInit {
     });
   }
 
-  getMiningFileForMonthOfYear(year: any) {
+  byMonthOfYearChart(year: any) {
     if (!year|| !year.selectedDate) {
       return false;
     }
-    let miningFileForMonthOfYearOption = JSON.parse(JSON.stringify(this.chartOption))
+    let byMonthOfYearOption = JSON.parse(JSON.stringify(this.chartOption))
     this.busy = this.api.get("api/Statistic/ReportMiningFileByMonthOfYear/" + year?.selectedDate?.getFullYear()).subscribe((res: any) => {
       let result = JSON.parse(res.data);
 
-      miningFileForMonthOfYearOption.xAxis[0].data = result.map((item: any) => `Tháng ${item.month}`)
-      miningFileForMonthOfYearOption.series[0].data = result.map((item: any) => item.number_of_accept)
-      miningFileForMonthOfYearOption.series[1].data = result.map((item: any) => item.number_of_refuse)
+      byMonthOfYearOption.xAxis[0].data = result.map((item: any) => `Tháng ${item.month}`)
+      byMonthOfYearOption.series[0].data = result.map((item: any) => item.number_of_accept)
+      byMonthOfYearOption.series[1].data = result.map((item: any) => item.number_of_refuse)
 
-      console.log(miningFileForMonthOfYearOption)
+      console.log(byMonthOfYearOption)
 
-      this.miningFileForMonthOfYearOption = miningFileForMonthOfYearOption;
+      this.byMonthOfYearOption = byMonthOfYearOption;
 
     });
 
     return true;
   }
 
-  getMiningFileForDayOfMonthOption(date: any) {
+  forDayOfMonthChart(date: any) {
     if (!date|| !date.selectedDate) {
       return false;
     }
-    let miningFileForDayOfMonthOption = JSON.parse(JSON.stringify(this.chartOption))
-    this.busy = this.api.get(`api/Statistic/ReportMiningFileByMonthOfYear/${date?.selectedDate?.getFullYear()}/${date?.selectedDate?.getMonth() + 1}`).subscribe((res: any) => {
+    let forDayOfMonthOption = JSON.parse(JSON.stringify(this.chartOption))
+    this.busy = this.api.get(`api/Statistic/ReportMiningFileForDayByMonthOfYear/${date?.selectedDate?.getFullYear()}/${date?.selectedDate?.getMonth() + 1}`).subscribe((res: any) => {
       let result = JSON.parse(res.data);
 
-      miningFileForDayOfMonthOption.xAxis[0].data = result.map((item: any) => new Date(item.date).getDate())
-      miningFileForDayOfMonthOption.series[0].data = result.map((item: any) => item.number_of_accept)
-      miningFileForDayOfMonthOption.series[1].data = result.map((item: any) => item.number_of_refuse)
+      forDayOfMonthOption.xAxis[0].data = result.map((item: any) => new Date(item.date).getDate())
+      forDayOfMonthOption.series[0].data = result.map((item: any) => item.number_of_accept)
+      forDayOfMonthOption.series[1].data = result.map((item: any) => item.number_of_refuse)
 
-      console.log(miningFileForDayOfMonthOption)
+      console.log(forDayOfMonthOption)
 
-      this.miningFileForDayOfMonthOption = miningFileForDayOfMonthOption;
+      this.forDayOfMonthOption = forDayOfMonthOption;
 
     });
 
     return true;
   }
 
-  miningFileByYearChart() {
-    let miningFileByYearOption :any =  JSON.parse(JSON.stringify(this.chartOption))
+  byYearChart() {
+    let byYearOption :any =  JSON.parse(JSON.stringify(this.chartOption))
 
     this.busy = this.api.get("api/Statistic/ReportMiningFileByYear").subscribe((res: any) => {
       let result = JSON.parse(res.data);
 
-      miningFileByYearOption.xAxis[0].data = result.map((item: any) => item.year.toString())
-      miningFileByYearOption.series[0].data = result.map((item: any) => item.number_of_accept)
-      miningFileByYearOption.series[1].data = result.map((item: any) => item.number_of_refuse)
+      byYearOption.xAxis[0].data = result.map((item: any) => item.year.toString())
+      byYearOption.series[0].data = result.map((item: any) => item.number_of_accept)
+      byYearOption.series[1].data = result.map((item: any) => item.number_of_refuse)
 
-      this.miningFileByYearOption = miningFileByYearOption;
+      this.byYearOption = byYearOption;
     });
   }
 

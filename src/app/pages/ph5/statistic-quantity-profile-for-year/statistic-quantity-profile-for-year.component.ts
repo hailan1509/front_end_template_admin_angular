@@ -1,5 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { TableWidthConfig } from 'ng-devui/data-table';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ApiService } from 'src/app/api.service';
@@ -9,74 +8,46 @@ import { ApiService } from 'src/app/api.service';
   templateUrl: './statistic-quantity-profile-for-year.component.html',
   styleUrls: ['./statistic-quantity-profile-for-year.component.scss']
 })
-export class StatisticQuantityProfileForYearComponent implements OnInit, AfterViewInit {
+export class StatisticQuantityProfileForYearComponent implements OnInit {
+
   basicDataSource: any[] = [];
-  basicDataSource1: any[] = [];
-  datepicker1: any;
 
-  serviceData: any = {
-    tooltip: {
-      trigger: 'axis',
-      confine: true,
-    },
-    legend: {
-      type: 'scroll',
-      textStyle: {
-        fontSize: 14,
-        color: '#000',
-      },
-      data: ["canceled quantity", "corrected quantity", "pending cancel quantity","uncorrected quantity"]
-    },
-    grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
-      containLabel: true
-    },
-    xAxis: {
-      type: "category",
-      name: 'Năm',
-      data:[]
-    },
-    yAxis: {
-      type: "value",
-      name: 'Số lượng hồ sơ'
-    },
-    series: [
-
-    ]
+  _search: any = {
+    profile_code: null,
+    profile_name: null,
+    status: null,
+    year: null
   };
 
-  pieChart: any;
-  
-  getPieChart(e: any) {
-    this.pieChart = e;
-    console.log(e)
-  }
-
-
-  constructor(private api: ApiService) { }
-
-  ngOnInit(): void {
-    this.getList();
-    this.getData();
-  }
-
-  ngAfterViewInit() {
-  }
-
-  
-
-  _search={
-    status:1,
-    profile_rcd: ""
-    // year:2022
-  }
   pager = {
     total: 0,
     pageIndex: 1,
     pageSize: 10,
   };
+
+  statusOptions: any[] = [
+    {
+      label: "Chờ chỉnh lý",
+      value: 0
+    },
+    {
+      label: "Đã chỉnh lý",
+      value: 1
+    },
+    {
+      label: "Chờ hủy",
+      value: 2
+    },
+    {
+      label: "Đã hủy",
+      value: -1
+    },
+  ]
+
+  year2: any;
+
+  statusCurrent: any;
+
   searchForm: {
     borderType: '' | 'borderless' | 'bordered';
     size: 'sm' | 'md' | 'lg';
@@ -87,144 +58,179 @@ export class StatisticQuantityProfileForYearComponent implements OnInit, AfterVi
       layout: 'auto',
     };
 
-
-  miningFileStatusOptions = ['--Tất cả---'];
-  quantityProfileStatusOptions=[
-    'Đã hủy',
-    'Đã chỉnh lý',
-    'Chưa chỉnh lý',
-    'Chờ hủy'
-  ];
-
-  miningFileStatusValue: { [key: string]: any } = {
-    '--Tất cả---':null,
-    'Đã hủy': -1,
-    'Đã chỉnh lý': 0,
-    'Chưa chỉnh lý': 1,
-    'Chờ hủy':2
-  };
-  miningFileStatus = '--Tất cả---';
-  miningFileStatus1 = '--Tất cả---';
-  getList() {
-      this.api.get("api/Statistic/get-ProfileQuantityForYear").subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.basicDataSource = a.data;
-
-      let ct: Array<any>=new Array;
-
-      let bt: Array<any>=new Array;
-
-      console.log(this.basicDataSource);
-      console.log(this.serviceData);
-      let obj1:any={
-        type: 'bar',
-        name: "canceled quantity",
-        showBackground: true,
-        data: []
-      }
-      let obj2:any={
-        type: 'bar',
-        name: "corrected quantity",
-        showBackground: true,
-        data: []
-      }
-      let obj3:any={
-        type: 'bar',
-        name: "pending cancel quantity",
-        showBackground: true,
-        data: []
-      }
-      let obj4:any={
-        type: 'bar',
-        name: "uncorrected quantity",
-        showBackground: true,
-        data: []
-      }
-      let sortedArray:any[]=this.basicDataSource.sort((n1,n2)=>
-      {
-        if(n1.year>n2.year){
-          return -1;}
-        if (n1.year < n2.year){
-        return 1;
-        }
-        return 0;
-      }).filter((element, index) =>index<5);
-
-      for(let i=0;i<sortedArray.length;i++){
-        ct.unshift(sortedArray[i].year);
-        // let o1: Array<any>=new Array;
-        obj1.data.unshift(sortedArray[i].canceled_quantity);
-        obj2.data.unshift(sortedArray[i].corrected_quantity);
-        obj3.data.unshift(sortedArray[i].pending_cancel_quantity);
-        obj4.data.unshift(sortedArray[i].uncorrected_quantity);
-      }
-      bt.unshift(obj1);
-      bt.unshift(obj2);
-      bt.unshift(obj3);
-      bt.unshift(obj4);
-
-      let year: Array<any>=new Array;
-      for(let i=0;i<this.basicDataSource.length;i++){
-        year.unshift(this.basicDataSource[i].year);
-      }
-
-      this.serviceData.xAxis.data=ct;
-      this.serviceData.series=bt;
-      console.log(this.serviceData);
-      this.miningFileStatusOptions=year;
-      this.pieChart.setOption(this.serviceData, true);
-
-    });
-  }
   busy: Subscription;
-  getData(){
+
+  byYearOption: any;
+  byMonthOfYearOption: any;
+  forDayOfMonthOption: any;
+
+  chartOption: any = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    legend: {
+      data: ['Đã chỉnh lý', 'Đã hủy']
+    },
+    toolbox: {
+      show: true,
+      orient: 'vertical',
+      left: 'right',
+      top: 'center',
+      feature: {
+        mark: { show: true },
+        dataView: { show: true, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar', 'stack'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
+      }
+    },
+    xAxis: [
+      {
+        type: 'category',
+        axisTick: { show: false },
+        data: ['2012', '2013', '2014', '2015', '2016']
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value'
+      }
+    ],
+    series: [
+      {
+        name: 'Đã chỉnh lý',
+        type: 'bar',
+        barGap: 0,
+        emphasis: {
+          focus: 'series'
+        },
+        data: [320, 332, 301, 334, 390],
+
+      },
+      {
+        name: 'Đã hủy',
+        type: 'bar',
+        emphasis: {
+          focus: 'series'
+        },
+        data: [220, 182, 191, 234, 290],
+        color: 'rgb(238 102 102)',
+      },
+    ]
+  };
+
+  year: any = {
+    selectedDate: new Date()
+  };
+
+  date: any = {
+    selectedDate: new Date()
+  };
+
+  constructor(private api: ApiService) { }
+
+  ngOnInit(): void {
+    this.getList();
+    this.byYearChart();
+  }
+
+  search() {
+    this.getList();
+  }
+
+  getList(year: any = null) {
     const data = {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
       ...this._search,
-      status: this.miningFileStatusValue[this.miningFileStatus1]
-    }
+      status: this.statusCurrent?.value,
+      year: year?.selectedDate?.getFullYear()
+    };
 
-    if(typeof(this.miningFileStatus)===typeof(12)){
-      this.busy = this.api.post("api/Statistic/StatisticProfileSearch", data).subscribe((res:any) => {
-        let a = JSON.parse(JSON.stringify(res));
-        console.log(a.data);
-        this.basicDataSource1 = a.data;
-        this.pager.total = a.totalItems;
-      });
-    }
-
-    if(this.miningFileStatus)
-    this.busy = this.api.post("api/Statistic/StatisticProfileSearch", data).subscribe((res:any) => {
+    this.busy = this.api.post('api/manager/ProfileRef/Search', data).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
-      console.log(a.data);
-      this.basicDataSource1 = a.data;
+      this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
+    });
+  }
+
+  byMonthOfYearChart(year: any) {
+    if (!year|| !year.selectedDate) {
+      return false;
+    }
+    let byMonthOfYearOption = JSON.parse(JSON.stringify(this.chartOption))
+    this.busy = this.api.get("api/Statistic/ReportQuantityProfileByMonthOfYear/" + year?.selectedDate?.getFullYear()).subscribe((res: any) => {
+      let result = JSON.parse(res.data);
+
+      byMonthOfYearOption.xAxis[0].data = result.map((item: any) => `Tháng ${item.month}`)
+      byMonthOfYearOption.series[0].data = result.map((item: any) => item.number_of_edited)
+      byMonthOfYearOption.series[1].data = result.map((item: any) => item.number_of_cancellation)
+
+      console.log(byMonthOfYearOption)
+
+      this.byMonthOfYearOption = byMonthOfYearOption;
+
+    });
+
+    return true;
+  }
+
+  forDayOfMonthChart(date: any) {
+    if (!date|| !date.selectedDate) {
+      return false;
+    }
+    let forDayOfMonthOption = JSON.parse(JSON.stringify(this.chartOption))
+    this.busy = this.api.get(`api/Statistic/ReportQuantityProfileForDayByMonthOfYear/${date?.selectedDate?.getFullYear()}/${date?.selectedDate?.getMonth() + 1}`).subscribe((res: any) => {
+      let result = JSON.parse(res.data);
+
+      forDayOfMonthOption.xAxis[0].data = result.map((item: any) => new Date(item.date).getDate())
+      forDayOfMonthOption.series[0].data = result.map((item: any) => item.number_of_edited)
+      forDayOfMonthOption.series[1].data = result.map((item: any) => item.number_of_cancellation)
+
+      console.log(forDayOfMonthOption)
+
+      this.forDayOfMonthOption = forDayOfMonthOption;
+
+    });
+
+    return true;
+  }
+
+  byYearChart() {
+    let byYearOption :any =  JSON.parse(JSON.stringify(this.chartOption))
+
+    this.busy = this.api.get("api/Statistic/ReportQuantityProfileByYear").subscribe((res: any) => {
+      let result = JSON.parse(res.data);
+
+      byYearOption.xAxis[0].data = result.map((item: any) => item.year.toString())
+      byYearOption.series[0].data = result.map((item: any) => item.number_of_edited)
+      byYearOption.series[1].data = result.map((item: any) => item.number_of_cancellation)
+
+      this.byYearOption = byYearOption;
     });
   }
 
   reset() {
     this.searchForm = {
-      borderType: '',
+      borderType: 'bordered',
       size: 'md',
       layout: 'auto',
     };
     this.pager.pageIndex = 1;
-    this.getData();
+    this.getList();
   }
 
   onPageChange(e: number) {
     this.pager.pageIndex = e;
-    this.getData();
+    this.getList();
   }
 
   onSizeChange(e: number) {
     this.pager.pageSize = e;
-    this.getData();
+    this.getList();
   }
-
-
-
-
 
 }
