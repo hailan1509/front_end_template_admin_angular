@@ -344,6 +344,9 @@ export class CreateProfileComponent implements OnInit {
     this.resetDocument();
 
     this.doneSetup = this.getDocumentById(document_rcd).subscribe((res: any) => {
+      if (!res.data.attachments_json) {
+        res.data.attachments_json = [];
+      }
       this.document = res.data;
       this.cloneAttachments = JSON.parse(JSON.stringify(this.document.attachments_json))
 
