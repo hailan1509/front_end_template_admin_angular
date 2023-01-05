@@ -150,7 +150,7 @@ export class StatisticQuantityProfileForYearComponent implements OnInit {
       year: year?.selectedDate?.getFullYear()
     };
 
-    this.busy = this.api.post('api/manager/ProfileRef/Search', data).subscribe((res: any) => {
+    this.busy = this.api.post('api/Statistic/ReportProfileSearch', data).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;

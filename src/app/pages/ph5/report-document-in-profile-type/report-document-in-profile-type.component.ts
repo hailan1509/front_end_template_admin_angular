@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TableWidthConfig } from 'ng-devui/data-table';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 
 import { ApiService } from 'src/app/api.service';
 
@@ -12,162 +11,15 @@ import { ApiService } from 'src/app/api.service';
 export class ReportDocumentInProfileTypeComponent implements OnInit {
 
   basicDataSource: any[] = [];
-  // basicDataSource1: any[] = [];
-  datepicker1: any;
-  yearNow = new Date();
-  year = 0;
-  dataSourceArchivalProfile: any[] = [];
-  profileData: any[] = [];
 
-
-
-  ngOnInit(): void {
-    this.year = this.yearNow.getFullYear();
-    this.getList();
-    this.getData();
-  }
-
-
-  serviceData: any = {
-    title: {
-      text: "Thống kê số lượng tài liệu mỗi tháng",
-      textStyle:{
-        fontFamily: 'sans-serif'
-      }
-    },
-    xAxis: {
-      type: "category",
-      data: [
-        'Tháng 1',
-        'Tháng 2',
-        'Tháng 3',
-        'Tháng 4',
-        'Tháng 5',
-        'Tháng 6',
-        'Tháng 7',
-        'Tháng 8',
-        'Tháng 9',
-        'Tháng 10',
-        'Tháng 11',
-        'Tháng 12',
-      ],
-    },
-    yAxis: {},
-    series: [{
-      data: [],
-      type: "bar"
-    }]
+  _search: any = {
+    document_number: null,
+    document_name: null,
+    profile_rcd: null,
+    profile_code: null,
+    profile_type_rcd: null,
   };
-  pieChart: any;
-  getPieChart(e: any) {
-    this.pieChart = e;
-    console.log(e)
-  }
-  getData() {
-    this.profileData = [];
-    const data = {
-      page: 0,
-      pageSize: 0,
-      ...this._search,
-    };
-    this.api.post('api/Statistic/ReportDocumentRefSearch', data).subscribe((res: any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.dataSourceArchivalProfile = a.data;
-      // this.basicDataSource1 = a.data;
-      console.log(this.dataSourceArchivalProfile);
-      let datax: Array<any> = new Array();
-      // let datay: Array<any>=new Array;
-      for (let i = 0; i < this.dataSourceArchivalProfile.length; i++) {
-        let time: any;
-        time = new Date(this.dataSourceArchivalProfile[i].created_date_time);
-        let year1 = time.getFullYear();
-        // console.log(year1);
-        if (year1 == this.year) {
-          let month = time.getMonth() + 1;
-          if (this.profileData.length == 0) {
-            this.profileData.unshift({ month: month, sum: 1 });
-          } else {
-            let check = true;
-            for (let i = 0; i < this.profileData.length; i++) {
-              if (this.profileData[i].month == month) {
-                check = true;
-                this.profileData[i].sum = this.profileData[i].sum + 1;
-                break;
-              } else {
-                check = false;
-              }
-            }
-            if (check == false) {
-              this.profileData.unshift({ month: month, sum: 1 });
-            }
-          }
-        } else {
-          continue;
-        }
-      }
-      console.log(this.profileData);
-      for (let i = 1; i <= 12; i++) {
-        for (let j = 0; j < this.profileData.length; j++) {
-          if (this.profileData[j].month == i) {
-            datax[i - 1] = this.profileData[j].sum;
-            break;
-          } else {
-            if (j == this.profileData.length - 1) {
-              datax[i - 1] = 0;
-            } else {
-              continue;
-            }
-          }
-        }
-      }
-      // console.log(datax);
 
-      this.serviceData.series[0].data = datax;
-
-      // console.log(this.generality);
-
-      this.pieChart.setOption(this.serviceData, true);
-    });
-  }
-
-
-
-
-
-
-    //year
-    selectedDate1 = null;
-    maxDate = new Date().setMonth(8);
-    getValue(value: any) {
-      if (value.selectedDate) {
-        this.year = value.selectedDate.getFullYear();
-        // this.getList();
-        this.getData();
-      }
-    }
-
-
-  getList() {
-    this.profileData = [];
-    const data = {
-      page: this.pager.pageIndex,
-      pageSize: this.pager.pageSize,
-      ...this._search,
-    };
-    this.api.post('api/Statistic/ReportDocumentRefSearch', data).subscribe((res: any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      // this.dataSourceArchivalProfile = a.data;
-      this.basicDataSource = a.data;
-      // console.log(this.dataSourceArchivalProfile);
-      this.pager.total = a.totalItems;
-    });
-  }
-
-  _search = {
-    document_rcd: "",
-    document_number: "",
-    date:""
-  };
   pager = {
     total: 0,
     pageIndex: 1,
@@ -185,8 +37,125 @@ export class ReportDocumentInProfileTypeComponent implements OnInit {
     };
 
   busy: Subscription;
+
+  profileTypeOptions: any[] = [];
+  profileTypeCurrent: any;
+
+  byProfileTypeOption: any;
+  chartOption: any = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    legend: {
+      data: ['Số hồ sơ']
+    },
+    toolbox: {
+      show: true,
+      orient: 'vertical',
+      left: 'right',
+      top: 'center',
+      feature: {
+        mark: { show: true },
+        dataView: { show: true, readOnly: false },
+        magicType: { show: true, type: ['line', 'bar', 'stack'] },
+        restore: { show: true },
+        saveAsImage: { show: true }
+      }
+    },
+    xAxis: [
+      {
+        type: 'category',
+        axisTick: { show: false },
+        data: ['2012', '2013', '2014', '2015', '2016']
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value'
+      }
+    ],
+    series: [
+      {
+        name: 'Số hồ sơ',
+        type: 'bar',
+        barGap: 0,
+        emphasis: {
+          focus: 'series'
+        },
+        data: [320, 332, 301, 334, 390],
+
+      },
+    ]
+  };
+
+  year: any = {
+    selectedDate: new Date()
+  };
+
+  date: any = {
+    selectedDate: new Date()
+  };
+
   constructor(private api: ApiService) { }
 
+  ngOnInit(): void {
+    this.getList();
+    this.getOptions();
+    this.byProfileTypeChart();
+  }
+
+  search() {
+    this.getList();
+  }
+
+  getList(year: any = null) {
+    const data = {
+      page: this.pager.pageIndex,
+      pageSize: this.pager.pageSize,
+      ...this._search,
+      profile_type_rcd: this.profileTypeCurrent?.value
+    };
+    this.api.post('api/manager/DocumentRef/Search', data).subscribe((res: any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      this.basicDataSource = a.data;
+      this.pager.total = a.totalItems;
+    });
+  }
+
+  getOptions() {
+    let arrayRequest = [];
+    arrayRequest.push(this.api.get('api/manager/ProfileRef/GetListDropdownProfileType'));
+
+    combineLatest(arrayRequest).subscribe((res: any[]) => {
+      this.profileTypeOptions = res[0].data
+    });
+  }
+
+  byProfileTypeChart() {
+    let byProfileTypeOption :any =  JSON.parse(JSON.stringify(this.chartOption))
+
+    this.busy = this.api.get("api/Statistic/ReportDocumentByProfileType").subscribe((res: any) => {
+      let result = JSON.parse(res.data);
+
+      byProfileTypeOption.xAxis[0].data = result.map((item: any) => item.profile_type_name_l)
+      byProfileTypeOption.series[0].data = result.map((item: any) => item.number_of_document)
+
+      this.byProfileTypeOption = byProfileTypeOption;
+    });
+  }
+
+  reset() {
+    this.searchForm = {
+      borderType: 'bordered',
+      size: 'md',
+      layout: 'auto',
+    };
+    this.pager.pageIndex = 1;
+    this.getList();
+  }
 
   onPageChange(e: number) {
     this.pager.pageIndex = e;
