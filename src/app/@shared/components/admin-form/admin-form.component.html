@@ -11,7 +11,7 @@
         [dValidateRules]="item.required ? item.rule : {}"
       />
       <input
-        type="file"
+        type="file" accept="application/pdf, application/vnd.ms-excel"
         id="file_upload"
         [name]="item.prop"
         [(ngModel)]="_formData[item.prop]"
@@ -19,9 +19,11 @@
         [dValidateRules]="item.rule"
         [dValidateRules]="item.required ? item.rule : {}"
       />
-      <d-button *ngIf="item.type === 'input-file'" (click)="upLoad()">
-        <label for="">Tải ảnh lên</label>
+      <d-button *ngIf="item.type === 'input-file' && _formData[item.prop]" (click)="upLoad()">
+        <label for="">Lấy nội dung</label>
       </d-button>
+      <textarea [(ngModel)]="content" name="textarea-content" style="margin-top: 20px" rows="30" *ngIf="item.type === 'input-file' && show_content"
+       dTextarea placeholder="Please Enter" resize="both"></textarea>
       <d-select
         *ngIf="item.type === 'select'"
         [appendToBody]="true"

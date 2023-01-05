@@ -18,6 +18,8 @@ export class AdminFormComponent implements OnInit {
   };
 
   _formData: any = {};
+  show_content = false;
+  content:any = "";
   currentOption:any = {};
 
   @Input() insert : boolean = true;
@@ -53,7 +55,6 @@ export class AdminFormComponent implements OnInit {
   }
   modelChange(value:any,prop:any) {
     this.currentOption[prop] = new MapToPipe().transform(value, 'id');
-    console.log(prop,this.currentOption);
   }
 
   cancel() {
@@ -66,8 +67,11 @@ export class AdminFormComponent implements OnInit {
     formdata.append('file',file);
     this.api.post("api/manager/DocumentRef/PDFToText/",formdata).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
+      this.show_content = true;
       if(a.content) {
-        console.log(JSON.parse(a.content))// this.showToast("success");
+        let json = JSON.parse(a.content);
+        let _content = json.responses[0].responses[0].fullTextAnnotation.text;
+        this.content = _content;
       }
       else {
         // this.showToast("error");

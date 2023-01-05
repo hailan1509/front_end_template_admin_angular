@@ -16,6 +16,7 @@ import {
 import { AdminFormModule } from 'src/app/@shared/components/admin-form/admin-form.module';
 import { ph1Component } from './ph1.component';
 import { DocumentByProfileComponent } from './document-by-profile/document-by-profile.component';
+import {ParseSelectPipe} from 'src/app/pages/parseFromPipe.pipe';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { DocumentByProfileComponent } from './document-by-profile/document-by-pr
     ProfileRefComponent,
     ph1Component,
     DocumentByProfileComponent,
-
+    // ParseFromPipe
+    ParseSelectPipe
 
   ],
   imports: [

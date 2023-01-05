@@ -3,6 +3,7 @@ import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
 import { ApiService } from 'src/app/api.service';
 import { Subscription } from 'rxjs';
 import { Item, Profile } from 'src/app/@core/data/listData';
+import { MapToPipe } from 'src/app/@shared/components/admin-form/mapToPipe.pipe';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
@@ -204,7 +205,8 @@ export class ProfileRefComponent implements OnInit {
   lstCountry : any;
 
   _search = {
-    keyword: ''
+    keyword: '',
+    select: 1
   };
 
   pager = {
@@ -229,6 +231,11 @@ export class ProfileRefComponent implements OnInit {
   search() {
     this.getList();
   }
+  modelChange(value:any) {
+    this._search.select = new MapToPipe().transform(value, 'value');
+  }
+
+  
 
   getList() {
     this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword}).subscribe((res:any) => {
