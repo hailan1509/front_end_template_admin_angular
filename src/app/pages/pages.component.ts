@@ -99,9 +99,9 @@ export class PagesComponent implements OnInit {
       },
       PH1 : {
         title: "Quản lý hồ sơ",
-        qlhsccl : "Quản lý hồ sơ chờ chỉnh lý",
+        qlhsccl : "Quản lý hồ sơ",
         bshs : "Bổ sung hồ sơ",
-        qlhsdcl : "Quản lý hồ sơ đã chỉnh lý",
+        qlhsdcl : "Quản lý hồ sơ",
         tchs : "Tra cứu hồ sơ",
         tctl : "Tra cứu  tài liệu",
         ihstf : "Import hồ sơ từ file",

@@ -232,13 +232,14 @@ export class ProfileRefComponent implements OnInit {
     this.getList();
   }
   modelChange(value:any) {
-    this._search.select = new MapToPipe().transform(value, 'value');
+    this._search.select = new MapToPipe().transform(value, 'id');
+    this.getList();
   }
 
   
 
   getList() {
-    this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword}).subscribe((res:any) => {
+    this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword, active_flag : this._search.select}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -347,10 +348,9 @@ export class ProfileRefComponent implements OnInit {
   }
 
   reset() {
-    this.searchForm = {
-      borderType: '',
-      size: 'md',
-      layout: 'auto',
+    this._search = {
+      keyword: '',
+      select: 1
     };
     this.pager.pageIndex = 1;
     this.getList();

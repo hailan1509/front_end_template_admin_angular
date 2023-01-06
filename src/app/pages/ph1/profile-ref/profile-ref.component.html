@@ -5,7 +5,7 @@
           ><a routerLink="/">Home</a></d-breadcrumb-item
         >
         <d-breadcrumb-item>Quản lý</d-breadcrumb-item>
-        <d-breadcrumb-item>Quản lý hồ sơ đã chỉnh lý</d-breadcrumb-item>
+        <d-breadcrumb-item>Quản lý hồ sơ</d-breadcrumb-item>
       </d-breadcrumb>
       <div class="da-content-banner-title">
         Quản lý hồ sơ
@@ -26,18 +26,18 @@
                       class="da-inline"
                       [placeholder]="'Tìm tên hồ sơ'"
                     ></d-search>
+                    <d-select style="display: inline-block; margin-left:10px"
+                    [options]="status"
+                    [isSearch]="true"
+                    [filterKey]="'name'"
+                    [ngModel]="_search.select | parseSelect: 'id':status"
+                    (ngModelChange)="modelChange($event)"
+                    [placeholder]="'Search'"
+                  ></d-select>
                     <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
                     <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
                   </div>
                   <div class="da-right">
-                    <d-select
-                    [options]="status"
-                    [isSearch]="true"
-                    [filterKey]="'name'"
-                    [ngModel]="_search.select | parseSelect: 'value':status"
-                    (ngModelChange)="modelChange($event)"
-                    [placeholder]="'Search'"
-                  ></d-select>
 
                 </div>
               </div>
