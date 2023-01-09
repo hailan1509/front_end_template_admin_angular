@@ -68,8 +68,8 @@ export class UsersRefComponent implements OnInit {
     created_by_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     created_date_time: "2022-12-07T03:08:56.885Z",
     lu_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    lu_updated: "2022-12-07T10:09:11.1174229+07:00"
-    
+    lu_updated: "2022-12-07T10:09:11.1174229+07:00",
+    role_rcd: "1"
   };
 
   searchForm: {
@@ -133,7 +133,7 @@ export class UsersRefComponent implements OnInit {
       width: '100px',
     },
     {
-      field: 'department_name_l',
+      field: 'role_name_l',
       width: '100px',
     },
     {
@@ -151,146 +151,7 @@ export class UsersRefComponent implements OnInit {
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
-      // {
-      //   label: 'Mã người dùng',
-      //   prop: 'user_rcd',
-      //   type: 'input',
-      //   primary: true,
-      //   required: true,
-      //   rule: {
-      //     validators: [{ required: true }],
-      //   },
-      // },
-      // {
-      //   label: 'Mã người dùng',
-      //   prop: 'user_code',
-      //   type: 'input',
-      //   primary: false,
-      //   required: true,
-      //   rule: {
-      //     validators: [{ required: true }],
-      //   },
-      // },
-      {
-        label: 'Tên người dùng',
-        prop: 'full_name',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Giới tính',
-        prop: 'gender',
-        type: 'input',
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-     
-      {
-        label: 'Ngày sinh',
-        prop: 'date_of_birth',
-        type: 'datePicker',
       
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Số điện thoại',
-        type:'input',      
-        required: true,
-        rule: {
-          validators: [{ required: true },
-            { minlength: 10 },
-            { maxlength: 12 },
-            {
-              pattern: /^((\\+91-?)|0)?[0-9]{10}$/,
-              message: 'Số điện thoại chỉ chứa số',
-
-            }
-          ],
-        },
-      },
-      {
-        label: 'Email',
-        prop: 'email',
-        type: 'input',
-        required: true,
-        rule: {
-          validators: [{ required: true }, { email: true }],
-        },
-      },
-      {
-        label: 'Địa chỉ',
-        prop: 'address',
-        type: 'input',
-      
-        rule: {
-          validators: [{ required: true },
-           
-          ],
-        },
-      },
-      {
-        label: 'Username',
-        prop: 'user_name',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true },
-            { minlength: 3 },
-            { maxlength: 20 },
-            {
-              pattern: /^[a-zA-Z0-9]+(\s+[a-zA-Z0-9]+)*$/,
-              message: 'The user name cannot contain characters except uppercase and lowercase letters.',
-            },
-          ],
-        },
-      },
-      {
-        label: 'Password',
-        prop: 'pass_word',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true },
-            { minlength: 6 }, { maxlength: 15 }, { pattern: /^[a-zA-Z0-9\d@$!%*?&.]+(\s+[a-zA-Z0-9]+)*$/ }
-          ],
-        },
-      },
-      {
-        label: 'Ghi chú',
-        prop: 'user_note_l',
-        type: 'input',
-      },
-      {
-        label: 'Tên phòng ban',
-        prop: 'department_rcd',
-        type: 'input',      
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Trạng thái',
-        prop: 'active_flag',
-        type: 'select-object',
-        options: this.status,
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
     ],
     labelSize: '',
   };
@@ -347,7 +208,151 @@ export class UsersRefComponent implements OnInit {
   constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService ) {}
 
   ngOnInit() {
-    this.getList();
+    this.api.post("api/manager/RoleRef/Search",{page : 1 , pageSize: 50 , role_name_l : ""}).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let rs = a.data.map((x:any) => {
+        return { id : parseInt(x.role_rcd) , name : x.role_name_l};
+      });
+      console.log(rs);
+      this.formConfig = {
+        layout: FormLayout.Horizontal,
+        items: [
+          {
+            label: 'Tên người dùng',
+            prop: 'full_name',
+            type: 'input',
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Giới tính',
+            prop: 'gender',
+            type: 'input',
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+         
+          {
+            label: 'Ngày sinh',
+            prop: 'date_of_birth',
+            type: 'datePicker',
+          
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          // {
+          //   label: 'Số điện thoại',
+          //   type:'input',      
+          //   required: true,
+          //   rule: {
+          //     validators: [{ required: true },
+          //       { minlength: 10 },
+          //       { maxlength: 12 },
+          //       {
+          //         pattern: /^((\\+91-?)|0)?[0-9]{10}$/,
+          //         message: 'Số điện thoại chỉ chứa số',
+    
+          //       }
+          //     ],
+          //   },
+          // },
+          {
+            label: 'Email',
+            prop: 'email',
+            type: 'input',
+            required: true,
+            rule: {
+              validators: [{ required: true }, { email: true }],
+            },
+          },
+          {
+            label: 'Địa chỉ',
+            prop: 'address',
+            type: 'input',
+          
+            rule: {
+              validators: [{ required: true },
+               
+              ],
+            },
+          },
+          {
+            label: 'Username',
+            prop: 'user_name',
+            type: 'input',
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true },
+                { minlength: 3 },
+                { maxlength: 20 },
+                {
+                  pattern: /^[a-zA-Z0-9]+(\s+[a-zA-Z0-9]+)*$/,
+                  message: 'The user name cannot contain characters except uppercase and lowercase letters.',
+                },
+              ],
+            },
+          },
+          // {
+          //   label: 'Password',
+          //   prop: 'pass_word',
+          //   type: 'input',
+          //   primary: false,
+          //   required: true,
+          //   rule: {
+          //     validators: [{ required: true },
+          //       { minlength: 6 }, { maxlength: 15 }, { pattern: /^[a-zA-Z0-9\d@$!%*?&.]+(\s+[a-zA-Z0-9]+)*$/ }
+          //     ],
+          //   },
+          // },
+          {
+            label: 'Ghi chú',
+            prop: 'user_note_l',
+            type: 'input',
+          },
+          // {
+          //   label: 'Tên phòng ban',
+          //   prop: 'department_rcd',
+          //   type: 'input',      
+          //   primary: false,
+          //   required: true,
+          //   rule: {
+          //     validators: [{ required: true }],
+          //   },
+          // },
+          {
+            label: 'Quyền',
+            prop: 'role_rcd',
+            type: 'select-object',
+            options: rs,
+            primary: false,
+            required: false,
+            rule: {
+              // validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Trạng thái',
+            prop: 'active_flag',
+            type: 'select-object',
+            options: this.status,
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+        ],
+        labelSize: '',
+      };
+      this.getList();
+    });
    //this.getDepartment();
   }
   getDepartmentName() {

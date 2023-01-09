@@ -44,8 +44,8 @@ export class AuthService {
       let rs = JSON.parse(JSON.stringify(res));
       if (rs.data) {
 
-        let { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender} = rs.data;
-        let userInfo: User = { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender };
+        let { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender, role_rcd} = rs.data;
+        let userInfo: User = { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender, role_rcd };
         console.log(of(userInfo));
         return userInfo;
       }

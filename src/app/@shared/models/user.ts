@@ -8,6 +8,6 @@ export interface User {
 	phone_number : string,
 	address : string,
 	user_name : string,
-  pass_word : string,
-
+  	pass_word : string,
+	role_rcd : string,
 }

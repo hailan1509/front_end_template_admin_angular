@@ -41,16 +41,16 @@
                                 </d-cell>
                             </d-column> -->
 
-                            <d-column field="department_name_l" header="Phòng ban" [width]="'200px'">
+                            <!-- <d-column field="department_name_l" header="Phòng ban" [width]="'200px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
                                         <span [title]="cellItem" class="over-flow-ellipsis" [style.width]="'200px'">
-                      <!-- <d-tag [tag]="'Epic'" [labelStyle]="'epic'"></d-tag> -->
+                      <d-tag [tag]="'Epic'" [labelStyle]="'epic'"></d-tag>
                       {{ cellItem }}
                     </span>
                                     </ng-template>
                                 </d-cell>
-                            </d-column>
+                            </d-column> -->
 
                             <d-column field="full_name" header="Tên người dùng" [width]="'150px'">
                                 <d-cell>
@@ -118,7 +118,14 @@
                                     </ng-template>
                                 </d-cell>
                             </d-column> -->
-                                <d-column field="user_note_l" header="Ghi chú" [width]="'100px'">
+                                <!-- <d-column field="user_note_l" header="Ghi chú" [width]="'100px'">
+                                    <d-cell>
+                                        <ng-template let-cellItem="cellItem">
+                                            {{ cellItem }}
+                                        </ng-template>
+                                    </d-cell>
+                                </d-column> -->
+                                <d-column field="role_name_l" header="Quyền" [width]="'100px'">
                                     <d-cell>
                                         <ng-template let-cellItem="cellItem">
                                             {{ cellItem }}
