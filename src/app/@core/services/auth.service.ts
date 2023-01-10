@@ -46,7 +46,7 @@ export class AuthService {
 
         let { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender, role_rcd} = rs.data;
         let userInfo: User = { user_name, pass_word , full_name , user_rcd , email , date_of_birth, address, phone_number, user_code, gender, role_rcd };
-        console.log(of(userInfo));
+        this.setSession(userInfo);
         return userInfo;
       }
       return null;

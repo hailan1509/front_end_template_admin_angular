@@ -4,6 +4,7 @@ export default function (values: any) {
       title: values['dashboard']['title'],
       link: '/pages/dashboard/analysis',
       menuIcon: 'icon icon-console',
+      roles: [1,2]
     },
     
     {
@@ -40,6 +41,7 @@ export default function (values: any) {
       ],
       link: '/pages/PH1',
       menuIcon: 'icon icon-modify',
+      roles: [2]
     },
     {
       title: values['PH2']['title'],
@@ -53,6 +55,7 @@ export default function (values: any) {
       ],
       link: '/pages/PH2',
       menuIcon: 'icon icon-table',
+      roles: [2]
     },
     {
       title: values['PH3']['title'],
@@ -88,6 +91,7 @@ export default function (values: any) {
       ],
       link: '/pages/PH3',
       menuIcon: 'icon icon-modify',
+      roles: [2]
     },
     {
       title: values['PH4']['title'],
@@ -127,6 +131,7 @@ export default function (values: any) {
       ],
       link: '/pages/PH4',
       menuIcon: 'icon icon-modify',
+      roles: [1,2]
     },
     {
       title: values['PH6']['title'],
@@ -154,6 +159,7 @@ export default function (values: any) {
       ],
       link: '/pages/PH6',
       menuIcon: 'icon icon-modify',
+      roles: [2]
     },
     {
 
@@ -174,6 +180,7 @@ export default function (values: any) {
       ],
       link: '/pages/PH7',
       menuIcon: 'icon icon-table',
+      roles: [2]
     },{
       title: values['PH5']['title'],
       children: [
@@ -221,11 +228,13 @@ export default function (values: any) {
       link: '/pages/PH5',
 
       menuIcon: 'icon icon-table',
+      roles: [2]
     },
     {
       title: "Quản lý khu vực",
       link: '/pages/quan-ly/area',
       menuIcon: 'icon icon-console',
+      roles: [1,2]
     },
   ];
 }

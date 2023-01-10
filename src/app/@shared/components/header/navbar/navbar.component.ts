@@ -66,6 +66,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   currentUrl: string;
 
+  role_rcd: 1;
+  user: any;
+
   constructor(private elementRef: ElementRef, private router: Router, private renderer: Renderer2) {
     this.currentUrl = this.router.url;
   }
@@ -118,6 +121,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         });
       }
     });
+    if (localStorage.getItem('userinfo')) {
+      this.user = JSON.parse(localStorage.getItem('userinfo')!);
+      this.role_rcd = this.user.role_rcd;
+    }
   }
 
   ngAfterViewInit() {

@@ -25,13 +25,14 @@ export class HeaderOperationComponent implements OnInit {
     if (localStorage.getItem('userinfo')) {
       this.user = JSON.parse(localStorage.getItem('userinfo')!);
       this.haveLoggedIn = true;
-    } else {
-      this.authService.login('Admin', 'Devui.admin').subscribe((res:any) => {
-        this.authService.setSession(res);
-        this.user = JSON.parse(localStorage.getItem('userinfo')!);
-        this.haveLoggedIn = true;
-      });
-    }
+    } 
+    // else {
+    //   this.authService.login('Admin', 'Devui.admin').subscribe((res:any) => {
+    //     this.authService.setSession(res);
+    //     this.user = JSON.parse(localStorage.getItem('userinfo')!);
+    //     this.haveLoggedIn = true;
+    //   });
+    // }
     this.language = this.translate.currentLang;
   }
 
