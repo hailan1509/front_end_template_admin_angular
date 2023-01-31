@@ -23,14 +23,14 @@ export class HandoverMinutesComponent implements OnInit {
   layoutOptions = ['auto', 'fixed'];
 
   arr_status = {
-    '-1' : 'Không hoạt động',
+    '0' : 'Không hoạt động',
     '1' : 'Hoạt động'
   };
 
   status = [
     {
       name : 'Không hoạt động',
-      id : -1
+      id : 0
     },
     {
       name : 'Hoạt động',
@@ -52,6 +52,10 @@ export class HandoverMinutesComponent implements OnInit {
     profile_name_l: "",
     profile_name: "",
     staff_name_e: "",
+    user_receive_rcd: "",
+    user_send_rcd:"",
+    user_receive: "",
+    user_send:"",
     place: "",
     reason: "",
     sort_order: 1,
@@ -59,7 +63,7 @@ export class HandoverMinutesComponent implements OnInit {
     handover_minutes_note: "",
     handover_minutes_note_e: "",
     active_flag: 0,
-    created_by_user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    created_by_user_id: "0FE716B6-D82D-4FEB-B623-57372AB4070B",
     created_date_time: "",
     lu_updated: "",
     lu_user_id: "",
@@ -244,8 +248,7 @@ export class HandoverMinutesComponent implements OnInit {
   _search = {
     lang: 'l',
     handover_minutes_rcd: "",
-    staff_rcd: "",
-    profile_rcd:"",
+    user_rcd: "0FE716B6-D82D-4FEB-B623-57372AB4070B",
     handover_minutes_name:"",
     handover_minutes_note:"",
     keyword:""
