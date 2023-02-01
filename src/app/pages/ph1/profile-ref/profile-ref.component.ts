@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Item, Profile } from 'src/app/@core/data/listData';
 import { MapToPipe } from 'src/app/@shared/components/admin-form/mapToPipe.pipe';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
+import { ProfilePermissionComponent } from 'src/app/@shared/components/modals/profile-permission/profile-permission.component';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
@@ -199,6 +200,7 @@ export class ProfileRefComponent implements OnInit {
   editForm: any = null;
 
   insert = true;
+  role_rcd: any = "";
 
   editRowIndex = -1;
 
@@ -224,6 +226,10 @@ export class ProfileRefComponent implements OnInit {
   constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService ) {}
 
   ngOnInit() {
+    if (localStorage.getItem('userinfo')) {
+      let user = JSON.parse(localStorage.getItem('userinfo')!);
+      this.role_rcd = user.role_rcd;
+    }
     this.getList();
     // this.getCountry();
   }
@@ -262,7 +268,7 @@ export class ProfileRefComponent implements OnInit {
       id: 'edit-dialog',
       width: '600px',
       maxHeight: '600px',
-      title: 'Editor',
+      title: 'Chỉnh sửa hồ sơ',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
       backdropCloseable: true,
@@ -278,7 +284,7 @@ export class ProfileRefComponent implements OnInit {
       id: 'edit-dialog',
       width: '600px',
       maxHeight: '600px',
-      title: 'Editor',
+      title: 'Thêm hồ sơ',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
       backdropCloseable: true,
@@ -320,6 +326,28 @@ export class ProfileRefComponent implements OnInit {
           },
         },
       ],
+    });
+  }
+
+  openModalPermission() {
+    const results = this.dialogService.open({
+      id: 'dialog-service',
+      width: '1000px',
+      maxHeight: '1500px',
+      title: 'Giới hạn người dùng truy cập',
+      content: ProfilePermissionComponent,
+      dialogtype: 'standard',
+      // beforeHidden: () => this.beforeHidden(),
+      backdropCloseable: true,
+      buttons: [
+        
+      ],
+      data: {
+        // document_attachment: a.data,
+        // document_rcd: document_rcd,
+        // year: this.profileInfo.year,
+        // profile_number: this.profileInfo.profile_number
+      }
     });
   }
 

@@ -112,13 +112,14 @@
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="Actions" header="Actions" [width]="'100px'">
+                <d-column field="Actions" header="Actions" [width]="'100px'" *ngIf = "role_rcd == 2">
                   <d-cell>
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
-                        <d-button icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
-                        <d-button icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.profile_rcd)"></d-button>
-                        <d-button icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="getDocuments(rowItem.profile_rcd)"></d-button>
+                        <d-button *ngIf = "role_rcd == 2" icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
+                        <d-button *ngIf = "role_rcd == 2" icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.profile_rcd)"></d-button>
+                        <d-button *ngIf = "role_rcd == 2" icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="getDocuments(rowItem.profile_rcd)"></d-button>
+                        <d-button *ngIf = "role_rcd == 2" icon="icon-add-member" bsStyle="text-dark" title="Phân quyền" (click)="openModalPermission()"></d-button>
                       </div>
                     </ng-template>
                   </d-cell>

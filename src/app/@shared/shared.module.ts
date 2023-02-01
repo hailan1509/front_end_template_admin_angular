@@ -68,6 +68,7 @@ import {
   TreeSelectComponent
 } from "ng-devui";
 import { DevUIModule } from "ng-devui";
+import { ProfilePermissionComponent } from './components/modals/profile-permission/profile-permission.component';
 
 const DEVUI_MODULES = [
   LayoutModule,
@@ -105,7 +106,8 @@ const PIPES = [MiningFileStatusPipe, ProfileStatusPipe, CancellationMinutesStatu
     RegisterComponent,
     ...COMPONENTS,
     ...PIPES,
-    FormUploadComponent
+    FormUploadComponent,
+    ProfilePermissionComponent
   ],
   imports: [
     CommonModule,
