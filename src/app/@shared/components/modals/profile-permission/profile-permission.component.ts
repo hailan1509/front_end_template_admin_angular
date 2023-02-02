@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { DialogService, FormLayout, TableWidthConfig } from 'ng-devui';
+import { DialogService, FormLayout, TableWidthConfig, DataTableComponent } from 'ng-devui';
 import { ApiService } from 'src/app/api.service';
 import { Subscription } from 'rxjs';
 import { Item, Users } from 'src/app/@core/data/listData';
@@ -29,8 +29,44 @@ export class ProfilePermissionComponent implements OnInit {
     layout: 'auto',
   };
   lstDepartment : any;
+  @ViewChild(DataTableComponent, { static: true })
+  datatable: DataTableComponent;
+  deleteList: Item[] = [];
+
+  dataTableOptions = {
+    columns: [
+      {
+        field: 'full_name',
+        header: 'Tên người dùng',
+      },
+      {
+        field: 'gender',
+        header: 'Giới tính',
+      },
+      {
+        field: 'date_of_birth',
+        header: 'Ngày sinh',
+      },
+      {
+        field: 'phone_number',
+        header: 'Số điện thoại',
+      },
+      {
+        field: 'user_name',
+        header: 'Tên đăng nhập',
+      },
+      {
+        field: 'role_name_l',
+        header: 'Quyền',
+      }
+    ]
+  };
 
   tableWidthConfig: TableWidthConfig[] = [
+    {
+      field: 'checkbox',
+      width: '30px',
+    },
     {
       field: 'user_rcd',
       width: '150px',
@@ -68,10 +104,6 @@ export class ProfilePermissionComponent implements OnInit {
       width: '100px',
     },
     {
-      field: 'pass_word',
-      width: '100px',
-    },
-    {
       field: 'user_note_e',
       width: '100px',
     },
@@ -81,14 +113,6 @@ export class ProfilePermissionComponent implements OnInit {
     },
     {
       field: 'role_name_l',
-      width: '100px',
-    },
-    {
-      field: 'active_flag',
-      width: '100px',
-    },
-    {
-      field: 'Actions',
       width: '100px',
     },
   ];
@@ -123,8 +147,8 @@ export class ProfilePermissionComponent implements OnInit {
      pass_word:"",   
     user_note_e: "",
     user_note_l: "",
-    department_rcd:""
-
+    department_rcd:"",
+    role_rcd : 1,
   };
 
   busy: Subscription;
@@ -142,6 +166,27 @@ export class ProfilePermissionComponent implements OnInit {
     this.getList();
   }
 
+  onResize({ width }: { width: string }, field: string) {
+    const index = this.tableWidthConfig.findIndex((config) => {
+      return config.field === field;
+    });
+    if (index > -1) {
+      this.tableWidthConfig[index].width = width + 'px';
+    }
+  }
+
+  onRowCheckChange(checked: boolean, rowIndex: number, nestedIndex: string, rowItem: any) {
+    rowItem.$checked = checked;
+    rowItem.$halfChecked = false;
+    this.datatable.setRowCheckStatus({
+      rowIndex: rowIndex,
+      nestedIndex: nestedIndex,
+      rowItem: rowItem,
+      checked: checked,
+    });
+    this.deleteList = this.datatable.getCheckedRows();
+  }
+
   getList() {
     const searchBody = {
       page: this.pager.pageIndex,
@@ -151,7 +196,8 @@ export class ProfilePermissionComponent implements OnInit {
 
     this.api.post("api/manager/UserRef/Search", searchBody).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
-      this.basicDataSource = a.data;
+      console.log(a.data);
+      this.basicDataSource = a.data.filter((x: any) => x.role_rcd != 2);
       this.pager.total = a.totalItems;
     });
   }

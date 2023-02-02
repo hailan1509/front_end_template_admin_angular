@@ -16,31 +16,70 @@
                   </div>
                   <br />
                   <div class="list-content" dLoading [loading]="busy">
-                      <d-data-table #datatable [dataSource]="basicDataSource" [borderType]="searchForm.borderType" [size]="searchForm.size" [tableLayout]="searchForm.layout" [scrollable]="true">
-                          <d-column header="STT" [width]="'100px'">
+                      <d-data-table
+                      [dataSource]="basicDataSource" 
+                      [borderType]="searchForm.borderType"
+                      [tableLayout]="searchForm.layout" 
+                      [fixHeader]="true"
+                      [lazy]="true"
+                      [scrollable]="true">
+                      <thead dTableHead [checkable]="true">
+                        <tr dTableRow>
+                          <th
+                            dHeadCell
+                            *ngFor="let colOption of dataTableOptions.columns"
+                            [resizeEnabled]="true"
+                            (resizeEndEvent)="onResize($event, 'title')"
+                          >
+                            {{ colOption.header }}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody dTableBody>
+                        <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
+                          <tr dTableRow [ngClass]="{ 'da-table-row-selected': rowItem.$checked }">
+                            <td dTableCell class="devui-checkable-cell">
+                              <d-checkbox
+                                [ngModelOptions]="{ standalone: true }"
+                                (ngModelChange)="onRowCheckChange($event, rowIndex, nestedIndex, rowItem)"
+                                [ngModel]="rowItem.$checked"
+                                [halfchecked]="rowItem.$halfChecked"
+                                [disabled]="rowItem.$checkDisabled"
+                                dTooltip
+                                [content]="rowItem.$checkBoxTips"
+                                [position]="['top', 'right', 'bottom', 'left']"
+                                [showAnimation]="false"
+                              >
+                              </d-checkbox>
+                            </td>
+                            <td
+                              dTableCell
+                              [rowItem]="rowItem"
+                              [field]="'full_name'"
+                            ><span>{{ rowItem?.full_name }}</span></td>
+                          </tr>
+                        </ng-template>
+                      </tbody>
+                          <!-- <d-column header="STT" [width]="'100px'">
                               <d-cell>
                                   <ng-template let-rowIndex="rowIndex">
                                       {{ rowIndex + 1 }}
                                   </ng-template>
                               </d-cell>
                           </d-column>
-
                           <d-column field="full_name" header="Tên người dùng" [width]="'150px'">
                               <d-cell>
                                   <ng-template let-cellItem="cellItem">
                                       <span [title]="cellItem" class="over-flow-ellipsis" [style.width]="'150px'">
-                    <!-- <d-tag [tag]="'Epic'" [labelStyle]="'epic'"></d-tag> -->
-                    {{ cellItem }}
-                  </span>
+                                        {{ cellItem }}
+                                      </span>
                                   </ng-template>
                               </d-cell>
                           </d-column>
-
                           <d-column field="gender" header="Giới tính" [width]="'100px'">
                               <d-cell>
                                   <ng-template let-cellItem="cellItem">
                                       {{ cellItem }}
-                                      <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
                                   </ng-template>
                               </d-cell>
                           </d-column>
@@ -48,33 +87,30 @@
                               <d-cell>
                                   <ng-template let-cellItem="cellItem">
                                       {{ cellItem }}
-                                      <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
                                   </ng-template>
                               </d-cell>
                           </d-column>
                           <d-column field="phone_number" header="Số điện thoại" [width]="'100px'">
                               <d-cell>
                                   <ng-template let-cellItem="cellItem">
-                                      <!-- {{ cellItem }} -->
                                       <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
                                   </ng-template>
                               </d-cell>
                           </d-column>
-                              <d-column field="user_name" header="Tên đăng nhập" [width]="'100px'">
+                          <d-column field="user_name" header="Tên đăng nhập" [width]="'100px'">
                                   <d-cell>
                                       <ng-template let-cellItem="cellItem">
-                                          <!-- {{ cellItem }} -->
                                           <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
                                       </ng-template>
                                   </d-cell>
-                              </d-column>
-                              <d-column field="role_name_l" header="Quyền" [width]="'100px'">
+                          </d-column>
+                          <d-column field="role_name_l" header="Quyền" [width]="'100px'">
                                   <d-cell>
                                       <ng-template let-cellItem="cellItem">
                                           {{ cellItem }}
                                       </ng-template>
                                   </d-cell>
-                              </d-column>
+                          </d-column> -->
                       </d-data-table>
                   </div>
                   <div class="da-list-footer">
