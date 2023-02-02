@@ -1,32 +1,89 @@
 <div (click)="onClick($event)">
-    <div class="d-form-field">
-      <div class="d-form-label">
-        <div class="text" title="name" for="input-label">name:</div>
-      </div>
-      <div class="d-form-ctrl">
-        <div>
-          <input dTextInput type="text" class="d-form-text" autocomplete="off" maxlength="128" />
-        </div>
-      </div>
-    </div>
-    <div class="d-form-field">
-      <div class="d-form-label">
-        <div class="text" title="age" for="input-label">age:</div>
-      </div>
-      <div class="d-form-ctrl">
-        <div>
-          <input dTextInput type="text" class="d-form-text" autocomplete="off" maxlength="128" />
-        </div>
-      </div>
-    </div>
-    <div class="d-form-field">
-      <div class="d-form-label">
-        <div class="text" title="address" for="input-label">address:</div>
-      </div>
-      <div class="d-form-ctrl">
-        <div>
-          <input dTextInput type="text" class="d-form-text" autocomplete="off" maxlength="128" />
-        </div>
-      </div>
-    </div>
+  <div class="da-list-wrap">
+    <div class="da-content-wrapper">
+      <da-layout-row [daGutter]="[24, 24]">
+          <da-col-item [daSpan]="24" [daXs]="24">
+              <div class="da-list-container">
+                  <div class="da-list-header">
+                      <div class="da-common-search">
+                          <div class="da-left">
+                              <d-search [size]="'sm'" (searchFn)="getList()" [(ngModel)]="_search.full_name" class="da-inline" [placeholder]="'Tìm tên người dùng'"></d-search>
+                              <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
+                              <!-- <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button> -->
+                          </div>
+                          <div class="da-right"></div>
+                      </div>
+                  </div>
+                  <br />
+                  <div class="list-content" dLoading [loading]="busy">
+                      <d-data-table #datatable [dataSource]="basicDataSource" [borderType]="searchForm.borderType" [size]="searchForm.size" [tableLayout]="searchForm.layout" [scrollable]="true">
+                          <d-column header="STT" [width]="'100px'">
+                              <d-cell>
+                                  <ng-template let-rowIndex="rowIndex">
+                                      {{ rowIndex + 1 }}
+                                  </ng-template>
+                              </d-cell>
+                          </d-column>
+
+                          <d-column field="full_name" header="Tên người dùng" [width]="'150px'">
+                              <d-cell>
+                                  <ng-template let-cellItem="cellItem">
+                                      <span [title]="cellItem" class="over-flow-ellipsis" [style.width]="'150px'">
+                    <!-- <d-tag [tag]="'Epic'" [labelStyle]="'epic'"></d-tag> -->
+                    {{ cellItem }}
+                  </span>
+                                  </ng-template>
+                              </d-cell>
+                          </d-column>
+
+                          <d-column field="gender" header="Giới tính" [width]="'100px'">
+                              <d-cell>
+                                  <ng-template let-cellItem="cellItem">
+                                      {{ cellItem }}
+                                      <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
+                                  </ng-template>
+                              </d-cell>
+                          </d-column>
+                          <d-column field="date_of_birth" header="Ngày sinh" [width]="'100px'">
+                              <d-cell>
+                                  <ng-template let-cellItem="cellItem">
+                                      {{ cellItem }}
+                                      <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
+                                  </ng-template>
+                              </d-cell>
+                          </d-column>
+                          <d-column field="phone_number" header="Số điện thoại" [width]="'100px'">
+                              <d-cell>
+                                  <ng-template let-cellItem="cellItem">
+                                      <!-- {{ cellItem }} -->
+                                      <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                                  </ng-template>
+                              </d-cell>
+                          </d-column>
+                              <d-column field="user_name" header="Tên đăng nhập" [width]="'100px'">
+                                  <d-cell>
+                                      <ng-template let-cellItem="cellItem">
+                                          <!-- {{ cellItem }} -->
+                                          <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag>
+                                      </ng-template>
+                                  </d-cell>
+                              </d-column>
+                              <d-column field="role_name_l" header="Quyền" [width]="'100px'">
+                                  <d-cell>
+                                      <ng-template let-cellItem="cellItem">
+                                          {{ cellItem }}
+                                      </ng-template>
+                                  </d-cell>
+                              </d-column>
+                      </d-data-table>
+                  </div>
+                  <div class="da-list-footer">
+                      <d-pagination [size]="'sm'" [total]="pager.total" [(pageSize)]="pager.pageSize" [(pageIndex)]="pager.pageIndex" [canViewTotal]="true" [canChangePageSize]="true" [canJumpPage]="true" [maxItems]="5" (pageIndexChange)="onPageChange($event)" (pageSizeChange)="onSizeChange($event)">
+                      </d-pagination>
+                  </div>
+              </div>
+          </da-col-item>
+      </da-layout-row>
   </div>
+  </div>
+</div>
