@@ -10,7 +10,7 @@
                               <d-search [size]="'sm'" (searchFn)="getList()" [(ngModel)]="_search.full_name" class="da-inline" [placeholder]="'Tìm tên người dùng'"></d-search>
                               <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
 
-                              <input style="margin-left: 12px" type="checkbox"> Chọn tất cả
+                              <input style="margin-left: 12px" type="checkbox" [ngModel]="isCheckAll" (ngModelChange)="checkAll($event)"> Chọn tất cả
                               <!-- <d-button style="margin-left: 12px" (click)="onCheckAllChange()">Chọn tất cả</d-button> -->
                               <!-- <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button> -->
                           </div>
@@ -43,14 +43,15 @@
                           <tr dTableRow [ngClass]="{ 'da-table-row-selected': rowItem.$checked }">
                             <td dTableCell class="devui-checkable-cell">
                                 
-                              <!-- <d-checkbox
+                              <d-checkbox
                                 [ngModel]="users_checked[rowItem.user_rcd]"
+                                (ngModelChange)="changeCheckBox($event,rowItem.user_rcd)"
                                 dTooltip
                                 [position]="['top', 'right', 'bottom', 'left']"
                                 [showAnimation]="false"
                               >
-                              </d-checkbox> -->
-                              <input type="checkbox" name="" checked="{{isCheck(rowItem.user_rcd)}}" onchange="" id="">
+                              </d-checkbox>
+                              <!-- <input type="checkbox" checked="{{isCheck(rowItem.user_rcd)}}" (ngModelChange)="changeCheckBox($event,rowItem.user_rcd)"> -->
                             </td>
                             <td
                               dTableCell

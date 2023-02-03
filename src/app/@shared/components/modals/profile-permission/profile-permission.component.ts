@@ -96,6 +96,7 @@ export class ProfilePermissionComponent implements OnInit {
   ];
 
   basicDataSource: Users[] = [];
+  isCheckAll : false;
 
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
@@ -176,7 +177,6 @@ export class ProfilePermissionComponent implements OnInit {
       this.basicDataSource = a.data.filter((x: any) => x.role_rcd != 2);
       if(this.callAPIFirstTime) {
         let arr_tmp = this.data.permision.split(',');
-        console.log(arr_tmp);
         this.basicDataSource.forEach((v:any) => {
           if(this.data.permision == "1") {
             this.users_checked[v.user_rcd] = true;
@@ -193,7 +193,7 @@ export class ProfilePermissionComponent implements OnInit {
             }
           }
         })
-        this.users_checked_for_reset = this.users_checked;
+        this.users_checked_for_reset = JSON.parse(JSON.stringify(this.users_checked));
         this.callAPIFirstTime = false;
       }
       this.pager.total = a.totalItems;
@@ -217,13 +217,21 @@ export class ProfilePermissionComponent implements OnInit {
       layout: 'auto',
     };
     this.pager.pageIndex = 1;
-    this.users_checked = this.users_checked_for_reset;
+    this.users_checked = JSON.parse(JSON.stringify(this.users_checked_for_reset));
     this.getList();
-    console.log(this.users_checked);
   }
   isCheck(user_rcd:any) {
-    console.log(this.users_checked[user_rcd])
     return this.users_checked[user_rcd];
+  }
+
+  checkAll(e:any) {
+    for (let key in this.users_checked) {
+      this.users_checked[key] = e;
+    }
+  }
+
+  changeCheckBox(e:any, user_rcd:any) {
+    this.users_checked[user_rcd] = e.checked;
 
   }
   
