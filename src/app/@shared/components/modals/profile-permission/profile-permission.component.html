@@ -9,6 +9,9 @@
                           <div class="da-left">
                               <d-search [size]="'sm'" (searchFn)="getList()" [(ngModel)]="_search.full_name" class="da-inline" [placeholder]="'Tìm tên người dùng'"></d-search>
                               <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
+
+                              <input style="margin-left: 12px" type="checkbox"> Chọn tất cả
+                              <!-- <d-button style="margin-left: 12px" (click)="onCheckAllChange()">Chọn tất cả</d-button> -->
                               <!-- <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button> -->
                           </div>
                           <div class="da-right"></div>
@@ -19,17 +22,17 @@
                       <d-data-table
                       [dataSource]="basicDataSource" 
                       [borderType]="searchForm.borderType"
+                      [tableWidthConfig]="tableWidthConfig"
                       [tableLayout]="searchForm.layout" 
-                      [fixHeader]="true"
+                      (checkAllChange)="onCheckAllChange()"
                       [lazy]="true"
                       [scrollable]="true">
-                      <thead dTableHead [checkable]="true">
+                      <thead dTableHead>
                         <tr dTableRow>
+                          <th></th>
                           <th
                             dHeadCell
                             *ngFor="let colOption of dataTableOptions.columns"
-                            [resizeEnabled]="true"
-                            (resizeEndEvent)="onResize($event, 'title')"
                           >
                             {{ colOption.header }}
                           </th>
@@ -39,24 +42,46 @@
                         <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
                           <tr dTableRow [ngClass]="{ 'da-table-row-selected': rowItem.$checked }">
                             <td dTableCell class="devui-checkable-cell">
-                              <d-checkbox
-                                [ngModelOptions]="{ standalone: true }"
-                                (ngModelChange)="onRowCheckChange($event, rowIndex, nestedIndex, rowItem)"
-                                [ngModel]="rowItem.$checked"
-                                [halfchecked]="rowItem.$halfChecked"
-                                [disabled]="rowItem.$checkDisabled"
+                                
+                              <!-- <d-checkbox
+                                [ngModel]="users_checked[rowItem.user_rcd]"
                                 dTooltip
-                                [content]="rowItem.$checkBoxTips"
                                 [position]="['top', 'right', 'bottom', 'left']"
                                 [showAnimation]="false"
                               >
-                              </d-checkbox>
+                              </d-checkbox> -->
+                              <input type="checkbox" name="" checked="{{isCheck(rowItem.user_rcd)}}" onchange="" id="">
                             </td>
                             <td
                               dTableCell
                               [rowItem]="rowItem"
                               [field]="'full_name'"
                             ><span>{{ rowItem?.full_name }}</span></td>
+                            <td
+                              dTableCell
+                              [rowItem]="rowItem"
+                              [field]="'gender'"
+                            ><span>{{ rowItem?.gender }}</span></td>
+                            <td
+                              dTableCell
+                              [rowItem]="rowItem"
+                              [field]="'date_of_birth'"
+                            ><span>{{ rowItem?.date_of_birth }}</span></td>
+                            <td
+                              dTableCell
+                              [rowItem]="rowItem"
+                              [field]="'phone_number'"
+                            ><span>{{ rowItem?.phone_number }}</span></td>
+                            <td
+                              dTableCell
+                              [rowItem]="rowItem"
+                              [field]="'user_name'"
+                            ><span><d-tag [tag]="rowItem?.user_name"></d-tag></span></td>
+                            <td
+                              dTableCell
+                              [rowItem]="rowItem"
+                              [field]="'role_name_l'"
+                            ><span>{{ rowItem?.role_name_l }}</span></td>
                           </tr>
                         </ng-template>
                       </tbody>

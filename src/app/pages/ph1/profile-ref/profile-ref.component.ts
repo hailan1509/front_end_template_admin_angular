@@ -329,11 +329,11 @@ export class ProfileRefComponent implements OnInit {
     });
   }
 
-  openModalPermission() {
+  openModalPermission(rowItem:any) {
     const results = this.dialogService.open({
       id: 'dialog-service',
       width: '1000px',
-      maxHeight: '1500px',
+      maxHeight: '500px',
       title: 'Giới hạn người dùng truy cập',
       content: ProfilePermissionComponent,
       dialogtype: 'standard',
@@ -343,6 +343,7 @@ export class ProfileRefComponent implements OnInit {
         
       ],
       data: {
+        permision : rowItem.permision
         // document_attachment: a.data,
         // document_rcd: document_rcd,
         // year: this.profileInfo.year,

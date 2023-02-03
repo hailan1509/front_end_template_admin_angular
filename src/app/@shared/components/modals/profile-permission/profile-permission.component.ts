@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { DialogService, FormLayout, TableWidthConfig, DataTableComponent } from 'ng-devui';
+import { ChangeDetectorRef,Input, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { DialogService, FormLayout,EditableTip, TableWidthConfig, DataTableComponent } from 'ng-devui';
 import { ApiService } from 'src/app/api.service';
 import { Subscription } from 'rxjs';
 import { Item, Users } from 'src/app/@core/data/listData';
@@ -29,9 +29,11 @@ export class ProfilePermissionComponent implements OnInit {
     layout: 'auto',
   };
   lstDepartment : any;
+  @Input() data: any;
   @ViewChild(DataTableComponent, { static: true })
   datatable: DataTableComponent;
   deleteList: Item[] = [];
+  editableTip = EditableTip.btn;
 
   dataTableOptions = {
     columns: [
@@ -65,15 +67,7 @@ export class ProfilePermissionComponent implements OnInit {
   tableWidthConfig: TableWidthConfig[] = [
     {
       field: 'checkbox',
-      width: '30px',
-    },
-    {
-      field: 'user_rcd',
-      width: '150px',
-    },
-    {
-      field: 'user_code',
-      width: '150px',
+      width: '50px',
     },
     {
       field: 'full_name',
@@ -88,27 +82,11 @@ export class ProfilePermissionComponent implements OnInit {
       width: '100px',
     },
     {
-      field: 'email',
-      width: '100px',
-    },
-    {
       field: 'phone_number',
       width: '100px',
     },
     {
-      field: 'address',
-      width: '100px',
-    },
-    {
       field: 'user_name',
-      width: '100px',
-    },
-    {
-      field: 'user_note_e',
-      width: '100px',
-    },
-    {
-      field: 'user_note_l',
       width: '100px',
     },
     {
@@ -130,7 +108,7 @@ export class ProfilePermissionComponent implements OnInit {
   pager = {
     total: 0,
     pageIndex: 1,
-    pageSize: 5,
+    pageSize: 1000,
   };
 
   _search = {
@@ -152,8 +130,12 @@ export class ProfilePermissionComponent implements OnInit {
   };
 
   busy: Subscription;
+  callAPIFirstTime = true;
+  users_checked:any = {};
+  users_checked_for_reset:any = {};
 
   ngOnInit(): void {
+    
     this.api.post("api/manager/RoleRef/Search",{page : 1 , pageSize: 50 , role_name_l : ""}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       let rs = a.data.map((x:any) => {
@@ -166,13 +148,8 @@ export class ProfilePermissionComponent implements OnInit {
     this.getList();
   }
 
-  onResize({ width }: { width: string }, field: string) {
-    const index = this.tableWidthConfig.findIndex((config) => {
-      return config.field === field;
-    });
-    if (index > -1) {
-      this.tableWidthConfig[index].width = width + 'px';
-    }
+  onCheckAllChange() {
+    this.deleteList = this.datatable.getCheckedRows();
   }
 
   onRowCheckChange(checked: boolean, rowIndex: number, nestedIndex: string, rowItem: any) {
@@ -196,8 +173,29 @@ export class ProfilePermissionComponent implements OnInit {
 
     this.api.post("api/manager/UserRef/Search", searchBody).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
-      console.log(a.data);
       this.basicDataSource = a.data.filter((x: any) => x.role_rcd != 2);
+      if(this.callAPIFirstTime) {
+        let arr_tmp = this.data.permision.split(',');
+        console.log(arr_tmp);
+        this.basicDataSource.forEach((v:any) => {
+          if(this.data.permision == "1") {
+            this.users_checked[v.user_rcd] = true;
+          }
+          else {
+            if(this.data.permision == "-1") {
+              this.users_checked[v.user_rcd] = false;
+            }
+            else {
+              if(arr_tmp.includes(v.user_rcd)) {
+                this.users_checked[v.user_rcd] = true;
+              }
+              else this.users_checked[v.user_rcd] = false;
+            }
+          }
+        })
+        this.users_checked_for_reset = this.users_checked;
+        this.callAPIFirstTime = false;
+      }
       this.pager.total = a.totalItems;
     });
   }
@@ -214,13 +212,21 @@ export class ProfilePermissionComponent implements OnInit {
 
   reset() {
     this.searchForm = {
-      borderType: '',
+      borderType: 'bordered',
       size: 'md',
       layout: 'auto',
     };
     this.pager.pageIndex = 1;
+    this.users_checked = this.users_checked_for_reset;
     this.getList();
+    console.log(this.users_checked);
   }
+  isCheck(user_rcd:any) {
+    console.log(this.users_checked[user_rcd])
+    return this.users_checked[user_rcd];
+
+  }
+  
 
   onClick(event: any): void {
 
