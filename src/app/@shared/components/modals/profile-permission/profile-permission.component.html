@@ -11,10 +11,14 @@
                               <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
 
                               <input style="margin-left: 12px" type="checkbox" [ngModel]="isCheckAll" (ngModelChange)="checkAll($event)"> Chọn tất cả
+
                               <!-- <d-button style="margin-left: 12px" (click)="onCheckAllChange()">Chọn tất cả</d-button> -->
                               <!-- <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button> -->
+                            </div>
+                          <div class="da-right">
+                            <d-button style="margin-right:10px" (click)="save()">Lưu</d-button>
+
                           </div>
-                          <div class="da-right"></div>
                       </div>
                   </div>
                   <br />

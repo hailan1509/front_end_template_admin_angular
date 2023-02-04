@@ -1,4 +1,4 @@
-import { ChangeDetectorRef,Input, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef,Input, Component, OnInit, TemplateRef, ViewChild,EventEmitter } from '@angular/core';
 import { DialogService, FormLayout,EditableTip, TableWidthConfig, DataTableComponent } from 'ng-devui';
 import { ApiService } from 'src/app/api.service';
 import { Subscription } from 'rxjs';
@@ -29,6 +29,7 @@ export class ProfilePermissionComponent implements OnInit {
     layout: 'auto',
   };
   lstDepartment : any;
+  onSave = new EventEmitter();
   @Input() data: any;
   @ViewChild(DataTableComponent, { static: true })
   datatable: DataTableComponent;
@@ -136,14 +137,16 @@ export class ProfilePermissionComponent implements OnInit {
   users_checked_for_reset:any = {};
 
   ngOnInit(): void {
-    
-    this.api.post("api/manager/RoleRef/Search",{page : 1 , pageSize: 50 , role_name_l : ""}).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      let rs = a.data.map((x:any) => {
-        return { id : parseInt(x.role_rcd) , name : x.role_name_l};
+    this.api.get("api/manager/profileRef/GetById/"+this.data.profile_rcd).subscribe((resp:any) => {
+      this.data.permision = resp.data.permision;
+      this.api.post("api/manager/RoleRef/Search",{page : 1 , pageSize: 50 , role_name_l : ""}).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        let rs = a.data.map((x:any) => {
+          return { id : parseInt(x.role_rcd) , name : x.role_name_l};
+        });
+        this.getList();
       });
-      this.getList();
-    });
+    })
   }
   search() {
     this.getList();
@@ -231,8 +234,39 @@ export class ProfilePermissionComponent implements OnInit {
   }
 
   changeCheckBox(e:any, user_rcd:any) {
-    this.users_checked[user_rcd] = e.checked;
+    this.users_checked[user_rcd] = e;
+    if(!e){
+      this.isCheckAll = e
+    } 
+  }
 
+  save() {
+    let permision = "1";
+    let countTrue = 0;
+    let countFalse = 0;
+    let count = 0;
+    let arr_rcd = [];
+    for (let key in this.users_checked) {
+      if(this.users_checked[key]) {
+        countTrue++;
+        arr_rcd.push(key);
+      }
+      else countFalse ++;
+      count++;
+    }
+    if(countFalse == count) {
+      permision = "-1";
+    }
+    if(countTrue == count) permision = "1";
+    if(countTrue < count && countFalse < count) {
+      permision = arr_rcd.join(',');
+    }
+    this.api.post("api/manager/profileRef/UpdatePermission", {profile_rcd : this.data.profile_rcd, permision : permision}).subscribe((res:any) => {
+      if(res.data) {
+        this.onSave.emit("success");
+      }
+      else this.onSave.emit("error");
+    })
   }
   
 

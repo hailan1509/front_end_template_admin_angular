@@ -41,7 +41,7 @@ export default function (values: any) {
       ],
       link: '/pages/PH1',
       menuIcon: 'icon icon-modify',
-      roles: [2]
+      roles: [1,2]
     },
     {
       title: values['PH2']['title'],

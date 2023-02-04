@@ -245,11 +245,22 @@ export class ProfileRefComponent implements OnInit {
   
 
   getList() {
-    this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword, active_flag : this._search.select}).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      this.basicDataSource = a.data;
-      this.pager.total = a.totalItems;
-    });
+    if (localStorage.getItem('userinfo')) {
+      let user = JSON.parse(localStorage.getItem('userinfo')!);
+      let user_rcd = "";
+      this.role_rcd = user.role_rcd;
+      if(this.role_rcd == 2) {
+
+      }
+      else {
+        user_rcd = user.user_rcd;
+      }
+      this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword, active_flag : this._search.select, user_rcd : user_rcd}).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        this.basicDataSource = a.data;
+        this.pager.total = a.totalItems;
+      });
+    }
   }
 
   // getCountry() {
@@ -343,12 +354,12 @@ export class ProfileRefComponent implements OnInit {
         
       ],
       data: {
-        permision : rowItem.permision
-        // document_attachment: a.data,
-        // document_rcd: document_rcd,
-        // year: this.profileInfo.year,
-        // profile_number: this.profileInfo.profile_number
+        profile_rcd : rowItem.profile_rcd
       }
+    });
+    const sub = results.modalContentInstance.onSave.subscribe((type:any) => {
+      this.showToast(type);
+      results.modalInstance.hide();
     });
   }
 
