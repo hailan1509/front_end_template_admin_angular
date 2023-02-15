@@ -43,17 +43,17 @@ export default function (values: any) {
       menuIcon: 'icon icon-modify',
       roles: [1,2]
     },
-    {
-      title: values['PH2']['title'],
-      children: [
-        { title: values['PH2']['lbbbg'], link: '/pages/PH2/lbbbg' },
-        { title: values['PH2']['qlbbbg'], link: '/pages/PH2/qlbbbg' },
-        { title: values['PH2']['qlhsdbg'], link: '/pages/PH2/qlhsdbg'},
-      ],
-      link: '/pages/PH2',
-      menuIcon: 'icon icon-table',
-      roles: [2]
-    },
+    // {
+    //   title: values['PH2']['title'],
+    //   children: [
+    //     { title: values['PH2']['lbbbg'], link: '/pages/PH2/lbbbg' },
+    //     { title: values['PH2']['qlbbbg'], link: '/pages/PH2/qlbbbg' },
+    //     { title: values['PH2']['qlhsdbg'], link: '/pages/PH2/qlhsdbg'},
+    //   ],
+    //   link: '/pages/PH2',
+    //   menuIcon: 'icon icon-table',
+    //   roles: [2]
+    // },
     {
       title: values['PH3']['title'],
       children: [
@@ -61,22 +61,22 @@ export default function (values: any) {
           title: values['PH3']['qlhsch'],
           link: '/pages/PH3/qlhsch',
         },
-        {
-          title: values['PH3']['lbbbghtl'],
-          link: '/pages/PH3/lbbbghtl',
-        },
-        {
-          title: values['PH3']['qlbbbghtl'],
-          link: '/pages/PH3/qlbbbghtl',
-        },
+        // {
+        //   title: values['PH3']['lbbbghtl'],
+        //   link: '/pages/PH3/lbbbghtl',
+        // },
+        // {
+        //   title: values['PH3']['qlbbbghtl'],
+        //   link: '/pages/PH3/qlbbbghtl',
+        // },
         {
           title: values['PH3']['lbbthtl'],
           link: '/pages/PH3/lbbthtl',
         },
-        {
-          title: values['PH3']['bbthtlcd'],
-          link: '/pages/PH3/bbthtlcd',
-        },
+        // {
+        //   title: values['PH3']['bbthtlcd'],
+        //   link: '/pages/PH3/bbthtlcd',
+        // },
         {
           title: values['PH3']['qlbbthtl'],
           link: '/pages/PH3/qlbbthtl',

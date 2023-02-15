@@ -35,7 +35,7 @@
                     [placeholder]="'Search'"
                   ></d-select>
                     <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
-                    <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
+                    <d-button *ngIf = "role_rcd == 2" class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
                   </div>
                   <div class="da-right">
                     <d-button icon="icon-op-download" style="margin-right:10px" (click) = "exportExcel()">Excel</d-button>
@@ -112,13 +112,13 @@
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="Actions" header="Actions" [width]="'100px'" *ngIf = "role_rcd == 2">
+                <d-column field="Actions" header="Actions" [width]="'100px'" >
                   <d-cell>
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
                         <d-button *ngIf = "role_rcd == 2" icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
                         <d-button *ngIf = "role_rcd == 2" icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.profile_rcd)"></d-button>
-                        <d-button *ngIf = "role_rcd == 2" icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="getDocuments(rowItem.profile_rcd)"></d-button>
+                        <d-button *ngIf = "role_rcd == 2 || rowItem.confidentiality_rcd == 'c2ad368e-7a65-4b25-971e-a759c3b3eb5f'" icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="getDocuments(rowItem.profile_rcd)"></d-button>
                         <d-button *ngIf = "role_rcd == 2" icon="icon-add-member" bsStyle="text-dark" title="Giới hạn người dùng" (click)="openModalPermission(rowItem)"></d-button>
                       </div>
                     </ng-template>

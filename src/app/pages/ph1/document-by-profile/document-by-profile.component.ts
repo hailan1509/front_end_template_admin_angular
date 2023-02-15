@@ -243,7 +243,7 @@ export class DocumentByProfileComponent implements OnInit {
             },
           },
           {
-            label: 'Tình trạng',
+            label: 'Bảo mật',
             prop: 'confidentiality_rcd',
             type: 'select-object',
             options: this.confidentialityDropdown,
@@ -254,7 +254,7 @@ export class DocumentByProfileComponent implements OnInit {
             },
           },
           {
-            label: 'Bảo mật',
+            label: 'Tình trạng',
             prop: 'physical_condition_rcd',
             type: 'select-object',
             options: this.phisicalCondisionDropdown,

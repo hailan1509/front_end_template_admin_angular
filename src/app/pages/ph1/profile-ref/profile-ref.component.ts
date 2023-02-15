@@ -219,6 +219,8 @@ export class ProfileRefComponent implements OnInit {
   msgs: Array<Object> = [];
 
   busy: Subscription;
+  phisicalCondisionDropdown: any = [];
+  confidentialityDropdown:any = [];
 
   @ViewChild('EditorTemplate', { static: true })
   EditorTemplate: TemplateRef<any>;
@@ -230,6 +232,97 @@ export class ProfileRefComponent implements OnInit {
       let user = JSON.parse(localStorage.getItem('userinfo')!);
       this.role_rcd = user.role_rcd;
     }
+    this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let rs = a.data.map((x:any) => {
+        return { id : x.value, name : x.label};
+      })
+      this.phisicalCondisionDropdown = rs;
+    });
+    this.api.get("api/manager/DocumentRef/GetListDropdown/"+"confidentiality_ref_get_list_dropdown").subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let rs = a.data.map((x:any) => {
+        return { id : x.value, name : x.label};
+      })
+      this.confidentialityDropdown = rs;
+      this.formConfig.items =[ {
+        label: 'Số hồ sơ',
+        prop: 'profile_number',
+        type: 'input',
+        primary: false,
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
+      },
+      {
+        label: 'Tên hồ sơ',
+        prop: 'profile_name_l',
+        type: 'input',
+        primary: false,
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
+      },
+      {
+        label: 'Năm',
+        prop: 'year',
+        primary: false,
+        type: 'input',
+      },
+      {
+        label: 'Ngày bắt đầu',
+        prop: 'from_date',
+        primary: false,
+        type: 'datePicker',
+      },
+      {
+        label: 'Ngày kết thúc',
+        prop: 'to_date',
+        primary: false,
+        type: 'datePicker',
+      },
+      {
+        label: 'Ghi chú',
+        prop: 'profile_note_l',
+        type: 'input',
+      },
+      {
+        label: 'Bảo mật',
+        prop: 'confidentiality_rcd',
+        type: 'select-object',
+        options: this.confidentialityDropdown,
+        primary: false,
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
+      },
+      {
+        label: 'Tình trạng',
+        prop: 'physical_condition_rcd',
+        type: 'select-object',
+        options: this.phisicalCondisionDropdown,
+        primary: false,
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
+      },
+      {
+        label: 'Trạng thái',
+        prop: 'active_flag',
+        type: 'select-object',
+        options: this.status,
+        primary: false,
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
+      },
+    ];
+    });
     this.getList();
     // this.getCountry();
   }
