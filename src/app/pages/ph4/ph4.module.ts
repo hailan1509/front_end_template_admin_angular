@@ -6,6 +6,7 @@ import {
   InputNumberModule,
   PaginationModule,
   TooltipModule,
+  ToastModule
 } from 'ng-devui';
 import { AdminFormModule } from 'src/app/@shared/components/admin-form/admin-form.module';
 import { PH4RoutingModule } from './ph4-routing.module';
@@ -28,6 +29,7 @@ import { ph4Component } from './ph4.component';
     DatepickerModule,
     TooltipModule,
     PH4RoutingModule,
+    ToastModule
   ]
 })
 export class PH4Module { }
