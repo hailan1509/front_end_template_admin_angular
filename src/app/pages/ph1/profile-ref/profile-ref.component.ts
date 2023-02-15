@@ -476,4 +476,23 @@ export class ProfileRefComponent implements OnInit {
     }
     return "";
   }
+
+  exportExcel() {
+    if (localStorage.getItem('userinfo')) {
+      let user = JSON.parse(localStorage.getItem('userinfo')!);
+      let user_rcd = "";
+      this.role_rcd = user.role_rcd;
+      if(this.role_rcd == 2) {
+
+      }
+      else {
+        user_rcd = user.user_rcd;
+      }
+      this.api.post("api/manager/profileRef/ExportToExcel",{page : this.pager.pageIndex , pageSize: 100000 , profile_name_l : this._search.keyword, active_flag : this._search.select, user_rcd : user_rcd}).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        // this.basicDataSource = a.data;
+        // this.pager.total = a.totalItems;
+      });
+    }
+  }
 }
