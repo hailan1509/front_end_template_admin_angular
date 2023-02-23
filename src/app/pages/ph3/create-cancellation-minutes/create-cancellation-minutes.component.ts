@@ -4,7 +4,9 @@ import { DataTableComponent } from 'ng-devui/data-table';
 import { DialogService } from 'ng-devui/modal';
 import { ToastService } from 'ng-devui/toast';
 import { ApiService } from 'src/app/api.service';
+import { MapToPipe } from 'src/app/@shared/components/admin-form/mapToPipe.pipe';
 import { EditableTip } from 'ng-devui/data-table';
+import { FormConfig } from 'src/app/@shared/components/admin-form';
 
 @Component({
   selector: 'app-create-cancellation-minutes',
@@ -44,6 +46,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
 
   deleteList: any[] = [];
   addList: any[] = [];
+  pendingChange: any = {};
 
   year: any;
 
@@ -54,8 +57,23 @@ export class CreateCancellationMinutesComponent implements OnInit {
     profile_name: null,
     user_rcd: JSON.parse(localStorage.getItem('userinfo') || '{}').user_rcd,
     year: null,
-    status: 2
+    status: 2,
+    select : 1
   };
+  status = [
+    {
+      name : 'Chờ chỉnh lý',
+      id : 2
+    },
+    {
+      name : 'Đã chỉnh lý',
+      id : 1
+    },
+    {
+      name : 'Chưa chỉnh lý',
+      id : 0
+    }
+  ];
 
   pager = {
     total: 0,
@@ -73,6 +91,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
     layout: 'auto',
   };
   editForm: any = null;
+  role_rcd: any = "";
 
   busy: Subscription;
   constructor(private api: ApiService, private dialogService: DialogService, private toastService: ToastService) {}
@@ -86,24 +105,28 @@ export class CreateCancellationMinutesComponent implements OnInit {
     this.getList();
   }
 
-  getList(year: any = null) {
-    const data = {
-      page: this.pager.pageIndex,
-      pageSize: this.pager.pageSize,
-      ...this._search,
-      year: year?.selectedDate?.getFullYear(),
-      json_list_id: this.profiles.map((item:any) => item.profile_rcd)
-    };
+  getList() {
 
-    this.busy = this.api.post('api/manager/CancellationMinutesRef/SearchProfile', data).subscribe((res: any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      a.data.forEach((element:any) => {
-        element.cancellation_reason = "Tài liệu hết giá trị";
+    if (localStorage.getItem('userinfo')) {
+      let user = JSON.parse(localStorage.getItem('userinfo')!);
+      let user_rcd = "";
+      this.role_rcd = user.role_rcd;
+      if(this.role_rcd == 2) {
+
+      }
+      else {
+        user_rcd = user.user_rcd;
+      }
+      this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.profile_name, active_flag : this._search.select, user_rcd : user_rcd}).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        a.data.forEach((element:any) => {
+          element.cancellation_reason = "Tài liệu hết giá trị";
+        });
+  
+        this.basicDataSource = a.data;
+        this.pager.total = a.totalItems;
       });
-
-      this.basicDataSource = a.data;
-      this.pager.total = a.totalItems;
-    });
+    }
   }
 
   loadUsersMore() {
@@ -112,6 +135,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
       this.users = a.data;
     });
   }
+
 
   reset() {
     this.searchForm = {
@@ -124,9 +148,6 @@ export class CreateCancellationMinutesComponent implements OnInit {
   }
 
   onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(this.datatables)
-
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
     this.datatables.first.setRowCheckStatus({
@@ -137,13 +158,9 @@ export class CreateCancellationMinutesComponent implements OnInit {
     });
 
     this.deleteList = this.datatables.first.getCheckedRows();
-    console.log(this.deleteList);
   }
 
   onRowCheckChange2(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(this.datatables)
-
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
     this.datatables.last.setRowCheckStatus({
@@ -152,9 +169,26 @@ export class CreateCancellationMinutesComponent implements OnInit {
       rowItem: rowItem,
       checked: checked,
     });
+    this.pendingChange[rowItem.profile_rcd] = checked;
+    if(checked) {
+      this.addList.push(rowItem);
+    }
+    else {
+      let index = this.addList.findIndex((x:any) => x.profile_rcd == rowItem.profile_rcd);
+      if(index > -1) {
+        this.addList.splice(index, 1);
+      }
+    }
+  }
 
-    this.addList = this.datatables.last.getCheckedRows();
-    console.log(this.addList);
+  checkDisabled(rowItem:any,type:any) {
+    if(type == 1){
+      return this.profiles.findIndex((x:any) => x.profile_rcd == rowItem.profile_rcd) > -1 ? true : false ;
+    }
+    else {
+      console.log(this.addList.findIndex((x:any) => x.profile_rcd == rowItem.profile_rcd) > -1 ? true : false)
+      return this.addList.findIndex((x:any) => x.profile_rcd == rowItem.profile_rcd) > -1 ? 'checked' : '';
+    } 
   }
 
   onCheckAllChange() {
@@ -179,13 +213,14 @@ export class CreateCancellationMinutesComponent implements OnInit {
   }
 
   addProfilesToHandover() {
+    this.pendingChange = {};
     if (this.addList.length > 0) {
       this.profiles = [...this.profiles, ...this.addList];
-      console.log(this.profiles)
-
+      
       this.deleteList = [...this.deleteList, ...this.addList]
       this.getList();
     }
+    this.addList = [];
   }
 
   addRow() {
@@ -220,7 +255,6 @@ export class CreateCancellationMinutesComponent implements OnInit {
 
 
   onSubmitted({ valid, directive, data, errors }: any) {
-    console.log('Valid:', valid, 'Directive:', directive, 'data', data, 'errors', errors);
     if (!valid) {
       this.toastService.open({
         value: [{ severity: 'warn', summary: 'Chú ý', content: `Chưa điền đủ thông tin được yêu cầu!` }],
@@ -241,7 +275,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
     this.cancellationMinutes.user_rcd = this.user.user_rcd
 
     this.cancellationMinutes.time_destroy = this.cancellationMinutes.time_destroy ? new Date(Date.UTC(this.cancellationMinutes.time_destroy.getFullYear(), this.cancellationMinutes.time_destroy.getMonth(), this.cancellationMinutes.time_destroy.getDate())) : null
-
+    console.log(this.cancellationMinutes)
     this.api.post('api/manager/CancellationMinutesRef/Create', this.cancellationMinutes).subscribe((res: any) => {
       this.toastService.open({
         value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu hủy thành công!` }],
@@ -259,7 +293,6 @@ export class CreateCancellationMinutesComponent implements OnInit {
   batchDelete(deleteList: any[]) {
     if (deleteList.length > 0) {
       let remain = this.profiles.filter((item: any) => {
-          console.log(deleteList.findIndex(d => d.profile_rcd == item.profile_rcd) != -1)
         return deleteList.findIndex(d=>d.profile_rcd == item.profile_rcd) == -1
       })
       this.profiles = remain;
@@ -279,5 +312,9 @@ export class CreateCancellationMinutesComponent implements OnInit {
   onSizeChange(e: number) {
     this.pager.pageSize = e;
     this.getList();
+  }
+
+  save() {
+    console.log("hải dv");
   }
 }

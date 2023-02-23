@@ -117,8 +117,8 @@
                   dDatepicker
                   appendToBody
                   #datePicker2="datepicker"
-                  (selectedDateChange)="getList()"
-                />
+                  />
+                  <!-- (selectedDateChange)="getList()" -->
                 <div *ngIf="cancellationMinutes.time_destroy" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
                   <i class="icon icon-close"></i>
                 </div>
@@ -142,7 +142,7 @@
             </d-form-control>
           </d-form-item>
           <d-form-item>
-            <d-form-label [required]="true">Người duyệt:</d-form-label>
+            <d-form-label [required]="true">Người thực hiện:</d-form-label>
             <d-form-control>
               <d-select
                 [options]="users"
@@ -150,7 +150,7 @@
                 [isSearch]="true"
                 [(ngModel)]="user"
                 [filterKey]="'full_name'"
-                [placeholder]="'Người duyệt'"
+                [placeholder]="'Người thực hiện'"
                 [dValidateRules]="[{ required: true, message: 'Không được để trống' }]"
               >
               </d-select>
@@ -175,7 +175,7 @@
               >
                 <thead dTableHead [checkable]="true">
                   <tr dTableRow>
-                    <th dHeadCell>#</th>
+                    <th dHeadCell>STT</th>
                     <th dHeadCell>Số/Ký hiệu hồ sơ</th>
                     <th dHeadCell>Tên hồ sơ</th>
                     <th dHeadCell>Ghi chú</th>
@@ -207,7 +207,7 @@
                         {{ rowItem.profile_code }}
                       </td>
                       <td dTableCell>
-                        {{ rowItem.profile_name }}
+                        {{ rowItem.profile_name_l }}
                       </td>
                       <td dTableCell>
                         {{ rowItem.profile_note }}
@@ -237,7 +237,7 @@
                         </div>
                       </td>
                       <td dTableCell>
-                        {{ rowItem.status | profileStatus}}
+                        Đã chỉnh lý
                       </td>
                       <td dTableCell>
                         <div class="btn-group over-flow-ellipsis">
@@ -260,7 +260,7 @@
             </div>
           </div>
           <div style="text-align: center; margin: 30px 0">
-            <d-button style="margin-right: 8px" dFormSubmit [dFormSubmitData]="'submit-button'" [showLoading]="isSubmitting">Lưu</d-button>
+            <d-button style="margin-right: 8px" dFormSubmit [dFormSubmitData]="'submit-button'" (click)="save()" [showLoading]="isSubmitting">Lưu</d-button>
 
           </div>
         </form>
@@ -277,16 +277,6 @@
           <div class="da-list-header">
             <div class="da-header-left">
               <div class="da-header-item">
-                <div class="da-header-item-label">Số/Ký hiệu hồ sơ:</div>
-                <d-search
-                  [size]="'sm'"
-                  (searchFn)="search()"
-                  [(ngModel)]="_search.profile_code"
-                  class="da-inline"
-                  [placeholder]="'Số/Ký hiệu hồ sơ'"
-                ></d-search>
-              </div>
-              <div class="da-header-item">
                 <div class="da-header-item-label">Tên hồ sơ:</div>
                 <d-search
                 [size]="'sm'"
@@ -295,31 +285,16 @@
                 class="da-inline"
                 [placeholder]="'Số/Ký hiệu hồ sơ'"
               ></d-search>
+              <!-- <d-select style="display: inline-block; margin-left:10px"
+                    [options]="status"
+                    [isSearch]="true"
+                    [filterKey]="'name'"
+                    [ngModel]="_search.select | parseSelect: 'id':status"
+                    (ngModelChange)="modelChange($event)"
+                    [placeholder]="'Search'"
+                  ></d-select> -->
               </div>
-              <div class="da-header-item">
-                <div class="da-header-item-label">Năm:</div>
-                <div class="devui-input-group devui-dropdown-origin">
-                  <input
-                    [mode]="'year'"
-                    [dateFormat]="'y'"
-                    class="devui-input devui-form-control"
-                    placeholder="Năm"
-                    name="dp"
-                    [(ngModel)]="year"
-                    (click)="datePicker2.toggle()"
-                    autocomplete="off"
-                    dDatepicker
-                    #datePicker2="datepicker"
-                    (selectedDateChange)="getList($event)"
-                  />
-                  <div *ngIf="year" class="devui-input-group-addon close-icon-wrapper" (click)="datePicker2.clearAll()">
-                    <i class="icon icon-close"></i>
-                  </div>
-                  <div class="devui-input-group-addon" (click)="datePicker2.toggle()">
-                    <i class="icon icon-calendar"></i>
-                  </div>
-                </div>
-              </div>
+              
             </div>
           </div>
           <br />
@@ -335,7 +310,7 @@
             >
               <thead dTableHead [checkable]="true">
                 <tr dTableRow>
-                  <th dHeadCell>#</th>
+                  <th dHeadCell>STT</th>
                   <th dHeadCell>Số/Ký hiệu hồ sơ</th>
                   <th dHeadCell>Tên hồ sơ</th>
                   <th dHeadCell>Ghi chú</th>
@@ -348,24 +323,27 @@
                 <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
                   <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
                     <td dTableCell class="devui-checkable-cell">
-                      <d-checkbox
-                        (ngModelChange)="onRowCheckChange2($event, rowIndex, nestedIndex, rowItem)"
-                        [ngModel]="rowItem.$checked"
-                        [halfchecked]="rowItem.$halfChecked"
-                        [disabled]="rowItem.$checkDisabled"
-                        dTooltip
-                        [content]="rowItem.$checkBoxTips"
-                        [position]="['top', 'right', 'bottom', 'left']"
-                        [showAnimation]="false"
-                      >
-                      </d-checkbox>
+                        <input type="checkbox" [ngModel]="pendingChange[rowItem.profile_rcd]" *ngIf="!checkDisabled(rowItem,1)" (click)="onRowCheckChange2($event, rowIndex, nestedIndex, rowItem)" name="" id="">
+                        <!-- <d-checkbox {{checkDisabled(rowItem,2)}}
+                          checked
+                          (ngModelChange)="onRowCheckChange2($event, rowIndex, nestedIndex, rowItem)"
+                          [ngModel]="rowItem.$checked"
+                          *ngIf="checkDisabled(rowItem,1)"
+                          [halfchecked]="rowItem.$halfChecked"
+                          [disabled]="rowItem.$checkDisabled"
+                          dTooltip
+                          [content]="rowItem.$checkBoxTips"
+                          [position]="['top', 'right', 'bottom', 'left']"
+                          [showAnimation]="false"
+                        >
+                        </d-checkbox> -->
                     </td>
                     <td dTableCell>{{ rowIndex + 1 }}</td>
                     <td dTableCell>
                       {{ rowItem.profile_code }}
                     </td>
                     <td dTableCell>
-                      {{ rowItem.profile_name }}
+                      {{ rowItem.profile_name_l }}
                     </td>
                     <td dTableCell>
                       {{ rowItem.profile_note }}
@@ -374,7 +352,7 @@
                       {{ rowItem.year }}
                     </td>
                     <td dTableCell>
-                      {{ rowItem.status | profileStatus}}
+                      Đã chỉnh lý
                     </td>
                     <!-- <td dTableCell>
                       <div class="btn-group over-flow-ellipsis">

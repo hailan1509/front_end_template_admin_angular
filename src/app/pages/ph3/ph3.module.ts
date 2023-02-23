@@ -17,6 +17,7 @@ import { CreateCancellationMinutesComponent } from './create-cancellation-minute
 import { HandoverRecordCancelledComponent } from './handover-record-canceled/handover-record-canceled.component';
 import { ProfileCanceledComponent } from './profile-canceled/profile-canceled.component';
 import { CancellationMinutesWaitingApprovalComponent } from './cancellation-minutes-waiting-approval/cancellation-minutes-waiting-approval.component';
+// import {ParseSelectPipe} from 'src/app/pages/parseFromPipe.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { CancellationMinutesWaitingApprovalComponent } from './cancellation-minu
     HandoverRecordCancelledComponent,
     CreateCancellationMinutesComponent,
     ProfileCanceledComponent,
-    CancellationMinutesWaitingApprovalComponent
+    CancellationMinutesWaitingApprovalComponent,
+    // ParseSelectPipe
   ],
   imports: [
     SharedModule,
