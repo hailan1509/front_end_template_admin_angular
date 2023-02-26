@@ -74,9 +74,9 @@
                 </div>
               </div>
               <div class="header-right">
-                <d-button class="btn btn-primary" (click)="addRow()" style="margin-right: 8px">Thêm</d-button>
+                <!-- <d-button class="btn btn-primary" (click)="addRow()" style="margin-right: 8px">Thêm</d-button> -->
                 <d-button (click)="reset()" bsStyle="common" style="margin-right: 8px">Reset</d-button>
-                <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button>
+                <!-- <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button> -->
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@
                   <th dHeadCell>Thời gian hủy</th>
                   <th dHeadCell>Trạng thái</th>
                   <th dHeadCell>Người tạo</th>
-                  <th dHeadCell>Người duyệt</th>
+                  <th dHeadCell>Người thực hiện</th>
                   <th dHeadCell>Ghi chú</th>
                   <th dHeadCell>Tác vụ</th>
                 </tr>
@@ -147,7 +147,7 @@
                       {{ rowItem.time_destroy | date:'dd/MM/yyyy'}}
                     </td>
                     <td dTableCell>
-                      {{ rowItem.status | cancellationMinutesStatus}}
+                      {{ rowItem.active_flag == 1 ? 'Đã duyệt' : 'Đang chờ duyệt'}}
                     </td>
                     <td dTableCell>
                       {{ rowItem.created_user_name}}
@@ -161,15 +161,18 @@
                     <td dTableCell>
                       <div class="btn-group over-flow-ellipsis">
                         <d-button
+                          *ngIf="!rowItem.active_flag"
                           icon="icon-edit"
-                          bsStyle="danger"
+                          bsStyle="common"
                           bsSize="xs"
                           title="edit"
                           shape="circle"
                           style="margin-right: 8px"
-                          (btnClick)="editRow(rowIndex, rowItem.product_id)"
+                          (btnClick)="editRow(rowItem,rowIndex)"
                         ></d-button>
-                        <d-button (btnClick)="batchDelete([rowItem])" icon="icon-delete" bsStyle="danger" bsSize="xs" title="delete" shape="circle"></d-button>
+                        <d-button *ngIf="!rowItem.active_flag" (btnClick)="deleteRow(rowItem.cancellation_minutes_rcd)" icon="icon-delete" style="margin-right: 8px" bsStyle="danger" bsSize="xs" title="delete" shape="circle"></d-button>
+                        <d-button style="margin-right: 8px" (btnClick)="openModal(rowItem.cancellation_minutes_rcd,rowItem.active_flag)" icon="icon-directory" bsStyle="primary" bsSize="xs" title="Xem hồ sơ hủy" shape="circle"></d-button>
+                        <d-button *ngIf="!rowItem.active_flag && !user_rcd" (btnClick)="accept(rowItem)" icon="icon-start-use" bsStyle="primary" bsSize="xs" title="Duyệt biên bản" shape="circle"></d-button>
                       </div>
                     </td>
                   </tr>
@@ -201,4 +204,119 @@
 <ng-template #EditorTemplate>
   <da-admin-form [formConfig]="formConfig" [insert]="insert"  [formData]="formData" (submitted)="onSubmitted($event)" (canceled)="onCanceled()">
   </da-admin-form>
+</ng-template>
+<ng-template #EditorTemplate1>
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="da-header-left">
+              <div class="da-header-item">
+                <div class="da-header-item-label">Tên hồ sơ:</div>
+                <d-search
+                [size]="'sm'"
+                (searchFn)="search()"
+                [(ngModel)]="_search.profile_name"
+                class="da-inline"
+                [placeholder]="'Số/Ký hiệu hồ sơ'"
+              ></d-search>
+              <!-- <d-select style="display: inline-block; margin-left:10px"
+                    [options]="status"
+                    [isSearch]="true"
+                    [filterKey]="'name'"
+                    [ngModel]="_search.select | parseSelect: 'id':status"
+                    (ngModelChange)="modelChange($event)"
+                    [placeholder]="'Search'"
+                  ></d-select> -->
+              </div>
+              
+            </div>
+          </div>
+          <br />
+          <div class="list-content" dLoading [loading]="busy">
+            <d-data-table
+              #datatable
+              [dataSource]="lstProfiles"
+              [borderType]="searchForm.borderType"
+              [size]="searchForm.size"
+              [tableLayout]="searchForm.layout"
+              [scrollable]="true"
+              >
+              <!-- (checkAllChange)="onCheckAllChange()" -->
+              <thead dTableHead >
+                <tr dTableRow>
+                  <th dHeadCell>STT</th>
+                  <th dHeadCell>Tên hồ sơ</th>
+                  <th dHeadCell>Số hồ sơ</th>
+                  <th dHeadCell>Số ký hiệu văn bản</th>
+                  <th dHeadCell>Người thực hiện</th>
+                  <th dHeadCell>Lý do hủy</th>
+                  <th dHeadCell>Trạng thái</th>
+                  <th dHeadCell>Tác vụ</th>
+                </tr>
+              </thead>
+              <tbody dTableBody>
+                <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex" let-nestedIndex="nestedIndex">
+                  <tr dTableRow [ngClass]="{ 'table-row-selected': rowItem.$checked }">
+                    <!-- <td dTableCell class="devui-checkable-cell">
+                      <d-checkbox
+                        (ngModelChange)="onRowCheckChange($event, rowIndex, nestedIndex, rowItem)"
+                        [ngModel]="rowItem.$checked"
+                        [halfchecked]="rowItem.$halfChecked"
+                        [disabled]="rowItem.$checkDisabled"
+                        dTooltip
+                        [content]="rowItem.$checkBoxTips"
+                        [position]="['top', 'right', 'bottom', 'left']"
+                        [showAnimation]="false"
+                      >
+                      </d-checkbox>
+                    </td> -->
+                    <td dTableCell>{{ rowIndex + 1 }}</td>
+                    <td dTableCell>
+                      {{ rowItem.profile_name_l }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.profile_code }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.cancellation_minutes_number }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.full_name }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.reason }}
+                    </td>
+                    <td dTableCell>
+                      {{ rowItem.active_flag_child == '1' ? 'Cho phép hủy' : 'Không cho phép'}}
+                    </td>
+                    <td dTableCell>
+                      <div class="btn-group over-flow-ellipsis">
+                        <!-- <d-button
+                          icon="icon-edit"
+                          bsStyle="danger"
+                          bsSize="xs"
+                          title="edit"
+                          shape="circle"
+                          style="margin-right: 8px"
+                          (btnClick)="editRow(rowIndex, rowItem.product_id)"
+                        ></d-button> -->
+                        <!-- <d-button *ngIf="_search.active_flag == 1" (btnClick)="batchDelete(rowItem)" icon="icon-remove" bsStyle="danger" bsSize="xs" title="Bỏ hủy tài liệu" shape="circle"></d-button>
+                        <d-button *ngIf="_search.active_flag != 1" (btnClick)="batchDelete(rowItem)" icon="icon-start-use" bsStyle="primary" bsSize="xs" title="Bật hủy tài liệu" shape="circle"></d-button> -->
+                        <d-button *ngIf="curr_active_flag != 1" (btnClick)="delCancellationProfile(rowItem)" icon="icon-remove" bsStyle="danger" bsSize="xs" title="Bỏ hủy tài liệu" shape="circle"></d-button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </d-data-table>
+          </div>
+        </div>
+      </da-col-item>
+    </da-layout-row>
+  </div>
+  <div style="text-align: right;">
+    <d-button bsStyle="common" (click)="onCanceled()">Hủy</d-button>
+  </div>
 </ng-template>

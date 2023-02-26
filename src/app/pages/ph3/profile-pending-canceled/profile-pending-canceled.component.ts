@@ -31,15 +31,19 @@ export class ProfilePendingCanceledComponent implements OnInit {
 
   _search: any = {
     profile_code: null,
-    profile_name: null,
-    status: 2,
-    year: null
+    profile_name_l: null,
+    status: null,
+    year: null,
+    user_rcd: null,
+    active_flag : 1,
+    pendding : 0,
+    cancellation_minutes_rcd : null,
   };
 
   pager = {
     total: 0,
     pageIndex: 1,
-    pageSize: 5,
+    pageSize: 10,
   };
 
   searchForm: {
@@ -69,10 +73,9 @@ export class ProfilePendingCanceledComponent implements OnInit {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
       ...this._search,
-      year: year?.selectedDate?.getFullYear()
     };
 
-    this.busy = this.api.post('api/manager/HandoverMinutesRef/SearchProfile', data).subscribe((res: any) => {
+    this.busy = this.api.post('api/manager/profileRef/Search_cancellation_minutes', data).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -80,17 +83,11 @@ export class ProfilePendingCanceledComponent implements OnInit {
   }
 
   reset() {
-    this.searchForm = {
-      borderType: '',
-      size: 'md',
-      layout: 'auto',
-    };
     this.pager.pageIndex = 1;
     this.getList();
   }
 
   onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
     this.datatable.setRowCheckStatus({
@@ -159,10 +156,19 @@ export class ProfilePendingCanceledComponent implements OnInit {
 
   }
 
-  batchDelete(deleteList: any[]) {
-    if (deleteList.length > 0) {
-
+  batchDelete(item: any) {
+    let params = {
+      profile_rcd : item.profile_rcd,
+      cancellation_minutes_rcd : item.cancellation_minutes_rcd,
+      active_flag : parseInt(this._search.active_flag) == 1 ? 0 : 1
     }
+    this.busy = this.api.post('api/manager/profileRef/Delete_cancellation_profile_list', params).subscribe((res: any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      this.toastService.open({
+        value: [{ severity: 'success', summary: 'Thông báo', content: params.active_flag ? 'Bật trạng thái hủy hồ sơ thành công!' : 'Tắt trạng thái hủy hồ sơ thành công!' }],
+      });
+      this.getList();
+    });
   }
 
   onCanceled() {

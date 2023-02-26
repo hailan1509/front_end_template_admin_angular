@@ -35,9 +35,13 @@ export class ProfileCanceledComponent implements OnInit {
 
   _search: any = {
     profile_code: null,
-    profile_name: null,
-    status: -1,
-    year: null
+    profile_name_l: null,
+    status: null,
+    year: null,
+    user_rcd: null,
+    active_flag : 1,
+    pendding : 1,
+    cancellation_minutes_rcd : null
   };
 
   _search2 = {
@@ -86,10 +90,9 @@ export class ProfileCanceledComponent implements OnInit {
       page: this.pager.pageIndex,
       pageSize: this.pager.pageSize,
       ...this._search,
-      year: year?.selectedDate?.getFullYear()
     };
 
-    this.busy = this.api.post('api/manager/HandoverMinutesRef/SearchProfile', data).subscribe((res: any) => {
+    this.busy = this.api.post('api/manager/profileRef/Search_cancellation_minutes', data).subscribe((res: any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
@@ -139,13 +142,11 @@ export class ProfileCanceledComponent implements OnInit {
     });
 
     this.deleteList = this.datatables.first.getCheckedRows();
-    console.log(this.deleteList);
   }
 
   onRowCheckChange2(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
     console.log(this.datatables)
 
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
     this.datatables.last.setRowCheckStatus({
@@ -156,7 +157,6 @@ export class ProfileCanceledComponent implements OnInit {
     });
 
     this.addList = this.datatables.last.getCheckedRows();
-    console.log(this.addList);
   }
 
   onCheckAllChange() {

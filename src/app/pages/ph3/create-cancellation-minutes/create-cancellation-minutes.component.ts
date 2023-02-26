@@ -117,7 +117,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
       else {
         user_rcd = user.user_rcd;
       }
-      this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.profile_name, active_flag : this._search.select, user_rcd : user_rcd}).subscribe((res:any) => {
+      this.api.post("api/manager/profileRef/Search_not_cancellation_minutes",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.profile_name, active_flag : this._search.select, user_rcd : user_rcd}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         a.data.forEach((element:any) => {
           element.cancellation_reason = "Tài liệu hết giá trị";
@@ -169,8 +169,9 @@ export class CreateCancellationMinutesComponent implements OnInit {
       rowItem: rowItem,
       checked: checked,
     });
-    this.pendingChange[rowItem.profile_rcd] = checked;
-    if(checked) {
+    // console.log()
+    this.pendingChange[rowItem.profile_rcd] = checked.srcElement.checked;
+    if(checked.srcElement.checked) {
       this.addList.push(rowItem);
     }
     else {
@@ -186,7 +187,6 @@ export class CreateCancellationMinutesComponent implements OnInit {
       return this.profiles.findIndex((x:any) => x.profile_rcd == rowItem.profile_rcd) > -1 ? true : false ;
     }
     else {
-      console.log(this.addList.findIndex((x:any) => x.profile_rcd == rowItem.profile_rcd) > -1 ? true : false)
       return this.addList.findIndex((x:any) => x.profile_rcd == rowItem.profile_rcd) > -1 ? 'checked' : '';
     } 
   }
