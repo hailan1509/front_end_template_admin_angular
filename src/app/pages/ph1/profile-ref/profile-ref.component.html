@@ -67,6 +67,13 @@
                     </ng-template>
                   </d-cell>
                 </d-column>
+                <d-column field="gear" header="Hộp số" [width]="'100px'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
                 <d-column field="profile_name_l" header="Tên hồ sơ" [width]="'300px'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
