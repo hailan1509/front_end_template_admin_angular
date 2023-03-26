@@ -7,6 +7,7 @@ import { MapToPipe } from 'src/app/@shared/components/admin-form/mapToPipe.pipe'
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { ProfilePermissionComponent } from 'src/app/@shared/components/modals/profile-permission/profile-permission.component';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
+// import { parse } from 'path';
 
 @Component({
   selector: 'app-profile-ref',
@@ -75,6 +76,7 @@ export class ProfileRefComponent implements OnInit {
     agency_issued_rcd: null,
     
     active_flag: "1",
+    active_flag_child: "0",
     created_by_user_id: "00000000-0000-0000-0000-000000000000",
     created_date_time: "0001-01-01T00:00:00",
     lu_updated: "0001-01-01T00:00:00",
@@ -84,6 +86,7 @@ export class ProfileRefComponent implements OnInit {
     agency_issued_name_l: null,
     archives_name_l: null,
     phong_name_l: null,
+    gear: null,
 
   };
 
@@ -252,7 +255,7 @@ export class ProfileRefComponent implements OnInit {
         primary: false,
         required: true,
         rule: {
-          validators: [{ required: true }],
+          validators: [{ required: true, numeric:true }],
         },
       },
       {
@@ -268,6 +271,15 @@ export class ProfileRefComponent implements OnInit {
       {
         label: 'Năm',
         prop: 'year',
+        primary: false,
+        type: 'input',
+        rule: {
+          validators: [{ required: true, numeric:true }],
+        },
+      },
+      {
+        label: 'Hộp số',
+        prop: 'gear',
         primary: false,
         type: 'input',
       },
@@ -490,7 +502,6 @@ export class ProfileRefComponent implements OnInit {
   }
 
   onSubmitted(e: any) {
-    console.log(e,this.basicDataSource);
     this.editForm!.modalInstance.hide();
     if (this.insert) {
       e.profile_code=e.profile_code;
@@ -498,11 +509,14 @@ export class ProfileRefComponent implements OnInit {
       e.profile_name_e = e.profile_name_l;
       e.from_date= typeof(e.from_date) == "string" ? this.formatDateView(e.from_date,false) : this.formatDate(e.from_date);
       e.to_date= typeof(e.to_date) == "string" ? this.formatDateView(e.to_date,false) : this.formatDate(e.to_date);
-      e.year=e.year;
+      e.year= parseInt(e.year);
+      e.profile_number = parseInt(e.profile_number);
+      e.status = parseInt(e.status);
       e.profile_note_l = e.profile_note_l;
       e.profile_note_e = e.profile_note_l;
       e.is_digital_profile=e.is_digital_profile;
       e.active_flag=e.active_flag;
+      e.RowNumber = 1;
       this.api.post("api/manager/profileRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         if(a.data) {
@@ -520,7 +534,9 @@ export class ProfileRefComponent implements OnInit {
       e.profile_name_e = e.profile_name_l;
       e.from_date= typeof(e.from_date) == "string" ? this.formatDateView(e.from_date,false) : this.formatDate(e.from_date);
       e.to_date= typeof(e.to_date) == "string" ? this.formatDateView(e.to_date,false) : this.formatDate(e.to_date);
-      e.year=e.year;
+      e.year= parseInt(e.year);
+      e.profile_number = parseInt(e.profile_number);
+      e.status = parseInt(e.status);
       e.profile_note_l = e.profile_note_l;
       e.profile_note_e = e.profile_note_l;
       e.is_digital_profile=e.is_digital_profile;
