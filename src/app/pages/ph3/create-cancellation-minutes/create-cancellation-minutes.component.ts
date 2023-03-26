@@ -62,6 +62,10 @@ export class CreateCancellationMinutesComponent implements OnInit {
   };
   status = [
     {
+      name : 'Đã số hóa',
+      id : 3
+    },
+    {
       name : 'Chờ chỉnh lý',
       id : 2
     },

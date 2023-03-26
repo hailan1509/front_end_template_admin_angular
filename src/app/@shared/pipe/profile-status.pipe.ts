@@ -11,6 +11,10 @@ export class ProfileStatusPipe implements PipeTransform {
         return 'Chờ chỉnh lý';
       case 1:
         return 'Đã chỉnh lý';
+      case 2:
+          return 'Chờ chỉnh lý';
+      case 3:
+          return 'Đã số hóa';
       default:
         return 'Chờ hủy';
     }
