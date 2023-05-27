@@ -233,6 +233,7 @@ export interface Profile {
     agency_issued_name_l?:any;
     archives_name_l?:any;
     phong_name_l?:any;
+    gear?:any;
 }
 
 export interface ProfileRef {

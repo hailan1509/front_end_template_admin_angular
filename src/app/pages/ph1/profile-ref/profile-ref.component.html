@@ -25,6 +25,7 @@
                       [(ngModel)]="_search.keyword"
                       class="da-inline"
                       [placeholder]="'Tìm tên hồ sơ'"
+                      style="width: 350px"
                     ></d-search>
                     <d-select style="display: inline-block; margin-left:10px"
                     [options]="status"
@@ -112,10 +113,10 @@
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="active_flag" header="Trạng thái" [width]="'100px'">
+                <d-column field="status" header="Trạng thái" [width]="'100px'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
-                      <span >{{ cellItem == 1 ? 'Đã chỉnh lý' : (cellItem == 2 ? 'Chờ chỉnh lý' : (cellItem == 0 ? 'Chưa chỉnh lý' : 'Xóa') )  }}</span>
+                      <span >{{ getNameStatus(cellItem)  }}</span>
                     </ng-template>
                   </d-cell>
                 </d-column>

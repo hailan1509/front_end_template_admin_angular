@@ -30,6 +30,7 @@
         [options]="item.options"
         [name]="item.prop"
         [(ngModel)]="_formData[item.prop]"
+        [dValidateRules]="item.rule"
         [dValidateRules]="item.required ? item.rule : []"
       ></d-select>
       <d-select
@@ -52,20 +53,21 @@
       <div class="devui-input-group devui-dropdown-origin" *ngIf="item.type === 'datePicker'">
         <input
           class="devui-input devui-form-control"
-          placeholder="y/MM/dd"
-          (click)="datePicker1.toggle()"
+          placeholder="dd/MM/yyyy"
+          (click)="datePicker.toggle()"
           [name]="item.prop"
           [(ngModel)]="_formData[item.prop]"
           autocomplete="off"
           dDatepicker
           appendToBody
-          #datePicker1="datepicker"
+          #datePicker="datepicker"
+          [dValidateRules]="item.rule"
           [dValidateRules]="item.required ? item.rule : []"
         />
-        <div class="devui-input-group-addon close-icon-wrapper" (click)="datePicker1.clearAll()">
+        <div class="devui-input-group-addon close-icon-wrapper" (click)="datePicker.clearAll()">
           <i class="icon icon-close"></i>
         </div>
-        <div class="devui-input-group-addon" (click)="datePicker1.toggle()">
+        <div class="devui-input-group-addon" (click)="datePicker.toggle()">
           <i class="icon icon-calendar"></i>
         </div>
       </div>

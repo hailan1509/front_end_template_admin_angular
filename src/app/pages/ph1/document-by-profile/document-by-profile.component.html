@@ -41,6 +41,12 @@
             <b>Phòng ban:</b> {{ profileInfo.phong_name_l }}
         </d-col>
       </d-row>
+      <d-row>
+        <d-col [dSpan]="11">
+          <b>Hộp số:</b> {{ profileInfo.gear }}
+        </d-col>
+        <d-col [dSpan]="1" style="border-right: 1px solid #ccc;"></d-col>
+      </d-row>
     </div>
     <div class="da-content-wrapper">
       <da-layout-row [daGutter]="[24, 24]">

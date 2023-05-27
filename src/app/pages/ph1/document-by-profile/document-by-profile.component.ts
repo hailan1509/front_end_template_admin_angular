@@ -40,6 +40,7 @@ export class DocumentByProfileComponent implements OnInit {
   phisicalCondisionDropdown = [];
 
   newDocument:DocumentRef = {
+    active_flag : 1,
 
   };
 
@@ -106,7 +107,7 @@ export class DocumentByProfileComponent implements OnInit {
         primary: false,
         required: true,
         rule: {
-          validators: [{ required: true }],
+          // validators: [{ required: true }],
         },
       },
       {
@@ -123,7 +124,7 @@ export class DocumentByProfileComponent implements OnInit {
         options: this.documentTypeDropdown,
         required: true,
         rule: {
-          validators: [{ required: true }],
+          // validators: [{ required: true }],
         },
       },
       {
@@ -134,7 +135,7 @@ export class DocumentByProfileComponent implements OnInit {
         primary: false,
         required: true,
         rule: {
-          validators: [{ required: true }],
+          // validators: [{ required: true }],
         },
       },
       {
@@ -145,7 +146,7 @@ export class DocumentByProfileComponent implements OnInit {
         primary: false,
         required: true,
         rule: {
-          validators: [{ required: true }],
+          // validators: [{ required: true }],
         },
       },
       {
@@ -156,7 +157,7 @@ export class DocumentByProfileComponent implements OnInit {
         options: this.status,
         required: true,
         rule: {
-          validators: [{ required: true }],
+          // validators: [{ required: true }],
         },
       },
     ],
@@ -220,9 +221,9 @@ export class DocumentByProfileComponent implements OnInit {
             prop: 'document_number',
             type: 'input',
             primary: false,
-            required: true,
+            required: false,
             rule: {
-              validators: [{ required: true }],
+              // validators: [{ required: true }],
             },
           },
           {
@@ -230,6 +231,10 @@ export class DocumentByProfileComponent implements OnInit {
             prop: 'date',
             primary: false,
             type: 'datePicker',
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
           },
           {
             label: 'Loại tài liệu',
@@ -280,7 +285,7 @@ export class DocumentByProfileComponent implements OnInit {
             prop: 'content',
             type: 'input-file',
             primary: false,
-            required: true,
+            required: false,
             rule: {
               // validators: [{ required: true }],
             },

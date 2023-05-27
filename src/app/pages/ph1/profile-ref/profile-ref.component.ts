@@ -30,6 +30,28 @@ export class ProfileRefComponent implements OnInit {
 
   status = [
     {
+      name : 'Tất cả',
+      id : -1
+    },
+    {
+      name : 'Đã số hóa',
+      id : 3
+    },
+    {
+      name : 'Chờ chỉnh lý',
+      id : 2
+    },
+    {
+      name : 'Đã chỉnh lý',
+      id : 1
+    },
+    {
+      name : 'Chưa chỉnh lý',
+      id : 0
+    }
+  ];
+  status_dropdown = [
+    {
       name : 'Đã số hóa',
       id : 3
     },
@@ -215,7 +237,7 @@ export class ProfileRefComponent implements OnInit {
 
   _search = {
     keyword: '',
-    select: 1
+    select: -1
   };
 
   pager = {
@@ -228,6 +250,8 @@ export class ProfileRefComponent implements OnInit {
   busy: Subscription;
   phisicalCondisionDropdown: any = [];
   confidentialityDropdown:any = [];
+  departmentDropdown:any = [];
+  archivesDropdown:any = [];
 
   @ViewChild('EditorTemplate', { static: true })
   EditorTemplate: TemplateRef<any>;
@@ -245,6 +269,20 @@ export class ProfileRefComponent implements OnInit {
         return { id : x.value, name : x.label};
       })
       this.phisicalCondisionDropdown = rs;
+    });
+    this.api.post("api/manager/DepartmentRef/Search",{page : 1 , pageSize: 100 , department_name_l : ''}).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let rs = a.data.map((x:any) => {
+        return { id : parseInt(x.department_rcd) , name : x.department_name_l};
+      })
+      this.departmentDropdown = rs;
+    });
+    this.api.post("api/manager/ArchivesRef/Search",{page : 1 , pageSize: 100 , archives_name_l : ''}).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let rs = a.data.map((x:any) => {
+        return { id : x.archives_rcd , name : x.archives_name_l};
+      })
+      this.archivesDropdown = rs;
     });
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"confidentiality_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
@@ -305,6 +343,28 @@ export class ProfileRefComponent implements OnInit {
         type: 'input',
       },
       {
+        label: 'Phòng ban',
+        prop: 'phong_rcd',
+        type: 'select-object',
+        options: this.departmentDropdown,
+        primary: false,
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
+      },
+      {
+        label: 'Kho lưu trữ',
+        prop: 'archives_rcd',
+        type: 'select-object',
+        options: this.archivesDropdown,
+        primary: false,
+        required: true,
+        rule: {
+          validators: [{ required: true }],
+        },
+      },
+      {
         label: 'Bảo mật',
         prop: 'confidentiality_rcd',
         type: 'select-object',
@@ -328,9 +388,9 @@ export class ProfileRefComponent implements OnInit {
       },
       {
         label: 'Trạng thái',
-        prop: 'active_flag',
+        prop: 'status',
         type: 'select-object',
-        options: this.status,
+        options: this.status_dropdown,
         primary: false,
         required: true,
         rule: {
@@ -372,6 +432,14 @@ export class ProfileRefComponent implements OnInit {
     }
   }
 
+  getNameStatus(status: number) {
+    const tmp = this.status.findIndex((v:any) => v.id == status);
+    if(tmp >= 0) {
+      return this.status[tmp].name;
+    }
+    return '';
+  }
+
   // getCountry() {
   //   this.api.post("api/manager/CountryRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
   //     let a = JSON.parse(JSON.stringify(res));
@@ -387,7 +455,7 @@ export class ProfileRefComponent implements OnInit {
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
       width: '600px',
-      maxHeight: '600px',
+      maxHeight: '700px',
       title: 'Chỉnh sửa hồ sơ',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
@@ -499,7 +567,7 @@ export class ProfileRefComponent implements OnInit {
   reset() {
     this._search = {
       keyword: '',
-      select: 1
+      select: -1
     };
     this.pager.pageIndex = 1;
     this.getList();
