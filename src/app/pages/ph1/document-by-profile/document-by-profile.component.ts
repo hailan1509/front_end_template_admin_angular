@@ -183,14 +183,24 @@ export class DocumentByProfileComponent implements OnInit {
     this.getProfileInfo();
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
+      let tmp = 0;
       let rs = a.data.map((x:any) => {
+        if(tmp == 0) {
+          this.newDocument.physical_condition_rcd = x.value;
+        }
+        tmp ++;
         return { id : x.value, name : x.label};
       })
       this.phisicalCondisionDropdown = rs;
     });
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"document_type_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
+      let tmp = 0;
       let rs = a.data.map((x:any) => {
+        if(tmp == 0) {
+          this.newDocument.document_type_rcd = x.value;
+        }
+        tmp ++;
         return { id : x.value, name : x.label};
       })
       this.documentTypeDropdown = rs;
@@ -198,7 +208,12 @@ export class DocumentByProfileComponent implements OnInit {
     });
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"confidentiality_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
+      let tmp = 0;
       let rs = a.data.map((x:any) => {
+        if(tmp == 0) {
+          this.newDocument.confidentiality_rcd = x.value;
+        }
+        tmp ++;
         return { id : x.value, name : x.label};
       })
       this.confidentialityDropdown = rs;
@@ -492,6 +507,7 @@ export class DocumentByProfileComponent implements OnInit {
   }
 
   viewFile(source:any) {
+    console.log(source);
     window.open(source);
   }
 

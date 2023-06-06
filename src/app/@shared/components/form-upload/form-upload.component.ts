@@ -22,7 +22,7 @@ export class FormUploadComponent implements OnInit {
   uploadOptions2: IUploadOptions = {
     uri: 'http://api.khcnhungyen.top:61029/api/manager/DocumentRef/Upload',
     additionalParameter: this.additionalParameter2,
-    maximumSize: 20,
+    maximumSize: 200,
     checkSameName: true
   };
   fileOptions2: IFileOptions = {
