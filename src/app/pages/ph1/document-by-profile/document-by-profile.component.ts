@@ -346,8 +346,10 @@ export class DocumentByProfileComponent implements OnInit {
     if(typeof(e.date) != "string") {
       e.date = this.formatDate(e.date);
     }
+    e.active_flag = parseInt(e.active_flag);
     if (this.insert) {
       e.profile_rcd = this.profile_rcd;
+      e.active_flag = parseInt(e.active_flag);
       this.api.post("api/manager/DocumentRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         if(a.data) {

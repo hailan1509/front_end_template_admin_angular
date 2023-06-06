@@ -587,7 +587,7 @@ export class ProfileRefComponent implements OnInit {
       e.profile_note_l = e.profile_note_l;
       e.profile_note_e = e.profile_note_l;
       e.is_digital_profile=e.is_digital_profile;
-      e.active_flag=e.active_flag;
+      e.active_flag = parseInt(e.active_flag);
       e.RowNumber = 1;
       this.api.post("api/manager/profileRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
@@ -612,7 +612,7 @@ export class ProfileRefComponent implements OnInit {
       e.profile_note_l = e.profile_note_l;
       e.profile_note_e = e.profile_note_l;
       e.is_digital_profile=e.is_digital_profile;
-      e.active_flag=e.active_flag;
+      e.active_flag = parseInt(e.active_flag);
       this.api.post("api/manager/profileRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         if(a.data) {
