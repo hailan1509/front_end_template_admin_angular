@@ -1,6 +1,6 @@
 <form dForm [layout]="formConfig.layout" [labelSize]="formConfig.labelSize" (dSubmit)="submitPlanForm($event)">
   <d-form-item *ngFor="let item of formConfig.items">
-    <d-form-label [required]="item.required">{{ item.label }}：</d-form-label>
+    <d-form-label [required]="item.required" *ngIf="(item.type === 'input-file' && insert) || item.type != 'input-file'">{{ item.label }}：</d-form-label>
     <d-form-control [extraInfo]="item.extraInfo">
       <input
         dTextInput
@@ -15,15 +15,15 @@
         id="file_upload"
         [name]="item.prop"
         [(ngModel)]="_formData[item.prop]"
-        *ngIf="item.type === 'input-file'"
+        *ngIf="item.type === 'input-file' && insert"
         [dValidateRules]="item.rule"
         [dValidateRules]="item.required ? item.rule : {}"
       />
-      <d-button *ngIf="item.type === 'input-file' && _formData[item.prop]" (click)="upLoad()">
+      <!-- <d-button *ngIf="item.type === 'input-file' && _formData[item.prop]" (click)="upLoad()">
         <label for="">Lấy nội dung</label>
-      </d-button>
-      <textarea [(ngModel)]="content" name="textarea-content" style="margin-top: 20px" rows="30" *ngIf="item.type === 'input-file' && show_content"
-       dTextarea placeholder="Please Enter" resize="both"></textarea>
+      </d-button> -->
+      <!-- <textarea [(ngModel)]="content" name="textarea-content" style="margin-top: 20px" rows="30" *ngIf="item.type === 'input-file' && show_content"
+       dTextarea placeholder="Please Enter" resize="both"></textarea> -->
       <d-select
         *ngIf="item.type === 'select'"
         [appendToBody]="true"

@@ -7,6 +7,7 @@ import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 import { FormUploadComponent } from 'src/app/@shared/components/form-upload/form-upload.component';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingService } from 'ng-devui/loading';
 
 @Component({
   selector: 'app-document-by-profile',
@@ -173,7 +174,7 @@ export class DocumentByProfileComponent implements OnInit {
   @ViewChild('EditorTemplate', { static: true })
   EditorTemplate: TemplateRef<any>;
 
-  constructor(private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService,private route: ActivatedRoute ) { }
+  constructor(private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService,private route: ActivatedRoute, private loadingService: LoadingService ) { }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
@@ -296,7 +297,7 @@ export class DocumentByProfileComponent implements OnInit {
             },
           },
           {
-            label: 'Lấy nội dung',
+            label: 'Tài liệu liên quan',
             prop: 'content',
             type: 'input-file',
             primary: false,
@@ -312,9 +313,11 @@ export class DocumentByProfileComponent implements OnInit {
   }
 
   getList() {
+    const results = this.loadingService.open();
     this.api.get("api/manager/DocumentRef/GetByProfileId/"+this.profile_rcd).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
+      results.loadingInstance.close();
     });
   }
   getProfileInfo() {
@@ -362,18 +365,31 @@ export class DocumentByProfileComponent implements OnInit {
       e.date = this.formatDate(e.date);
     }
     e.active_flag = parseInt(e.active_flag);
+    const results = this.loadingService.open();
     if (this.insert) {
+      
       e.profile_rcd = this.profile_rcd;
       e.active_flag = parseInt(e.active_flag);
+      var input:any = document.getElementById('file_upload') as HTMLInputElement | null;
       this.api.post("api/manager/DocumentRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         if(a.data) {
-          this.showToast("success");
+          // if(input.files[0]) {
+            var file:any = input.files[0];
+            const formdata = new FormData();
+            formdata.append('file',file);
+            const param = [a.data.document_rcd, this.profileInfo.year, this.profileInfo.profile_number];
+            this.api.post("api/manager/DocumentRef/Upload/" + param.join('_'),formdata).subscribe((resp:any) => {
+              this.showToast("success");
+              this.getList();
+              results.loadingInstance.close();
+            });
+          // }
         }
         else {
           this.showToast("error");
         }
-        this.getList();
+        
       });
     }
     else {
@@ -386,6 +402,7 @@ export class DocumentByProfileComponent implements OnInit {
           this.showToast("error");
         }
         this.getList();
+        results.loadingInstance.close();
       });
 
     }
