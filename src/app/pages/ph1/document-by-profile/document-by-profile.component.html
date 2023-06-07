@@ -60,7 +60,7 @@
                     <b>Danh sách tài liệu</b>
                     <d-button (click)="getList()" style="margin-left: 12px">Reset</d-button>
                     <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
-  
+                    <input style="margin-left: 12px" type="checkbox" [(ngModel)] = "getOCR"> Lưu nội dung file - OCR 
                 </div>
               </div>
             </div>
@@ -128,7 +128,7 @@
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
                         <d-button icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
-                        <!-- <d-button icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.profile_rcd)"></d-button> -->
+                        <d-button icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.document_rcd)"></d-button>
                         <d-button icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="openPreventCloseDialog(rowItem.document_rcd)"></d-button>
                       </div>
                     </ng-template>

@@ -3,6 +3,7 @@ import { FileUploader, IFileOptions, IUploadOptions } from 'ng-devui/upload';
 import { FormLayout } from 'ng-devui/form';
 import { DialogService } from 'ng-devui';
 import { ApiService } from 'src/app/api.service';
+import { API_BASE_URL } from 'src/config/config'
 @Component({
   selector: 'app-form-upload',
   templateUrl: './form-upload.component.html',
@@ -20,7 +21,7 @@ export class FormUploadComponent implements OnInit {
   onAdd = new EventEmitter();
   onDelete = new EventEmitter();
   uploadOptions2: IUploadOptions = {
-    uri: 'http://api.khcnhungyen.top:61029/api/manager/DocumentRef/Upload',
+    uri: API_BASE_URL + 'api/manager/DocumentRef/Upload',
     additionalParameter: this.additionalParameter2,
     maximumSize: 200,
     checkSameName: true
@@ -70,8 +71,8 @@ export class FormUploadComponent implements OnInit {
     return uploadOptions;
   }
   ngOnInit(): void {
-    const param = [this.data.document_rcd, this.data.year, this.data.profile_number];
-    this.uploadOptions2.uri = 'http://api.khcnhungyen.top:61029/api/manager/DocumentRef/Upload/' + param.join('_');
+    const param = [this.data.document_rcd, this.data.year, this.data.profile_number, this.data.acceptOCR];
+    this.uploadOptions2.uri = API_BASE_URL + 'api/manager/DocumentRef/Upload/' + param.join('_');
     // console.log(this.data);
   }
 

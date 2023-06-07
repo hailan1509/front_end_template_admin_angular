@@ -45,6 +45,8 @@ export class DocumentByProfileComponent implements OnInit {
 
   };
 
+  getOCR: any = false;
+
   profileInfo:Profile = {
 
   };
@@ -359,6 +361,42 @@ export class DocumentByProfileComponent implements OnInit {
     });
   }
 
+  deleteRow(id: string) {
+    const results = this.dialogService.open({
+      id: 'delete-dialog',
+      width: '346px',
+      maxHeight: '600px',
+      title: 'Xóa tài liệu',
+      showAnimate: false,
+      content: 'Bạn có chắc chắn muốn xóa?',
+      backdropCloseable: true,
+      onClose: () => {},
+      buttons: [
+        {
+          cssClass: 'primary',
+          text: 'Xóa',
+          disabled: false,
+          handler: ($event: Event) => {
+            this.api.post("api/manager/DocumentRef/DeleteMulti",[id]).subscribe((res:any) => {
+              this.showToast("success");
+              this.getList();
+
+            });
+            results.modalInstance.hide();
+          },
+        },
+        {
+          id: 'btn-cancel',
+          cssClass: 'common',
+          text: 'Không',
+          handler: ($event: Event) => {
+            results.modalInstance.hide();
+          },
+        },
+      ],
+    });
+  }
+
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
     if(typeof(e.date) != "string") {
@@ -378,7 +416,8 @@ export class DocumentByProfileComponent implements OnInit {
             var file:any = input.files[0];
             const formdata = new FormData();
             formdata.append('file',file);
-            const param = [a.data.document_rcd, this.profileInfo.year, this.profileInfo.profile_number];
+            const acceptOCR = this.getOCR ? 1 : 0;
+            const param = [a.data.document_rcd, this.profileInfo.year, this.profileInfo.profile_number, acceptOCR];
             this.api.post("api/manager/DocumentRef/Upload/" + param.join('_'),formdata).subscribe((resp:any) => {
               this.showToast("success");
               this.getList();
@@ -443,7 +482,8 @@ export class DocumentByProfileComponent implements OnInit {
           document_attachment: a.data,
           document_rcd: document_rcd,
           year: this.profileInfo.year,
-          profile_number: this.profileInfo.profile_number
+          profile_number: this.profileInfo.profile_number,
+          acceptOCR: this.getOCR ? 1 : 0,
         }
       });
       const sub = results.modalContentInstance.onAdd.subscribe((type:any) => {
