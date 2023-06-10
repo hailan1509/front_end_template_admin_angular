@@ -8,6 +8,7 @@ import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { ProfilePermissionComponent } from 'src/app/@shared/components/modals/profile-permission/profile-permission.component';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 // import { parse } from 'path';
+import { LoadingService } from 'ng-devui/loading';
 
 @Component({
   selector: 'app-profile-ref',
@@ -256,13 +257,14 @@ export class ProfileRefComponent implements OnInit {
   @ViewChild('EditorTemplate', { static: true })
   EditorTemplate: TemplateRef<any>;
 
-  constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService ) {}
+  constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService, private loadingService: LoadingService ) {}
 
   ngOnInit() {
     if (localStorage.getItem('userinfo')) {
       let user = JSON.parse(localStorage.getItem('userinfo')!);
       this.role_rcd = user.role_rcd;
     }
+    const results = this.loadingService.open();
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       let rs = a.data.map((x:any) => {
@@ -398,6 +400,7 @@ export class ProfileRefComponent implements OnInit {
         },
       },
     ];
+    results.loadingInstance.close();
     });
     this.getList();
     // this.getCountry();

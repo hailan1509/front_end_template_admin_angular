@@ -184,6 +184,7 @@ export class DocumentByProfileComponent implements OnInit {
     });
     this.getList();
     this.getProfileInfo();
+    const results = this.loadingService.open();
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       let tmp = 0;
@@ -311,6 +312,7 @@ export class DocumentByProfileComponent implements OnInit {
         ],
         labelSize: '',
       };
+      results.loadingInstance.close();
     });
   }
 
