@@ -182,9 +182,9 @@ export class DocumentByProfileComponent implements OnInit {
     this.routeSub = this.route.params.subscribe(params => {
       this.profile_rcd = params['id'];
     });
+    const results = this.loadingService.open();
     this.getList();
     this.getProfileInfo();
-    const results = this.loadingService.open();
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       let tmp = 0;
@@ -221,97 +221,100 @@ export class DocumentByProfileComponent implements OnInit {
         return { id : x.value, name : x.label};
       })
       this.confidentialityDropdown = rs;
+      setTimeout(() => {
+
+        this.formConfig = {
+          layout: FormLayout.Horizontal,
+          items: [
+            {
+              label: 'Tên tài liệu',
+              prop: 'document_name_l',
+              type: 'input',
+              primary: false,
+              required: true,
+              rule: {
+                validators: [{ required: true }],
+              },
+            },
+            {
+              label: 'Số tài liệu',
+              prop: 'document_number',
+              type: 'input',
+              primary: false,
+              required: false,
+              rule: {
+                // validators: [{ required: true }],
+              },
+            },
+            {
+              label: 'Ngày',
+              prop: 'date',
+              primary: false,
+              type: 'datePicker',
+              required: true,
+              rule: {
+                validators: [{ required: true }],
+              },
+            },
+            {
+              label: 'Loại tài liệu',
+              prop: 'document_type_rcd',
+              type: 'select-object',
+              primary: false,
+              options: this.documentTypeDropdown,
+              required: true,
+              rule: {
+                validators: [{ required: true }],
+              },
+            },
+            {
+              label: 'Bảo mật',
+              prop: 'confidentiality_rcd',
+              type: 'select-object',
+              options: this.confidentialityDropdown,
+              primary: false,
+              required: true,
+              rule: {
+                validators: [{ required: true }],
+              },
+            },
+            {
+              label: 'Tình trạng',
+              prop: 'physical_condition_rcd',
+              type: 'select-object',
+              options: this.phisicalCondisionDropdown,
+              primary: false,
+              required: true,
+              rule: {
+                validators: [{ required: true }],
+              },
+            },
+            {
+              label: 'Trạng thái',
+              prop: 'active_flag',
+              type: 'select-object',
+              primary: false,
+              options: this.status,
+              required: true,
+              rule: {
+                validators: [{ required: true }],
+              },
+            },
+            {
+              label: 'Tài liệu liên quan',
+              prop: 'content',
+              type: 'input-file',
+              primary: false,
+              required: false,
+              rule: {
+                // validators: [{ required: true }],
+              },
+            },
+          ],
+          labelSize: '',
+        };
+      })
       
-      this.formConfig = {
-        layout: FormLayout.Horizontal,
-        items: [
-          {
-            label: 'Tên tài liệu',
-            prop: 'document_name_l',
-            type: 'input',
-            primary: false,
-            required: true,
-            rule: {
-              validators: [{ required: true }],
-            },
-          },
-          {
-            label: 'Số tài liệu',
-            prop: 'document_number',
-            type: 'input',
-            primary: false,
-            required: false,
-            rule: {
-              // validators: [{ required: true }],
-            },
-          },
-          {
-            label: 'Ngày',
-            prop: 'date',
-            primary: false,
-            type: 'datePicker',
-            required: true,
-            rule: {
-              validators: [{ required: true }],
-            },
-          },
-          {
-            label: 'Loại tài liệu',
-            prop: 'document_type_rcd',
-            type: 'select-object',
-            primary: false,
-            options: this.documentTypeDropdown,
-            required: true,
-            rule: {
-              validators: [{ required: true }],
-            },
-          },
-          {
-            label: 'Bảo mật',
-            prop: 'confidentiality_rcd',
-            type: 'select-object',
-            options: this.confidentialityDropdown,
-            primary: false,
-            required: true,
-            rule: {
-              validators: [{ required: true }],
-            },
-          },
-          {
-            label: 'Tình trạng',
-            prop: 'physical_condition_rcd',
-            type: 'select-object',
-            options: this.phisicalCondisionDropdown,
-            primary: false,
-            required: true,
-            rule: {
-              validators: [{ required: true }],
-            },
-          },
-          {
-            label: 'Trạng thái',
-            prop: 'active_flag',
-            type: 'select-object',
-            primary: false,
-            options: this.status,
-            required: true,
-            rule: {
-              validators: [{ required: true }],
-            },
-          },
-          {
-            label: 'Tài liệu liên quan',
-            prop: 'content',
-            type: 'input-file',
-            primary: false,
-            required: false,
-            rule: {
-              // validators: [{ required: true }],
-            },
-          },
-        ],
-        labelSize: '',
-      };
       results.loadingInstance.close();
     });
   }

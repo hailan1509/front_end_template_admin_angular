@@ -265,13 +265,6 @@ export class ProfileRefComponent implements OnInit {
       this.role_rcd = user.role_rcd;
     }
     const results = this.loadingService.open();
-    this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      let rs = a.data.map((x:any) => {
-        return { id : x.value, name : x.label};
-      })
-      this.phisicalCondisionDropdown = rs;
-    });
     this.api.post("api/manager/DepartmentRef/Search",{page : 1 , pageSize: 100 , department_name_l : ''}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       let rs = a.data.map((x:any) => {
@@ -279,12 +272,12 @@ export class ProfileRefComponent implements OnInit {
       })
       this.departmentDropdown = rs;
     });
-    this.api.post("api/manager/ArchivesRef/Search",{page : 1 , pageSize: 100 , archives_name_l : ''}).subscribe((res:any) => {
+    this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       let rs = a.data.map((x:any) => {
-        return { id : x.archives_rcd , name : x.archives_name_l};
+        return { id : x.value, name : x.label};
       })
-      this.archivesDropdown = rs;
+      this.phisicalCondisionDropdown = rs;
     });
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"confidentiality_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
@@ -292,115 +285,17 @@ export class ProfileRefComponent implements OnInit {
         return { id : x.value, name : x.label};
       })
       this.confidentialityDropdown = rs;
-      this.formConfig.items =[ {
-        label: 'Số hồ sơ',
-        prop: 'profile_number',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true, numeric:true }],
-        },
-      },
-      {
-        label: 'Tên hồ sơ',
-        prop: 'profile_name_l',
-        type: 'input',
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Năm',
-        prop: 'year',
-        primary: false,
-        type: 'input',
-        rule: {
-          validators: [{ required: true, numeric:true }],
-        },
-      },
-      {
-        label: 'Hộp số',
-        prop: 'gear',
-        primary: false,
-        type: 'input',
-      },
-      {
-        label: 'Ngày bắt đầu',
-        prop: 'from_date',
-        primary: false,
-        type: 'datePicker',
-      },
-      {
-        label: 'Ngày kết thúc',
-        prop: 'to_date',
-        primary: false,
-        type: 'datePicker',
-      },
-      {
-        label: 'Ghi chú',
-        prop: 'profile_note_l',
-        type: 'input',
-      },
-      {
-        label: 'Phòng ban',
-        prop: 'phong_rcd',
-        type: 'select-object',
-        options: this.departmentDropdown,
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Kho lưu trữ',
-        prop: 'archives_rcd',
-        type: 'select-object',
-        options: this.archivesDropdown,
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Bảo mật',
-        prop: 'confidentiality_rcd',
-        type: 'select-object',
-        options: this.confidentialityDropdown,
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Tình trạng',
-        prop: 'physical_condition_rcd',
-        type: 'select-object',
-        options: this.phisicalCondisionDropdown,
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-      {
-        label: 'Trạng thái',
-        prop: 'status',
-        type: 'select-object',
-        options: this.status_dropdown,
-        primary: false,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
-    ];
-    results.loadingInstance.close();
+      
+      
+    });
+    this.api.post("api/manager/ArchivesRef/Search",{page : 1 , pageSize: 100 , archives_name_l : ''}).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let rs = a.data.map((x:any) => {
+        return { id : x.archives_rcd , name : x.archives_name_l};
+      })
+      this.archivesDropdown = rs;
+      
+      results.loadingInstance.close();
     });
     this.getList();
     // this.getCountry();
@@ -427,10 +322,123 @@ export class ProfileRefComponent implements OnInit {
       else {
         user_rcd = user.user_rcd;
       }
+      const results = this.loadingService.open();
       this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword, status: this._search.select, active_flag : 1, user_rcd : user_rcd}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.basicDataSource = a.data;
         this.pager.total = a.totalItems;
+        setTimeout(() => {
+
+          this.formConfig.items =[ {
+            label: 'Số hồ sơ',
+            prop: 'profile_number',
+            type: 'input',
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true, numeric:true }],
+            },
+          },
+          {
+            label: 'Tên hồ sơ',
+            prop: 'profile_name_l',
+            type: 'input',
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Năm',
+            prop: 'year',
+            primary: false,
+            type: 'input',
+            rule: {
+              validators: [{ required: true, numeric:true }],
+            },
+          },
+          {
+            label: 'Hộp số',
+            prop: 'gear',
+            primary: false,
+            type: 'input',
+          },
+          {
+            label: 'Ngày bắt đầu',
+            prop: 'from_date',
+            primary: false,
+            type: 'datePicker',
+          },
+          {
+            label: 'Ngày kết thúc',
+            prop: 'to_date',
+            primary: false,
+            type: 'datePicker',
+          },
+          {
+            label: 'Ghi chú',
+            prop: 'profile_note_l',
+            type: 'input',
+          },
+          {
+            label: 'Phòng ban',
+            prop: 'phong_rcd',
+            type: 'select-object',
+            options: this.departmentDropdown,
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Kho lưu trữ',
+            prop: 'archives_rcd',
+            type: 'select-object',
+            options: this.archivesDropdown,
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Bảo mật',
+            prop: 'confidentiality_rcd',
+            type: 'select-object',
+            options: this.confidentialityDropdown,
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Tình trạng',
+            prop: 'physical_condition_rcd',
+            type: 'select-object',
+            options: this.phisicalCondisionDropdown,
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Trạng thái',
+            prop: 'status',
+            type: 'select-object',
+            options: this.status_dropdown,
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          ];
+        },1000)
+        results.loadingInstance.close();
       });
     }
   }
