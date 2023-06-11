@@ -116,7 +116,8 @@
                 <d-column field="status" header="Trạng thái" [width]="'100px'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
-                      <span >{{ getNameStatus(cellItem)  }}</span>
+                      <span  [style]="cellItem ==1? 'color:green;' : cellItem == 3?'color:blue;':'color:red'" >
+                        {{ getNameStatus(cellItem)  }}</span>
                     </ng-template>
                   </d-cell>
                 </d-column>
