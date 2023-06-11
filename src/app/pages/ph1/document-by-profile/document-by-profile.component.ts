@@ -176,6 +176,7 @@ export class DocumentByProfileComponent implements OnInit {
   _search = {
     keyword: ''
   };
+  current_search = "";
 
   busy: Subscription;
 
@@ -330,11 +331,15 @@ export class DocumentByProfileComponent implements OnInit {
 
   getList() {
     const results = this.loadingService.open();
+    if(this.current_search != this._search.keyword) {
+      this.pager.pageIndex = 1;
+    } 
     this.api.post("api/manager/DocumentRef/GetByProfileId/"+this.profile_rcd, {page : this.pager.pageIndex , pageSize: this.pager.pageSize , document_name_l : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
       this.pager.total = a.totalItems;
       results.loadingInstance.close();
+      this.current_search = this._search.keyword;
     });
   }
   getProfileInfo() {
