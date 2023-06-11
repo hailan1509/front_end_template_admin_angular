@@ -168,6 +168,15 @@ export class DocumentByProfileComponent implements OnInit {
   };
   msgs: Array<Object> = [];
 
+  pager = {
+    total: 0,
+    pageIndex: 1,
+    pageSize: 10,
+  };
+  _search = {
+    keyword: ''
+  };
+
   busy: Subscription;
 
   profile_rcd:any;
@@ -321,9 +330,10 @@ export class DocumentByProfileComponent implements OnInit {
 
   getList() {
     const results = this.loadingService.open();
-    this.api.get("api/manager/DocumentRef/GetByProfileId/"+this.profile_rcd).subscribe((res:any) => {
+    this.api.post("api/manager/DocumentRef/GetByProfileId/"+this.profile_rcd, {page : this.pager.pageIndex , pageSize: this.pager.pageSize , document_name_l : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
+      this.pager.total = a.totalItems;
       results.loadingInstance.close();
     });
   }
@@ -348,6 +358,16 @@ export class DocumentByProfileComponent implements OnInit {
       onClose: () => {},
       buttons: [],
     });
+  }
+
+  onSizeChange(e: number) {
+    this.pager.pageSize = e;
+    this.getList();
+  }
+
+  onPageChange(e: number) {
+    this.pager.pageIndex = e;
+    this.getList();
   }
 
   addRow() {

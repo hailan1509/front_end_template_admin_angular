@@ -55,9 +55,17 @@
             <div class="da-list-header">
               <div class="da-common-search">
                 <div class="da-left">
+                  <b>Danh sách tài liệu</b>
                 </div>
                 <div class="da-right" style="text-align: right">
-                    <b>Danh sách tài liệu</b>
+                    <d-search
+                      [size]="'sm'"
+                      (searchFn)="getList()"
+                      [(ngModel)]="_search.keyword"
+                      class="da-inline"
+                      [placeholder]="'Tìm tên tài liệu'"
+                      style="width: 350px"
+                    ></d-search>
                     <d-button (click)="getList()" style="margin-left: 12px">Reset</d-button>
                     <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
                     <input style="margin-left: 12px" type="checkbox" [(ngModel)] = "getOCR"> Lưu nội dung file - OCR 
@@ -137,7 +145,7 @@
               </d-data-table>
             </div>
             <div class="da-list-footer">
-              <!-- <d-pagination
+              <d-pagination
                 [size]="'sm'"
                 [total]="pager.total"
                 [(pageSize)]="pager.pageSize"
@@ -149,7 +157,7 @@
                 (pageIndexChange)="onPageChange($event)"
                 (pageSizeChange)="onSizeChange($event)"
               >
-              </d-pagination> -->
+              </d-pagination>
             </div>
           </div>
         </da-col-item>
