@@ -599,5 +599,12 @@ export class DocumentByProfileComponent implements OnInit {
     }
     else return fileName;
   }
+  reset() {
+    this._search = {
+      keyword: ''
+    };
+    this.pager.pageIndex = 1;
+    this.getList();
+  }
 
 }
