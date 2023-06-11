@@ -118,6 +118,7 @@ export class ProfileRefComponent implements OnInit {
     gear: null,
 
   };
+  current_search = "";
 
   searchForm: {
     borderType: '' | 'borderless' | 'bordered';
@@ -344,6 +345,9 @@ export class ProfileRefComponent implements OnInit {
       else {
         user_rcd = user.user_rcd;
       }
+      if(this.current_search != this._search.keyword) {
+        this.pager.pageIndex = 1;
+      } 
       const results = this.loadingService.open();
       this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword, status: this._search.select, active_flag : 1, user_rcd : user_rcd}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
@@ -461,6 +465,8 @@ export class ProfileRefComponent implements OnInit {
           ];
         },1000)
         results.loadingInstance.close();
+
+        this.current_search = this._search.keyword;
       });
     }
   }
