@@ -80,10 +80,11 @@ export class ProfileRefComponent implements OnInit {
 		from_date: null,
 		to_date: null,
 		year: null,
+    department_rcd: null,
 		number_of_paper: null,
 		profile_note_l: null,
     profile_note_e: null,
-    status: "1",
+    status: 1,
 		sort_order: null,
     is_digital_profile: null,
     cancellation_reason: null,
@@ -96,10 +97,11 @@ export class ProfileRefComponent implements OnInit {
     profile_box_rcd: null,
     fields_rcd: null,
     archive_fonts_rcd: null,
-    phong_rcd: null,
+    phong_rcd: 0,
     duration_storage_rcd: null,
     archives_rcd: null,
     profile_type_rcd: null,
+    physical_condition_rcd: null,
     agency_issued_rcd: null,
     
     active_flag: "1",
@@ -267,21 +269,36 @@ export class ProfileRefComponent implements OnInit {
     const results = this.loadingService.open();
     this.api.post("api/manager/DepartmentRef/Search",{page : 1 , pageSize: 100 , department_name_l : ''}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
+      let tmp = 0;
       let rs = a.data.map((x:any) => {
+        if(tmp == 0) {
+          this.newprofile.phong_rcd = parseInt(x.department_rcd);
+        }
+        tmp++;
         return { id : parseInt(x.department_rcd) , name : x.department_name_l};
       })
       this.departmentDropdown = rs;
     });
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
+      let tmp = 0;
       let rs = a.data.map((x:any) => {
+        if(tmp == 0) {
+          this.newprofile.physical_condition_rcd = x.value;
+        }
+        tmp++;
         return { id : x.value, name : x.label};
       })
       this.phisicalCondisionDropdown = rs;
     });
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"confidentiality_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
+      let tmp = 0;
       let rs = a.data.map((x:any) => {
+        if(tmp == 0) {
+          this.newprofile.confidentiality_rcd = x.value;
+        }
+        tmp++;
         return { id : x.value, name : x.label};
       })
       this.confidentialityDropdown = rs;
@@ -290,7 +307,12 @@ export class ProfileRefComponent implements OnInit {
     });
     this.api.post("api/manager/ArchivesRef/Search",{page : 1 , pageSize: 100 , archives_name_l : ''}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
+      let tmp = 0;
       let rs = a.data.map((x:any) => {
+        if(tmp == 0) {
+          this.newprofile.archives_rcd = x.archives_rcd;
+        }
+        tmp++;
         return { id : x.archives_rcd , name : x.archives_name_l};
       })
       this.archivesDropdown = rs;
