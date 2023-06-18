@@ -11,6 +11,11 @@
         [ngStyle] = "item.styles"
         [dValidateRules]="item.required ? item.rule : {}"
       />
+      <textarea dTextInput
+      [name]="item.prop"
+      [(ngModel)]="_formData[item.prop]" *ngIf="item.type === 'text-area'" [ngStyle] = "item.styles" [dValidateRules]="item.rule" [dValidateRules]="item.required ? item.rule : {}" name="" id="" rows="5">
+
+      </textarea>
       <input
         type="file" accept="application/pdf, application/vnd.ms-excel"
         id="file_upload"

@@ -239,14 +239,14 @@ export class DocumentByProfileComponent implements OnInit {
             {
               label: 'Tên tài liệu',
               prop: 'document_name_l',
-              type: 'input',
+              type: 'text-area',
               primary: false,
               required: true,
               rule: {
                 validators: [{ required: true }],
               },
               styles: {
-                width : '50%'
+                height : '50px'
               }
             },
             {
@@ -258,9 +258,9 @@ export class DocumentByProfileComponent implements OnInit {
               rule: {
                 // validators: [{ required: true }],
               },
-              styles: {
-                width : '50%'
-              }
+              // styles: {
+              //   width : '50%'
+              // }
             },
             {
               label: 'Ngày',

@@ -368,12 +368,15 @@ export class ProfileRefComponent implements OnInit {
           {
             label: 'Tên hồ sơ',
             prop: 'profile_name_l',
-            type: 'input',
+            type: 'text-area',
             primary: false,
             required: true,
             rule: {
               validators: [{ required: true }],
             },
+            styles: {
+              height : '50px'
+            }
           },
           {
             label: 'Năm',
