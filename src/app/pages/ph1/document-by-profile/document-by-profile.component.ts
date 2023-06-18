@@ -313,7 +313,7 @@ export class DocumentByProfileComponent implements OnInit {
             {
               label: 'Tài liệu liên quan',
               prop: 'content',
-              type: 'input-file',
+              type: 'input-file-ocr',
               primary: false,
               required: false,
               rule: {
@@ -354,8 +354,8 @@ export class DocumentByProfileComponent implements OnInit {
     this.formData = row;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
-      width: '600px',
-      maxHeight: '600px',
+      width: '1000px',
+      maxHeight: '1000px',
       title: 'Sửa thông tin tài liệu',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
@@ -380,8 +380,8 @@ export class DocumentByProfileComponent implements OnInit {
     this.formData = this.newDocument;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',
-      width: '600px',
-      maxHeight: '600px',
+      width: '1000px',
+      maxHeight: '1000px',
       title: 'Thêm tài liệu',
       showAnimate: false,
       contentTemplate: this.EditorTemplate,
@@ -446,7 +446,7 @@ export class DocumentByProfileComponent implements OnInit {
             var file:any = input.files[0];
             const formdata = new FormData();
             formdata.append('file',file);
-            const acceptOCR = this.getOCR ? 1 : 0;
+            const acceptOCR = e.getOCR ? 1 : 0;
             const param = [a.data.document_rcd, this.profileInfo.year, this.profileInfo.profile_number, acceptOCR];
             this.api.post("api/manager/DocumentRef/Upload/" + param.join('_'),formdata).subscribe((resp:any) => {
               this.showToast("success");
@@ -610,6 +610,18 @@ export class DocumentByProfileComponent implements OnInit {
     };
     this.pager.pageIndex = 1;
     this.getList();
+  }
+  exportExcel() {
+    // const results = this.loadingService.open();
+    this.api.post("api/manager/DocumentRef/ExportToExcel/"+this.profile_rcd, {page : 1 , pageSize: 10000 , document_name_l : this._search.keyword}).subscribe((blob:any) => {
+      // let a = JSON.parse(JSON.stringify(res));
+      const link = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      link.href = objectUrl;
+      link.download = 'document_ref.xlsx';
+      link.click();
+      URL.revokeObjectURL(objectUrl);
+    });
   }
 
 }

@@ -1,7 +1,18 @@
 <div (click)="onClick($event)">
+  <div class="d-form-field">
+    <div class="clear-fix">
+      <input type="checkbox" [(ngModel)] = "getOCR" (change) = "changeGetOCR()"> Lưu nội dung file - OCR
+    </div>
+    <div class="clear-fix">
+       
+    </div>
+  </div>
     <div class="d-form-field">
       <div class="clear-fix">
         <b>Danh sách file hiện có</b>
+      </div>
+      <div class="clear-fix">
+         
       </div>
     </div>
     <div class="d-form-field" *ngFor="let item of data['document_attachment'];index as i;" style="padding-left: 15px;">

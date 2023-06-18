@@ -4,6 +4,7 @@ import { FormConfig } from './admin-form.type';
 import { MapToPipe } from './mapToPipe.pipe';
 import { ApiService } from 'src/app/api.service';
 import form from 'src/assets/i18n/zh-CN/form';
+import { LoadingService } from 'ng-devui/loading';
 
 @Component({
   selector: 'da-admin-form',
@@ -26,14 +27,14 @@ export class AdminFormComponent implements OnInit {
 
   @Input() set formData(val: any) {
     this._formData = JSON.parse(JSON.stringify(val));
-    
+    this._formData['getOCR'] = false;
   }
 
   @Output() submitted = new EventEmitter();
 
   @Output() canceled = new EventEmitter();
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private loadingService: LoadingService) {}
 
   ngOnInit() {
     this.formConfig.items.map((item:any) => {
@@ -61,6 +62,7 @@ export class AdminFormComponent implements OnInit {
     this.canceled.emit();
   }
   upLoad() {
+    const results = this.loadingService.open();
     var input:any = document.getElementById('file_upload') as HTMLInputElement | null;
     var file:any = input.files[0];
     const formdata = new FormData();
@@ -72,6 +74,7 @@ export class AdminFormComponent implements OnInit {
         let json = JSON.parse(a.content);
         let _content = json.responses[0].responses[0].fullTextAnnotation.text;
         this.content = _content;
+        results.loadingInstance.close();
       }
       else {
         // this.showToast("error");

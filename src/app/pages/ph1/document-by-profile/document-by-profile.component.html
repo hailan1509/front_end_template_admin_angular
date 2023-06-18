@@ -66,9 +66,9 @@
                       [placeholder]="'Tìm tên tài liệu'"
                       style="width: 350px"
                     ></d-search>
-                    <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
-                    <d-button class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
-                    <input style="margin-left: 12px" type="checkbox" [(ngModel)] = "getOCR"> Lưu nội dung file - OCR 
+                    <d-button icon="icon-refresh" (click)="reset()" style="margin-left: 12px">Reset</d-button>
+                    <d-button icon="icon-add" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
+                    <d-button icon="icon-op-download" style="margin-left: 12px" (click) = "exportExcel()">Excel</d-button>
                 </div>
               </div>
             </div>

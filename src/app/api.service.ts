@@ -12,7 +12,17 @@ export class ApiService {
     return this.http.get(API_BASE_URL + url);
   }
 
-  post(url:any, data:any) {
+  post(url:any, data:any, download: any = false) {
+    if(download) {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json', // Định dạng dữ liệu gửi đi
+        'Accept': 'application/octet-stream', // Định dạng dữ liệu được chấp nhận từ phản hồi
+      });
+      return this.http.post(API_BASE_URL + url, data, {
+        headers: headers,
+        responseType: 'arraybuffer'  // Thay đổi responseType thành 'arraybuffer'
+      });
+    }
     return this.http.post(API_BASE_URL + url, data);
   }
 

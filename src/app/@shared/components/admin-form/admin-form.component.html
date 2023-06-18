@@ -15,15 +15,16 @@
         id="file_upload"
         [name]="item.prop"
         [(ngModel)]="_formData[item.prop]"
-        *ngIf="item.type === 'input-file' && insert"
+        *ngIf="item.type === 'input-file-ocr' && insert"
         [dValidateRules]="item.rule"
         [dValidateRules]="item.required ? item.rule : {}"
       />
-      <!-- <d-button *ngIf="item.type === 'input-file' && _formData[item.prop]" (click)="upLoad()">
+      <d-button *ngIf="item.type === 'input-file-ocr' && _formData[item.prop]" (click)="upLoad()">
         <label for="">Lấy nội dung</label>
-      </d-button> -->
-      <!-- <textarea [(ngModel)]="content" name="textarea-content" style="margin-top: 20px" rows="30" *ngIf="item.type === 'input-file' && show_content"
-       dTextarea placeholder="Please Enter" resize="both"></textarea> -->
+      </d-button>
+      <input style="margin-left: 12px" type="checkbox" *ngIf="item.type === 'input-file-ocr' && _formData[item.prop]"  [(ngModel)] = "_formData['getOCR']" [ngModelOptions]="{standalone: true}"> <span *ngIf="item.type === 'input-file-ocr' && _formData[item.prop]">Lưu nội dung file - OCR</span> 
+      <textarea [(ngModel)]="content" name="textarea-content" style="margin-top: 20px" rows="30" *ngIf="item.type === 'input-file-ocr' && show_content"
+       dTextarea placeholder="Please Enter" resize="both"></textarea>
       <d-select
         *ngIf="item.type === 'select'"
         [appendToBody]="true"
@@ -53,7 +54,7 @@
       <div class="devui-input-group devui-dropdown-origin" *ngIf="item.type === 'datePicker'">
         <input
           class="devui-input devui-form-control"
-          placeholder="dd/MM/yyyy"
+          placeholder="yyyy/mm/dd"
           (click)="datePicker.toggle()"
           [name]="item.prop"
           [(ngModel)]="_formData[item.prop]"

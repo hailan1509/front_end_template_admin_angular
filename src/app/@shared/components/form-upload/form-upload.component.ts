@@ -15,6 +15,7 @@ export class FormUploadComponent implements OnInit {
   tagName = '';
   des = '';
   layoutDirection: FormLayout = FormLayout.Vertical;
+  getOCR= false;
 
   additionalParameter2 = {
   };
@@ -39,7 +40,6 @@ export class FormUploadComponent implements OnInit {
   PRELOAD: string;
   UPLOADING: string;
   UPLOAD: string;
-
   constructor(private api: ApiService, private dialogService: DialogService) {
     this.UPLOAD = 'Tải lên';
     this.PRELOAD = 'Chưa tải';
@@ -71,13 +71,18 @@ export class FormUploadComponent implements OnInit {
     return uploadOptions;
   }
   ngOnInit(): void {
-    const param = [this.data.document_rcd, this.data.year, this.data.profile_number, this.data.acceptOCR];
+    const param = [this.data.document_rcd, this.data.year, this.data.profile_number, this.getOCR ? 1 : 0];
     this.uploadOptions2.uri = API_BASE_URL + 'api/manager/DocumentRef/Upload/' + param.join('_');
     // console.log(this.data);
   }
 
   onClick(event: any): void {
 
+  }
+
+  changeGetOCR() {
+    const param = [this.data.document_rcd, this.data.year, this.data.profile_number, this.getOCR ? 1 : 0];
+    this.uploadOptions2.uri = API_BASE_URL + 'api/manager/DocumentRef/Upload/' + param.join('_');
   }
   
   delete(id:any) {

@@ -708,8 +708,15 @@ export class ProfileRefComponent implements OnInit {
       else {
         user_rcd = user.user_rcd;
       }
-      this.api.post("api/manager/profileRef/ExportToExcel",{page : this.pager.pageIndex , pageSize: 100000 , profile_name_l : this._search.keyword,status : this._search.select, active_flag : 1, user_rcd : user_rcd}).subscribe((res:any) => {
-        let a = JSON.parse(JSON.stringify(res));
+      this.api.post("api/manager/profileRef/ExportToExcel",{page : this.pager.pageIndex , pageSize: 100000 , profile_name_l : this._search.keyword,status : this._search.select, active_flag : 1, user_rcd : user_rcd}, true).subscribe((response:any) => {
+        // let a = JSON.parse(JSON.stringify(res));
+        const blob = new Blob([response], { type: 'application/octet-stream' });
+        const link = document.createElement('a');
+        const objectUrl = URL.createObjectURL(blob);
+        link.href = objectUrl;
+        link.download = 'profile_ref.xlsx';
+        link.click();
+        URL.revokeObjectURL(objectUrl);
         // this.basicDataSource = a.data;
         // this.pager.total = a.totalItems;
       });
