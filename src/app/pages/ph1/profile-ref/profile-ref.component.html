@@ -99,14 +99,14 @@
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="to_date" header="Ngày kết thúc" [width]="'8%'">
+                <d-column field="to_date" header="Ngày kết thúc" [width]="'8%'" style="display: none;">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
                         {{ formatDateView(cellItem,true) }}
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="profile_note_l" header="Ghi chú" [width]="'7%'">
+                <d-column field="profile_note_e" header="Ghi chú" [width]="'15%'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem">
                       {{ cellItem }}
