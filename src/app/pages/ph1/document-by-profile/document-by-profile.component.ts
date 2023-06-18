@@ -613,12 +613,13 @@ export class DocumentByProfileComponent implements OnInit {
   }
   exportExcel() {
     // const results = this.loadingService.open();
-    this.api.post("api/manager/DocumentRef/ExportToExcel/"+this.profile_rcd, {page : 1 , pageSize: 10000 , document_name_l : this._search.keyword}).subscribe((blob:any) => {
+    this.api.post("api/manager/DocumentRef/ExportToExcel/"+this.profile_rcd, {page : 1 , pageSize: 10000 , document_name_l : this._search.keyword}, true).subscribe((response:any) => {
       // let a = JSON.parse(JSON.stringify(res));
+      const blob = new Blob([response], { type: 'application/octet-stream' });
       const link = document.createElement('a');
       const objectUrl = URL.createObjectURL(blob);
       link.href = objectUrl;
-      link.download = 'document_ref.xlsx';
+      link.download = 'document.xlsx';
       link.click();
       URL.revokeObjectURL(objectUrl);
     });
