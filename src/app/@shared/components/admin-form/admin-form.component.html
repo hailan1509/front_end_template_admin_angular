@@ -8,6 +8,7 @@
         [(ngModel)]="_formData[item.prop]"
         *ngIf="item.type === 'input'" [disabled]="item.primary && !insert"
         [dValidateRules]="item.rule"
+        [ngStyle] = "item.styles"
         [dValidateRules]="item.required ? item.rule : {}"
       />
       <input
@@ -23,7 +24,7 @@
         <label for="">Lấy nội dung</label>
       </d-button>
       <input style="margin-left: 12px" type="checkbox" *ngIf="item.type === 'input-file-ocr' && _formData[item.prop]"  [(ngModel)] = "_formData['getOCR']" [ngModelOptions]="{standalone: true}"> <span *ngIf="item.type === 'input-file-ocr' && _formData[item.prop]">Lưu nội dung file - OCR</span> 
-      <textarea [(ngModel)]="content" name="textarea-content" style="margin-top: 20px" rows="30" *ngIf="item.type === 'input-file-ocr' && show_content"
+      <textarea [(ngModel)]="content" name="textarea-content" style="margin-top: 20px" style="max-height: 300px; margin-top:10px" rows="10" *ngIf="item.type === 'input-file-ocr' && show_content"
        dTextarea placeholder="Please Enter" resize="both"></textarea>
       <d-select
         *ngIf="item.type === 'select'"

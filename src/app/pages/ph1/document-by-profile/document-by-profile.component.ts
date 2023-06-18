@@ -245,6 +245,9 @@ export class DocumentByProfileComponent implements OnInit {
               rule: {
                 validators: [{ required: true }],
               },
+              styles: {
+                width : '50%'
+              }
             },
             {
               label: 'Số tài liệu',
@@ -255,6 +258,9 @@ export class DocumentByProfileComponent implements OnInit {
               rule: {
                 // validators: [{ required: true }],
               },
+              styles: {
+                width : '50%'
+              }
             },
             {
               label: 'Ngày',
@@ -323,7 +329,7 @@ export class DocumentByProfileComponent implements OnInit {
           ],
           labelSize: '',
         };
-      })
+      },2000)
       
       results.loadingInstance.close();
     });
