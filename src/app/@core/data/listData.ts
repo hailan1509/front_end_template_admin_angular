@@ -190,6 +190,7 @@ export interface DocumentRef {
   document_type_name_l?:string;
   physical_condition_name_l?:string;
   confidentiality_name_l?:string;
+  profile_number?:string;
 }
 
 export interface Profile {

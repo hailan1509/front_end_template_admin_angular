@@ -39,6 +39,7 @@ export class DocumentByProfileComponent implements OnInit {
   confidentialityDropdown = [];
   documentTypeDropdown = [];
   phisicalCondisionDropdown = [];
+  profileDropdown = [];
 
   newDocument:DocumentRef = {
     active_flag : 1,
@@ -193,8 +194,9 @@ export class DocumentByProfileComponent implements OnInit {
       this.profile_rcd = params['id'];
     });
     const results = this.loadingService.open();
-    this.getList();
     this.getProfileInfo();
+    this.getList();
+    
     this.api.get("api/manager/DocumentRef/GetListDropdown/"+"physical_condition_ref_get_list_dropdown").subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       let tmp = 0;
@@ -236,6 +238,17 @@ export class DocumentByProfileComponent implements OnInit {
         this.formConfig = {
           layout: FormLayout.Horizontal,
           items: [
+            {
+              label: 'Số hồ sơ',
+              prop: 'profile_number',
+              type: 'input',
+              primary: false,
+              required: true,
+              onlyEdit: true,
+              rule: {
+                validators: [{ required: true },{ pattern: /^[0-9]*$/, message: 'Hãy nhập số !' },],
+              },
+            },
             {
               label: 'Tên tài liệu',
               prop: 'document_name_l',
@@ -329,6 +342,7 @@ export class DocumentByProfileComponent implements OnInit {
           ],
           labelSize: '',
         };
+        this.newDocument.profile_number = this.profileInfo.profile_number.toString();
       },2000)
       
       results.loadingInstance.close();
@@ -342,7 +356,10 @@ export class DocumentByProfileComponent implements OnInit {
     } 
     this.api.post("api/manager/DocumentRef/GetByProfileId/"+this.profile_rcd, {page : this.pager.pageIndex , pageSize: this.pager.pageSize , document_name_l : this._search.keyword}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
-      this.basicDataSource = a.data;
+      this.basicDataSource = a.data.map((v:any) => {
+        v.profile_number = this.profileInfo.profile_number;
+        return v;
+      });
       this.pager.total = a.totalItems;
       results.loadingInstance.close();
       this.current_search = this._search.keyword;
@@ -383,6 +400,7 @@ export class DocumentByProfileComponent implements OnInit {
 
   addRow() {
     this.insert = true;
+    this.newDocument.profile_number = this.profileInfo.profile_number.toString();
     this.formData = this.newDocument;
     this.editForm = this.dialogService.open({
       id: 'edit-dialog',

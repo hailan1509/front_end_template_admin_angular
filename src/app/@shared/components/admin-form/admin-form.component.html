@@ -6,10 +6,9 @@
         dTextInput
         [name]="item.prop"
         [(ngModel)]="_formData[item.prop]"
-        *ngIf="item.type === 'input'" [disabled]="item.primary && !insert"
+        *ngIf="item.type === 'input'" [disabled]="(item.primary && !insert) || (insert && item.onlyEdit)"
         [dValidateRules]="item.rule"
         [ngStyle] = "item.styles"
-        [dValidateRules]="item.required ? item.rule : {}"
       />
       <textarea dTextInput
       [name]="item.prop"
