@@ -23,16 +23,16 @@
           <a class="devui-dropdown-item" [routerLink]="['/pages', 'user', 'center']"
             ><i class="icon icon-mine"></i>{{ 'header.userCenter' | translate }}</a
           >
-        </li>
-        <li role="menuitem">
-          <a class="devui-dropdown-item" [routerLink]="['/pages', 'user', 'settings']"
-            ><i class="icon icon-setting"></i>{{ 'header.userSettings' | translate }}</a
-          >
         </li> -->
-                <li role="menuitem" (click)="handleUserOps('logout')">
-                    <a class="devui-dropdown-item logout"><i class="icon icon-exit"></i>Đăng xuất</a>
-                </li>
-            </ng-container>
+          <li role="menuitem" (click)="openModalChangePass()">
+            <a class="devui-dropdown-item">
+              <i class="icon icon-setting"></i>Đổi mật khẩu</a
+            >
+          </li>
+          <li role="menuitem" (click)="handleUserOps('logout')">
+              <a class="devui-dropdown-item logout"><i class="icon icon-exit"></i>Đăng xuất</a>
+          </li>
+        </ng-container>
         </ul>
     </div>
     <!-- <div class="da-language-wrapper" dDropDown [trigger]="'hover'" appendToBody dDropDownToggle>
@@ -61,3 +61,74 @@
         <a class="devui-dropdown-item"><i class="icon icon-add-member"></i>{{ 'header.register' | translate }}</a>
     </li>
 </ng-template>
+<ng-template #changePass>
+  <form dForm [layout]="horizontalLayout" [labelSize]="'lg'" ngForm (dSubmit) = "saveChangePass($event)">
+  <div class="da-content-wrapper">
+    <da-layout-row [daGutter]="[24, 24]">
+      <da-col-item [daSpan]="24" [daXs]="24">
+        <div class="da-list-container">
+          <div class="da-list-header">
+            <div class="da-header-left">
+              <div class="da-header-item">
+                <!-- <div class="da-header-item-label">Tên hồ sơ:</div> -->
+              </div>
+            </div>
+          </div>
+          <div class="list-content">
+              <d-form-item>
+                <d-form-label>Mật khẩu cũ：</d-form-label>
+                <d-form-control [suffixTemplate]="suffixTemplate">
+                  <input
+                    dTextInput
+                    name="password"
+                    [type]="showPassword ? 'text' : 'password'"
+                    placeholder="Mật khẩu cũ"
+                    [(ngModel)]="formData.oldPass"
+                    [dValidateRules]="formRules.oldPasswordRules"
+                  />
+                </d-form-control>
+              </d-form-item>
+              <d-form-item>
+                <d-form-label>Mật khẩu mới：</d-form-label>
+                <d-form-control [suffixTemplate]="suffixTemplate">
+                  <input
+                    dTextInput
+                    name="password1"
+                    [type]="showPassword ? 'text' : 'password'"
+                    placeholder="Mật khẩu mới"
+                    [(ngModel)]="formData.newPass"
+                    [dValidateRules]="formRules.passwordRules"
+                  />
+                </d-form-control>
+              </d-form-item>
+              <d-form-item>
+                <d-form-label>Nhập lại mật khẩu：</d-form-label>
+                <d-form-control [suffixTemplate]="suffixTemplate">
+                  <input
+                    dTextInput
+                    name="password2"
+                    [type]="showPassword ? 'text' : 'password'"
+                    placeholder="Nhập lại mật khẩu"
+                    [(ngModel)]="formData.renewPass"
+                    [dValidateRules]="formRules.passwordRules"
+                  />
+                </d-form-control>
+              </d-form-item>
+            </div>
+            <div class="da-list-footer">
+              
+            </div>
+          </div>
+        </da-col-item>
+      </da-layout-row>
+    </div>
+    <div style="text-align: right;">
+      <d-button dFormSubmit style="margin-right: 8px">Lưu</d-button>
+      <d-button bsStyle="common">Hủy</d-button>
+    </div>
+  </form>
+</ng-template>
+<ng-template #suffixTemplate>
+  <i [class]="showPassword ? 'icon icon-preview' : 'icon icon-preview-forbidden'" (click)="showPassword = !showPassword"></i>
+</ng-template>
+<d-toast [value]="msgs" [style]="{ top: '20px' }"></d-toast>
