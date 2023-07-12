@@ -147,7 +147,6 @@ export class AnalysisLineComponent implements OnInit {
       })
       this.options.xAxis[0].data = this.pluck(this.data, 'year');
       this.dataChart = this.options;
-      console.log(this.options)
     })
     // this.echartsService.getHistorgram().subscribe((option) => {
     //   this.histogramData = option;

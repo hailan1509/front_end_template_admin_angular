@@ -88,7 +88,6 @@ export class StaticsComponent implements OnInit {
       })
       this.histogramData.xAxis.data = this.pluck(this.data, 'department_name_l');
       this.dataChart = this.histogramData;
-      console.log(this.histogramData)
     })
     // this.echartsService.getHistorgram().subscribe((option) => {
     //   this.histogramData = option;
