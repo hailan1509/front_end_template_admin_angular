@@ -2,10 +2,10 @@
   <da-col-item [daSpan]="24">
     <div class="da-content-card">
       <div class="da-content-title">
-        {{ "dashboard.analysis.requirementType" | translate }}
+        Thống kê hồ sơ theo phòng ban
       </div>
       <d-echarts
-        [options]="histogramData"
+        [options]="dataChart"
         height="20rem"
         class="da-historgram"
       ></d-echarts>

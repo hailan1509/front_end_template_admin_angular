@@ -341,6 +341,14 @@ export interface Card {
   actions?: CardAction[];
 }
 
+export interface ProfileRefStatistical {
+  department_rcd?: string;
+  department_name_l?: string;
+  total_edited?: number;
+  total?: number;
+  total_digitized?: number;
+}
+
 export abstract class ListData {
   abstract getListData(pager: ListPager): Observable<Item[]>;
   abstract getOriginSource(pager: ListPager): Observable<Item[]>;

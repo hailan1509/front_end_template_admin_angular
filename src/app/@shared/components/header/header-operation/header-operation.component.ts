@@ -22,6 +22,7 @@ export class HeaderOperationComponent implements OnInit {
   language: string;
   haveLoggedIn = false;
   noticeCount: number;
+  dialogChangePass:any;
   msgs: Array<Object> = [];
   formData = {
     newPass: '',
@@ -95,7 +96,7 @@ export class HeaderOperationComponent implements OnInit {
     this.noticeCount = event;
   }
   openModalChangePass() {
-    this.dialogService.open({
+    this.dialogChangePass = this.dialogService.open({
       id: 'edit-dialog',
       width: '40%',
       title: 'Đổi mật khẩu',
@@ -122,8 +123,11 @@ export class HeaderOperationComponent implements OnInit {
       this.newUser.pass_word = this.formData.oldPass;
       this.newUser.new_password = this.formData.newPass;
       this.api.post("api/manager/UserRef/ChangePass/", this.newUser).subscribe((res:any) => {
-        this.showToast('success',res.data);
-        console.log(res);
+        this.showToast(res.extraInfo == '200' ?'success':'error',res.data);
+        if(res.extraInfo == '200') {
+          this.dialogChangePass.modalInstance.hide();
+        }
+        this.resetInputPass();
       })
     }
     else{
