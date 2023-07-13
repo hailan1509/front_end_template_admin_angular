@@ -48,6 +48,7 @@ export class HeaderOperationComponent implements OnInit {
     user_rcd: "",
     pass_word:"",
     new_password:"",
+    type: 1
   };
   
 

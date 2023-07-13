@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Item, Users } from 'src/app/@core/data/listData';
 import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
+import { DEFAULT_PASSWORD } from 'src/config/config'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -17,6 +18,7 @@ export class UsersRefComponent implements OnInit {
   showPassword = false;
 
   options = ['normal', 'borderless', 'bordered'];
+  msgs: Array<Object> = [];
 
   sizeOptions = ['sm', 'md', 'lg'];
 
@@ -201,6 +203,13 @@ export class UsersRefComponent implements OnInit {
   };
 
   busy: Subscription;
+  resetPass  = {
+    user_rcd: "",
+    pass_word:"",
+    new_password: DEFAULT_PASSWORD,
+    type: 0
+  };
+  user: any;
 
   @ViewChild('EditorTemplate', { static: true })
   EditorTemplate: TemplateRef<any>;
@@ -208,12 +217,15 @@ export class UsersRefComponent implements OnInit {
   constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService ) {}
 
   ngOnInit() {
+    if (localStorage.getItem('userinfo')) {
+      this.user = JSON.parse(localStorage.getItem('userinfo')!);
+      this.resetPass.user_rcd = this.user.user_rcd;
+    } 
     this.api.post("api/manager/RoleRef/Search",{page : 1 , pageSize: 50 , role_name_l : ""}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       let rs = a.data.map((x:any) => {
         return { id : parseInt(x.role_rcd) , name : x.role_name_l};
       });
-      console.log(rs);
       this.formConfig = {
         layout: FormLayout.Horizontal,
         items: [
@@ -453,6 +465,45 @@ export class UsersRefComponent implements OnInit {
               alert("Xóa thành công!");
               this.getList();
               
+            });
+            results.modalInstance.hide();
+          },
+        },
+        {
+          id: 'btn-cancel',
+          cssClass: 'common',
+          text: 'Không',
+          handler: ($event: Event) => {
+            results.modalInstance.hide();
+          },
+        },
+      ],
+    });
+  }
+
+  resetPassword(user_rcd:any) {
+    const results = this.dialogService.open({
+      id: 'reset-dialog',
+      width: '346px',
+      maxHeight: '600px',
+      title: 'Reset mật khẩu',
+      showAnimate: false,
+      content: 'Bạn có chắc chắn muốn reset mật khẩu?',
+      backdropCloseable: true,
+      onClose: () => {},
+      buttons: [
+        {
+          cssClass: 'primary',
+          text: 'Reset',
+          disabled: false,
+          handler: ($event: Event) => {
+            this.resetPass.user_rcd = user_rcd;
+            this.api.post("api/manager/UserRef/ChangePass",this.resetPass).subscribe((res:any) => {
+              if(res.extraInfo == '200') {
+                this.msgs = [{ severity: "success", summary: 'Thông báo', content: 'Cập nhật thành công!' }];
+              }
+              else this.msgs = [{ severity: "error", summary: 'Thông báo', content: 'Cập nhật không thành công!' }];
+              this.getList();
             });
             results.modalInstance.hide();
           },

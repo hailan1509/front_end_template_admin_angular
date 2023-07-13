@@ -9,6 +9,7 @@ import {
   InputNumberModule,
   PaginationModule,
   TooltipModule,
+  ToastModule
 } from 'ng-devui';
 import { FormsModule } from '@angular/forms';
 import { AdminFormModule } from 'src/app/@shared/components/admin-form';
@@ -34,6 +35,7 @@ import { RoleRefComponent } from './role-ref/role-ref.component';
     InputNumberModule,
     DatepickerModule,
     TooltipModule,
+    ToastModule
 
   ]
 })
