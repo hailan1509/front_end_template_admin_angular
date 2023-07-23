@@ -2,15 +2,21 @@
   <da-col-item [daSpan]="24">
     <div class="da-content-card">
       <div class="da-content-title" style="display: flex">
+        <span>Thống kê hồ sơ Sở KHCN</span> 
+      </div>
+      <d-echarts
+        [options]="_dataChart"
+        height="20rem"
+        class="da-historgram"
+      ></d-echarts>
+    </div>
+  </da-col-item>
+</da-layout-row>
+<da-layout-row [daGutter]="[24, 24]">
+  <da-col-item [daSpan]="24">
+    <div class="da-content-card">
+      <div class="da-content-title" style="display: flex">
         <span>Thống kê hồ sơ theo phòng ban</span> 
-        <!-- <d-select style="display: inline-block; margin-left:10px"
-          [options]="years"
-          [isSearch]="true"
-          [filterKey]="'name'"
-          [ngModel]="_search.year | parseSelect: 'id':years"
-          (ngModelChange)="getData()"
-          [placeholder]="'Search'"
-        ></d-select> -->
         <select class="devui-form-control" [(ngModel)]="_search.year" (change) = "getData()" name="" id="" style="width : 20% !important; margin-left: 10px;">
           <option class="devui-form-control devui-dropdown-item" value="0">Tất cả</option>
           <option class="devui-form-control devui-dropdown-item" *ngFor="let year of years" [value]="year">{{ year }}</option>
