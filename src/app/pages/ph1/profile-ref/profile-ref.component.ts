@@ -687,7 +687,7 @@ export class ProfileRefComponent implements OnInit {
   }
 
   getDocuments(profile_rcd: any) {
-    window.location.href = "/pages/PH1/documents/"+profile_rcd;
+    window.open("/pages/PH1/documents/"+profile_rcd);
   }
 
   formatDateView(date:any, yearFirst:boolean) {

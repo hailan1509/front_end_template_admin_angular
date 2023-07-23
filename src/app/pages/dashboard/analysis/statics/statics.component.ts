@@ -75,11 +75,37 @@ export class StaticsComponent implements OnInit {
     ],
   };
   data: any;
+  _search = {
+    'year' : '0',
+    'department_rcd': '',
+  };
+  // years = [
+  //   {
+  //     name : 'Tất cả',
+  //     id : '0',
+  //   }
+  // ];
+  years: number[] = [];
+  currentYear: number;
 
-  constructor(private echartsService: EchartsService, private api: ApiService) {}
+  constructor(private echartsService: EchartsService, private api: ApiService) {
+    this.currentYear = new Date().getFullYear();
+    this.years = this.generateYears();
+  }
 
   ngOnInit(): void {
-    this.api.get("api/manager/profileRef/statistical_by_department/1").subscribe((res:any) => {
+    this.getData();
+    // this.echartsService.getHistorgram().subscribe((option) => {
+    //   this.histogramData = option;
+    // });
+  }
+  pluck(arr:any, key:any){
+    return arr.map((i:any) => i[key]);
+  }
+  getData() {
+    this.dataChart = {};
+    // console.log(this._search.year)
+    this.api.post("api/manager/profileRef/statistical_by_department/1", this._search).subscribe((res:any) => {
       this.data = res.data;
       this.data.forEach((v:ProfileRefStatistical) => {
       })
@@ -89,11 +115,10 @@ export class StaticsComponent implements OnInit {
       this.histogramData.xAxis.data = this.pluck(this.data, 'department_name_l');
       this.dataChart = this.histogramData;
     })
-    // this.echartsService.getHistorgram().subscribe((option) => {
-    //   this.histogramData = option;
-    // });
   }
-  pluck(arr:any, key:any){
-    return arr.map((i:any) => i[key]);
-  } 
+  generateYears(): number[] {
+    const startYear = 2010;
+    const endYear = this.currentYear;
+    return Array.from({ length: endYear - startYear + 1 }, (_, index) => startYear + index);
+  }
 }

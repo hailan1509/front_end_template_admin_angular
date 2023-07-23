@@ -18,6 +18,7 @@ import { WorkSpaceBodyComponent } from './work-space/work-space-body/work-space-
 import { WorkManagementComponent } from './work-space/work-space-body/work-management/work-management.component';
 import { WorkItemTableComponent } from './work-space/work-item-table/work-item-table.component';
 import { WorkOperationComponent } from './work-space/work-space-body/work-operation/work-operation.component';
+// import {ParseSelectPipe} from 'src/app/pages/parseFromPipe.pipe';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { WorkOperationComponent } from './work-space/work-space-body/work-operat
     WorkManagementComponent,
     WorkItemTableComponent,
     WorkOperationComponent,
+    // ParseSelectPipe,
   ],
   imports: [
     SharedModule,

@@ -1,8 +1,12 @@
 <da-layout-row [daGutter]="[24, 24]">
   <da-col-item [daSpan]="24">
     <div class="da-content-card da-analysis-line">
-      <div class="da-content-title">
-        Thống kê hồ sơ theo năm
+      <div class="da-content-title" style="display: flex">
+        <p>Thống kê hồ sơ theo năm</p> 
+        <select class="devui-form-control" [(ngModel)]="_search.department_rcd" (change) = "getData()" name="" id="" style="width : 20% !important; margin-left: 10px;">
+          <option class="devui-form-control devui-dropdown-item" value="">Tất cả</option>
+          <option class="devui-form-control devui-dropdown-item" *ngFor="let item of departments" [value]="item.department_rcd">{{ item.department_name_l }}</option>
+        </select>
       </div>
       <d-echarts [options]="dataChart" class="da-echarts-line"></d-echarts>
     </div>

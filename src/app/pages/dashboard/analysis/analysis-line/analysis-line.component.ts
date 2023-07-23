@@ -136,11 +136,30 @@ export class AnalysisLineComponent implements OnInit {
   };
   data: any;
   dataChart: any;
+  _search = {
+    'year' : '0',
+    'department_rcd': '',
+  };
+  departments: any;
 
   constructor(private echartsService: EchartsService, private api: ApiService) {}
 
   ngOnInit(): void {
-    this.api.get("api/manager/profileRef/statistical_by_department/0").subscribe((res:any) => {
+    this.api.post("api/manager/DepartmentRef/Search",{page : 1 , pageSize: 1000 , department_name_l : ''}).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      this.departments = a.data;
+      this.getData();
+    });
+    // this.echartsService.getHistorgram().subscribe((option) => {
+    //   this.histogramData = option;
+    // });
+  }
+  pluck(arr:any, key:any){
+    return arr.map((i:any) => i[key]);
+  }
+  getData() {
+    this.dataChart = {};
+    this.api.post("api/manager/profileRef/statistical_by_department/0", this._search).subscribe((res:any) => {
       this.data = res.data;
       this.options.series.forEach((v:any, index: number) => {
         this.options.series[index].data = this.pluck(this.data, v.id);
@@ -148,11 +167,5 @@ export class AnalysisLineComponent implements OnInit {
       this.options.xAxis[0].data = this.pluck(this.data, 'year');
       this.dataChart = this.options;
     })
-    // this.echartsService.getHistorgram().subscribe((option) => {
-    //   this.histogramData = option;
-    // });
   }
-  pluck(arr:any, key:any){
-    return arr.map((i:any) => i[key]);
-  } 
 }
