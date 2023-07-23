@@ -256,6 +256,7 @@ export class ProfileRefComponent implements OnInit {
   confidentialityDropdown:any = [];
   departmentDropdown:any = [];
   archivesDropdown:any = [];
+  userInfo: any;
 
   @ViewChild('EditorTemplate', { static: true })
   EditorTemplate: TemplateRef<any>;
@@ -338,6 +339,7 @@ export class ProfileRefComponent implements OnInit {
     if (localStorage.getItem('userinfo')) {
       let user = JSON.parse(localStorage.getItem('userinfo')!);
       let user_rcd = "";
+      this.userInfo = user;
       this.role_rcd = user.role_rcd;
       if(this.role_rcd == 2) {
 
@@ -539,7 +541,7 @@ export class ProfileRefComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/profileRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/profileRef/DeleteMulti/"+this.userInfo.user_rcd,[id]).subscribe((res:any) => {
               alert("Xóa thành công!");
               this.getList();
 
@@ -617,6 +619,8 @@ export class ProfileRefComponent implements OnInit {
 
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
+    e.created_by_user_id = this.userInfo.user_rcd;
+    e.lu_user_id = this.userInfo.user_rcd;
     if (this.insert) {
       e.profile_code=e.profile_code;
       e.profile_name_l = e.profile_name_l;
