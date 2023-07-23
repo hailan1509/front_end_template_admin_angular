@@ -78,12 +78,12 @@
                 <d-column field="profile_name_l" header="Tên hồ sơ" [width]="'40%'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem" let-rowItem="rowItem">
-                      <i (click)="getDocuments(rowItem.profile_rcd)">
+                      <a href="/pages/PH1/documents/{{rowItem.profile_rcd}}" target="_blank" style="color: black">
                         <span [title]="cellItem" [style.width]="'100%'" >
                           <!-- <d-tag [tag]="'Epic'" [labelStyle]="'epic'"></d-tag> -->
                           {{ cellItem }}
                         </span>
-                      </i>
+                      </a>
                     </ng-template>
                   </d-cell>
                 </d-column>
