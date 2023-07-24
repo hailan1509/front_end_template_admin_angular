@@ -194,13 +194,17 @@ export default function (values: any) {
         //   link: '/pages/PH5/bchsh',
         // },
         {
-          title: values['PH5']['bcpkt'],
-          link: '/pages/PH5/bcpkt',
+          title: values['PH5']['tkhs'],
+          link: '/pages/PH5/bctkhs',
         },
         {
-          title: values['PH5']['bchstldm'],
-          link: '/pages/PH5/bchstldm',
+          title: values['PH5']['qltvnd'],
+          link: '/pages/PH5/qltvnd',
         },
+        // {
+        //   title: values['PH5']['bchstldm'],
+        //   link: '/pages/PH5/bchstldm',
+        // },
         // {
         //   title: values['PH5']['tkhsdvlt'],
         //   link: '/pages/PH5/tkhsdvlt',
@@ -227,11 +231,11 @@ export default function (values: any) {
       menuIcon: 'icon icon-table',
       roles: [2]
     },
-    {
-      title: "Quản lý khu vực",
-      link: '/pages/quan-ly/area',
-      menuIcon: 'icon icon-console',
-      roles: [1,2]
-    },
+    // {
+    //   title: "Quản lý khu vực",
+    //   link: '/pages/quan-ly/area',
+    //   menuIcon: 'icon icon-console',
+    //   roles: [1,2]
+    // },
   ];
 }

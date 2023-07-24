@@ -182,6 +182,7 @@ export class DocumentByProfileComponent implements OnInit {
   busy: Subscription;
 
   profile_rcd:any;
+  userInfo:any;
   private routeSub: Subscription;
 
   @ViewChild('EditorTemplate', { static: true })
@@ -190,6 +191,10 @@ export class DocumentByProfileComponent implements OnInit {
   constructor(private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService,private route: ActivatedRoute, private loadingService: LoadingService ) { }
 
   ngOnInit(): void {
+    if (localStorage.getItem('userinfo')) {
+      let user = JSON.parse(localStorage.getItem('userinfo')!);
+      this.userInfo = user;
+    }
     this.routeSub = this.route.params.subscribe(params => {
       this.profile_rcd = params['id'];
     });
@@ -431,7 +436,7 @@ export class DocumentByProfileComponent implements OnInit {
           text: 'Xóa',
           disabled: false,
           handler: ($event: Event) => {
-            this.api.post("api/manager/DocumentRef/DeleteMulti",[id]).subscribe((res:any) => {
+            this.api.post("api/manager/DocumentRef/DeleteMulti/"+this.userInfo.user_rcd,[id]).subscribe((res:any) => {
               this.showToast("success");
               this.getList();
 
@@ -457,6 +462,8 @@ export class DocumentByProfileComponent implements OnInit {
       e.date = this.formatDate(e.date);
     }
     e.active_flag = parseInt(e.active_flag);
+    e.created_by_user_id = this.userInfo.user_rcd;
+    e.lu_user_id = this.userInfo.user_rcd;
     const results = this.loadingService.open();
     if (this.insert) {
       

@@ -1,0 +1,174 @@
+<div class="da-list-wrap">
+    <div class="da-content-banner">
+      <d-breadcrumb>
+        <d-breadcrumb-item
+            ><a routerLink="/">Home</a></d-breadcrumb-item
+          >
+        <d-breadcrumb-item>Báo cáo thống kê</d-breadcrumb-item>
+        <d-breadcrumb-item>Quản lý tác vụ người dùng</d-breadcrumb-item>
+      </d-breadcrumb>
+      <div class="da-content-banner-title">Quản lý tác vụ người dùng</div>
+      <!-- <div>Quản lý hồ sơ chờ hủy</div> -->
+    </div>
+    <div class="da-content-wrapper">
+      <da-layout-row [daGutter]="[24, 24]">
+        <da-col-item [daSpan]="24" [daXs]="24">
+          <div class="da-list-container">
+            <div class="da-list-header">
+              <div class="da-header-left">
+                <!-- <div class="da-header-item">
+                  <div class="da-header-item-label">Số/Ký hiệu hồ sơ:</div>
+                  <d-search
+                    [size]="'sm'"
+                    (searchFn)="search()"
+                    [(ngModel)]="_search.profile_code"
+                    class="da-inline"
+                    [placeholder]="'Số/Ký hiệu hồ sơ'"
+                  ></d-search>
+                </div> -->
+                <div class="da-header-item">
+                  <div class="da-header-item-label">Người dùng:</div>
+                  <d-select style="display: inline-block; margin-left:10px; width: 300px;"
+                    [options]="user_select"
+                    [isSearch]="true"
+                    [filterKey]="'name'"
+                    [ngModel]="userSelected"
+                    (ngModelChange)="modelChange($event)"
+                    [placeholder]="'Tìm kiếm người dùng'"
+                  ></d-select>
+                <div class="devui-input-group devui-dropdown-origin" dActiveFormControl style="margin-left: 10px;">
+                    <input
+                      class="devui-input devui-form-control"
+                      placeholder="Tìm kiếm theo ngày"
+                      name="dp"
+                      [dateFormat]="'dd/MM/y'"
+                      [(ngModel)]="dateRange"
+                      (click)="dateRangePicker.toggle()"
+                      autocomplete="off"
+                      dDateRangePicker
+                      #dateRangePicker="dateRangePicker"
+                      (selectedRangeChange)="getValue($event)"
+                      [hideOnRangeSelected]="true"
+                    />
+                    <div *ngIf="everyRange(dateRange)" class="devui-input-group-addon close-icon-wrapper" (click)="dateRangePicker.clearAll()">
+                      <i class="icon icon-close"></i>
+                    </div>
+                    <div class="devui-input-group-addon" (click)="dateRangePicker.toggle()">
+                      <i class="icon icon-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="da-header-item">
+
+                  <!-- <select class="devui-form-control" name="" id="" [(ngModel)]="_search.active_flag" (change) = "search()">
+                    <option class="devui-form-control devui-dropdown-item" value="1">Đang chờ hủy</option>
+                    <option class="devui-form-control devui-dropdown-item" value="0">Đã xóa khỏi biên bản hủy</option>
+                  </select> -->
+                </div>
+                
+              </div>
+              <div class="header-right">
+                <!-- <d-button (click)="addRow()" style="margin-right: 8px">Thêm sản phẩm</d-button> -->
+                <!-- <d-button (click)="reset()" bsStyle="common" style="margin-right: 8px">Reset</d-button> -->
+                <!-- <d-button (click)="batchDelete(deleteList)" bsStyle="danger" [disabled]="!deleteList.length">Xóa hàng loạt</d-button> -->
+              </div>
+            </div>
+            <br />
+            <div class="list-content" dLoading [loading]="busy">
+                <d-data-table
+                #datatable
+                [dataSource]="basicDataSource"
+                [borderType]="searchForm.borderType"
+                [size]="searchForm.size"
+                [tableLayout]="searchForm.layout"
+                [scrollable]="true"
+              >
+              <d-column  header="STT" [width]="'5%'">
+                <d-cell>
+                  <ng-template let-rowIndex="rowIndex">
+                    {{ rowIndex+1 }}
+                  </ng-template>
+                </d-cell>
+              </d-column>
+      
+                <d-column field="full_name" header="Tên người dùng" [width]="'10%'" style="color: crimson;">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                     {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="user_name" header="Tài khoản" [width]="'10%'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                     {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="function" header="Hàm" [width]="'10%'">
+                    <d-cell>
+                      <ng-template let-cellItem="cellItem">
+                       {{ cellItem }}
+                      </ng-template>
+                    </d-cell>
+                  </d-column>
+                <d-column field="action" header="Hành động" [width]="'10%'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem" let-rowItem="rowItem">
+                        <span [title]="cellItem" [style.width]="'100%'" >
+                          <d-tag [tag]="cellItem" [labelStyle]="cellItem">{{ cellItem }}</d-tag>
+                          
+                        </span>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="created_at" header="Thời gian" [width]="'10%'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
+                      {{ formatDateView(cellItem,true) }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="success" header="Trạng thái" [width]="'10%'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                        {{ cellItem ? "Thành công" : "Thất bại" }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+                <d-column field="exception" header="Error" [width]="'8%'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                        {{ cellItem }}
+                    </ng-template>
+                  </d-cell>
+                </d-column>
+              </d-data-table>
+            </div>
+            <div class="da-list-footer">
+              <d-pagination
+                [size]="'sm'"
+                [total]="pager.total"
+                [(pageSize)]="pager.pageSize"
+                [(pageIndex)]="pager.pageIndex"
+                [canViewTotal]="true"
+                [canChangePageSize]="true"
+                [canJumpPage]="true"
+                [maxItems]="5"
+                (pageIndexChange)="onPageChange($event)"
+                (pageSizeChange)="onSizeChange($event)"
+              >
+              </d-pagination>
+            </div>
+          </div>
+        </da-col-item>
+      </da-layout-row>
+    </div>
+  </div>
+  
+  <ng-template #EditorTemplate>
+  
+  </ng-template>
+  
+  

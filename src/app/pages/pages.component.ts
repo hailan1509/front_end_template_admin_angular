@@ -170,7 +170,9 @@ export class PagesComponent implements OnInit {
         tkslhstn : "Thống kê số lượng hồ sơ theo năm",
         tksltltn : "Thống kê số lượng tài liệu theo năm",
         tkbctvsh : "Thống kê, báo cáo tác vụ số hóa",
-        bcdmvbctlhs : "Báo cáo danh mục văn bản có trong loại hồ sơ"
+        bcdmvbctlhs : "Báo cáo danh mục văn bản có trong loại hồ sơ",
+        tkhs: "Báo cáo thống kê hồ sơ",
+        qltvnd: "Quản lý tác vụ",
       }
     };
     this.menu = getMenu(menu_object);

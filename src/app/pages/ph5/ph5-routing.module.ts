@@ -8,17 +8,21 @@ import { ReportCancellationProfileComponent } from './report-cancellation-profil
 import { ReportArchivalProfileComponent } from './report-archival-profile/report-archival-profile.component';
 import { StatisticDocumentComponent } from './statistic-document/statistic-document.component';
 import { ReportProfileDocumentBorrowedComponent } from './report-profile-document-borrowed/report-profile-document-borrowed.component';
+import { LogActiveComponent } from './log-active/log-active.component';
+import { AnalysisComponent } from '../dashboard/analysis/analysis.component';
 
 const routes: Routes = [
   {
     path: '',
     component: PH5Component,
     children: [
-      { path: 'bchslt', component: ReportArchivalProfileComponent },
-      { path: 'bchsh', component: ReportCancellationProfileComponent },
-      { path: 'bcpkt', component: ReportMiningFileComponent },
-      { path: 'bchstldm', component: ReportProfileDocumentBorrowedComponent },
-      { path: 'tksltltn', component: StatisticDocumentComponent },
+      // { path: 'bchslt', component: ReportArchivalProfileComponent },
+      // { path: 'bchsh', component: ReportCancellationProfileComponent },
+      // { path: 'bcpkt', component: ReportMiningFileComponent },
+      // { path: 'bchstldm', component: ReportProfileDocumentBorrowedComponent },
+      // { path: 'tksltltn', component: StatisticDocumentComponent },
+      { path: 'bctkhs', component: AnalysisComponent },
+      { path: 'qltvnd', component: LogActiveComponent},
     ]
   }
 ];
