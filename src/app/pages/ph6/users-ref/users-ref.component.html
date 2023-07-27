@@ -74,7 +74,7 @@
                             <d-column field="date_of_birth" header="Ngày sinh" [width]="'100px'">
                                 <d-cell>
                                     <ng-template let-cellItem="cellItem">
-                                        {{ cellItem }}
+                                        {{ formatDateView(cellItem,true) }}
                                         <!-- <d-tag [tag]="cellItem" [labelStyle]="cellItem"></d-tag> -->
                                     </ng-template>
                                 </d-cell>

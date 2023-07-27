@@ -409,7 +409,15 @@ export class UsersRefComponent implements OnInit {
       this.pager.total = a.totalItems;
     });
   }
+  formatDateView(date:any, yearFirst:boolean) {
+    if (date) {
 
+      let arr_date_time = date.split('T');
+      let  arr_date = arr_date_time[0].split('-');
+      return arr_date[yearFirst ?2 : 0 ] + '/' + arr_date[1] + '/' + arr_date[yearFirst ? 0 :2];
+    }
+    return "";
+  }
   
 
   editRow(row: any, index: number) {
@@ -555,18 +563,14 @@ export class UsersRefComponent implements OnInit {
       e.phone_number=e.phone_number;
       e.address=e.address;
       e.user_name=e.user_name;
-      e.pass_word=e.pass_word;
+      e.pass_word=DEFAULT_PASSWORD;
       e.user_note_l = e.user_note_l;
-       
-      console.log({...e})
 
       this.api.post("api/manager/UserRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(e);
     }
     else {
       e.full_name = e.full_name;   
