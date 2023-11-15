@@ -104,16 +104,16 @@ export class DepartmentRefComponent implements OnInit {
   formConfig: FormConfig = {
     layout: FormLayout.Horizontal,
     items: [
-      {
-        label: 'Mã phòng ban',
-        prop: 'department_rcd',
-        type: 'input',
-        primary: true,
-        required: true,
-        rule: {
-          validators: [{ required: true }],
-        },
-      },
+      // {
+      //   label: 'Mã phòng ban',
+      //   prop: 'department_rcd',
+      //   type: 'input',
+      //   primary: true,
+      //   required: true,
+      //   rule: {
+      //     validators: [{ required: true }],
+      //   },
+      // },
       {
         label: 'Mã phòng ban',
         prop: 'department_code',
