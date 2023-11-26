@@ -8,6 +8,7 @@ import { ListDataService } from 'src/app/@core/mock/list-data.service';
 import { ProfilePermissionComponent } from 'src/app/@shared/components/modals/profile-permission/profile-permission.component';
 import { FormConfig } from 'src/app/@shared/components/admin-form';
 // import { parse } from 'path';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from 'ng-devui/loading';
 
 @Component({
@@ -256,18 +257,24 @@ export class ProfileRefComponent implements OnInit {
   confidentialityDropdown:any = [];
   departmentDropdown:any = [];
   archivesDropdown:any = [];
+  archivesFontsDropdown:any = [];
   userInfo: any;
+  archive_fonts_rcd : any;
 
   @ViewChild('EditorTemplate', { static: true })
   EditorTemplate: TemplateRef<any>;
 
-  constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService, private loadingService: LoadingService ) {}
+  constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService, private loadingService: LoadingService, private route: ActivatedRoute, private router: Router ) {}
 
   ngOnInit() {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     if (localStorage.getItem('userinfo')) {
       let user = JSON.parse(localStorage.getItem('userinfo')!);
       this.role_rcd = user.role_rcd;
     }
+    this.route.params.subscribe(params => {
+      this.archive_fonts_rcd = params['archive_fonts_rcd'];
+    });
     const results = this.loadingService.open();
     this.api.post("api/manager/DepartmentRef/Search",{page : 1 , pageSize: 100 , department_name_l : ''}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
@@ -321,6 +328,20 @@ export class ProfileRefComponent implements OnInit {
       
       results.loadingInstance.close();
     });
+    this.api.post("api/manager/ArchiveFontsRef/Search",{page : 1 , pageSize: 1000 , archive_fonts_name_l : ''}).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let tmp = 0;
+      let rs = a.data.map((x:any) => {
+        if(tmp == 0) {
+          this.newprofile.archives_rcd = x.archives_rcd;
+        }
+        tmp++;
+        return { id : x.archive_fonts_rcd , name : x.archive_fonts_name_l};
+      })
+      this.archivesFontsDropdown = rs;
+      
+      results.loadingInstance.close();
+    });
     this.getList();
     // this.getCountry();
   }
@@ -351,7 +372,7 @@ export class ProfileRefComponent implements OnInit {
         this.pager.pageIndex = 1;
       } 
       const results = this.loadingService.open();
-      this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword, status: this._search.select, active_flag : 1, user_rcd : user_rcd}).subscribe((res:any) => {
+      this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword, status: this._search.select, active_flag : 1, user_rcd : user_rcd,archive_fonts_rcd: this.archive_fonts_rcd}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.basicDataSource = a.data;
         this.pager.total = a.totalItems;
@@ -450,6 +471,17 @@ export class ProfileRefComponent implements OnInit {
             prop: 'physical_condition_rcd',
             type: 'select-object',
             options: this.phisicalCondisionDropdown,
+            primary: false,
+            required: true,
+            rule: {
+              validators: [{ required: true }],
+            },
+          },
+          {
+            label: 'Phông',
+            prop: 'archive_fonts_rcd',
+            type: 'select-object',
+            options: this.archivesFontsDropdown,
             primary: false,
             required: true,
             rule: {

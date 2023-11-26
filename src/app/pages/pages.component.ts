@@ -12,6 +12,7 @@ import { DaScreenMediaQueryService } from '../@shared/layouts/da-grid';
 import { takeUntil } from 'rxjs/operators';
 import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.component';
 import { Theme } from 'ng-devui/theme';
+import { ApiService } from 'src/app/api.service';
 
 @Component({
   selector: 'da-pages',
@@ -36,7 +37,8 @@ export class PagesComponent implements OnInit {
     private layoutService: DaLayoutService,
     private translate: TranslateService,
     private mediaQueryService: DaScreenMediaQueryService,
-    private render2: Renderer2
+    private render2: Renderer2,
+    private api: ApiService
   ) {
     this.personalizeService.initTheme();
     this.layoutService
@@ -93,7 +95,8 @@ export class PagesComponent implements OnInit {
   }
 
   updateMenu(values: any) {
-    let menu_object = {
+    
+    let menu_object:any = {
       dashboard : {
         title: "Dashboard"
       },
@@ -175,7 +178,22 @@ export class PagesComponent implements OnInit {
         qltvnd: "Quản lý tác vụ",
       }
     };
-    this.menu = getMenu(menu_object);
+    this.api.post("api/manager/ArchiveFontsRef/Search",{page : 1 , pageSize: 1000 , archive_fonts_name_l : ''}).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      let archive_fonts:any = [{
+        title: menu_object['PH1']['qlhsdcl'],
+        link: '/pages/PH1/qlhsdcl',
+      }];
+      if (a.data.length > 0) {
+        a.data.forEach((item : any, key :number) => {
+          archive_fonts.push({
+            'title' : item.archive_fonts_name_e,
+            'link' : '/pages/PH1/qlhs/'+ item.archive_fonts_rcd,
+          }) ;
+        })
+      }
+      this.menu = getMenu(menu_object, archive_fonts);
+    });
   }
 
   openSideMenuDrawer() {

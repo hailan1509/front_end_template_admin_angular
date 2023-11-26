@@ -10,6 +10,7 @@ const routes: Routes = [
     component: ph1Component,
     children: [
       { path: 'qlhsdcl', component: ProfileRefComponent },
+      { path: 'qlhs/:archive_fonts_rcd', component: ProfileRefComponent },
       { path: 'documents/:id', component: DocumentByProfileComponent },
     ],
   },
