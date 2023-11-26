@@ -260,6 +260,7 @@ export class ProfileRefComponent implements OnInit {
   archivesFontsDropdown:any = [];
   userInfo: any;
   archive_fonts_rcd : any;
+  archive_fonts: any;
 
   @ViewChild('EditorTemplate', { static: true })
   EditorTemplate: TemplateRef<any>;
@@ -275,6 +276,12 @@ export class ProfileRefComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.archive_fonts_rcd = params['archive_fonts_rcd'];
     });
+    if (this.archive_fonts_rcd) {
+      this.api.get("api/manager/ArchiveFontsRef/GetById/"+ this.archive_fonts_rcd).subscribe((res:any) => {
+        let a = JSON.parse(JSON.stringify(res));
+        this.archive_fonts = a.data;
+      });
+    }
     const results = this.loadingService.open();
     this.api.post("api/manager/DepartmentRef/Search",{page : 1 , pageSize: 100 , department_name_l : ''}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));

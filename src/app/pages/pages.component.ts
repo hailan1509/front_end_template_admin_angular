@@ -180,14 +180,11 @@ export class PagesComponent implements OnInit {
     };
     this.api.post("api/manager/ArchiveFontsRef/Search",{page : 1 , pageSize: 1000 , archive_fonts_name_l : ''}).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
-      let archive_fonts:any = [{
-        title: menu_object['PH1']['qlhsdcl'],
-        link: '/pages/PH1/qlhsdcl',
-      }];
+      let archive_fonts:any = [];
       if (a.data.length > 0) {
         a.data.forEach((item : any, key :number) => {
           archive_fonts.push({
-            'title' : item.archive_fonts_name_e,
+            'title' : item.archive_fonts_name_l,
             'link' : '/pages/PH1/qlhs/'+ item.archive_fonts_rcd,
           }) ;
         })
