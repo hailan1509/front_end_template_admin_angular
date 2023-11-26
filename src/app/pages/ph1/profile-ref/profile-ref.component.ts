@@ -343,7 +343,7 @@ export class ProfileRefComponent implements OnInit {
           this.newprofile.archives_rcd = x.archives_rcd;
         }
         tmp++;
-        return { id : x.archive_fonts_rcd , name : x.archive_fonts_name_l};
+        return { id : x.archive_fonts_rcd , name : x.archive_fonts_note_l};
       })
       this.archivesFontsDropdown = rs;
       

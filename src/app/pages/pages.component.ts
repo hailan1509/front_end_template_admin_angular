@@ -184,7 +184,7 @@ export class PagesComponent implements OnInit {
       if (a.data.length > 0) {
         a.data.forEach((item : any, key :number) => {
           archive_fonts.push({
-            'title' : item.archive_fonts_name_l,
+            'title' : item.archive_fonts_note_l,
             'link' : '/pages/PH1/qlhs/'+ item.archive_fonts_rcd,
           }) ;
         })
