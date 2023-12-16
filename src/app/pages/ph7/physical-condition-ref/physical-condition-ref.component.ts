@@ -294,11 +294,11 @@ export class PhysicalConditionRefComponent implements OnInit {
 
       this.api.post("api/manager/PhysicalConditionRef/Create",{...obj}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(obj);
+      //console.log(obj);
     }
     else {
       
@@ -308,14 +308,14 @@ export class PhysicalConditionRefComponent implements OnInit {
       e.physical_condition_note_l = e.physical_condition_note_l;
 
      
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/PhysicalConditionRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

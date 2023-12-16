@@ -5,12 +5,12 @@
           ><a routerLink="/">Home</a></d-breadcrumb-item
         >
         <d-breadcrumb-item>Quản lý</d-breadcrumb-item>
-        <d-breadcrumb-item>{{ archive_fonts ? archive_fonts.archive_fonts_note_l : '' }}</d-breadcrumb-item>
+        <d-breadcrumb-item>{{ archive_fonts ? archive_fonts.archive_fonts_note_l : 'Quản lý hồ sơ đề xuất' }}</d-breadcrumb-item>
       </d-breadcrumb>
       <div class="da-content-banner-title">
-        {{ archive_fonts ? archive_fonts.archive_fonts_note_l : '' }}
+        {{ archive_fonts ? archive_fonts.archive_fonts_note_l : 'Quản lý hồ sơ đề xuát' }}
       </div>
-      <div>Danh sách hồ sơ</div>
+      <div>Danh sách hồ sơ đề xuất</div>
     </div>
     <div class="da-content-wrapper">
       <da-layout-row [daGutter]="[24, 24]">
@@ -28,19 +28,15 @@
                       style="width: 350px"
                     ></d-search>
                     <d-select style="display: inline-block; margin-left:10px"
-                    [options]="status"
+                    [options]="active_flag"
                     [isSearch]="true"
                     [filterKey]="'name'"
-                    [ngModel]="_search.select | parseSelect: 'id':status"
+                    [ngModel]="_search.select | parseSelect: 'id':active_flag"
                     (ngModelChange)="modelChange($event)"
                     [placeholder]="'Search'"
                   ></d-select>
-                    <d-button (click)="reset()" style="margin-left: 12px">Reset</d-button>
-                    <d-button *ngIf = "role_rcd == 2" class="btn btn-primary" (click)="addRow()" style="margin-left: 12px">Thêm</d-button>
+                    <d-button class="btn btn-primary" *ngIf = "role_rcd != 2" (click)="addRow()" style="margin-left: 12px">Đề xuất</d-button>
                   </div>
-                  <div class="da-right">
-                    <d-button icon="icon-op-download" style="margin-right:10px" (click) = "exportExcel()">Excel</d-button>
-                </div>
               </div>
             </div>
             <br>
@@ -75,7 +71,7 @@
                     </ng-template>
                   </d-cell>
                 </d-column>
-                <d-column field="profile_name_l" header="Tên hồ sơ" [width]="'40%'">
+                <d-column field="profile_name_l" header="Tên hồ sơ" [width]="'30%'">
                   <d-cell>
                     <ng-template let-cellItem="cellItem" let-rowItem="rowItem">
                       <a href="/pages/PH1/documents/{{rowItem.profile_rcd}}" target="_blank" style="color: black">
@@ -123,14 +119,24 @@
                     </ng-template>
                   </d-cell>
                 </d-column>
+                <d-column field="active_flag" header="Hiện trạng" [width]="'12%'">
+                  <d-cell>
+                    <ng-template let-cellItem="cellItem">
+                      <span  [style]="cellItem ==1? 'color:green;' : cellItem == 3?'color:blue;':'color:red'" >
+                        {{ getNameActiveFlag(cellItem)  }}</span>
+                    </ng-template>
+                  </d-cell>
+                </d-column>
                 <d-column field="Actions" header="Actions" [width]="'100px'" >
                   <d-cell>
                     <ng-template let-rowItem="rowItem" let-rowIndex="rowIndex">
                       <div class="btn-group over-flow-ellipsis">
-                        <d-button *ngIf = "role_rcd == 2" icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
-                        <d-button *ngIf = "role_rcd == 2" icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.profile_rcd)"></d-button>
-                        <d-button *ngIf = "role_rcd == 2 || rowItem.confidentiality_rcd == 'c2ad368e-7a65-4b25-971e-a759c3b3eb5f'" icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="getDocuments(rowItem.profile_rcd)"></d-button>
-                        <d-button *ngIf = "role_rcd == 2" icon="icon-add-member" bsStyle="text-dark" title="Giới hạn người dùng" (click)="openModalPermission(rowItem)"></d-button>
+                        <d-button *ngIf = "rowItem.active_flag == 1" icon="icon-edit" bsStyle="text-dark" title="edit" (click)="editRow(rowItem, rowIndex)"></d-button>
+                        <d-button *ngIf = "rowItem.active_flag == 1" icon="icon-delete" bsStyle="text-dark" title="delete" (click)="deleteRow(rowItem.profile_rcd)"></d-button>
+                        <d-button *ngIf = "rowItem.active_flag == 1" icon="icon-connect" bsStyle="text-dark" title="Xem tài liệu" (click)="getDocuments(rowItem.profile_rcd)"></d-button>
+                        <d-button *ngIf = "role_rcd == 2 && rowItem.active_flag != 1" icon="icon-add-manual-use-case" bsStyle="text-dark" title="Duyệt hồ sơ" (click)="acceptOrCancel(rowItem, 1)"></d-button>
+                        <d-button *ngIf = "role_rcd == 2 && rowItem.active_flag != 2" icon="icon-close" bsStyle="text-dark" title="Hủy hồ sơ" (click)="acceptOrCancel(rowItem, 2)"></d-button>
+                        <!-- <d-button *ngIf = "role_rcd == 2" icon="icon-add-member" bsStyle="text-dark" title="Giới hạn người dùng" (click)="openModalPermission(rowItem)"></d-button> -->
                       </div>
                     </ng-template>
                   </d-cell>

@@ -302,11 +302,11 @@ export class DepartmentRefComponent implements OnInit {
 
       this.api.post("api/manager/DepartmentRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(e);
+      //console.log(e);
     }
     else {
       e.department_name_e = e.department_name_e;
@@ -314,14 +314,14 @@ export class DepartmentRefComponent implements OnInit {
       e.department_note_e = e.department_note_e;
       e.department_note_l = e.department_note_l;
      
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/DepartmentRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

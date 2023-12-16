@@ -302,11 +302,11 @@ export class RoleRefComponent implements OnInit {
 
       this.api.post("api/manager/RoleRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(e);
+      //console.log(e);
     }
     else {
       e.role_name_e = e.role_name_e;
@@ -314,14 +314,14 @@ export class RoleRefComponent implements OnInit {
       e.role_note_e = e.role_note_e;
       e.role_note_l = e.role_note_l;
      
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/RoleRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

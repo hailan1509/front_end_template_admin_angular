@@ -294,11 +294,11 @@ export class DurationStorageRefComponent implements OnInit {
 
       this.api.post("api/manager/DurationStorageRef/Create",{...obj}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(obj);
+      //console.log(obj);
     }
     else {
       
@@ -307,14 +307,14 @@ export class DurationStorageRefComponent implements OnInit {
       e.duration_storage_note_e = e.duration_storage_note_e;
       e.duration_storage_note_l = e.duration_storage_note_l;
      
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/DurationStorageRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

@@ -129,9 +129,9 @@ export class ProfileCanceledComponent implements OnInit {
   }
 
   onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(this.datatables)
+    //console.log(this.datatables)
 
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
+    //console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
     this.datatables.first.setRowCheckStatus({
@@ -145,7 +145,7 @@ export class ProfileCanceledComponent implements OnInit {
   }
 
   onRowCheckChange2(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(this.datatables)
+    //console.log(this.datatables)
 
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;

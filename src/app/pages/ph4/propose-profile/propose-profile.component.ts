@@ -12,11 +12,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from 'ng-devui/loading';
 
 @Component({
-  selector: 'app-profile-ref',
-  templateUrl: './profile-ref.component.html',
-  styleUrls: ['./profile-ref.component.scss']
+  selector: 'app-propose-profile',
+  templateUrl: './propose-profile.component.html',
+  styleUrls: ['./propose-profile.component.scss'],
 })
-export class ProfileRefComponent implements OnInit {
+export class ProposeProfileComponent implements OnInit {
+
   filterprofileShow = false;
 
   options = ['normal', 'borderless', 'bordered'];
@@ -29,6 +30,21 @@ export class ProfileRefComponent implements OnInit {
     '-1' : 'Chờ chỉnh',
     '1' : 'Đã chỉnh'
   };
+
+  active_flag = [
+    {
+      name : 'Chờ duyệt',
+      id : 0
+    },
+    {
+      name : 'Đã duyệt',
+      id : 1
+    },
+    {
+      name : 'Hủy',
+      id : 2
+    },
+  ];
 
   status = [
     {
@@ -242,7 +258,7 @@ export class ProfileRefComponent implements OnInit {
 
   _search = {
     keyword: '',
-    select: -1
+    select: 0
   };
 
   pager = {
@@ -264,10 +280,10 @@ export class ProfileRefComponent implements OnInit {
 
   @ViewChild('EditorTemplate', { static: true })
   EditorTemplate: TemplateRef<any>;
-
   constructor(private listDataService: ListDataService, private dialogService: DialogService, private cdr: ChangeDetectorRef,private api: ApiService, private loadingService: LoadingService, private route: ActivatedRoute, private router: Router ) {}
 
-  ngOnInit() {
+
+  ngOnInit(): void {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     if (localStorage.getItem('userinfo')) {
       let user = JSON.parse(localStorage.getItem('userinfo')!);
@@ -350,7 +366,6 @@ export class ProfileRefComponent implements OnInit {
       results.loadingInstance.close();
     });
     this.getList();
-    // this.getCountry();
   }
 
   search() {
@@ -369,17 +384,19 @@ export class ProfileRefComponent implements OnInit {
       let user_rcd = "";
       this.userInfo = user;
       this.role_rcd = user.role_rcd;
+      let params:any = {page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword, status: -1, active_flag : this._search.select};
       if(this.role_rcd == 2) {
 
       }
       else {
         user_rcd = user.user_rcd;
+        params['created_by_user_id'] = user_rcd;
       }
       if(this.current_search != this._search.keyword) {
         this.pager.pageIndex = 1;
-      } 
+      }
       const results = this.loadingService.open();
-      this.api.post("api/manager/profileRef/Search",{page : this.pager.pageIndex , pageSize: this.pager.pageSize , profile_name_l : this._search.keyword, status: this._search.select, active_flag : 1, user_rcd : user_rcd,archive_fonts_rcd: this.archive_fonts_rcd}).subscribe((res:any) => {
+      this.api.post("api/manager/profileRef/Search",params).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         this.basicDataSource = a.data;
         this.pager.total = a.totalItems;
@@ -523,13 +540,13 @@ export class ProfileRefComponent implements OnInit {
     return '';
   }
 
-  // getCountry() {
-  //   this.api.post("api/manager/CountryRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
-  //     let a = JSON.parse(JSON.stringify(res));
-  //     this.lstCountry = a.data;
-  //     //console.log(this.lstCountry);
-  //   });
-  // }
+  getNameActiveFlag(status: number) {
+    const tmp = this.active_flag.findIndex((v:any) => v.id == status);
+    if(tmp >= 0) {
+      return this.active_flag[tmp].name;
+    }
+    return '';
+  }
 
   editRow(row: any, index: number) {
     this.insert = false;
@@ -658,9 +675,9 @@ export class ProfileRefComponent implements OnInit {
 
   onSubmitted(e: any) {
     this.editForm!.modalInstance.hide();
-    e.created_by_user_id = this.userInfo.user_rcd;
     e.lu_user_id = this.userInfo.user_rcd;
     if (this.insert) {
+      e.created_by_user_id = this.userInfo.user_rcd;
       e.profile_code=e.profile_code;
       e.profile_name_l = e.profile_name_l;
       e.profile_name_e = e.profile_name_l;
@@ -672,7 +689,7 @@ export class ProfileRefComponent implements OnInit {
       e.profile_note_l = e.profile_note_l;
       e.profile_note_e = e.profile_note_l;
       e.is_digital_profile=e.is_digital_profile;
-      e.active_flag = parseInt(e.active_flag);
+      e.active_flag = 0;
       e.RowNumber = 1;
       this.api.post("api/manager/profileRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
@@ -698,6 +715,7 @@ export class ProfileRefComponent implements OnInit {
       e.profile_note_e = e.profile_note_l;
       e.is_digital_profile=e.is_digital_profile;
       e.active_flag = parseInt(e.active_flag);
+      // e.created_by_user_id = '';
       this.api.post("api/manager/profileRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         if(a.data) {
@@ -710,6 +728,50 @@ export class ProfileRefComponent implements OnInit {
       });
 
     }
+  }
+
+  acceptOrCancel (item: any, type: number) {
+    const title = type == 1 ? 'Duyệt hồ sơ' : 'Hủy hồ sơ';
+    const results = this.dialogService.open({
+      id: 'delete-dialog',
+      width: '346px',
+      maxHeight: '600px',
+      title: title,
+      showAnimate: false,
+      content: 'Bạn có chắc chắn?',
+      backdropCloseable: true,
+      onClose: () => {},
+      buttons: [
+        {
+          cssClass: 'primary',
+          text: 'Lưu',
+          disabled: false,
+          handler: ($event: Event) => {
+            item.active_flag = type;
+            this.api.post("api/manager/profileRef/Update",{...item}).subscribe((res:any) => {
+              let a = JSON.parse(JSON.stringify(res));
+              if(a.data) {
+                this.showToast("success");
+              }
+              else {
+                this.showToast("error");
+              }
+              this.getList();
+            });
+            results.modalInstance.hide();
+          },
+        },
+        {
+          id: 'btn-cancel',
+          cssClass: 'common',
+          text: 'Không',
+          handler: ($event: Event) => {
+            results.modalInstance.hide();
+          },
+        },
+      ],
+    });
+    
   }
 
   showToast(type:any) {
@@ -768,4 +830,5 @@ export class ProfileRefComponent implements OnInit {
       });
     }
   }
+
 }

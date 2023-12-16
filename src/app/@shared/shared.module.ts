@@ -1,4 +1,5 @@
 import { CancellationMinutesStatusPipe } from './pipe/cancellation-minutes-status.pipe';
+import {ParseSelectPipe} from './pipe/parseFromPipe.pipe';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -94,7 +95,7 @@ const DEVUI_MODULES = [
   ModalModule,
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, NavbarComponent, PersonalizeComponent];
-const PIPES = [MiningFileStatusPipe, ProfileStatusPipe, CancellationMinutesStatusPipe]
+const PIPES = [MiningFileStatusPipe, ProfileStatusPipe, CancellationMinutesStatusPipe, ParseSelectPipe]
 @NgModule({
   declarations: [
     LoginComponent,

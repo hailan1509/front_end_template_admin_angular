@@ -173,7 +173,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
       rowItem: rowItem,
       checked: checked,
     });
-    // console.log()
+    // //console.log()
     this.pendingChange[rowItem.profile_rcd] = checked.srcElement.checked;
     if(checked.srcElement.checked) {
       this.addList.push(rowItem);
@@ -279,7 +279,7 @@ export class CreateCancellationMinutesComponent implements OnInit {
     this.cancellationMinutes.user_rcd = this.user.user_rcd
 
     this.cancellationMinutes.time_destroy = this.cancellationMinutes.time_destroy ? new Date(Date.UTC(this.cancellationMinutes.time_destroy.getFullYear(), this.cancellationMinutes.time_destroy.getMonth(), this.cancellationMinutes.time_destroy.getDate())) : null
-    console.log(this.cancellationMinutes)
+    //console.log(this.cancellationMinutes)
     this.api.post('api/manager/CancellationMinutesRef/Create', this.cancellationMinutes).subscribe((res: any) => {
       this.toastService.open({
         value: [{ severity: 'success', summary: 'Thành công', content: `Lập biên bản bàn giao tài liệu hủy thành công!` }],
@@ -319,6 +319,6 @@ export class CreateCancellationMinutesComponent implements OnInit {
   }
 
   save() {
-    console.log("hải dv");
+    //console.log("hải dv");
   }
 }

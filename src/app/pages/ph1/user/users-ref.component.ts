@@ -391,8 +391,8 @@ export class UsersRefComponent implements OnInit {
   }
 
   onSubmitted(e: any) {
-    console.log(this.insert);
-    console.log(1);
+    //console.log(this.insert);
+    //console.log(1);
     
     this.editForm!.modalInstance.hide();
     if (this.insert) {
@@ -408,15 +408,15 @@ export class UsersRefComponent implements OnInit {
       e.pass_word=e.pass_word;
       e.user_note_l = e.user_note_l;
        
-      console.log({...e})
+      //console.log({...e})
 
       this.api.post("api/manager/UserRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(e);
+      //console.log(e);
     }
     else {
       e.full_name = e.full_name;   
@@ -429,14 +429,14 @@ export class UsersRefComponent implements OnInit {
       e.pass_word=e.pass_word;
       e.user_note_l = e.user_note_l;
      
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/UserRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

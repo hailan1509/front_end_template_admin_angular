@@ -218,7 +218,7 @@ export class LogActiveComponent implements OnInit {
   }
   getValue(value:any) {
     this.getList();
-    // console.log(value, this.dateRange);
+    // //console.log(value, this.dateRange);
     
   }
 

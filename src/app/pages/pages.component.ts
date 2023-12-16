@@ -27,7 +27,7 @@ export class PagesComponent implements OnInit {
   layoutConfig: DaLayoutConfig = { id: 'sidebar', sidebar: {} };
   isSidebarShrink: boolean = false;
   isSidebarFold: boolean = false;
-
+  archive_fonts:any = [];
   settingDrawer: any;
 
   constructor(
@@ -70,11 +70,21 @@ export class PagesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.api.post("api/manager/ArchiveFontsRef/Search",{page : 1 , pageSize: 1000 , archive_fonts_name_l : ''}).subscribe((res:any) => {
+      let a = JSON.parse(JSON.stringify(res));
+      if (a.data.length > 0) {
+        a.data.forEach((item : any, key :number) => {
+          this.archive_fonts.push({
+            'title' : item.archive_fonts_note_l,
+            'link' : '/pages/PH1/qlhs/'+ item.archive_fonts_rcd,
+          }) ;
+        })
+      }
+    })
     this.translate
       .get('page')
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
-        console.log(res);
         this.updateMenu(res);
       });
 
@@ -132,6 +142,7 @@ export class PagesComponent implements OnInit {
         qlpkths : "Quản lý phiếu khai thác hồ sơ",
         dpkths : "Duyệt phiếu khai thác hồ sơ",
         qlsmhs : "Quản lý sổ mượn hồ sơ",
+        dxhs : "Quản lý hồ sơ đề xuất",
         qltlmqh : "Quản lý tài liệu mượn quá hạn",
         tkslnkttl : "Thống kê số lượng người khai thác tài liệu",
         tkslnkths : "Thống kê số lượng người khai thác hồ sơ",
@@ -178,19 +189,7 @@ export class PagesComponent implements OnInit {
         qltvnd: "Quản lý tác vụ",
       }
     };
-    this.api.post("api/manager/ArchiveFontsRef/Search",{page : 1 , pageSize: 1000 , archive_fonts_name_l : ''}).subscribe((res:any) => {
-      let a = JSON.parse(JSON.stringify(res));
-      let archive_fonts:any = [];
-      if (a.data.length > 0) {
-        a.data.forEach((item : any, key :number) => {
-          archive_fonts.push({
-            'title' : item.archive_fonts_note_l,
-            'link' : '/pages/PH1/qlhs/'+ item.archive_fonts_rcd,
-          }) ;
-        })
-      }
-      this.menu = getMenu(menu_object, archive_fonts);
-    });
+    this.menu = getMenu(menu_object, this.archive_fonts);
   }
 
   openSideMenuDrawer() {

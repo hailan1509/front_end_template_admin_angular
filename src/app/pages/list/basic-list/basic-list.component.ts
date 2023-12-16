@@ -194,7 +194,7 @@ export class BasicListComponent implements OnInit {
     this.api.post("api/manager/CountryRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.lstCountry = a.data;
-      console.log(this.lstCountry);
+      //console.log(this.lstCountry);
     });
   }
 
@@ -309,7 +309,7 @@ export class BasicListComponent implements OnInit {
         let a = JSON.parse(JSON.stringify(res));
         this.getList();
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

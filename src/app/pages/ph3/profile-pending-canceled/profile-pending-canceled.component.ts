@@ -98,7 +98,7 @@ export class ProfilePendingCanceledComponent implements OnInit {
     });
 
     this.deleteList = this.datatable.getCheckedRows();
-    console.log(this.deleteList);
+    //console.log(this.deleteList);
   }
 
   onCheckAllChange() {

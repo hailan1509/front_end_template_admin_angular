@@ -144,7 +144,7 @@ export class StaticsComponent implements OnInit {
   }
   getData() {
     this.dataChart = {};
-    // console.log(this._search.year)
+    // //console.log(this._search.year)
     this.api.post("api/manager/profileRef/statistical_by_department/1", this._search).subscribe((res:any) => {
       this.data = res.data;
       if(this.currentYear) {

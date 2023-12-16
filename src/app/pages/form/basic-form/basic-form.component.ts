@@ -50,7 +50,7 @@ export class BasicFormComponent {
   ];
 
   getValue(value: object) {
-    console.log(value);
+    //console.log(value);
   }
 
   everyRange(range: any) {

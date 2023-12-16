@@ -81,10 +81,10 @@ export default function (values: any, archive_fonts: any) {
           title: values['PH4']['qlsmhs'],
           link: '/pages/PH4/qlsmhs',
         },
-        // {
-        //   title: values['PH4']['qltlmqh'],
-        //   link: '/pages/PH4/qltlmqh',
-        // },
+        {
+          title: values['PH4']['dxhs'],
+          link: '/pages/PH4/dxhs',
+        },
         // {
         //   title: values['PH4']['tkslnkttl'],
         //   link: '/pages/PH4/tkslnkttl',

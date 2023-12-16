@@ -84,7 +84,7 @@ export class HandoverRecordCancelledComponent implements OnInit {
   }
 
   onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
+    //console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
     this.datatable.setRowCheckStatus({
@@ -95,7 +95,7 @@ export class HandoverRecordCancelledComponent implements OnInit {
     });
 
     this.deleteList = this.datatable.getCheckedRows();
-    console.log(this.deleteList);
+    //console.log(this.deleteList);
   }
 
   onCheckAllChange() {

@@ -70,7 +70,7 @@ export class HeaderOperationComponent implements OnInit {
   }
 
   onSearch(event: any) {
-    // console.log(event);
+    // //console.log(event);
   }
 
   onLanguageClick(language: string) {

@@ -294,11 +294,11 @@ export class ArchiveFontsRefComponent implements OnInit {
 
       this.api.post("api/manager/ArchiveFontsRef/Create",{...obj}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(obj);
+      //console.log(obj);
     }
     else {
       
@@ -307,14 +307,14 @@ export class ArchiveFontsRefComponent implements OnInit {
       e.archive_fonts_note_e = e.archive_fonts_note_e;
       e.archive_fonts_note_l = e.archive_fonts_note_l;
      
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/ArchiveFontsRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

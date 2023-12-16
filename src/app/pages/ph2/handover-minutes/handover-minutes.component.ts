@@ -296,7 +296,7 @@ export class HandoverMinutesComponent implements OnInit {
     this.api.post("api/manager/StaffRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.lstStaffRef = a.data;
-      console.log(this.lstStaffRef);
+      //console.log(this.lstStaffRef);
     });
   }
 
@@ -401,15 +401,15 @@ export class HandoverMinutesComponent implements OnInit {
       //   let a = JSON.parse(JSON.stringify(res));
       //   this.getList();
       // });
-      console.log({...e})
+      //console.log({...e})
 
       this.api.post("api/manager/CancellationMinutesRef/Create",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(e);
+      //console.log(e);
     }
     else {
       // e.handover_minutes_name_l = e.handover_minutes_name;
@@ -421,7 +421,7 @@ export class HandoverMinutesComponent implements OnInit {
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

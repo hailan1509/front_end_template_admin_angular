@@ -193,7 +193,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   getValue(value: any) {
-    console.log(value);
+    //console.log(value);
   }
 
   checkName(value: string) {

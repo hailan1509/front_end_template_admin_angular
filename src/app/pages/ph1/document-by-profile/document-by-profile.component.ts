@@ -180,6 +180,7 @@ export class DocumentByProfileComponent implements OnInit {
   current_search = "";
 
   busy: Subscription;
+  role_rcd: any = "";
 
   profile_rcd:any;
   userInfo:any;
@@ -194,6 +195,7 @@ export class DocumentByProfileComponent implements OnInit {
     if (localStorage.getItem('userinfo')) {
       let user = JSON.parse(localStorage.getItem('userinfo')!);
       this.userInfo = user;
+      this.role_rcd = user.role_rcd;
     }
     this.routeSub = this.route.params.subscribe(params => {
       this.profile_rcd = params['id'];
@@ -625,7 +627,7 @@ export class DocumentByProfileComponent implements OnInit {
   }
 
   viewFile(source:any) {
-    console.log(source);
+    //console.log(source);
     window.open(source);
   }
 

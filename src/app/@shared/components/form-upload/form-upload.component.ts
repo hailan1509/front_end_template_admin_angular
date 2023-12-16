@@ -57,7 +57,7 @@ export class FormUploadComponent implements OnInit {
   }
 
   deleteUploadedFile3(filePath: string) {
-    // console.log(`delete ${filePath}`);
+    // //console.log(`delete ${filePath}`);
   }
   setCustomUploadOptions(file:any, options:any) {
     let uploadOptions = options;
@@ -73,7 +73,7 @@ export class FormUploadComponent implements OnInit {
   ngOnInit(): void {
     const param = [this.data.document_rcd, this.data.year, this.data.profile_number, this.getOCR ? 1 : 0];
     this.uploadOptions2.uri = API_BASE_URL + 'api/manager/DocumentRef/Upload/' + param.join('_');
-    // console.log(this.data);
+    // //console.log(this.data);
   }
 
   onClick(event: any): void {

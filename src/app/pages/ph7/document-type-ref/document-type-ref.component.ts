@@ -294,11 +294,11 @@ export class DocumentTypeRefComponent implements OnInit {
 
       this.api.post("api/manager/DocumentTypeRef/Create",{...obj}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(obj);
+      //console.log(obj);
     }
     else {
       
@@ -307,14 +307,14 @@ export class DocumentTypeRefComponent implements OnInit {
       e.document_type_note_e = e.document_type_note_e;
       e.document_type_note_l = e.document_type_note_l;
      
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/DocumentTypeRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

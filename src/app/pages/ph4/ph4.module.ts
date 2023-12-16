@@ -12,12 +12,15 @@ import { AdminFormModule } from 'src/app/@shared/components/admin-form/admin-for
 import { PH4RoutingModule } from './ph4-routing.module';
 import { MiningBookComponent } from './mining-book/mining-book.component';
 import { ph4Component } from './ph4.component';
-
+// import {ParseSelectPipe} from 'src/app/pages/parseFromPipe.pipe';
+import { ProposeProfileComponent } from './propose-profile/propose-profile.component';
 
 @NgModule({
   declarations: [
     MiningBookComponent,
     ph4Component,
+    ProposeProfileComponent,
+    // ParseSelectPipe
   ],
   imports: [
     // CommonModule,

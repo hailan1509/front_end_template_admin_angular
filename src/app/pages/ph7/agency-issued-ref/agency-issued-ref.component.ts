@@ -294,11 +294,11 @@ export class AgencyIssuedRefComponent implements OnInit {
 
       this.api.post("api/manager/AgencyIssuedRef/Create",{...obj}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(obj);
+      //console.log(obj);
     }
     else {
       
@@ -307,14 +307,14 @@ export class AgencyIssuedRefComponent implements OnInit {
       e.agency_issued_note_e = e.agency_issued_note_e;
       e.agency_issued_note_l = e.agency_issued_note_l;
      
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/AgencyIssuedRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

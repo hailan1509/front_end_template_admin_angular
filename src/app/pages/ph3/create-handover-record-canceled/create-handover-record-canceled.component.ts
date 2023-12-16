@@ -111,9 +111,9 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
   }
 
   onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(this.datatables)
+    //console.log(this.datatables)
 
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
+    //console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
     this.datatables.first.setRowCheckStatus({
@@ -124,13 +124,13 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
     });
 
     this.deleteList = this.datatables.first.getCheckedRows();
-    console.log(this.deleteList);
+    //console.log(this.deleteList);
   }
 
   onRowCheckChange2(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(this.datatables)
+    //console.log(this.datatables)
 
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
+    //console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
     this.datatables.last.setRowCheckStatus({
@@ -141,7 +141,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
     });
 
     this.addList = this.datatables.last.getCheckedRows();
-    console.log(this.addList);
+    //console.log(this.addList);
   }
 
   onCheckAllChange() {
@@ -168,7 +168,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
   addProfilesToHandover() {
     if (this.addList.length > 0) {
       this.profiles = [...this.profiles, ...this.addList];
-      console.log(this.profiles)
+      //console.log(this.profiles)
 
       this.deleteList = [...this.deleteList, ...this.addList]
       this.getList();
@@ -207,7 +207,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
 
 
   onSubmitted({ valid, directive, data, errors }: any) {
-    console.log('Valid:', valid, 'Directive:', directive, 'data', data, 'errors', errors);
+    //console.log('Valid:', valid, 'Directive:', directive, 'data', data, 'errors', errors);
     if (!valid) {
       this.toastService.open({
         value: [{ severity: 'warn', summary: 'Chú ý', content: `Chưa điền đủ thông tin được yêu cầu!` }],
@@ -241,7 +241,7 @@ export class CreateHandoverRecordCancelledComponent implements OnInit {
   batchDelete(deleteList: any[]) {
     if (deleteList.length > 0) {
       let remain = this.profiles.filter((item: any) => {
-          console.log(deleteList.findIndex(d => d.profile_rcd == item.profile_rcd) != -1)
+          //console.log(deleteList.findIndex(d => d.profile_rcd == item.profile_rcd) != -1)
         return deleteList.findIndex(d=>d.profile_rcd == item.profile_rcd) == -1
       })
       this.profiles = remain;

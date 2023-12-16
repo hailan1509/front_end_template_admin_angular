@@ -93,7 +93,7 @@ export class AnalysisGanttComponent implements OnInit {
   }
 
   onBarProgressEvent(progress: number) {
-    console.log(progress);
+    //console.log(progress);
   }
 
   ngOnDestroy() {

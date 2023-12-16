@@ -399,14 +399,14 @@ export class CancellationMinutesComponent implements OnInit {
     this.api.post("api/manager/UsersRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.lstUsersfRef = a.data;
-      console.log(this.lstUsersfRef);
+      //console.log(this.lstUsersfRef);
     });
   }
   getUsersfRef() {
     this.api.post("api/manager/StaffRef/Search",{page : 1 , pageSize: 1000 }).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.lstStaffRef = a.data;
-      console.log(this.lstStaffRef);
+      //console.log(this.lstStaffRef);
     });
   }
 
@@ -527,7 +527,7 @@ export class CancellationMinutesComponent implements OnInit {
           disabled: false,
           handler: ($event: Event) => {
             item.active_flag = 1;
-            console.log(item);
+            //console.log(item);
             this.api.post("api/manager/CancellationMinutesRef/Update",{...item}).subscribe((res:any) => {
               // alert("Xóa thành công!");
               this.toastService.open({
@@ -622,25 +622,25 @@ export class CancellationMinutesComponent implements OnInit {
       //   let a = JSON.parse(JSON.stringify(res));
       //   this.getList();
       // });
-      // console.log({...e})
+      // //console.log({...e})
 
       // this.api.post("api/manager/CancellationMinutesRef/Create",{...e}).subscribe((res:any) => {
       //   let a = JSON.parse(JSON.stringify(res));
-      //   console.log(a);
+      //   //console.log(a);
       //   this.getList();
       //   alert("Thêm thành công!");
       // });
-      // console.log(e);
+      // //console.log(e);
     }
     else {
       // e.cancellation_minutes_name_l = e.cancellation_minutes_name;
       // e.cancellation_minutes_name_e = e.cancellation_minutes_name;
-      // console.log(e.time_destroy)
+      // //console.log(e.time_destroy)
       e.time_destroy = typeof(e.time_destroy) == "string" ? new Date(this.formatDateView(e.time_destroy,false)) : new Date(Date.UTC(e.time_destroy.getFullYear(), e.time_destroy.getMonth(), e.time_destroy.getDate()))
       e.cancellation_minutes_note_l = e.cancellation_minutes_note;
       e.cancellation_minutes_note_e = e.cancellation_minutes_note;
 
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/CancellationMinutesRef/Update",{...e}).subscribe((res:any) => {
         this.toastService.open({
           value: [{ severity: 'success', summary: 'Thông báo', content: `Cập nhật thành công!` }],
@@ -656,14 +656,14 @@ export class CancellationMinutesComponent implements OnInit {
 
       let arr_date_time = date.split('T');
       let  arr_date = arr_date_time[0].split('-');
-      console.log(arr_date[yearFirst ?2 : 0 ] + '/' + arr_date[1] + '/' + arr_date[yearFirst ? 0 :2]);
+      //console.log(arr_date[yearFirst ?2 : 0 ] + '/' + arr_date[1] + '/' + arr_date[yearFirst ? 0 :2]);
       return arr_date[yearFirst ?2 : 0 ] + '-' + arr_date[1] + '-' + arr_date[yearFirst ? 0 :2];
     }
     return "";
   }
 
   onRowCheckChange(checked: any, rowIndex: any, nestedIndex: any, rowItem: any) {
-    console.log(rowIndex, nestedIndex, rowItem.$checked);
+    //console.log(rowIndex, nestedIndex, rowItem.$checked);
     rowItem.$checked = checked;
     rowItem.$halfChecked = false;
     this.datatable.setRowCheckStatus({
@@ -674,7 +674,7 @@ export class CancellationMinutesComponent implements OnInit {
     });
 
     this.deleteList = this.datatable.getCheckedRows();
-    console.log(this.deleteList);
+    //console.log(this.deleteList);
   }
 
   onCheckAllChange() {

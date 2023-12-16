@@ -119,7 +119,7 @@ export class LoginComponent implements OnInit {
         // this.authService.login(this.formData.userAccount, this.formData.userAccountPassword).subscribe(
         //   (res) => {
 
-        //     console.log(res);
+        //     //console.log(res);
 
         //     this.authService.setSession(res);
         //     this.router.navigate(['/']);
@@ -209,7 +209,7 @@ export class LoginComponent implements OnInit {
   }
 
   handleAuth(type: string) {
-    console.log(type);
+    //console.log(type);
     //github oauth配置
     const config = {
       oauth_uri: 'https://github.com/login/oauth/authorize',

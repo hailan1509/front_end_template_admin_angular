@@ -20,7 +20,7 @@ export class ModalFormComponent {
       backdropCloseable: true,
       dialogtype: dialogtype,
       onClose: () => {
-        console.log('on dialog closed');
+        //console.log('on dialog closed');
       },
       buttons: [
         {

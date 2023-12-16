@@ -384,7 +384,7 @@ export class UsersRefComponent implements OnInit {
     this.api.post("api/manager/DepartmentRef/Search", searchBody1).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.lstDepartment = a.data;
-      console.log(this.lstDepartment);
+      //console.log(this.lstDepartment);
     });
   }
 
@@ -405,7 +405,7 @@ export class UsersRefComponent implements OnInit {
     this.api.post("api/manager/UserRef/Search", searchBody).subscribe((res:any) => {
       let a = JSON.parse(JSON.stringify(res));
       this.basicDataSource = a.data;
-      console.log(this.basicDataSource);
+      //console.log(this.basicDataSource);
       this.pager.total = a.totalItems;
     });
   }
@@ -549,8 +549,8 @@ export class UsersRefComponent implements OnInit {
   }
 
   onSubmitted(e: any) {
-    console.log(this.insert);
-    console.log(1);
+    //console.log(this.insert);
+    //console.log(1);
     
     this.editForm!.modalInstance.hide();
     if (this.insert) {
@@ -582,14 +582,14 @@ export class UsersRefComponent implements OnInit {
       e.user_name=e.user_name;
       e.pass_word=e.pass_word;
       e.user_note_l = e.user_note_l;
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/UserRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
         
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }

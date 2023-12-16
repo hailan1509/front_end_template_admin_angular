@@ -63,7 +63,7 @@ export class ReportProfileDocumentBorrowedComponent implements OnInit {
   }
 
   search() {
-    console.log(this.typeOfReport);
+    //console.log(this.typeOfReport);
     if (this.typeOfReport === 'Báo cáo hồ sơ đang mượn') {
       this.getListProfileBorrowed();
     } else {

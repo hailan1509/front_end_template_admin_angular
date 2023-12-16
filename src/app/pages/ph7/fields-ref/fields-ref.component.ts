@@ -294,11 +294,11 @@ export class FieldsRefComponent implements OnInit {
 
       this.api.post("api/manager/FieldsRef/Create",{...obj}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Thêm thành công!");
       });
-      console.log(obj);
+      //console.log(obj);
     }
     else {
       
@@ -307,14 +307,14 @@ export class FieldsRefComponent implements OnInit {
       e.fields_note_e = e.fields_note_e;
       e.fields_note_l = e.fields_note_l;
      
-      console.log(e);
+      //console.log(e);
       this.api.post("api/manager/FieldsRef/Update",{...e}).subscribe((res:any) => {
         let a = JSON.parse(JSON.stringify(res));
-        console.log(a);
+        //console.log(a);
         this.getList();
         alert("Sửa thành công!");
       });
-      console.log(e);
+      //console.log(e);
 
     }
   }
